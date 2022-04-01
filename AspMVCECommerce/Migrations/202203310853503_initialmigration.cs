@@ -3,7 +3,7 @@ namespace AspMVCECommerce.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialMigration : DbMigration
+    public partial class initialmigration : DbMigration
     {
         public override void Up()
         {
@@ -22,11 +22,8 @@ namespace AspMVCECommerce.Migrations
                     {
                         ColorId = c.Int(nullable: false, identity: true),
                         Name = c.String(),
-                        Product_ProductId = c.Int(),
                     })
-                .PrimaryKey(t => t.ColorId)
-                .ForeignKey("dbo.Products", t => t.Product_ProductId)
-                .Index(t => t.Product_ProductId);
+                .PrimaryKey(t => t.ColorId);
             
             CreateTable(
                 "dbo.Images",
@@ -35,10 +32,11 @@ namespace AspMVCECommerce.Migrations
                         ImageId = c.Int(nullable: false, identity: true),
                         Title = c.String(),
                         ImagePath = c.String(),
+                        Default = c.Boolean(nullable: false),
                         ProductId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.ImageId)
-                .ForeignKey("dbo.Products", t => t.ProductId)
+                .ForeignKey("dbo.Products", t => t.ProductId, cascadeDelete: true)
                 .Index(t => t.ProductId);
             
             CreateTable(
@@ -52,6 +50,10 @@ namespace AspMVCECommerce.Migrations
                         OriginalPrice = c.Int(nullable: false),
                         DiscountedPrice = c.Int(nullable: false),
                         Stock = c.Int(nullable: false),
+                        PromoSaleOFF = c.Double(nullable: false),
+                        PromoSaleStartDateTime = c.DateTime(),
+                        PromoSaleEndDateTime = c.DateTime(),
+                        CreatedDateTime = c.DateTime(nullable: false),
                         CategoryId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.ProductId)
@@ -67,23 +69,12 @@ namespace AspMVCECommerce.Migrations
                         Email = c.String(),
                         Description = c.String(),
                         Rating = c.Double(nullable: false),
+                        Created = c.DateTime(nullable: false),
                         ProductId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.ReviewId)
-                .ForeignKey("dbo.Products", t => t.ProductId)
+                .ForeignKey("dbo.Products", t => t.ProductId, cascadeDelete: true)
                 .Index(t => t.ProductId);
-            
-            CreateTable(
-                "dbo.Sizes",
-                c => new
-                    {
-                        SizeId = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
-                        Product_ProductId = c.Int(),
-                    })
-                .PrimaryKey(t => t.SizeId)
-                .ForeignKey("dbo.Products", t => t.Product_ProductId)
-                .Index(t => t.Product_ProductId);
             
             CreateTable(
                 "dbo.LineItems",
@@ -178,6 +169,15 @@ namespace AspMVCECommerce.Migrations
                 .Index(t => t.RoleId);
             
             CreateTable(
+                "dbo.Sizes",
+                c => new
+                    {
+                        SizeId = c.Int(nullable: false, identity: true),
+                        Name = c.String(),
+                    })
+                .PrimaryKey(t => t.SizeId);
+            
+            CreateTable(
                 "dbo.AspNetRoles",
                 c => new
                     {
@@ -200,10 +200,8 @@ namespace AspMVCECommerce.Migrations
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.LineItems", "ProductId", "dbo.Products");
             DropForeignKey("dbo.LineItems", "ColorId", "dbo.Colors");
-            DropForeignKey("dbo.Sizes", "Product_ProductId", "dbo.Products");
             DropForeignKey("dbo.Reviews", "ProductId", "dbo.Products");
             DropForeignKey("dbo.Images", "ProductId", "dbo.Products");
-            DropForeignKey("dbo.Colors", "Product_ProductId", "dbo.Products");
             DropForeignKey("dbo.Products", "CategoryId", "dbo.Categories");
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
@@ -216,19 +214,17 @@ namespace AspMVCECommerce.Migrations
             DropIndex("dbo.LineItems", new[] { "ColorId" });
             DropIndex("dbo.LineItems", new[] { "SizeId" });
             DropIndex("dbo.LineItems", new[] { "ProductId" });
-            DropIndex("dbo.Sizes", new[] { "Product_ProductId" });
             DropIndex("dbo.Reviews", new[] { "ProductId" });
             DropIndex("dbo.Products", new[] { "CategoryId" });
             DropIndex("dbo.Images", new[] { "ProductId" });
-            DropIndex("dbo.Colors", new[] { "Product_ProductId" });
             DropTable("dbo.AspNetRoles");
+            DropTable("dbo.Sizes");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.ShoppingCarts");
             DropTable("dbo.LineItems");
-            DropTable("dbo.Sizes");
             DropTable("dbo.Reviews");
             DropTable("dbo.Products");
             DropTable("dbo.Images");

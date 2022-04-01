@@ -1,9 +1,10 @@
 namespace AspMVCECommerce.Migrations
 {
-    using System;
-    using System.Data.Entity;
+    using AspMVCECommerce.Models;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using System.Collections.Generic;
     using System.Data.Entity.Migrations;
-    using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<AspMVCECommerce.Models.ApplicationDbContext>
     {
@@ -18,6 +19,79 @@ namespace AspMVCECommerce.Migrations
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
+            var Colors = new List<Color>
+            {
+                 new Color {ColorId =1, Name = "Red"},
+                 new Color {ColorId =2, Name = "Blue"},
+                 new Color {ColorId =3, Name = "Yellow"},
+                 new Color {ColorId =4, Name = "Green"},
+                 new Color {ColorId =5, Name = "Purple"}
+            };
+
+            Colors.ForEach(color => context.Colors.AddOrUpdate(x => x.Name, color));
+
+            var Sizes = new List<Size>
+            {
+                 new Size {SizeId =1, Name = "Small"},
+                 new Size {SizeId =2, Name = "Extra Small"},
+                 new Size {SizeId =3, Name = "Medium"},
+                 new Size {SizeId =4, Name = "Large"},
+                 new Size {SizeId =5, Name = "Extra Large"}
+            };
+
+            Sizes.ForEach(size => context.Sizes.AddOrUpdate(x => x.Name, size));
+
+            var Categories = new List<Category>
+            {
+                 new Category {CategoryId =1, Name = "Laptop"},
+                 new Category {CategoryId =2, Name = "Smart Phones"},
+                 new Category {CategoryId =3, Name = "Accessories"},
+                 new Category {CategoryId =4, Name = "Headphones"},
+                 new Category {CategoryId =5, Name = "Camera"},
+                 new Category {CategoryId =6, Name = "Tablet"},
+            };
+
+            Categories.ForEach(category => context.Categories.AddOrUpdate(x => x.Name, category));
+
+
+            context.SaveChanges();
+
+
+            //var registerVM = new RegisterViewModel();
+            //registerVM.Email = "zjpiraman2018@gmail.com";
+            //var controller = new AccountController();
+            //var task = Task.Run(async () => await controller.Register(registerVM));
+
+
+
+            var passwordHash = new PasswordHasher();
+            string password = passwordHash.HashPassword("123456");
+            var adminUser = new ApplicationUser
+            {
+                UserName = "admin@gmail.com",
+                PasswordHash = password,
+                PhoneNumber = "12345678911",
+                Email = "admin@gmail.com"
+            };
+
+
+            context.Users.AddOrUpdate(u => u.UserName, adminUser);
+            context.SaveChanges();
+            var adminId = adminUser.Id;
+
+            context.Roles.AddOrUpdate(
+                new IdentityRole { Id = "1", Name = "Admin" },
+                new IdentityRole { Id = "2", Name = "Customer" }
+            );
+            context.SaveChanges();
+
+            var userStore = new UserStore<ApplicationUser>(context);
+            var userManager = new UserManager<ApplicationUser>(userStore);
+            userManager.AddToRole(adminId, "Admin");
+            userManager.UpdateSecurityStamp(adminId);
+            base.Seed(context);
         }
     }
+
+ 
 }

@@ -18,6 +18,9 @@ namespace AspMVCECommerce.Models
         }
     }
 
+
+
+
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Product> Products { get; set; }
@@ -33,7 +36,8 @@ namespace AspMVCECommerce.Models
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
-            System.Data.Entity.Database.SetInitializer(new DropCreateDatabaseAlways<ApplicationDbContext>());
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, AspMVCECommerce.Migrations.Configuration>());
+            //System.Data.Entity.Database.SetInitializer(new DropCreateDatabaseAlways<ApplicationDbContext>());
         }
 
         public static ApplicationDbContext Create()
@@ -43,15 +47,18 @@ namespace AspMVCECommerce.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Product>().HasMany(p => p.Reviews).WithRequired(r => r.Product).WillCascadeOnDelete(false);
-            modelBuilder.Entity<Product>().HasMany(p => p.Images).WithRequired(r => r.Product).WillCascadeOnDelete(false);
-            modelBuilder.Entity<Product>().HasMany(p => p.Sizes).WithOptional().WillCascadeOnDelete(false);
-            modelBuilder.Entity<Product>().HasMany(p => p.Colors).WithOptional().WillCascadeOnDelete(false);
+            modelBuilder.Entity<Product>().HasMany(p => p.Reviews).WithRequired(r => r.Product).WillCascadeOnDelete(true);
+            modelBuilder.Entity<Product>().HasMany(p => p.Images).WithRequired(r => r.Product).WillCascadeOnDelete(true);
+            //modelBuilder.Entity<Product>().HasMany(p => p.Sizes).WithOptional().WillCascadeOnDelete(false);
+            //modelBuilder.Entity<Product>().HasMany(p => p.Colors).WithOptional().WillCascadeOnDelete(false);
 
 
             modelBuilder.Entity<ShoppingCart>().HasMany(s=>s.LineItems).WithRequired(l => l.ShoppingCart).WillCascadeOnDelete(false);
 
             base.OnModelCreating(modelBuilder);
         }
+
+
+
     }
 }

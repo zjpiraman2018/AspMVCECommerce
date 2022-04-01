@@ -1,0 +1,84 @@
+﻿@model AspMVCECommerce.Models.RegisterViewModel
+@{
+    ViewBag.Title = "RegisterRole";
+    Layout = "~/Views/Shared/_SellerLayout.cshtml";
+}
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section" style="display: flex;">
+    <div class="container">
+
+        <div class="row pull-left" style="width: 230px;">
+            <div class="col-md-12">
+                <ul class="breadcrumb-tree">
+                    <li> <a href="#" style="font-size: 16px; font-weight: bold">Manage Account</a></li>
+
+                </ul>
+
+            </div>
+        </div>
+
+    </div>
+    <!-- container -->
+    <div class="container" style="margin-left:200px;">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="breadcrumb-tree">
+                    <li><a href="~/Home/Index" title="Home">Home</a></li>
+                    <li><a href="~/Products/Index" title="Products">Products</a></li>
+                    <li ><a href="/Manage" title="Manage">Manage Account</a></li>
+                    <li class="active">Assign Role</li>
+                </ul>
+
+
+                <ul class="breadcrumb-tree pull-right">
+                    <li> <a href="~/Home/Index" title="Home">Back to Home</a></li>
+
+
+
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <h2>Assign Role to user</h2>
+
+        @using (Html.BeginForm("RegisterRole", "Account", FormMethod.Post,
+                new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <hr />
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.Label("Select User", new { @class = "col-md-2 control-label" })
+                <div class="col-md-4">
+                    @*@Html.DropDownList("UserName")*@
+                    @Html.DropDownList("UserName", null, htmlAttributes: new { @class = "form-controlx" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Select Role", new { @class = "col-md-2 control-label" })
+                <div class="col-md-4">
+                    @*@Html.DropDownList("Name")*@
+                    @Html.DropDownList("Name", null, htmlAttributes: new { @class = "form-controlx" })
+                </div>
+            </div>
+            <div class="form-group">
+
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" class="btnx btn-defaultx" value="Assign Role"  style="height: 40px;width:150px;"/>
+                </div>
+            </div>
+        }
+    </div>
+    <!-- /container -->
+</div>
+<!-- /section -->

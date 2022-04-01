@@ -1028,9 +1028,15 @@ $.extend( $.validator, {
 		// See https://api.jquery.com/category/selectors/, for CSS
 		// meta-characters that should be escaped in order to be used with JQuery
 		// as a literal part of a name/id or any selector.
-		escapeCssMeta: function( string ) {
-			return string.replace( /([\\!"#$%&'()*+,./:;<=>?@\[\]^`{|}~])/g, "\\$1" );
+		//escapeCssMeta: function (string) {
+		//		return string.replace(/([\\!"#$%&'()*+,./:;<=>?@\[\]^`{|}~])/g, "\\$1");
+
+		//},
+
+		escapeCssMeta: function (string) {
+			return (string || '').replace(/([\\!"#$%&'()*+,./:;<=>?@\[\]^`{|}~])/g, "\\$1");
 		},
+
 
 		idOrName: function( element ) {
 			return this.groups[ element.name ] || ( this.checkable( element ) ? element.name : element.id || element.name );

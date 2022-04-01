@@ -12,7 +12,7 @@ namespace AspMVCECommerce.Models
         public string Email { get; set; }
         public string Description { get; set; }
         public double Rating { get; set; }
-
+        public System.DateTime Created { get; set; }
         public int ProductId { get; set; }
         [ForeignKey("ProductId")]
         public Product Product { get; set; }

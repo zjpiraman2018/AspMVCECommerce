@@ -1,1 +1,351 @@
-﻿
+﻿.containerx {
+    position: relative;
+    width: 50%;
+}
+
+.imagex {
+    opacity: 1;
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: .5s ease;
+    backface-visibility: hidden;
+}
+
+.middlex {
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.containerx:hover .imagex {
+    opacity: 0.3;
+}
+
+.containerx:hover .middlex {
+    opacity: 1;
+}
+
+.text {
+    background-color: #04AA6D;
+    color: white;
+    font-size: 16px;
+    padding: 16px 32px;
+}
+#product-imgs .product-preview {
+    margin: 5px 5px;
+}
+
+
+div.scroll {
+    margin: 4px, 4px;
+    padding: 8px;
+    width: 100%;
+    height: 600px;
+    overflow-x: auto;
+    overflow-y: auto;
+    white-space: nowrap;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+
+.toast {
+    opacity: 1 !important;
+}
+
+
+.promosale {
+    max-width: 70px;
+    width: 70px;
+}
+
+
+.input-group.date {
+    width: 250px;
+}
+
+.remembermelabel {
+   padding-left: 0px !important;
+}
+
+
+#breadcrumb {
+    margin-right: -14px;
+    margin-left: -14px;
+}
+
+    #breadcrumb > div:nth-child(1) {
+        margin-left: 14px;
+        margin-right: 50px;
+        width: 100px
+    }
+
+
+#logoutForm > ul > li:nth-child(1) > div > ul > li > a {
+    color:black;
+
+}
+
+
+.table-sorter {
+    font-weight: 600;
+}
+.searchbox {
+    padding-left: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    padding-right: 0px;
+}
+
+
+
+/*.note-editable ol, .note-editable ul {
+    list-style: disc;
+    list-style-position: inside;
+}
+*/
+
+/* For summernote override unordered and order list */
+.note-editable ul {
+    list-style: disc;
+    list-style-position: inside;
+}
+
+.note-editable ol {
+    list-style: decimal;
+    list-style-position: inside;
+}
+
+
+#product-tab ul {
+    list-style: disc;
+    list-style-position: inside;
+}
+
+#product-tab ol {
+    list-style: decimal;
+    list-style-position: inside;
+}
+
+
+
+.product-details ul {
+    list-style: disc;
+    list-style-position: inside;
+}
+
+.product-details ol {
+    list-style: decimal;
+    list-style-position: inside;
+}
+
+.products-tabs .product-img {
+    padding: 15px;
+}
+
+
+.products-tabs .product-img img {
+    width: 100%;
+    height: 263px;
+    object-fit: scale-down;
+}
+
+
+.td-image .imgthumbnail {
+    width: 100%;
+    height: 160px;
+    object-fit: scale-down;
+}
+
+#product-main-img .main-image-x {
+    width: 100%;
+    height: 458px;
+    object-fit: scale-down;
+}
+
+
+
+#product-imgs .thumb-image-x {
+    width: 100%;
+    height: 130px;
+    object-fit: scale-down;
+}
+
+
+
+.pagination {
+    border-radius: 0px !important;
+}
+
+.pagination > li > a, .pagination > li > span {
+    color: #000000 !important;
+
+}
+
+    .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+        color: #ffffff !important;
+        background-color: #D10024 !important;
+        border-color: #D10024 !important;
+        padding-top: 8px !important;
+    }
+
+    .pagination li {
+        display: inline-block !important;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        background-color: #FFF;
+        border: 0px !important;
+        -webkit-transition: 0.2s all;
+        transition: 0.2s all;
+        border: 0px !important;
+    }
+    .pagination li + li {
+        margin-left: 5px !important;
+    }
+
+    .pagination > li > a, .pagination > li > span {
+        position: relative;
+        float: left;
+        padding: 6px 12px;
+        margin-left: -1px;
+        line-height: 1.428571429;
+        text-decoration: none;
+        background-color: #ffffff;
+        border: 1px solid #dddddd;
+        height: 40px !important;
+        width: 40px !important;
+        padding-top: 8px !important;
+    }
+
+    .pagination > li:first-child > a, .pagination > li:first-child > span {
+        margin-left: 0;
+        border-bottom-left-radius: 0px !important;
+        border-top-left-radius: 0px !important;
+        padding-top: 8px !important;
+    }
+
+    .pagination > li:first-child > a, .pagination > li:first-child > span {
+        margin-left: 0;
+        border-top-left-radius: 0px !important;
+        border-bottom-left-radius: 0px !important;
+        padding-top: 8px !important;
+    }
+
+    .pagination > li:last-child > a, .pagination > li:last-child > span {
+        border-top-right-radius: 0px !important;
+        border-bottom-right-radius: 0px !important;
+        padding-top: 8px !important;
+    }
+
+    .pagination > li:last-child > a, .pagination > li:last-child > span {
+        border-top-right-radius: 0px !important;
+        border-bottom-right-radius: 0px !important;
+        padding-top: 8px !important;
+    }
+
+
+
+
+.form-controlx {
+    display: block;
+    width: 100%;
+    height: 40px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #E4E7ED !important;
+    border-radius: 0px !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+.form-controlx:focus {
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+
+.btn-defaultx {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc !important;
+    border: 1px solid #E4E7ED !important;
+    border-radius: 0px !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+.btnx {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    border: 1px solid #E4E7ED !important;
+     font-size: 14px;
+    line-height: 26px !important;
+    border-radius: 0px !important;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border-radius: 0px !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+.btn-defaultx:focus {
+    border-radius: 0px !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+.btnx:focus {
+    border-radius: 0px !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+/*
+:focus-visible {
+    outline: none !important;
+    outline-color: none !important;
+    outline-style: none !important;
+    outline-width: 0px !important;
+}
+
+input[type="submit" i]:focus-visible {
+    outline-offset: 0px !important;
+    outline-color: none !important;
+}
+
+input:focus-visible {
+    outline-offset: 0px !important;
+    outline-color: none !important;
+}*/
+
+.table-bordered > tbody > tr > td, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > td, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > thead > tr > th {
+    border: 1px solid #E4E7ED !important;
+}
+
+.table-bordered {
+    border: 1px solid #E4E7ED !important;
+}

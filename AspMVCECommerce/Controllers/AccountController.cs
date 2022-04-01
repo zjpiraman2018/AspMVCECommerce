@@ -1,14 +1,11 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
+﻿using AspMVCECommerce.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using AspMVCECommerce.Models;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 
 namespace AspMVCECommerce.Controllers
 {
@@ -18,9 +15,43 @@ namespace AspMVCECommerce.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+        private ApplicationDbContext context;
+
+
         public AccountController()
         {
+            context = new ApplicationDbContext();
         }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult RegisterRole()
+        {
+            ViewBag.Name = new SelectList(context.Roles.ToList(), "Name", "Name");
+            ViewBag.UserName = new SelectList(context.Users.Where(u=>u.UserName != "admin@gmail.com").ToList(), "UserName", "UserName");
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterRole(RegisterViewModel model, ApplicationUser user)
+        {
+            var userId = context.Users.Where(i => i.UserName == user.UserName).Select(s => s.Id);
+            string updateId = "";
+            foreach (var i in userId)
+            {
+                updateId = i.ToString();
+            }
+
+            this.UserManager.RemoveFromRole(updateId, "Admin");
+            this.UserManager.RemoveFromRole(updateId, "Customer");
+
+            await this.UserManager.AddToRolesAsync(updateId, model.Name);
+            return RedirectToAction("Index", "Home");
+            // If we got this far, something failed, redisplay form
+        }
+
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
         {
@@ -156,12 +187,17 @@ namespace AspMVCECommerce.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+
+                    // Add role to new customer
+                    await UserManager.AddToRoleAsync(user.Id, "Customer");
+                    await UserManager.UpdateSecurityStampAsync(user.Id);
 
                     return RedirectToAction("Index", "Home");
                 }

@@ -1,16 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using AspMVCECommerce.Models;
+using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+
 
 namespace AspMVCECommerce.Controllers
 {
     public class HomeController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
         public ActionResult Index()
         {
-            return View();
+            var products = db.Products.Include(p => p.Category).Include(p => p.Images).ToList();
+            return View(products);
         }
 
         public ActionResult About()
