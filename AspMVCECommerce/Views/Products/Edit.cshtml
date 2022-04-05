@@ -7,7 +7,7 @@
 }
 
 <!-- BREADCRUMB -->
-<div id="breadcrumb" class="section" style="display: flex;">
+<div id="breadcrumb" class="section breadcrumbx" style="display: flex;">
     <div class="container">
 
         <div class="row pull-left" style="width: 230px;">
@@ -59,220 +59,229 @@
         {
             @Html.AntiForgeryToken()
 
-            <div class="form-horizontal">
+        <div class="form-horizontal">
 
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                @Html.HiddenFor(model => model.ProductId)
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.ProductId)
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-controlx" } })
-                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @*@Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })*@
-                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = 4 })
-                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Details, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @*@Html.EditorFor(model => model.Details, new { htmlAttributes = new { @class = "form-control" } })*@
-                        @Html.TextAreaFor(model => model.Details, new { @class = "form-control", @rows = 4 })
-                        @Html.ValidationMessageFor(model => model.Details, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.OriginalPrice, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.OriginalPrice, new { htmlAttributes = new { @class = "form-controlx" } })
-                        @Html.ValidationMessageFor(model => model.OriginalPrice, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.DiscountedPrice, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.DiscountedPrice, new { htmlAttributes = new { @class = "form-controlx" } })
-                        @Html.ValidationMessageFor(model => model.DiscountedPrice, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Stock, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Stock, new { htmlAttributes = new { @class = "form-controlx" } })
-                        @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.PromoSaleOFF, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        <div class="row" style="display: flex; margin-right:0px; margin-left: 0px; ">
-                            @Html.EditorFor(model => model.PromoSaleOFF, new { htmlAttributes = new { @class = "form-controlx promosale" } })
-                            <label id="PromoSaleOFFPercent" for="PromoSaleOFF" style="padding-left: 6px; padding-top: 7px;"></label>
-                        </div>
-
-                        @Html.ValidationMessageFor(model => model.PromoSaleOFF, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group" id="PromoDurationDiv" hidden>
-                    <label class="control-label col-md-2" for="PromoSaleStartDateTime">Promo Sale Duration</label>
-                    <div class="col-md-10">
-
-
-                        <div class="container" style="padding-left:0px">
-                            <div class='col-md-4' style="padding-left:0px">
-                                <div class="form-group">
-                                    <label class="control-label col-md-3" for="PromoSaleStartDateTime" style="text-align: left; width: auto;">Start Date:</label>
-                                    <div class='input-group date' id='datetimepicker6'>
-
-
-                                        <input type='text' class="form-controlx" id='PromoSaleStartDateTime' name="PromoSaleStartDateTime" />
-                                        <span class="input-group-addon">
-                                            <span class="glyphicon glyphicon-calendar"></span>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class='col-md-4' style="padding-left:0px">
-                                <div class="form-group">
-                                    <label class="control-label col-md-3" for="PromoSaleEndDateTime" style="text-align: left; width: auto;">End Date:</label>
-                                    <div class='input-group date' id='datetimepicker7'>
-
-                                        <input type='text' class="form-controlx" id='PromoSaleEndDateTime' name="PromoSaleEndDateTime" />
-                                        <span class="input-group-addon">
-                                            <span class="glyphicon glyphicon-calendar"></span>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                    </div>
-                </div>
-
-
-
-                <div class="form-group">
-                    @*@Html.LabelFor(model => model.CategoryId, "CategoryId", htmlAttributes: new { @class = "control-label col-md-2" })*@
-
-                    <label class="control-label col-md-2" for="CategoryId">Category</label>
-                    <div class="col-md-10">
-                        @Html.DropDownList("CategoryId", null, htmlAttributes: new { @class = "form-controlx" })
-                        @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <!-- Thumbnail gallery for product images -->
-                <div class="form-group">
-                    <label class="control-label col-md-2" for="">Images</label>
-                    <div class="col-md-10">
-
-                        <center>
-
-                            <div class="scroll">
-                                <div class="row" style="margin-right:0px; margin-left: 0px;">
-
-                                    @for (int i = 0; i < Model.Images.Count; i++)
-                                    {
-
-
-
-
-                                        <div class="col-md-3" name="@("Images[" + i.ToString() + "]")" style="padding: 4px;">
-                                            <div class="thumbnail">
-                                                <a href="@Url.Content(Model.Images[i].ImagePath)">
-
-                                                    <img src="@Url.Content(Model.Images[i].ImagePath)"
-                                                         alt="Lights" style="object-fit: cover; -o-object-fit: contain;  height: 200px; padding: 8px;">
-
-
-                                                    <div class="caption">
-
-
-
-                                                        <input type="hidden" id="@("Images[" + i.ToString() + "]" + ".ImageId")" name="@("Images[" + i.ToString() + "]" + ".ImageId")" value="@Model.Images[i].ImageId">
-
-                                                        @if (Model.Images[i].Default.ToString() == "True")
-                                                        {
-                                                            <a href="#" image-id="@("Images[" + i.ToString() + "]")" class="btn btn-default btn-sm disabled IsImageDefault">Primary</a>
-                                                        }
-                                                        else
-                                                        {
-                                                            <a href="#" image-id="@("Images[" + i.ToString() + "]")" class="btn btn-primary btn-sm IsImageDefault">Set as Default</a>
-                                                        }
-
-                                                        <input type="hidden" id="@("Images[" + i.ToString() + "]" + ".Default")" name="@("Images[" + i.ToString() + "]" + ".Default")" value="@Model.Images[i].Default.ToString()">
-
-                                                        <a href="#" image-id="@("Images[" + i.ToString() + "]")" class="btn btn-danger btn-sm IsImageRemove">Remove</a>
-
-                                                        <input type="hidden" id="@("Images[" + i.ToString() + "]" + ".IsRemove")" name="@("Images[" + i.ToString() + "]" + ".IsRemove")" value="false">
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                    }
-
-
-
-
-                                </div>
-                            </div>
-                        </center>
-
-
-                    </div>
-                </div>
-
-                <!-- End of Thumbnail gallery -->
-
-
-                <div class="form-group">
-                    @*@Html.LabelFor(model => model.ImageFile, "ImageFile", htmlAttributes: new { @class = "control-label col-md-2" })*@
-
-                    <label class="control-label col-md-2" for="ImageFile">Upload Images</label>
-                    <div class="col-md-10">
-
-                        @*<input type="file" class="custom-file-input" id="ImageFile" name="ImageFile" multiple>*@
-
-
-
-                        <!--file input example -->
-                        <label class="btn btn-primary" for="ImageFile"   >
-                            <input id="ImageFile" type="file" style="display:none"
-                                   name="ImageFile" multiple>
-                            Choose files
-                        </label>
-                        <span class='label label-info' id="upload-file-info" style="font-size:medium"></span>
-                        <!--./file input example -->
-
-
-
-
-
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Save" class="btnx btn-default" style="width: 150px; height: 40px;"/>
-                    </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-controlx" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                 </div>
             </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @*@Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })*@
+                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = 4 })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Details, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @*@Html.EditorFor(model => model.Details, new { htmlAttributes = new { @class = "form-control" } })*@
+                    @Html.TextAreaFor(model => model.Details, new { @class = "form-control", @rows = 4 })
+                    @Html.ValidationMessageFor(model => model.Details, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.OriginalPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.OriginalPrice, new { htmlAttributes = new { @class = "form-controlx" } })
+                    @Html.ValidationMessageFor(model => model.OriginalPrice, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DiscountedPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DiscountedPrice, new { htmlAttributes = new { @class = "form-controlx" } })
+                    @Html.ValidationMessageFor(model => model.DiscountedPrice, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Stock, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Stock, new { htmlAttributes = new { @class = "form-controlx" } })
+                    @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PromoSaleOFF, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="row" style="display: flex; margin-right:0px; margin-left: 0px; ">
+                        @Html.EditorFor(model => model.PromoSaleOFF, new { htmlAttributes = new { @class = "form-controlx promosale" } })
+                        <label id="PromoSaleOFFPercent" for="PromoSaleOFF" style="padding-left: 6px; padding-top: 7px;"></label>
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.PromoSaleOFF, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group" id="PromoDurationDiv" hidden>
+                <label class="control-label col-md-2" for="PromoSaleStartDateTime">Promo Sale Duration</label>
+                <div class="col-md-10">
+
+
+                    <div class="container" style="padding-left:0px">
+                        <div class='col-md-4' style="padding-left:0px">
+                            <div class="form-group">
+                                <label class="control-label col-md-3" for="PromoSaleStartDateTime" style="text-align: left; width: auto;">Start Date:</label>
+                                <div class='input-group date' id='datetimepicker6'>
+
+
+                                    <input type='text' class="form-controlx" id='PromoSaleStartDateTime' name="PromoSaleStartDateTime" />
+                                    <span class="input-group-addon" style="border: 1px solid #E4E7ED !important; border-radius: 0px !important;">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='col-md-4' style="padding-left:0px">
+                            <div class="form-group">
+                                <label class="control-label col-md-3" for="PromoSaleEndDateTime" style="text-align: left; width: auto;">End Date:</label>
+                                <div class='input-group date' id='datetimepicker7'>
+
+                                    <input type='text' class="form-controlx" id='PromoSaleEndDateTime' name="PromoSaleEndDateTime" />
+                                    <span class="input-group-addon" style="border: 1px solid #E4E7ED !important; border-radius: 0px !important;">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                @*@Html.LabelFor(model => model.CategoryId, "CategoryId", htmlAttributes: new { @class = "control-label col-md-2" })*@
+
+                <label class="control-label col-md-2" for="CategoryId">Category</label>
+                <div class="col-md-10">
+                    @Html.DropDownList("CategoryId", null, htmlAttributes: new { @class = "form-controlx" })
+                    @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+        
+
+                <label class="control-label col-md-2" for="BrandId">Brand</label>
+                <div class="col-md-10">
+                    @Html.DropDownList("BrandId", null, htmlAttributes: new { @class = "form-controlx" })
+                    @Html.ValidationMessageFor(model => model.BrandId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- Thumbnail gallery for product images -->
+            <div class="form-group">
+                <label class="control-label col-md-2" for="">Images</label>
+                <div class="col-md-10">
+
+                    <center>
+
+                        <div class="scroll">
+                            <div class="row" style="margin-right:0px; margin-left: 0px;">
+
+                                @for (int i = 0; i < Model.Images.Count; i++)
+                                {
+
+
+
+
+                                    <div class="col-md-3" name="@("Images[" + i.ToString() + "]")" style="padding: 4px; margin: 10px;">
+                                        <div class="thumbnailx" style="height: 300px;width:230px;">
+                                            <a href="@Url.Content(Model.Images[i].ImagePath)">
+
+                                                <img src="@Url.Content(Model.Images[i].ImagePath)"
+                                                     alt="Lights">
+
+
+                                                <div class="caption">
+
+
+
+                                                    <input type="hidden" id="@("Images[" + i.ToString() + "]" + ".ImageId")" name="@("Images[" + i.ToString() + "]" + ".ImageId")" value="@Model.Images[i].ImageId">
+
+                                                    @if (Model.Images[i].Default.ToString() == "True")
+                                                    {
+                                                        <a href="javascript:void(0)" image-id="@("Images[" + i.ToString() + "]")" class="btnx btn-default btn-sm disabled IsImageDefault" style="line-height:18px !important;font-size:12px !important;height:30px;">Primary</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="javascript:void(0)" image-id="@("Images[" + i.ToString() + "]")" class="btnx btn-primary btn-sm IsImageDefault" style="line-height:18px !important;font-size:12px !important;height:30px;">Set as Default</a>
+                                                    }
+
+                                                    <input type="hidden" id="@("Images[" + i.ToString() + "]" + ".Default")" name="@("Images[" + i.ToString() + "]" + ".Default")" value="@Model.Images[i].Default.ToString()">
+
+                                                    <a href="javascript:void(0)" image-id="@("Images[" + i.ToString() + "]")" class="btnx btn-danger btn-sm IsImageRemove" style="line-height:18px !important;font-size:12px !important;height:30px;">Remove</a>
+
+                                                    <input type="hidden" id="@("Images[" + i.ToString() + "]" + ".IsRemove")" name="@("Images[" + i.ToString() + "]" + ".IsRemove")" value="false">
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                }
+
+
+
+
+                            </div>
+                        </div>
+                    </center>
+
+
+                </div>
+            </div>
+
+            <!-- End of Thumbnail gallery -->
+
+
+            <div class="form-group">
+                @*@Html.LabelFor(model => model.ImageFile, "ImageFile", htmlAttributes: new { @class = "control-label col-md-2" })*@
+
+                <label class="control-label col-md-2" for="ImageFile">Upload Images</label>
+                <div class="col-md-10">
+
+                    @*<input type="file" class="custom-file-input" id="ImageFile" name="ImageFile" multiple>*@
+
+
+
+                    <!--file input example -->
+
+                    <label class="btnx btn-primary" for="ImageFile" style="width:150px;height:40px;padding-top:5px;">
+                        <input id="ImageFile" type="file" style="display:none"
+                               name="ImageFile" multiple accept="image/*">
+                        Choose Files
+                    </label>
+                    <span class='label label-info' id="upload-file-info" style="font-size:medium"></span>
+                    <!--./file input example -->
+
+
+
+
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btnx btn-default" style="width: 150px; height: 40px;" />
+                </div>
+            </div>
+        </div>
         }
 
 
@@ -371,8 +380,26 @@
             $("#ImageFile").change(function () {
                 var filenames = this.files.length + " files selected";
 
+                for (var i = 0; i < this.files.length; i++) {
+                    if (!(document.getElementById("ImageFile").files[i].type.match(/image.*/))) {
 
-                $('#upload-file-info').text(filenames);
+
+                        $('#upload-file-info')
+                            .removeClass("label-info")
+                            .addClass("label-danger")
+                            .text('You can\'t upload this type of file [' + this.files[i].name + '].');
+
+                        document.getElementById('ImageFile').value = null;
+                        return;
+                    }
+                }
+
+
+
+                $('#upload-file-info')
+                    .removeClass("label-danger")
+                    .addClass("label-info")
+                    .text(filenames);
 
             });
 

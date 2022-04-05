@@ -6,7 +6,7 @@
 }
 
 <!-- BREADCRUMB -->
-<div id="breadcrumb" class="section" style="display: flex;">
+<div id="breadcrumb" class="section breadcrumbx" style="display: flex;">
     <div class="container">
 
         <div class="row pull-left" style="width: 230px;">
@@ -58,173 +58,182 @@
         {
             @Html.AntiForgeryToken()
 
-            <div class="form-horizontal">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-controlx" } })
-                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                    </div>
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-controlx" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                 </div>
+            </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @*@Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })*@
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @*@Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })*@
 
-                   
-                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = 4 })
 
-           
+                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = 4 })
 
-                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                    </div>
+
+
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                 </div>
+            </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Details, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @*@Html.EditorFor(model => model.Details, new { htmlAttributes = new { @class = "form-control" } })*@
+            <div class="form-group">
+                @Html.LabelFor(model => model.Details, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @*@Html.EditorFor(model => model.Details, new { htmlAttributes = new { @class = "form-control" } })*@
 
-                        @Html.TextAreaFor(model => model.Details, new { @class = "form-control", @rows = 4 })
+                    @Html.TextAreaFor(model => model.Details, new { @class = "form-control", @rows = 4 })
 
-                        @Html.ValidationMessageFor(model => model.Details, "", new { @class = "text-danger" })
-                    </div>
+                    @Html.ValidationMessageFor(model => model.Details, "", new { @class = "text-danger" })
                 </div>
+            </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.OriginalPrice, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.OriginalPrice, new { htmlAttributes = new { @class = "form-controlx" } })
-                        @Html.ValidationMessageFor(model => model.OriginalPrice, "", new { @class = "text-danger" })
-                    </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.OriginalPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.OriginalPrice, new { htmlAttributes = new { @class = "form-controlx" } })
+                    @Html.ValidationMessageFor(model => model.OriginalPrice, "", new { @class = "text-danger" })
                 </div>
+            </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.DiscountedPrice, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.DiscountedPrice, new { htmlAttributes = new { @class = "form-controlx" } })
-                        @Html.ValidationMessageFor(model => model.DiscountedPrice, "", new { @class = "text-danger" })
-                    </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.DiscountedPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DiscountedPrice, new { htmlAttributes = new { @class = "form-controlx" } })
+                    @Html.ValidationMessageFor(model => model.DiscountedPrice, "", new { @class = "text-danger" })
                 </div>
+            </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Stock, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Stock, new { htmlAttributes = new { @class = "form-controlx" } })
-                        @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
-                    </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Stock, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Stock, new { htmlAttributes = new { @class = "form-controlx" } })
+                    @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
                 </div>
+            </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.PromoSaleOFF, htmlAttributes: new { @class = "control-label col-md-2 " })
-                    <div class="col-md-10">
-
-
-                        <div class="row" style="display: flex; margin-right:0px; margin-left: 0px; ">
-                            @Html.EditorFor(model => model.PromoSaleOFF, new { htmlAttributes = new { @class = "form-controlx promosale" } })
-                            <label id="PromoSaleOFFPercent" for="PromoSaleOFF" style="padding-left: 6px; padding-top: 7px;"></label>
-                        </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.PromoSaleOFF, htmlAttributes: new { @class = "control-label col-md-2 " })
+                <div class="col-md-10">
 
 
-
-                        @Html.ValidationMessageFor(model => model.PromoSaleOFF, "", new { @class = "text-danger" })
+                    <div class="row" style="display: flex; margin-right:0px; margin-left: 0px; ">
+                        @Html.EditorFor(model => model.PromoSaleOFF, new { htmlAttributes = new { @class = "form-controlx promosale" } })
+                        <label id="PromoSaleOFFPercent" for="PromoSaleOFF" style="padding-left: 6px; padding-top: 7px;"></label>
                     </div>
+
+
+
+                    @Html.ValidationMessageFor(model => model.PromoSaleOFF, "", new { @class = "text-danger" })
                 </div>
+            </div>
 
-                <div class="form-group" id="PromoDurationDiv" hidden>
-                    <label class="control-label col-md-2" for="PromoSaleStartDateTime">Promo Sale Duration</label>
-                    <div class="col-md-10">
-
-
-                        <div class="container" style="padding-left:0px">
-                            <div class='col-md-4' style="padding-left:0px">
-                                <div class="form-group">
-                                    <label class="control-label col-md-3" for="PromoSaleStartDateTime" style="text-align: left; width: auto;">Start Date:</label>
-                                    <div class='input-group date' id='datetimepicker6'>
+            <div class="form-group" id="PromoDurationDiv" hidden>
+                <label class="control-label col-md-2" for="PromoSaleStartDateTime">Promo Sale Duration</label>
+                <div class="col-md-10">
 
 
-                                        <input type='text' class="form-control" id='PromoSaleStartDateTime' name="PromoSaleStartDateTime" />
-                                        <span class="input-group-addon">
-                                            <span class="glyphicon glyphicon-calendar"></span>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class='col-md-4' style="padding-left:0px">
-                                <div class="form-group">
-                                    <label class="control-label col-md-3" for="PromoSaleEndDateTime" style="text-align: left; width: auto;">End Date:</label>
-                                    <div class='input-group date' id='datetimepicker7'>
+                    <div class="container" style="padding-left:0px">
+                        <div class='col-md-4' style="padding-left:0px">
+                            <div class="form-group">
+                                <label class="control-label col-md-3" for="PromoSaleStartDateTime" style="text-align: left; width: auto;">Start Date:</label>
+                                <div class='input-group date' id='datetimepicker6'>
 
-                                        <input type='text' class="form-control" id='PromoSaleEndDateTime' name="PromoSaleEndDateTime" />
-                                        <span class="input-group-addon">
-                                            <span class="glyphicon glyphicon-calendar"></span>
-                                        </span>
-                                    </div>
+
+                                    <input type='text' class="form-controlx" id='PromoSaleStartDateTime' name="PromoSaleStartDateTime" />
+                                    <span class="input-group-addon" style="border: 1px solid #E4E7ED !important; border-radius: 0px !important;">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
                                 </div>
                             </div>
                         </div>
+                        <div class='col-md-4' style="padding-left:0px">
+                            <div class="form-group">
+                                <label class="control-label col-md-3" for="PromoSaleEndDateTime" style="text-align: left; width: auto;">End Date:</label>
+                                <div class='input-group date' id='datetimepicker7'>
 
-
-
-                    </div>
-                </div>
-
-
-
-
-                <div class="form-group">
-                    @*@Html.LabelFor(model => model.CategoryId, "CategoryId", htmlAttributes: new { @class = "control-label col-md-2" })*@
-                    <label class="control-label col-md-2" for="CategoryId">Category</label>
-                    <div class="col-md-10">
-                        @Html.DropDownList("CategoryId", null, htmlAttributes: new { @class = "form-controlx" })
-                        @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                @*<div class="form-group">
-                        @Html.LabelFor(model => model.ImageFile, "ImageFile", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            <input type="file" id="ImageFile" name="ImageFile" multiple required>
-
+                                    <input type='text' class="form-controlx" id='PromoSaleEndDateTime' name="PromoSaleEndDateTime" />
+                                    <span class="input-group-addon" style="border: 1px solid #E4E7ED !important; border-radius: 0px !important;">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
-                    </div>*@
-                <div class="form-group">
-                    @*@Html.LabelFor(model => model.ImageFile, "ImageFile", htmlAttributes: new { @class = "control-label col-md-2" })*@
-
-                    <label class="control-label col-md-2" for="ImageFile">Upload Images</label>
-                    <div class="col-md-10">
-
-                        @*<input type="file" class="custom-file-input" id="ImageFile" name="ImageFile" multiple>*@
-
-
-
-                        <!--file input example -->
-                        <label class="btn btn-primary" for="ImageFile">
-                            <input id="ImageFile" type="file" style="display:none"
-                                   name="ImageFile" multiple>
-                            Choose files
-                        </label>
-                        <span class='label label-info' id="upload-file-info" style="font-size:medium"></span>
-                        <!--./file input example -->
-
-
-
-
-
                     </div>
+
+
+
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Create" class="btnx btn-defaultx" style="width: 150px; height: 40px;" />
-                    </div>
+
+
+
+            <div class="form-group">
+                @*@Html.LabelFor(model => model.CategoryId, "CategoryId", htmlAttributes: new { @class = "control-label col-md-2" })*@
+                <label class="control-label col-md-2" for="CategoryId">Category</label>
+                <div class="col-md-10">
+                    @Html.DropDownList("CategoryId", null, htmlAttributes: new { @class = "form-controlx" })
+                    @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
                 </div>
+            </div>
 
-
-
+            <div class="form-group">
+      
+                <label class="control-label col-md-2" for="BrandId">Brand</label>
+                <div class="col-md-10">
+                    @Html.DropDownList("BrandId", null, htmlAttributes: new { @class = "form-controlx" })
+                    @Html.ValidationMessageFor(model => model.BrandId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            @*<div class="form-group">
+            @Html.LabelFor(model => model.ImageFile, "ImageFile", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" id="ImageFile" name="ImageFile" multiple required>
 
             </div>
+        </div>*@
+            <div class="form-group">
+                @*@Html.LabelFor(model => model.ImageFile, "ImageFile", htmlAttributes: new { @class = "control-label col-md-2" })*@
+
+                <label class="control-label col-md-2" for="ImageFile">Upload Images</label>
+                <div class="col-md-10">
+
+                    @*<input type="file" class="custom-file-input" id="ImageFile" name="ImageFile" multiple>*@
+
+
+
+                    <!--file input example -->
+                    <label class="btnx btn-primary" for="ImageFile" style="width:150px;height:40px;padding-top:5px;">
+                        <input id="ImageFile" type="file" style="display:none"
+                               name="ImageFile" multiple accept="image/*">
+                        Choose files
+                    </label>
+                    <span class='label label-info' id="upload-file-info" style="font-size:medium"></span>
+                    <!--./file input example -->
+
+
+
+
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btnx btn-defaultx" style="width: 150px; height: 40px;" />
+                </div>
+            </div>
+
+
+
+
+        </div>
 
 
 
@@ -236,9 +245,11 @@
     <!-- /container -->
 </div>
 <!-- /section -->
+
 <!-- include summernote css/js -->
 <link href="~/Content/summernote.min.css" rel="stylesheet">
 <link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
@@ -311,13 +322,43 @@
 
 
 
+            //$("#ImageFile").change(function () {
+            //    var filenames = this.files.length + " files selected";
+
+
+            //    $('#upload-file-info').text(filenames);
+
+            //});
+
+
             $("#ImageFile").change(function () {
                 var filenames = this.files.length + " files selected";
 
+                for (var i = 0; i < this.files.length; i++) {
+                    if (!(document.getElementById("ImageFile").files[i].type.match(/image.*/))) {
 
-                $('#upload-file-info').text(filenames);
+
+                        $('#upload-file-info')
+                            .removeClass("label-info")
+                            .addClass("label-danger")
+                            .text('You can\'t upload this type of file [' + this.files[i].name + '].');
+
+                        document.getElementById('ImageFile').value = null;
+                        return;
+                    }
+                }
+
+
+
+                $('#upload-file-info')
+                    .removeClass("label-danger")
+                    .addClass("label-info")
+                    .text(filenames);
 
             });
+
+
+
 
 
             $('#PromoSaleOFFPercent').text("0% OFF");

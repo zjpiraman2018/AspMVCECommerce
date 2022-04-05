@@ -44,15 +44,17 @@
         <!-- TOP HEADER -->
         <div id="top-header">
             <div class="container">
+
+
                 <ul class="header-links pull-left">
                     <li><a href="#"><i class="fa fa-phone"></i> +021-95-51-84</a></li>
                     <li><a href="#"><i class="fa fa-envelope-o"></i> email@email.com</a></li>
                     <li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
                 </ul>
                 @*<ul class="header-links pull-right">
-                    <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
-                    <li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
-                </ul>*@
+                        <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
+                        <li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
+                    </ul>*@
 
                 @Html.Partial("_LoginPartial")
             </div>
@@ -76,14 +78,24 @@
                     <!-- SEARCH BAR -->
                     <div class="col-md-6">
                         <div class="header-search">
-                            <form>
-                                <select class="input-select">
-                                    <option value="0">All Categories</option>
-                                    <option value="1">Category 01</option>
-                                    <option value="1">Category 02</option>
+                            <form action="~/Home/Store" method="get" id="form-search">
+                                <select class="input-select" id="dropdownSelectedCategory" name="dropdownSelectedCategory">
+                                    <option value="Categories">All Categories</option>
+                                    <option value="Laptops">Laptops</option>
+                                    <option value="Smartphones">Smartphones</option>
+                                    <option value="Cameras">Cameras</option>
+                                    <option value="Accessories">Accessories</option>
+                                    <option value="Headphones">Headphones</option>
+                                    <option value="Tablet">Tablet</option>
                                 </select>
-                                <input class="input" placeholder="Search here">
-                                <button class="search-btn">Search</button>
+           
+                                <input type="hidden" class="form-layout-selected-nav-category" name="selectedNavCategory" id="selectedNavCategory" value="Categories" />
+                                <input type="hidden" class="form-layout-selected-category" name="selectedCategory" id="selectedCategory" value="1,2,3,4,5,6" />
+
+                                <input class="input form-layout-search-products"  placeholder="Search product here" id="searchProducts" name="searchProducts"/>
+
+
+                                <input type="submit" class="search-btn" id="btn-product-search"></input>
                             </form>
                         </div>
                     </div>
@@ -169,13 +181,21 @@
             <div id="responsive-nav">
                 <!-- NAV -->
                 <ul class="main-nav nav navbar-nav">
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#">Hot Deals</a></li>
-                    <li><a href="#">Categories</a></li>
-                    <li><a href="#">Laptops</a></li>
-                    <li><a href="#">Smartphones</a></li>
-                    <li><a href="#">Cameras</a></li>
-                    <li><a href="#">Accessories</a></li>
+
+                    <li><a href="~/Home/Index" class="link-nav-bar">Home</a></li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                <li><a href="~/Manage" class="link-nav-bar">Account</a></li>
+                                <li><a href="~/Products/Index" class="link-nav-bar">Manage Product</a></li>}
+
+                    <li><a class="link-nav-bar" href="~/Home/Store?selectedCategory=1%2C2%2C3%2C4%2C5%2C6&selectedNavCategory=Hot%20Deals">Hot Deals</a></li>
+                    <li><a class="link-nav-bar" href="~/Home/Store?selectedCategory=1%2C2%2C3%2C4%2C5%2C6&selectedNavCategory=Categories">Categories</a></li>
+                    <li><a class="link-nav-bar" href="~/Home/Store?selectedCategory=1&selectedNavCategory=Laptops">Laptops</a></li>
+                    <li><a class="link-nav-bar" href="~/Home/Store?selectedCategory=2&selectedNavCategory=Smartphones">Smartphones</a></li>
+                    <li><a class="link-nav-bar" href="~/Home/Store?selectedCategory=5&selectedNavCategory=Cameras">Cameras</a></li>
+                    <li><a class="link-nav-bar" href="~/Home/Store?selectedCategory=3&selectedNavCategory=Accessories">Accessories</a></li>
+                    <li><a class="link-nav-bar" href="~/Home/Store?selectedCategory=4&selectedNavCategory=Headphones">Headphones</a></li>
+                    <li><a class="link-nav-bar" href="~/Home/Store?selectedCategory=6&selectedNavCategory=Tablet">Tablet</a></li>
                 </ul>
                 <!-- /NAV -->
             </div>
@@ -330,16 +350,90 @@
 
     @RenderSection("scripts", required: false)
 
+
+  
+<script type="text/javascript">
+        $(document).ready(function () {
+            @{
+
+               <text>
+                    var tempNavCategory = '@ViewBag.SelectedNavCategory';
+                    var tempSearchProducts = '@ViewBag.SearchProducts';
+               </text>
+            }
+
+            $(".form-layout-search-products").val(tempSearchProducts);
+
+            $("#dropdownSelectedCategory").change(function () {
+
+                var selectedNavCategory = '';
+                var selectedCategory = '';
+
+                switch ($(this).val()) {
+                    case "Categories":
+                        selectedNavCategory = "Categories";
+                        selectedCategory = "1,2,3,4,5,6";
+                        break;
+                    case "Laptops":
+                        selectedCategory = "1";
+                        selectedNavCategory = "Laptops";
+                        break;
+                    case "Smartphones":
+                        selectedCategory = "2"
+                        selectedNavCategory = "Smartphones";
+                        break;
+                    case "Cameras":
+                        selectedCategory = "5";
+                        selectedNavCategory = "Cameras";
+                        break;
+                    case "Accessories":
+                        selectedCategory = "3";
+                        selectedNavCategory = "Accessories";
+                        break;
+                    case "Headphones":
+                        selectedCategory = "4";
+                        selectedNavCategory = "Headphones";
+                        break;
+                    case "Tablet":
+                        selectedCategory = "6";
+                        selectedNavCategory = "Tablet"
+                        break;
+                    default:
+                        selectedCategory = "";
+                        selectedNavCategory = "~/Home/Index";
+                }
+
+                $(".form-layout-selected-nav-category").val(selectedNavCategory);
+                $(".form-layout-selected-category").val(selectedCategory);
+            });
+
+
+
+            $(".link-nav-bar").each(function (index) {
+                $(this).parent().removeClass("active");
+                tempNavCategory = tempNavCategory == '' ? 'Home' : tempNavCategory;
+                if ($(this).text().toUpperCase() == tempNavCategory.toUpperCase()) {
+                    $(this).parent().addClass("active");
+                    //$('#selectedNavCategory').val(tempNavCategory);
+                }
+            });
+
+
+
+            //$(".link-nav-bar").click(function () {
+            //    $(".link-nav-bar").each(function (index) {
+            //        $(this).parent().removeClass("active")
+            //    });
+            //    alert($(this).text());
+            //    $(this).parent().addClass("active")
+            //});
+
+        });
+</script>
+    
+
 </body>
 </html>
-
-
-
-
-
-
-
-
 
 
 

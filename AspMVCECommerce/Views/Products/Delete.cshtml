@@ -7,8 +7,8 @@
 
 
 <!-- BREADCRUMB -->
-<div id="breadcrumb" class="section" style="display: flex;">
-    <div class="container" >
+<div id="breadcrumb" class="section breadcrumbx" style="display: flex;">
+    <div class="container">
 
         <div class="row pull-left" style="width: 230px;">
             <div class="col-md-12">
@@ -73,7 +73,7 @@
                     @Html.DisplayNameFor(model => model.Description)
                 </dt>
 
-                <dd>
+                <dd class="class-dd">
                     @Html.DisplayFor(model => model.Description)
                 </dd>
 
@@ -81,7 +81,7 @@
                     @Html.DisplayNameFor(model => model.Details)
                 </dt>
 
-                <dd>
+                <dd class="class-dd">
                     @Html.DisplayFor(model => model.Details)
                 </dd>
 
@@ -116,6 +116,14 @@
                 <dd>
                     @Html.DisplayFor(model => model.Category.Name)
                 </dd>
+
+                <dt>
+                    Brand
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Brand.Name)
+                </dd>
             </dl>
 
             @using (Html.BeginForm())
@@ -132,3 +140,22 @@
     <!-- /container -->
 </div>
 <!-- /section -->
+
+
+@section Scripts {
+    <script type="text/javascript">
+            $(document).ready(function () {
+
+                $(".class-dd").each(function (index) {
+                    /* var imageDefaultId = $(this).attr("image-id") + ".Default";*/
+
+                    let ddInnerText = $(this).html($(this).prop("innerText")).prop("innerText");
+                    $(this).text( $(this).html(ddInnerText).text());
+
+                });
+
+
+            });
+    </script>
+}
+

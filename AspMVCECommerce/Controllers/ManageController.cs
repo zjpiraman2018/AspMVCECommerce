@@ -63,6 +63,8 @@ namespace AspMVCECommerce.Controllers
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
 
+            ViewBag.SelectedNavCategory = "Account";
+
             var userId = User.Identity.GetUserId();
             var model = new IndexViewModel
             {

@@ -26,6 +26,7 @@ namespace AspMVCECommerce.ViewModel
             {
                 ProductId = productViewModel.ProductId,
                 CategoryId = productViewModel.CategoryId,
+                BrandId = productViewModel.BrandId,
                 Description = WebUtility.HtmlEncode(productViewModel.Description),
                 Details = WebUtility.HtmlEncode(productViewModel.Details),
                 DiscountedPrice = productViewModel.DiscountedPrice,
@@ -46,6 +47,7 @@ namespace AspMVCECommerce.ViewModel
             {
                 ProductId = product.ProductId,
                 CategoryId = product.CategoryId,
+                BrandId = product.BrandId,
                 Description = WebUtility.HtmlDecode(product.Description),
                 Details = WebUtility.HtmlDecode(product.Details),
                 DiscountedPrice = product.DiscountedPrice,

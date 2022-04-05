@@ -18,7 +18,7 @@ namespace AspMVCECommerce.Controllers
         // GET: Products
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page , string pageSize)
         {
-          
+            ViewBag.SelectedNavCategory = "Manage Product";
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 
@@ -34,7 +34,7 @@ namespace AspMVCECommerce.Controllers
             ViewBag.CurrentFilter = searchString;
 
 
-            var products = db.Products.Include(p => p.Category).Include(p => p.Images);
+            var products = db.Products.Include(p => p.Category).Include(p=>p.Brand).Include(p => p.Images);
 
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -61,7 +61,9 @@ namespace AspMVCECommerce.Controllers
         
             int _pageSize = string.IsNullOrEmpty(pageSize) ? 10 : Int32.Parse(pageSize);
             ViewBag.CurrentItemsPerPage = _pageSize;
-        int pageNumber = (page ?? 1);
+            int pageNumber = (page ?? 1);
+   
+
             return View(products.ToPagedList(pageNumber, _pageSize));
         }
 
@@ -72,13 +74,14 @@ namespace AspMVCECommerce.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Products.Include(p => p.Category).Include(p=>p.Images).Single(p=> p.ProductId == id);
+            Product product = db.Products.Include(p => p.Category).Include(p => p.Brand).Include(p=>p.Images).Single(p=> p.ProductId == id);
             product.Description = WebUtility.HtmlDecode(product.Description).Replace("'", "\\'").Replace("\r\n","");
             product.Details = WebUtility.HtmlDecode(product.Details).Replace("'", "\\'").Replace("\r\n", "");
             if (product == null)
             {
                 return HttpNotFound();
             }
+            ViewBag.SelectedNavCategory = "Manage Product";
             return View(product);
         }
 
@@ -86,7 +89,8 @@ namespace AspMVCECommerce.Controllers
         public ActionResult Create()
         {
             ViewBag.CategoryId = new SelectList(db.Categories, "CategoryId", "Name");
-
+            ViewBag.BrandId = new SelectList(db.Brands, "BrandId", "Name");
+            ViewBag.SelectedNavCategory = "Manage Product";
             return View();
         }
 
@@ -97,7 +101,7 @@ namespace AspMVCECommerce.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(
-            [Bind(Include = "ProductId,Name,Description,Details,OriginalPrice,DiscountedPrice,Stock,CategoryId,ImageFile,Images,PromoSaleOFF,PromoSaleStartDateTime,PromoSaleEndDateTime")]
+            [Bind(Include = "ProductId,Name,Description,Details,OriginalPrice,DiscountedPrice,Stock,CategoryId,BrandId,ImageFile,Images,PromoSaleOFF,PromoSaleStartDateTime,PromoSaleEndDateTime")]
             ProductViewModel productViewModel)
         {
             if (ModelState.IsValid)
@@ -154,8 +158,9 @@ namespace AspMVCECommerce.Controllers
                 }
                 return RedirectToAction("Index");
             }
-
+            ViewBag.SelectedNavCategory = "Manage Product";
             ViewBag.CategoryId = new SelectList(db.Categories, "CategoryId", "Name", productViewModel.CategoryId);
+            ViewBag.BrandId = new SelectList(db.Brands, "BrandId", "Name", productViewModel.BrandId);
             return View(productViewModel);
         }
 
@@ -183,8 +188,11 @@ namespace AspMVCECommerce.Controllers
             }
 
             ViewBag.CategoryId = new SelectList(db.Categories, "CategoryId", "Name", product.CategoryId);
+            ViewBag.BrandId = new SelectList(db.Brands, "BrandId", "Name", product.BrandId);
 
             ViewData["Success"] = (string.IsNullOrEmpty(success) ? null : success);
+
+            ViewBag.SelectedNavCategory = "Manage Product";
             return View(productViewModel);
         }
 
@@ -193,7 +201,7 @@ namespace AspMVCECommerce.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ProductId,Name,Description,Details,OriginalPrice,DiscountedPrice,Stock,CategoryId,ImageFile,Images,PromoSaleOFF,PromoSaleStartDateTime,PromoSaleEndDateTime")] ProductViewModel productViewModel)
+        public ActionResult Edit([Bind(Include = "ProductId,Name,Description,Details,OriginalPrice,DiscountedPrice,Stock,CategoryId,BrandId,ImageFile,Images,PromoSaleOFF,PromoSaleStartDateTime,PromoSaleEndDateTime")] ProductViewModel productViewModel)
         {
             var product = productViewModel.ToProduct();
             if (ModelState.IsValid)
@@ -201,6 +209,7 @@ namespace AspMVCECommerce.Controllers
                 var _product = db.Products.Find(product.ProductId);
                 _product.ProductId = product.ProductId;
                 _product.CategoryId = product.CategoryId;
+                _product.BrandId = product.BrandId;
                 _product.Description = product.Description;
                 _product.Details = product.Details;
                 _product.DiscountedPrice = product.DiscountedPrice;
@@ -233,6 +242,7 @@ namespace AspMVCECommerce.Controllers
    
                 }
 
+                int imageIndex = 0;
                 if (Request.Files.Count > 0)
                 {
                     for (int i = 0; i < Request.Files.Count; i++)
@@ -243,7 +253,7 @@ namespace AspMVCECommerce.Controllers
                         {
                             Image imageModel = new Image();
 
-                            imageModel.Default = (i == 0 && productViewModel.Images.Count == 0 ? true : false);
+                            imageModel.Default = (imageIndex == 0 && productViewModel.Images.Count == 0 ? true : false);
 
                             imageModel.ProductId = product.ProductId;
 
@@ -260,6 +270,7 @@ namespace AspMVCECommerce.Controllers
                             file.SaveAs(fileName);
 
                             db.Images.Add(imageModel);
+                            imageIndex += 1;
 
                         }
                     }
@@ -269,7 +280,7 @@ namespace AspMVCECommerce.Controllers
                 }
 
 
-
+                ViewBag.SelectedNavCategory = "Manage Product";
                 ViewData["Success"] = "TRUE";
                 return RedirectToAction("Edit", new { Id = product.ProductId , success = "TRUE"});
             }
@@ -293,7 +304,7 @@ namespace AspMVCECommerce.Controllers
                 productViewModel.Images.Add(image.ToImageViewModel());
             }
 
-
+            ViewBag.SelectedNavCategory = "Manage Product";
             return View(productViewModel);
         }
 
@@ -304,11 +315,12 @@ namespace AspMVCECommerce.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Products.Include(p => p.Category).Where(p=>p.ProductId == id).FirstOrDefault();
+            Product product = db.Products.Include(p => p.Category).Include(p=>p.Brand).Where(p=>p.ProductId == id).FirstOrDefault();
             if (product == null)
             {
                 return HttpNotFound();
             }
+            ViewBag.SelectedNavCategory = "Manage Product";
             return View(product);
         }
 
@@ -320,6 +332,7 @@ namespace AspMVCECommerce.Controllers
             Product product = db.Products.Find(id);
             db.Products.Remove(product);
             db.SaveChanges();
+            ViewBag.SelectedNavCategory = "Manage Product";
             return RedirectToAction("Index");
         }
 

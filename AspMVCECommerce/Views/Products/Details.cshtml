@@ -7,7 +7,7 @@
 
 
 <!-- BREADCRUMB -->
-<div id="breadcrumb" class="section" style="display: flex;">
+<div id="breadcrumb" class="section breadcrumbx" style="display: flex;">
     <div class="container">
 
         <div class="row pull-left" style="width: 230px;">
@@ -112,7 +112,7 @@
 
                         <span class="product-available"> @Html.DisplayFor(model => model.Stock) In Stock</span>
                     </div>
-                    <p id="pDescription1" ></p>
+                    <p id="pDescription1"></p>
 
                     @*<p>@Html.DisplayFor(model => model.Description)</p>*@
 
@@ -121,7 +121,10 @@
                         <li><a href="#"> @Html.DisplayFor(model => model.Category.Name)</a></li>
                     </ul>
 
-
+                    <ul class="product-links">
+                        <li>Brand:</li>
+                        <li><a href="#"> @Html.DisplayFor(model => model.Brand.Name)</a></li>
+                    </ul>
                 </div>
             </div>
             <!-- /Product details -->

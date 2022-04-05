@@ -1,0 +1,831 @@
+﻿@*@model IEnumerable<AspMVCECommerce.Models.Product>*@
+@model PagedList.IPagedList<AspMVCECommerce.Models.Product>
+@using PagedList.Mvc;
+@using AspMVCECommerce.ViewModel;
+
+@{
+    ViewBag.Title = "Store";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="breadcrumb-tree">
+                    <li><a href="~/Home/Index">Home</a></li>
+                    @if (((string)ViewBag.SelectedNavCategory) == "Categories")
+                    {
+                        <li><a href="#">All Categories</a></li>
+                    }
+                    else
+                    {
+                        <li><a href="#">@ViewBag.SelectedNavCategory</a></li>
+                    }
+
+                    @if (string.IsNullOrEmpty(((string)ViewBag.SearchProducts)))
+                    {
+                        <li class="active">@ViewBag.TotalResult Results</li>
+                    }
+                    else
+                    {
+                        <li class="active">Total Product Search: @ViewBag.TotalResult Results</li>
+                    }
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <!-- ASIDE -->
+            <div id="aside" class="col-md-3">
+                <!-- aside Widget -->
+                <div class="aside">
+                    <h3 class="aside-title">Categories</h3>
+                    <div class="checkbox-filter">
+                        @foreach (var category in (List<CategoryViewModel>)ViewBag.Categories)
+                        {
+
+                        <div class="input-checkbox">
+                            @if (ViewBag.SelectedCategory == null)
+                            {
+                                <input type="checkbox" id="category-@category.CategoryId" class="checkbox-category">
+
+                                <label for="category-@category.CategoryId">
+                                    <span></span>
+                                    @category.Name
+                                    <small>(@category.ProductCount)</small>
+                                </label>
+                            }
+                            else
+                            {
+
+                                var listSelectedCategory = ((string)ViewBag.SelectedCategory).Split(',').ToList();
+
+                                if (listSelectedCategory.Contains(category.CategoryId.ToString()))
+                                {
+
+                                    if (string.IsNullOrEmpty((string)ViewBag.SelectedNavCategory))
+                                    {
+                                        <input type="checkbox" id="category-@category.CategoryId" class="checkbox-category" checked>
+                                    }
+                                    else
+                                    {
+                                        if (((string)ViewBag.SelectedNavCategory) == "Categories" || ((string)ViewBag.SelectedNavCategory) == "Hot Deals")
+                                        {
+                                            <input type="checkbox" id="category-@category.CategoryId" class="checkbox-category" checked>
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" id="category-@category.CategoryId" class="checkbox-category" checked disabled>
+                                        }
+                                    }
+
+
+                                }
+                                else
+                                {
+                                    if (string.IsNullOrEmpty((string)ViewBag.SelectedNavCategory))
+                                    {
+                                        <input type="checkbox" id="category-@category.CategoryId" class="checkbox-category">
+                                    }
+                                    else
+                                    {
+                                        if (((string)ViewBag.SelectedNavCategory) == "Categories" || ((string)ViewBag.SelectedNavCategory) == "Hot Deals")
+                                        {
+                                            <input type="checkbox" id="category-@category.CategoryId" class="checkbox-category">
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" id="category-@category.CategoryId" class="checkbox-category" disabled>
+                                        }
+                                    }
+
+                                }
+
+
+                                if (!listSelectedCategory.Contains(category.CategoryId.ToString()))
+                                {
+                                    if (string.IsNullOrEmpty((string)ViewBag.SelectedNavCategory))
+                                    {
+                                        <label for="category-@category.CategoryId">
+                                            <span></span>
+                                            @category.Name
+                                            <small>(@category.ProductCount)</small>
+                                        </label>
+                                    }
+                                    else
+                                    {
+                                        if (((string)ViewBag.SelectedNavCategory) == "Categories" || ((string)ViewBag.SelectedNavCategory) == "Hot Deals")
+                                        {
+                                            <label for="category-@category.CategoryId">
+                                                <span></span>
+                                                @category.Name
+                                                <small>(@category.ProductCount)</small>
+                                            </label>
+                                        }
+                                        else
+                                        {
+                                            <label for="category-@category.CategoryId" style="opacity:0.6;">
+                                                <span></span>
+                                                @category.Name
+                                                <small>(@category.ProductCount)</small>
+                                            </label>
+                                        }
+                                    }
+                                }
+                                else
+                                { <label for="category-@category.CategoryId">
+                                        <span></span>
+                                        @category.Name
+                                        <small>(@category.ProductCount)</small>
+                                    </label>
+
+                                }
+                            }
+
+
+
+
+
+                        </div>
+
+                        }
+
+                    </div>
+                </div>
+                <!-- /aside Widget -->
+                <!-- aside Widget -->
+                <div class="aside">
+                    <h3 class="aside-title">Price</h3>
+                    <div class="price-filter">
+                        <div id="price-slider"></div>
+                        <div class="input-number price-min holder">
+                            <input id="price-min" type="number">
+                            <span class="qty-up">+</span>
+                            <span class="qty-down">-</span>
+
+                            <div class="dropdown1">
+                                <table>
+                                    <tr>
+                                        <td><a href="javascript:void(0)" style="width: 100px; height: 30px;margin-right:5px;" id="cancel-price-min" class="btnx btn-default price-btn1" >Cancel</a></td>
+                                        <td><a href="javascript:void(0)" style="width: 100px; height: 30px; background-color: #D10024; border-color: #D10024; color: #FFF; opacity: 0.8; " id="apply-price-min"  class="btnx price-btn1" >Apply</a></td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                        </div>
+                        <span>-</span>
+                        <div class="input-number price-max holder">
+                            <input id="price-max" type="number">
+                            <span class="qty-up">+</span>
+                            <span class="qty-down">-</span>
+
+                            <div class="dropdown2" >
+                                <table><tr><td><a href="javascript:void(0)" style="width: 100px; height: 30px; margin-right: 5px;" id="cancel-price-max" class="btnx btn-default price-btn2"> Cancel </a></td>
+                                           <td><a href="javascript:void(0)" style="width: 100px; height: 30px; background-color: #D10024; border-color: #D10024; color: #FFF; opacity: 0.8;" id="apply-price-max" class="btnx price-btn2" >Apply</a></td></tr></table>
+
+                            </div>
+                        </div>
+
+  
+                    </div>
+                </div>
+                <!-- /aside Widget -->
+                <!-- aside Widget -->
+                <div class="aside">
+                    <h3 class="aside-title">Brand</h3>
+                    <div class="checkbox-filter">
+                        @foreach (var brand in (List<BrandViewModel>)ViewBag.Brands)
+                        {
+
+                            <div class="input-checkbox">
+                                @if (ViewBag.SelectedBrand == null)
+                                {
+                                    <input type="checkbox" id="brand-@brand.BrandId" class="checkbox-brand">
+                                }
+                                else
+                                {
+                                   var listSelectedBrand = ((string)ViewBag.SelectedBrand).Split(',').ToList();
+
+                                    if (listSelectedBrand.Contains(brand.BrandId.ToString()))
+                                    {
+                                        <input type="checkbox" id="brand-@brand.BrandId" class="checkbox-brand" checked>
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" id="brand-@brand.BrandId" class="checkbox-brand">
+                                    }
+                                }
+
+
+
+                                <label for="brand-@brand.BrandId">
+                                    <span></span>
+                                    @brand.Name
+                                    <small>(@brand.ProductCount)</small>
+                                </label>
+                            </div>
+
+                        }
+
+                    </div>
+                </div>
+                <!-- /aside Widget -->
+                <!-- aside Widget -->
+                <div class="aside">
+                    <h3 class="aside-title">Top selling</h3>
+                    <div class="product-widget">
+                        <div class="product-img">
+                            <img src="~/FrontEnd/img/product01.png" alt="">
+                        </div>
+                        <div class="product-body">
+                            <p class="product-category">Category</p>
+                            <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                            <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+                        </div>
+                    </div>
+
+                    <div class="product-widget">
+                        <div class="product-img">
+                            <img src="~/FrontEnd/img/product02.png" alt="">
+                        </div>
+                        <div class="product-body">
+                            <p class="product-category">Category</p>
+                            <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                            <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+                        </div>
+                    </div>
+
+                    <div class="product-widget">
+                        <div class="product-img">
+                            <img src="~/FrontEnd/img/product03.png" alt="">
+                        </div>
+                        <div class="product-body">
+                            <p class="product-category">Category</p>
+                            <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                            <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- /aside Widget -->
+            </div>
+            <!-- /ASIDE -->
+            <!-- STORE -->
+            <div id="store" class="col-md-9">
+                <!-- store top filter -->
+                <div class="store-filter clearfix">
+                    <div class="store-sort">
+
+
+                        @using (Html.BeginForm("Store", "Home", FormMethod.Get, htmlAttributes: new { @class = "change-page-size" }))
+                        {
+                            <input type="hidden" class="form-store-selected-category" name="selectedCategory" id="selectedCategory" value="" />
+                            <input type="hidden" name="notSelectedBrand" id="notSelectedBrand" value="" />
+
+                            <input type="hidden" name="minPrice" id="minPrice" value="" />
+                            <input type="hidden" name="maxPrice" id="maxPrice" value="" />
+                            <input type="hidden" name="maxPriceRange" id="maxPriceRange" value="" />
+
+                            <input type="hidden" class="form-store-search-products" name="searchProducts" id="searchProducts" value="" />
+                            
+                            <input type="hidden" class="form-store-selected-nav-category" name="selectedNavCategory" id="selectedNavCategory" value="@ViewBag.SelectedNavCategory" />
+
+                            <label>
+                                Sort By:
+
+
+                                @{
+                                    var listSortItem = new List<SelectListItem>();
+
+                                    listSortItem.Add(new SelectListItem() { Text = "Popular", Value = "Popular" });
+                                    listSortItem.Add(new SelectListItem() { Text = "Product Name", Value = "ProductName" });
+                                    listSortItem.Add(new SelectListItem() { Text = "Created Date", Value = "CreatedDate" });
+                                }
+
+                                @Html.DropDownList("pageSort", listSortItem, null, htmlAttributes: new { @class = "input-select" })
+
+                            </label>
+                            <label>
+                                Show:
+
+                                @{
+                                    var listPageSizeItem = new List<SelectListItem>();
+
+                                    listPageSizeItem.Add(new SelectListItem() { Text = "20", Value = "20" });
+                                    listPageSizeItem.Add(new SelectListItem() { Text = "50", Value = "50" });
+                                }
+
+                                @Html.DropDownList("pageSize", listPageSizeItem, null, htmlAttributes: new { @class = "input-select" })
+
+                            </label>
+                        }
+
+
+                    </div>
+                    <ul class="store-grid">
+                        <li class="active"><i class="fa fa-th"></i></li>
+                        <li><a href="#"><i class="fa fa-th-list"></i></a></li>
+                    </ul>
+
+
+
+                </div>
+                <!-- /store top filter -->
+                <!-- store products -->
+                <div class="row">
+                    @foreach (var item in Model)
+                    {
+                        <!-- product -->
+                        <div class="col-md-4 col-xs-6">
+
+                            <div class="product product-store">
+                                <div class="product-img">
+                                    @if (item.Images.Count > 0)
+                                    {
+
+                                        var itemImages = item.Images.ToList();
+
+                                        foreach (var itemImage in itemImages)
+                                        {
+                                            if (itemImage.Default)
+                                            {
+                                                <img src="@Url.Content(itemImage.ImagePath)" alt="@itemImage.Title">
+
+                                                break;
+                                            }
+                                        }
+                                    }
+
+
+                                    <div class="product-label">
+
+
+                                        @if (item.PromoSaleOFF > 0)
+                                        {
+                                            if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
+                                            {
+                                                <span class="sale">
+                                                    -@(double.Parse(@item.PromoSaleOFF.ToString()) * 100)<label class="danger">%</label>
+                                                </span>
+
+                                            }
+
+                                        }
+
+
+                                        @if ((DateTime.Now - item.CreatedDateTime).TotalDays <= 30)
+                                        {
+                                            <span class="new">NEW</span>
+                                        }
+
+
+
+                                    </div>
+                                </div>
+                                <div class="product-body">
+                                    <p class="product-category">@item.Category.Name</p>
+                                    <h3 class="product-name"><a href="#" class="product-namex">@item.Name</a></h3>
+
+
+                                    @if (item.PromoSaleOFF > 0)
+                                    {
+                                        if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
+                                        {
+
+                                            <h4 class="product-price">₱@Convert.ToDecimal(item.DiscountedPrice).ToString("#,##0.00") <del class="product-old-price">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</del></h4>
+                                            @*<h4 class="product-price">@item.DiscountedPrice <del class="product-old-price">@item.OriginalPrice</del></h4>*@
+                                        }
+                                        else
+                                        {
+                                            <h4 class="product-price">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</h4>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <h4 class="product-price">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</h4>
+                                    }
+
+
+
+                                    <div class="product-rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                    <div class="product-btns">
+                                        <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                        <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+                                        <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                                    </div>
+                                </div>
+                                <div class="add-to-cart">
+                                    <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                </div>
+                            </div>
+
+                            <!-- /product -->
+
+                        </div>
+                    }
+                </div>
+                <!-- /store products -->
+                <!-- store bottom filter -->
+                <div class="store-filter clearfix">
+
+                    
+
+
+                    @Html.PagedListPager(Model, page => Url.Action("Store",
+                        new { page, pageSort = ViewBag.CurrentSort, pageSize = ViewBag.CurrentItemsPerPage,selectedCategory = ViewBag.SelectedCategory, minPrice = ViewBag.MinPrice, maxPrice = ViewBag.MaxPrice, maxPriceRange = ViewBag.MaxPriceRange } ))
+
+
+
+
+                    @*<ul class="store-pagination">
+                        <li class="active">1</li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+                    </ul>*@
+                </div>
+                <!-- /store bottom filter -->
+            </div>
+            <!-- /STORE -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->
+
+@section Scripts {
+    <script type="text/javascript">
+
+        function getSelectedCategory() {
+            var selectedCategory = '';
+            $(".checkbox-category").each(function (index) {
+                if (this.checked) {
+                    if (selectedCategory == '') {
+                        selectedCategory = $(this).attr('id').replace('category-', '');
+                    }
+                    else {
+                        selectedCategory = selectedCategory + ',' + $(this).attr('id').replace('category-', '');
+                    }
+                }
+            });
+
+            $('.form-store-selected-category').val(selectedCategory);
+        }
+
+
+        function getNotSelectedBrand() {
+            var notSelectedBrand = '';
+            $(".checkbox-brand").each(function (index) {
+                if (this.checked == false) {
+                    if (notSelectedBrand == '') {
+                        notSelectedBrand = $(this).attr('id').replace('brand-', '');
+                    }
+                    else {
+                        notSelectedBrand = notSelectedBrand + ',' + $(this).attr('id').replace('brand-', '');
+                    }
+                }
+            });
+
+            $('#notSelectedBrand').val(notSelectedBrand);
+        }
+
+
+
+        function getSelectedPriceRange() {
+            $('#minPrice').val(parseInt($('#price-min').val()));
+            $('#maxPrice').val(parseInt($('#price-max').val()));
+
+        }
+
+
+        function updatePriceSlider(elem, value) {
+            if (elem.hasClass('price-min')) {
+                console.log('min')
+                priceSlider.noUiSlider.set([value, null]);
+
+            } else if (elem.hasClass('price-max')) {
+                console.log('max')
+                priceSlider.noUiSlider.set([null, value]);
+
+            }
+        }
+
+        $(document).ready(function () {
+
+           @{
+
+               <text>
+
+            var tempPageLabelHtml = '<div class="col-md-6"><span class="store-qty" style="line-height: 40px !important;"> SHOWING @Model.Count PRODUCTS</span></div>';
+            var paginationHtml = '<div class="col-md-6"><div class="row"> <div class="col-md-12 pull-right" style="width:auto !important"><span class="store-qty" style="line-height: 40px !important;">  Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</span><ul class="pagination  pull-right" style="margin:0px !important;">' + $(".pagination").html().replace('»', '<i class="fa fa-angle-right"></i>').replace('«', '<i class="fa fa-angle-left"></i>') + '</ul></div></div></div>';
+                  var tempSearchProducts1 = '@ViewBag.SearchProducts';
+            </text>
+            }
+
+  
+            $(".form-store-search-products").val(tempSearchProducts1);
+            $(".form-layout-search-products").val(tempSearchProducts1);
+
+            $(".pagination").remove();
+
+
+            var pagecontainerHtml = tempPageLabelHtml + $(".pagination-container").html();
+
+            $(".pagination-container").html(pagecontainerHtml);
+
+            $(".pagination-container").addClass("row");
+            $(".pagination-container").append(paginationHtml);
+
+
+
+            $("#pageSize").change(function () {
+                $('.change-page-size').submit();
+            });
+
+            $("#pageSort").change(function () {
+                $('.change-page-size').submit();
+            });
+
+            $(".product-namex").each(function (index) {
+                /* var imageDefaultId = $(this).attr("image-id") + ".Default";*/
+
+                let linkInnerText = $(this).html($(this).prop("innerText")).prop("innerText");
+                $(this).html(linkInnerText);
+
+                $(this).attr("title", linkInnerText);
+
+                var len = $(this).text().trim().length;
+                if (len > 24) {
+                    $(this).text($(this).text().substr(0, 24) + '...');
+                }
+            });
+
+
+
+
+            $('.checkbox-category').change(function () {
+                $('.change-page-size').submit();
+            });
+
+            $('.checkbox-brand').change(function () {
+               $('.change-page-size').submit();
+            });
+
+            $('.change-page-size').submit(function (event) {
+                event.preventDefault(); //this will prevent the default submit
+                getSelectedCategory();
+                getSelectedPriceRange();
+                getNotSelectedBrand();
+                $('#maxPriceRange').val(priceSlider.noUiSlider.options.range.max);
+                $(this).unbind('submit').submit(); // continue the submit unbind preventDefault
+            });
+
+
+
+           @{
+
+               <text>
+            var tempMaxPrice = parseInt('@ViewBag.MaxPrice');
+            var tempMinPrice = parseInt('@ViewBag.MinPrice');
+            var tempMaxPriceRange = parseInt('@ViewBag.MaxPriceRange');
+               </text>
+            }
+
+            $("#minPrice").val(tempMinPrice);
+            $("#maxPrice").val(tempMaxPrice);
+            $('#maxPriceRange').val(tempMaxPriceRange);
+
+            // Price Slider
+            var priceSlider = document.getElementById('price-slider');
+
+
+            if (priceSlider) {
+
+                //priceSlider.noUiSlider.destroy();
+                if (typeof (priceSlider.noUiSlider) != "undefined") {
+                    priceSlider.noUiSlider.updateOptions({
+                        start: [1, tempMaxPrice],
+                        connect: true,
+                        step: 1,
+                        range: {
+                            'min': 1,
+                            'max': tempMaxPriceRange
+                        }
+                    });
+                }
+                else {
+                    noUiSlider.create(priceSlider, {
+                        start: [1, tempMaxPrice],
+                        connect: true,
+                        step: 1,
+                        range: {
+                            'min': 1,
+                            'max': tempMaxPrice
+                        }
+                    });
+
+                    var priceInputMax = document.getElementById('price-max'),
+                        priceInputMin = document.getElementById('price-min');
+
+                    //if (priceInputMax != null) {
+                    //    priceInputMax.addEventListener('change', function () {
+                    //        updatePriceSlider($(this).parent(), this.value)
+                    //    });
+                    //}
+
+                    //if (priceInputMin != null) {
+                    //    priceInputMin.addEventListener('change', function () {
+                    //        updatePriceSlider($(this).parent(), this.value)
+                    //    });
+                    //}
+
+                    priceSlider.noUiSlider.on('update', function (values, handle) {
+                        var value = values[handle];
+                        handle ? priceInputMax.value = value : priceInputMin.value = value
+                    });
+
+
+                }
+
+
+            }
+
+            priceSlider.noUiSlider.set([tempMinPrice, tempMaxPrice]);
+            priceSlider.noUiSlider.on('end', function () {
+                getSelectedCategory();
+                if (!$('.form-store-selected-category').val() == '') {
+
+                    $('.change-page-size').submit();
+                }
+            });
+
+
+
+            $("#price-max").focus(function () {
+                $('.dropdown2').css('display', 'block');
+                $('.dropdown1').css('display', 'none');
+
+            }).focusout(function () {
+                if (!$(this).hasClass("disable-focusout")) {
+                    $('.dropdown2').css('display', 'none');
+
+                    if ($("#maxPrice").val() == '') {
+                        $("#maxPrice").val(100);
+                    }
+                    $("#price-max").val(parseInt($("#maxPrice").val()));
+
+                }
+
+            });
+
+            $("#price-min").focus(function () {
+                $('.dropdown1').css('display', 'block');
+
+                $('.dropdown2').css('display', 'none');
+
+            }).focusout(function () {
+                if (!$(this).hasClass("disable-focusout")) {
+                    $('.dropdown1').css('display', 'none');
+
+                    if ($("#minPrice").val() == '') {
+                        $("#minPrice").val(1);
+                    }
+                    $("#price-min").val(parseInt($("#minPrice").val()));
+                }
+
+            });
+
+            $(".price-btn1").mouseover(function () {
+                if ($(this).attr('id').indexOf('apply') > -1) {
+                    $(this).css('opacity', '1');
+                }
+                $("#price-min").addClass("disable-focusout");
+
+            });
+
+            $(".price-btn2").mouseover(function () {
+                if ($(this).attr('id').indexOf('apply') > -1) {
+                    $(this).css('opacity', '1');
+                }
+                $("#price-max").addClass("disable-focusout");
+
+            });
+
+            $(".price-btn1").mouseout(function () {
+                if ($(this).attr('id').indexOf('apply') > -1) {
+                    $(this).css('opacity', '0.8');
+                }
+
+                $("#price-min").removeClass("disable-focusout");
+
+            });
+
+            $(".price-btn2").mouseout(function () {
+                if ($(this).attr('id').indexOf('apply') > -1) {
+                    $(this).css('opacity', '0.8');
+                }
+                $("#price-max").removeClass("disable-focusout");
+
+            });
+
+            //$(".price-btn").mouseout(function () {
+            //    $("p").css("background-color", "lightgray");
+            //});
+
+            $("#cancel-price-min").click(function () {
+                if ($("#minPrice").val() == '') {
+                    $("#minPrice").val(1);
+                }
+                $('.dropdown1').css('display', 'none');
+
+                $('.dropdown2').css('display', 'none');
+                $("#price-min").val(parseInt($("#minPrice").val()));
+            });
+
+            $("#cancel-price-max").click(function () {
+                if ($("#maxPrice").val() == '') {
+                    $("#maxPrice").val(100);
+                }
+                $('.dropdown1').css('display', 'none');
+
+                $('.dropdown2').css('display', 'none');
+
+
+                $("#price-max").val(parseInt($("#maxPrice").val()));
+            });
+
+
+            $("#apply-price-max").click(function () {
+                $("#maxPrice").val(parseInt($("#price-max").val()));
+
+                priceSlider.noUiSlider.set([null, parseInt($("#price-max").val())]);
+                getSelectedCategory();
+                if (!$('.form-store-selected-category').val() == '') {
+
+                    $('.change-page-size').submit();
+                }
+            });
+
+            $("#apply-price-min").click(function () {
+                $("#minPrice").val(parseInt($("#price-min").val()));
+
+                priceSlider.noUiSlider.set([parseInt($("#price-min").val()), null]);
+                getSelectedCategory();
+                if (!$('.form-store-selected-category').val() == '') {
+
+                    $('.change-page-size').submit();
+                }
+            });
+
+
+
+            $(".price-max > span").click(function () {
+                $('.dropdown2').css('display', 'block');
+
+                $('.dropdown1').css('display', 'none');
+
+
+            });
+
+            $(".price-min > span").click(function () {
+                $('.dropdown1').css('display', 'block');
+
+                $('.dropdown2').css('display', 'none');
+
+            });
+
+
+
+
+
+
+        });
+
+
+
+    </script>
+}
+
+

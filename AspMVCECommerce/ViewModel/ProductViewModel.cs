@@ -37,6 +37,7 @@ namespace AspMVCECommerce.ViewModel
 
 
         public int CategoryId { get; set; }
+        public int BrandId { get; set; }
 
         [Display(Name = "Promo Sale")]
         [Range(0, 1, ErrorMessage = "Value for {0} must be between {1}.00 to {2}.00 ex. input: 0.55 for 55% discount")]

@@ -54,6 +54,23 @@ namespace AspMVCECommerce.Migrations
             Categories.ForEach(category => context.Categories.AddOrUpdate(x => x.Name, category));
 
 
+            var Brands = new List<Brand>
+            {
+                 new Brand {BrandId =1, Name = "SAMSUNG"},
+                 new Brand {BrandId =2, Name = "LG"},
+                 new Brand {BrandId =3, Name = "SONY"},
+                 new Brand {BrandId =4, Name = "TOSHIBA"},
+                 new Brand {BrandId =5, Name = "LENOVO"},
+                 new Brand {BrandId =6, Name = "APPLE"},
+                 new Brand {BrandId =7, Name = "MICROSOFT"},
+                 new Brand {BrandId =8, Name = "AOC"},
+                 new Brand {BrandId =9, Name = "SHARP"},
+                 new Brand {BrandId =10, Name = "ASUS"},
+                 new Brand {BrandId =11, Name = "ACER"}
+            };
+
+            Brands.ForEach(brand => context.Brands.AddOrUpdate(x => x.Name, brand));
+
             context.SaveChanges();
 
 

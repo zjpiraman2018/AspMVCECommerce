@@ -31,7 +31,8 @@ namespace AspMVCECommerce.Models
         public DbSet<Category> Categories { get; set; }
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
         public DbSet<Review> Reviews { get; set; }
-
+        public DbSet<Brand> Brands { get; set; }
+        
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
@@ -52,7 +53,7 @@ namespace AspMVCECommerce.Models
             //modelBuilder.Entity<Product>().HasMany(p => p.Sizes).WithOptional().WillCascadeOnDelete(false);
             //modelBuilder.Entity<Product>().HasMany(p => p.Colors).WithOptional().WillCascadeOnDelete(false);
 
-
+   
             modelBuilder.Entity<ShoppingCart>().HasMany(s=>s.LineItems).WithRequired(l => l.ShoppingCart).WillCascadeOnDelete(false);
 
             base.OnModelCreating(modelBuilder);

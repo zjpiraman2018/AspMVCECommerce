@@ -50,8 +50,8 @@ div.scroll {
     overflow-x: auto;
     overflow-y: auto;
     white-space: nowrap;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    border: 1px solid #E4E7ED !important;
+    border-radius: 0px;
 }
 
 
@@ -75,15 +75,15 @@ div.scroll {
 }
 
 
-#breadcrumb {
-    margin-right: -14px;
-    margin-left: -14px;
+.breadcrumbx {
+    margin-right: -14px !important;
+    margin-left: -14px !important;
 }
 
-    #breadcrumb > div:nth-child(1) {
-        margin-left: 14px;
-        margin-right: 50px;
-        width: 100px
+    .breadcrumbx > div:nth-child(1) {
+        margin-left: 14px !important;
+        margin-right: 50px !important;
+        width: 100px !important;
     }
 
 
@@ -145,6 +145,7 @@ div.scroll {
     list-style-position: inside;
 }
 
+/* no stretch for product image on home page */
 .products-tabs .product-img {
     padding: 15px;
 }
@@ -155,6 +156,24 @@ div.scroll {
     height: 263px;
     object-fit: scale-down;
 }
+/* end here  no stretch for product image on home page */
+
+
+
+/* no stretch for product image on store page */
+.product-store .product-img {
+    padding: 15px;
+}
+
+
+.product-store .product-img img {
+    width: 100%;
+    height: 263px;
+    object-fit: scale-down;
+}
+
+
+/* end here no stretch for product image on store page */
 
 
 .td-image .imgthumbnail {
@@ -178,6 +197,32 @@ div.scroll {
 }
 
 
+.thumbnailx:hover {
+    -webkit-box-shadow: 0px 0px 6px 0px #e4e7ed, 0px 0px 0px 2px #d10024;
+    box-shadow: 0px 0px 6px 0px #e4e7ed, 0px 0px 0px 2px #d10024;
+}
+
+
+
+.thumbnailx {
+    display: block;
+    padding: 4px;
+    line-height: 1.42857143;
+    background-color: #fff;
+    border: 1px solid #E4E7ED;
+    border-radius: 0px;
+    -webkit-transition: border .2s ease-in-out;
+    -o-transition: border .2s ease-in-out;
+    transition: border .2s ease-in-out;
+}
+
+
+.thumbnailx img {
+    width: 100%;
+    height: 250px;
+    padding:10px;
+    object-fit: scale-down;
+}
 
 .pagination {
     border-radius: 0px !important;
@@ -195,6 +240,16 @@ div.scroll {
         padding-top: 8px !important;
     }
 
+/*    .pagination > a:hover, .pagination > a:focus {
+        color: #D10024 !important;
+        text-decoration: none;
+        outline: none;
+    }*/
+    .pagination > li > a:focus, .pagination > li > a:hover, .pagination > li > span:focus, .pagination > li > span:hover {
+        color: #D10024 !important;
+    }
+
+
     .pagination li {
         display: inline-block !important;
         width: 40px;
@@ -208,7 +263,7 @@ div.scroll {
         border: 0px !important;
     }
     .pagination li + li {
-        margin-left: 5px !important;
+        margin-left: 10px !important;
     }
 
     .pagination > li > a, .pagination > li > span {
@@ -266,15 +321,38 @@ div.scroll {
     background-image: none;
     border: 1px solid #E4E7ED !important;
     border-radius: 0px !important;
+/*    -webkit-box-shadow: none !important;*/
+/*    box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);*/
+}
+.header-search form .input:focus-visible {
+    outline: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+select:focus-visible {
+    outline: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+.form-controlx:focus-visible {
+    outline: none !important;
+    /*    -webkit-box-shadow: none !important;*/
+    box-shadow: 0 0 0 0.2rem rgb(141 196 255 / 25%)
+}
+
+
+.input-number input:focus-visible {
+    outline: none !important;
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
 }
 
+
 .form-controlx:focus {
     border-color: #66afe9;
-    outline: 0;
-    -webkit-box-shadow: none !important;
-    box-shadow: none !important;
+    outline: none !important;
+    /*   -webkit-box-shadow: none !important;*/
+    box-shadow: 0 0 0 0.2rem rgb(141 196 255 / 25%)
 }
 
 
@@ -349,3 +427,25 @@ input:focus-visible {
 .table-bordered {
     border: 1px solid #E4E7ED !important;
 }
+
+
+
+
+/* CSS FOR POPUP PRICE MENU */
+.holder {
+    position: relative !important;
+}
+
+.dropdown1, .dropdown2 {
+    position: absolute;
+    border: 1px solid #E4E7ED !important;
+    display: none;
+    z-index: 999;
+    background: white;
+    width: 230px;
+    height: 50px;
+    padding: 10px;
+    margin-top:6px;
+}
+
+

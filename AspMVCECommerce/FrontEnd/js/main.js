@@ -63,36 +63,53 @@
 
 	/////////////////////////////////////////
 
-	// Product Main img Slick
-	$('#product-main-img').slick({
-    infinite: true,
-    speed: 300,
-    dots: false,
-    arrows: true,
-    fade: true,
-    asNavFor: '#product-imgs',
-  });
+
+	
+	if ($("#product-imgs img").length < 4) {
+		// Product Main img Slick
+		$('#product-main-img').slick({
+			infinite: true,
+			speed: 300,
+			dots: false,
+			arrows: false,
+			fade: true,
+			asNavFor: '#product-imgs',
+		});
+
+	}
+	else {
+		// Product Main img Slick
+		$('#product-main-img').slick({
+			infinite: true,
+			speed: 300,
+			dots: false,
+			arrows: true,
+			fade: true,
+			asNavFor: '#product-imgs',
+		});
+
+	}
 
 	// Product imgs Slick
-  $('#product-imgs').slick({
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    arrows: true,
-    centerMode: true,
-    focusOnSelect: true,
+	$('#product-imgs').slick({
+		slidesToShow: 3,
+		slidesToScroll: 1,
+		arrows: true,
+		centerMode: true,
+		focusOnSelect: true,
 		centerPadding: 0,
 		vertical: true,
-    asNavFor: '#product-main-img',
+		asNavFor: '#product-main-img',
 		responsive: [{
-        breakpoint: 991,
-        settings: {
-					vertical: false,
-					arrows: false,
-					dots: true,
-        }
-      },
-    ]
-  });
+			breakpoint: 991,
+			settings: {
+				vertical: false,
+				arrows: false,
+				dots: true,
+			}
+		},
+		]
+	});
 
 	// Product img zoom
 	var zoomMainProduct = document.getElementById('product-main-img');
@@ -140,15 +157,15 @@
 	//	});
 	//}
 	
-		priceInputMax.addEventListener('change', function () {
-			updatePriceSlider($(this).parent(), this.value)
-		});
+		//priceInputMax.addEventListener('change', function () {
+		//	updatePriceSlider($(this).parent(), this.value)
+		//});
 	
 
 
-		priceInputMin.addEventListener('change', function () {
-			updatePriceSlider($(this).parent(), this.value)
-		});
+		//priceInputMin.addEventListener('change', function () {
+		//	updatePriceSlider($(this).parent(), this.value)
+		//});
 	
 
 
@@ -162,9 +179,12 @@
 		}
 	}
 
+
+	//.noUiSlider(options, true /* Allow destruction + rebuilding */);
 	// Price Slider
 	var priceSlider = document.getElementById('price-slider');
 	if (priceSlider) {
+
 		noUiSlider.create(priceSlider, {
 			start: [1, 999],
 			connect: true,

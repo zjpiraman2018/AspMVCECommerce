@@ -36,6 +36,11 @@ namespace AspMVCECommerce.Models
         [ForeignKey("CategoryId")]
         public Category Category { get; set; }
 
+
+        public int BrandId { get; set; }
+        [ForeignKey("BrandId")]
+        public Brand Brand { get; set; }
+
         public ICollection<Review> Reviews { get; set; }
         public ICollection<Image> Images { get; set; }
 

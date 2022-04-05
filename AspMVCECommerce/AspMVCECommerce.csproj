@@ -193,8 +193,13 @@
     <Compile Include="Migrations\202203310853503_initialmigration.Designer.cs">
       <DependentUpon>202203310853503_initialmigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202204041449599_addbrand.cs" />
+    <Compile Include="Migrations\202204041449599_addbrand.Designer.cs">
+      <DependentUpon>202204041449599_addbrand.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Brand.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Color.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -207,6 +212,8 @@
     <Compile Include="Models\Size.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModel\BrandViewModel.cs" />
+    <Compile Include="ViewModel\CategoryViewModel.cs" />
     <Compile Include="ViewModel\HelperViewModel.cs" />
     <Compile Include="ViewModel\ImageViewModel.cs" />
     <Compile Include="ViewModel\ProductViewModel.cs" />
@@ -320,6 +327,7 @@
     <Content Include="Views\Products\Index.cshtml" />
     <Content Include="Views\Shared\_SellerLayout.cshtml" />
     <Content Include="Views\Account\RegisterRole.cshtml" />
+    <Content Include="Views\Home\Store.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -340,6 +348,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202203310853503_initialmigration.resx">
       <DependentUpon>202203310853503_initialmigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202204041449599_addbrand.resx">
+      <DependentUpon>202204041449599_addbrand.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

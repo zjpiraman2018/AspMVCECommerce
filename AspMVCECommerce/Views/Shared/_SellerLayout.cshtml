@@ -45,7 +45,7 @@
         <div id="top-header">
             <div class="container pull-left" style="margin-left:20px;width: 220px;">
                 <ul class="header-links pull-left">
-                    <li><a href="#" style="font-size: 14px;">Zaldy ECommerce Demo</a></li>
+                    <li><a href="#" style="font-size: 14px;">Running in Admin Mode</a></li>
 
                 </ul>
             </div>
@@ -56,24 +56,164 @@
                     <li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
                 </ul>
                 @*<ul class="header-links pull-right">
-                    <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
-                    <li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
-                </ul>*@
+                        <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
+                        <li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
+                    </ul>*@
 
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
         <!-- /TOP HEADER -->
+        <!-- MAIN HEADER -->
+        <div id="header">
+            <!-- container -->
+            <div class="container">
+                <!-- row -->
+                <div class="row">
+                    <!-- LOGO -->
+                    <div class="col-md-3">
+                        <div class="header-logo">
+                            <a href="#" class="logo">
+                                <img src="~/FrontEnd/img/logo.png" alt="">
+                            </a>
+                        </div>
+                    </div>
+                    <!-- /LOGO -->
+                    <!-- SEARCH BAR -->
+                    <div class="col-md-6">
+                        <div class="header-search">
+                            <form action="~/Home/Store" method="get" id="form-search">
+                                <select class="input-select" id="dropdownSelectedCategory" name="dropdownSelectedCategory">
+                                    <option value="Categories">All Categories</option>
+                                    <option value="Laptops">Laptops</option>
+                                    <option value="Smartphones">Smartphones</option>
+                                    <option value="Cameras">Cameras</option>
+                                    <option value="Accessories">Accessories</option>
+                                    <option value="Headphones">Headphones</option>
+                                    <option value="Tablet">Tablet</option>
+                                </select>
 
+                                <input type="hidden" class="form-layout-selected-nav-category" name="selectedNavCategory" id="selectedNavCategory" value="Categories" />
+                                <input type="hidden" class="form-layout-selected-category" name="selectedCategory" id="selectedCategory" value="1,2,3,4,5,6" />
+
+                                <input class="input form-layout-search-products" placeholder="Search product here" id="searchProducts" name="searchProducts" />
+
+
+                                <input type="submit" class="search-btn" id="btn-product-search"></input>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /SEARCH BAR -->
+                    <!-- ACCOUNT -->
+                    <div class="col-md-3 clearfix">
+                        <div class="header-ctn">
+                            <!-- Wishlist -->
+                            <div>
+                                <a href="#">
+                                    <i class="fa fa-heart-o"></i>
+                                    <span>Your Wishlist</span>
+                                    <div class="qty">2</div>
+                                </a>
+                            </div>
+                            <!-- /Wishlist -->
+                            <!-- Cart -->
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <span>Your Cart</span>
+                                    <div class="qty">3</div>
+                                </a>
+                                <div class="cart-dropdown">
+                                    <div class="cart-list">
+                                        <div class="product-widget">
+                                            <div class="product-img">
+                                                <img src="~/FrontEnd/img/product01.png" alt="">
+                                            </div>
+                                            <div class="product-body">
+                                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                                                <h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
+                                            </div>
+                                            <button class="delete"><i class="fa fa-close"></i></button>
+                                        </div>
+
+                                        <div class="product-widget">
+                                            <div class="product-img">
+                                                <img src="~/FrontEnd/img/product02.png" alt="">
+                                            </div>
+                                            <div class="product-body">
+                                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                                                <h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
+                                            </div>
+                                            <button class="delete"><i class="fa fa-close"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="cart-summary">
+                                        <small>3 Item(s) selected</small>
+                                        <h5>SUBTOTAL: $2940.00</h5>
+                                    </div>
+                                    <div class="cart-btns">
+                                        <a href="#">View Cart</a>
+                                        <a href="#">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /Cart -->
+                            <!-- Menu Toogle -->
+                            <div class="menu-toggle">
+                                <a href="#">
+                                    <i class="fa fa-bars"></i>
+                                    <span>Menu</span>
+                                </a>
+                            </div>
+                            <!-- /Menu Toogle -->
+                        </div>
+                    </div>
+                    <!-- /ACCOUNT -->
+                </div>
+                <!-- row -->
+            </div>
+            <!-- container -->
+        </div>
+        <!-- /MAIN HEADER -->
     </header>
     <!-- /HEADER -->
+    <!-- NAVIGATION -->
+    <nav id="navigation">
+        <!-- container -->
+        <div class="container">
+            <!-- responsive-nav -->
+            <div id="responsive-nav">
+                <!-- NAV -->
+                <ul class="main-nav nav navbar-nav">
 
+                    <li><a href="~/Home/Index" class="link-nav-bar">Home</a></li>
+                    @if (User.IsInRole("Admin"))
+                    {
+        <li><a href="~/Manage" class="link-nav-bar">Account</a></li>
+                        <li><a href="~/Products/Index" class="link-nav-bar">Manage Product</a></li>}
+
+                    <li><a class="link-nav-bar" href="~/Home/Store?selectedCategory=1%2C2%2C3%2C4%2C5%2C6&selectedNavCategory=Hot%20Deals">Hot Deals</a></li>
+                    <li><a class="link-nav-bar" href="~/Home/Store?selectedCategory=1%2C2%2C3%2C4%2C5%2C6&selectedNavCategory=Categories">Categories</a></li>
+                    <li><a class="link-nav-bar" href="~/Home/Store?selectedCategory=1&selectedNavCategory=Laptops">Laptops</a></li>
+                    <li><a class="link-nav-bar" href="~/Home/Store?selectedCategory=2&selectedNavCategory=Smartphones">Smartphones</a></li>
+                    <li><a class="link-nav-bar" href="~/Home/Store?selectedCategory=5&selectedNavCategory=Cameras">Cameras</a></li>
+                    <li><a class="link-nav-bar" href="~/Home/Store?selectedCategory=3&selectedNavCategory=Accessories">Accessories</a></li>
+                    <li><a class="link-nav-bar" href="~/Home/Store?selectedCategory=4&selectedNavCategory=Headphones">Headphones</a></li>
+                    <li><a class="link-nav-bar" href="~/Home/Store?selectedCategory=6&selectedNavCategory=Tablet">Tablet</a></li>
+                </ul>
+                <!-- /NAV -->
+            </div>
+            <!-- /responsive-nav -->
+        </div>
+        <!-- /container -->
+    </nav>
+    <!-- /NAVIGATION -->
 
 
     <div class="container-fluid" style="min-height:600px;height:100%;">
         @RenderBody()
 
-       
+
     </div>
 
     <!-- FOOTER -->
@@ -171,7 +311,6 @@
         <!-- /bottom footer -->
     </footer>
     <!-- /FOOTER -->
-
     <!-- jQuery Plugins -->
     <script src="~/FrontEnd/js/jquery.min.js"></script>
     <script src="~/FrontEnd/js/bootstrap.min.js"></script>
@@ -181,6 +320,85 @@
     <script src="~/FrontEnd/js/main.js"></script>
 
     @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+        $(document).ready(function () {
+            @{
+
+               <text>
+                    var tempNavCategory = '@ViewBag.SelectedNavCategory';
+                    var tempSearchProducts = '@ViewBag.SearchProducts';
+               </text>
+            }
+
+            $(".form-layout-search-products").val(tempSearchProducts);
+
+            $("#dropdownSelectedCategory").change(function () {
+
+                var selectedNavCategory = '';
+                var selectedCategory = '';
+
+                switch ($(this).val()) {
+                    case "Categories":
+                        selectedNavCategory = "Categories";
+                        selectedCategory = "1,2,3,4,5,6";
+                        break;
+                    case "Laptops":
+                        selectedCategory = "1";
+                        selectedNavCategory = "Laptops";
+                        break;
+                    case "Smartphones":
+                        selectedCategory = "2"
+                        selectedNavCategory = "Smartphones";
+                        break;
+                    case "Cameras":
+                        selectedCategory = "5";
+                        selectedNavCategory = "Cameras";
+                        break;
+                    case "Accessories":
+                        selectedCategory = "3";
+                        selectedNavCategory = "Accessories";
+                        break;
+                    case "Headphones":
+                        selectedCategory = "4";
+                        selectedNavCategory = "Headphones";
+                        break;
+                    case "Tablet":
+                        selectedCategory = "6";
+                        selectedNavCategory = "Tablet"
+                        break;
+                    default:
+                        selectedCategory = "";
+                        selectedNavCategory = "~/Home/Index";
+                }
+
+                $(".form-layout-selected-nav-category").val(selectedNavCategory);
+                $(".form-layout-selected-category").val(selectedCategory);
+            });
+
+
+            $(".link-nav-bar").each(function (index) {
+             
+                $(this).parent().removeClass("active");
+                tempNavCategory = tempNavCategory == '' ? 'Home' : tempNavCategory;
+                if ($(this).text().toUpperCase() == tempNavCategory.toUpperCase()) {
+                    $(this).parent().addClass("active");
+                    //$('#selectedNavCategory').val(tempNavCategory);
+                }
+            });
+
+
+
+            //$(".link-nav-bar").click(function () {
+            //    $(".link-nav-bar").each(function (index) {
+            //        $(this).parent().removeClass("active")
+            //    });
+            //    alert($(this).text());
+            //    $(this).parent().addClass("active")
+            //});
+
+        });
+    </script>
+
 
 </body>
 </html>
