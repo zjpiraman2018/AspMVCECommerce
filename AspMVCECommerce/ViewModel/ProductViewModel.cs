@@ -48,7 +48,8 @@ namespace AspMVCECommerce.ViewModel
         [Display(Name = "Promo Sale End Date")]
         public string PromoSaleEndDateTime { get; set; }
 
-
+        [Display(Name = "Created Date")]
+        public string CreatedDateTime { get; set; }
 
         public HttpPostedFileBase ImageFile { get; set; }
 

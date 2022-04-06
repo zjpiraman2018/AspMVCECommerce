@@ -201,7 +201,7 @@ namespace AspMVCECommerce.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ProductId,Name,Description,Details,OriginalPrice,DiscountedPrice,Stock,CategoryId,BrandId,ImageFile,Images,PromoSaleOFF,PromoSaleStartDateTime,PromoSaleEndDateTime")] ProductViewModel productViewModel)
+        public ActionResult Edit([Bind(Include = "ProductId,Name,Description,Details,OriginalPrice,DiscountedPrice,Stock,CategoryId,BrandId,ImageFile,Images,PromoSaleOFF,CreatedDateTime,PromoSaleStartDateTime,PromoSaleEndDateTime")] ProductViewModel productViewModel)
         {
             var product = productViewModel.ToProduct();
             if (ModelState.IsValid)
@@ -219,7 +219,7 @@ namespace AspMVCECommerce.Controllers
                 _product.PromoSaleOFF = product.PromoSaleOFF;
                 _product.PromoSaleStartDateTime = product.PromoSaleStartDateTime;
                 _product.PromoSaleEndDateTime = product.PromoSaleEndDateTime;
-
+                _product.CreatedDateTime = product.CreatedDateTime;
 
 
                 db.Entry(_product).State = EntityState.Modified;

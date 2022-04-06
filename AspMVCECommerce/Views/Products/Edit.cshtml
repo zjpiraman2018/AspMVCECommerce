@@ -176,7 +176,7 @@
                 </div>
             </div>
             <div class="form-group">
-        
+
 
                 <label class="control-label col-md-2" for="BrandId">Brand</label>
                 <div class="col-md-10">
@@ -184,6 +184,27 @@
                     @Html.ValidationMessageFor(model => model.BrandId, "", new { @class = "text-danger" })
                 </div>
             </div>
+
+
+            <div class="form-group">
+                <label class="control-label col-md-2" for="CreatedDateTime" >Created Date Time:</label>
+                <div class="col-md-10">
+                    <div class='input-group date' id='dtpCreatedDateTime'>
+                        <input type='text' class="form-controlx" id='CreatedDateTime' name="CreatedDateTime" value="@Model.CreatedDateTime" />
+                        <span class="input-group-addon" style="border: 1px solid #E4E7ED !important; border-radius: 0px !important;">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.CreatedDateTime, "", new { @class = "text-danger" })
+                </div>
+
+
+
+            </div>
+
+
+
             <!-- Thumbnail gallery for product images -->
             <div class="form-group">
                 <label class="control-label col-md-2" for="">Images</label>
@@ -376,6 +397,14 @@
 
             });
             // ------- End of Promo Duration DateTime Picker
+
+
+            //$('#PromoSaleStartDateTime').val(currentDateTime);
+
+            $('#dtpCreatedDateTime').datetimepicker();
+
+
+
 
             $("#ImageFile").change(function () {
                 var filenames = this.files.length + " files selected";
