@@ -328,6 +328,7 @@
     <Content Include="Views\Shared\_SellerLayout.cshtml" />
     <Content Include="Views\Account\RegisterRole.cshtml" />
     <Content Include="Views\Home\Store.cshtml" />
+    <Content Include="Views\Home\Product.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

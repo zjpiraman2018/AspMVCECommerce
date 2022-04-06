@@ -143,6 +143,8 @@
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
                                 </div>
+
+                                @Html.ValidationMessageFor(model => model.PromoSaleStartDateTime, "", new { @class = "text-danger  col-md-offset-3", @Style = "padding-left:8px;" })
                             </div>
                         </div>
                         <div class='col-md-4' style="padding-left:0px">
@@ -155,6 +157,7 @@
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
                                 </div>
+                                @Html.ValidationMessageFor(model => model.PromoSaleEndDateTime, "", new { @class = "text-danger   col-md-offset-3" })
                             </div>
                         </div>
                     </div>
@@ -190,7 +193,7 @@
                 <label class="control-label col-md-2" for="CreatedDateTime" >Created Date Time:</label>
                 <div class="col-md-10">
                     <div class='input-group date' id='dtpCreatedDateTime'>
-                        <input type='text' class="form-controlx" id='CreatedDateTime' name="CreatedDateTime" value="@Model.CreatedDateTime" />
+                        <input type='text' class="form-controlx" id='CreatedDateTime' name="CreatedDateTime" value="@Model.CreatedDateTime"  required/>
                         <span class="input-group-addon" style="border: 1px solid #E4E7ED !important; border-radius: 0px !important;">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
@@ -492,9 +495,17 @@
 
                 if (parseFloat($("#PromoSaleOFF").val()) > 0 && parseFloat($("#PromoSaleOFF").val()) <= 1) {
                     $("#PromoDurationDiv").show();
+
+                    //zaldy
+                    $("#PromoSaleStartDateTime").prop('required', true);
+                    $("#PromoSaleEndDateTime").prop('required', true);
                 }
                 else {
                     $("#PromoDurationDiv").hide();
+
+                    //zaldy
+                    $("#PromoSaleStartDateTime").prop('required', false);
+                    $("#PromoSaleEndDateTime").prop('required', false);
                 }
             }
 
@@ -504,13 +515,26 @@
                     $('#PromoSaleOFFPercent').text(percentText);
                     if (parseFloat(this.value) > 0 && parseFloat(this.value) <= 1) {
                         $("#PromoDurationDiv").show();
+
+                        //zaldy
+                        $("#PromoSaleStartDateTime").prop('required', true);
+                        $("#PromoSaleEndDateTime").prop('required', true);
+
                     }
                     else {
                         $("#PromoDurationDiv").hide();
+                        //zaldy
+                        $("#PromoSaleStartDateTime").prop('required', false);
+                        $("#PromoSaleEndDateTime").prop('required', false);
                     }
                 }
                 else {
                     $("#PromoDurationDiv").hide();
+
+                    //zaldy
+                    $("#PromoSaleStartDateTime").prop('required', false);
+                    $("#PromoSaleEndDateTime").prop('required', false);
+
                     $('#PromoSaleOFFPercent').text("0% OFF");
                 }
             });

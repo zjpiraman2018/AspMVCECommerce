@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 
 
@@ -378,5 +379,27 @@ namespace AspMVCECommerce.Controllers
 
             return View();
         }
+
+
+        public ActionResult Product()
+        {
+            int id = 2;
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Product product = db.Products.Include(p => p.Category).Include(p => p.Brand).Include(p => p.Images).Single(p => p.ProductId == id);
+            product.Description = WebUtility.HtmlDecode(product.Description).Replace("'", "\\'").Replace("\r\n", "");
+            product.Details = WebUtility.HtmlDecode(product.Details).Replace("'", "\\'").Replace("\r\n", "");
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.SelectedNavCategory = "Home";
+
+            return View(product);
+        }
+
+
     }
 }
