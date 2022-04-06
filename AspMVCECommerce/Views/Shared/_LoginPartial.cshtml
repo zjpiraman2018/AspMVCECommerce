@@ -5,7 +5,7 @@
     {
         @Html.AntiForgeryToken()
 
-        <ul class="header-links pull-right">
+        <ul class="header-links pull-right" style="padding-right: 20px;">
             @if (User.IsInRole("Admin"))
             {
                 <li>
@@ -32,7 +32,7 @@
 }
 else
 {
-    <ul class="header-links pull-right">
+    <ul class="header-links pull-right"  style="padding-right: 10px;">
         <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>

@@ -448,4 +448,14 @@ input:focus-visible {
     margin-top:6px;
 }
 
+/*@media only screen and (max-width: 1200px) {
+    .container {
+        width: 1400px ;
+    }
+}
 
+@media (min-width: 1200px) {
+    .container {
+        width: 1400px;
+    }
+}*/
