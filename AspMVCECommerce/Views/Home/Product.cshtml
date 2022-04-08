@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Product";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
 
@@ -17,7 +18,7 @@
                 <ul class="breadcrumb-tree">
                     <li><a href="~/Home/Index">Home</a></li>
                     <li>Product</li>
-                    <li class="active">Id: @Html.DisplayFor(model => model.ProductId)</li>
+                    <li class="active" id="li-product-id">Id: @Html.DisplayFor(model => model.ProductId)</li>
 
                 </ul>
 
@@ -166,7 +167,7 @@
                     <ul class="tab-nav">
                         <li><a data-toggle="tab" href="#tab1">Description</a></li>
                         <li class="active"><a data-toggle="tab" href="#tab2">Details</a></li>
-                        <li><a data-toggle="tab" href="#tab3">Reviews (3)</a></li>
+                        <li><a data-toggle="tab" href="#tab3" id="reviews-tab">Reviews (3)</a></li>
                     </ul>
                     <!-- /product tab nav -->
                     <!-- product tab content -->
@@ -198,8 +199,8 @@
                                 <div class="col-md-3">
                                     <div id="rating">
                                         <div class="rating-avg">
-                                            <span>4.5</span>
-                                            <div class="rating-stars">
+                                            <span id="average-rating">4.5</span>
+                                            <div class="rating-stars" id="average-rating-star">
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
@@ -217,9 +218,9 @@
                                                     <i class="fa fa-star"></i>
                                                 </div>
                                                 <div class="rating-progress">
-                                                    <div style="width: 80%;"></div>
+                                                    <div style="width: 80%;" id="r5-progress"></div>
                                                 </div>
-                                                <span class="sum">3</span>
+                                                <span class="sum" id="r5-sum">3</span>
                                             </li>
                                             <li>
                                                 <div class="rating-stars">
@@ -230,9 +231,9 @@
                                                     <i class="fa fa-star-o"></i>
                                                 </div>
                                                 <div class="rating-progress">
-                                                    <div style="width: 60%;"></div>
+                                                    <div style="width: 60%;" id="r4-progress"></div>
                                                 </div>
-                                                <span class="sum">2</span>
+                                                <span class="sum" id="r4-sum">2</span>
                                             </li>
                                             <li>
                                                 <div class="rating-stars">
@@ -242,10 +243,10 @@
                                                     <i class="fa fa-star-o"></i>
                                                     <i class="fa fa-star-o"></i>
                                                 </div>
-                                                <div class="rating-progress">
-                                                    <div></div>
+                                                <div class="rating-progress" >
+                                                    <div style="width: 80%;" id="r3-progress"></div>
                                                 </div>
-                                                <span class="sum">0</span>
+                                                <span class="sum" id="r3-sum">0</span>
                                             </li>
                                             <li>
                                                 <div class="rating-stars">
@@ -256,9 +257,9 @@
                                                     <i class="fa fa-star-o"></i>
                                                 </div>
                                                 <div class="rating-progress">
-                                                    <div></div>
+                                                    <div style="width: 80%;"  id="r2-progress"></div>
                                                 </div>
-                                                <span class="sum">0</span>
+                                                <span class="sum" id="r2-sum">0</span>
                                             </li>
                                             <li>
                                                 <div class="rating-stars">
@@ -269,9 +270,9 @@
                                                     <i class="fa fa-star-o"></i>
                                                 </div>
                                                 <div class="rating-progress">
-                                                    <div></div>
+                                                    <div style="width: 80%;" id="r1-progress"></div>
                                                 </div>
-                                                <span class="sum">0</span>
+                                                <span class="sum" id="r1-sum">0</span>
                                             </li>
                                         </ul>
                                     </div>
@@ -279,85 +280,62 @@
                                 <!-- /Rating -->
                                 <!-- Reviews -->
                                 <div class="col-md-6">
-                                    <div id="reviews">
-                                        <ul class="reviews">
-                                            <li>
-                                                <div class="review-heading">
-                                                    <h5 class="name">John</h5>
-                                                    <p class="date">27 DEC 2018, 8:0 PM</p>
-                                                    <div class="review-rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-o empty"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="review-body">
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="review-heading">
-                                                    <h5 class="name">John</h5>
-                                                    <p class="date">27 DEC 2018, 8:0 PM</p>
-                                                    <div class="review-rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-o empty"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="review-body">
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="review-heading">
-                                                    <h5 class="name">John</h5>
-                                                    <p class="date">27 DEC 2018, 8:0 PM</p>
-                                                    <div class="review-rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-o empty"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="review-body">
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <ul class="reviews-pagination">
-                                            <li class="active">1</li>
-                                            <li><a href="#">2</a></li>
-                                            <li><a href="#">3</a></li>
-                                            <li><a href="#">4</a></li>
-                                            <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-                                        </ul>
-                                    </div>
+                                    <table id="reviewTable" style="width: 100%; border-bottom: none" >
+                                        <thead>
+                                            <tr hidden>
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Description</th>
+                                                <th>Rating</th>
+                                                <th>Created</th>
+                                                <th>ProductId</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td >
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td > 
+                                                </td>
+                                                <td>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <!-- /Reviews -->
                                 <!-- Review Form -->
                                 <div class="col-md-3">
                                     <div id="review-form">
+
                                         <form class="review-form">
-                                            <input class="input" type="text" placeholder="Your Name">
-                                            <input class="input" type="email" placeholder="Your Email">
-                                            <textarea class="input" placeholder="Your Review"></textarea>
+                                            <div class="alertx alert-primaryx" role="alert" id="review-form-success">
+                                                This is a primary alert—check it out!
+                                            </div>
+                                            <input class="input" type="text" placeholder="Your Name" id="review-form-name" required>
+                                            <input class="input" type="email" placeholder="Your Email" id="review-form-email" required>
+                                            <textarea class="input" placeholder="Your Review" id="review-form-review" required></textarea>
                                             <div class="input-rating">
                                                 <span>Your Rating: </span>
                                                 <div class="stars">
-                                                    <input id="star5" name="rating" value="5" type="radio"><label for="star5"></label>
-                                                    <input id="star4" name="rating" value="4" type="radio"><label for="star4"></label>
-                                                    <input id="star3" name="rating" value="3" type="radio"><label for="star3"></label>
-                                                    <input id="star2" name="rating" value="2" type="radio"><label for="star2"></label>
-                                                    <input id="star1" name="rating" value="1" type="radio"><label for="star1"></label>
+                                                    <input class="review-form-radio" id="star5" name="rating" value="5" type="radio"><label for="star5"></label>
+                                                    <input class="review-form-radio" id="star4" name="rating" value="4" type="radio"><label for="star4"></label>
+                                                    <input class="review-form-radio" id="star3" name="rating" value="3" type="radio"><label for="star3"></label>
+                                                    <input class="review-form-radio" id="star2" name="rating" value="2" type="radio"><label for="star2"></label>
+                                                    <input class="review-form-radio" id="star1" name="rating" value="1" type="radio"><label for="star1"></label>
                                                 </div>
+                                                <p class="text-danger" id="rating-validation" hidden>Rating is required!</p>
                                             </div>
-                                            <button class="primary-btn">Submit</button>
+                                            <button class="primary-btn" id="review-form-btn">Submit</button>
                                         </form>
                                     </div>
                                 </div>
@@ -513,9 +491,231 @@
 </div>
 <!-- /Section -->
 
-@section Scripts {
-    <script type="text/javascript">
+
+
+
+
+<!-- DATA TABLE CODE -->
+
+
+
+
+
+
+    <link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
+
+    <!-- /END OF DATA TABLE CODE -->
+
+
+    @section Scripts {
+
+        <!-- DATA TABLE CODE -->
+        <script type="text/javascript" src="~/Scripts/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="~/Scripts/dataTables.bootstrap4.min.js"></script>
+        <!-- /END OF DATA TABLE CODE -->
+
+        <script type="text/javascript">
+            var reviewDatatable;
+        // --DATA TABLE CODE--
+            function LoadReviewsDataTable(_productId) {
+                var _baseUrl = '@Url.Content("~/")';
+
+                if (reviewDatatable) {
+                    alert('destroy dt');
+                    reviewDatatable.destroy();
+                    //$("#reviewTable").dataTable().fnDestroy();
+                }
+
+
+                reviewDatatable = $("#reviewTable").DataTable({
+                    destroy: true,
+                "bDestroy": true,
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": false, // this is for disable filter (search box)
+                "orderMulti": false,
+                "pageLength": 3,
+                "lengthChange": false,
+                "bInfo": false,
+                "ajax": {
+                    "url": _baseUrl + 'api/Review/LoadData?productId=' + _productId,
+                    "type": "POST",
+                    "datatype": "json"
+
+                },
+
+
+
+                "columns": [
+                    { "data": "ReviewId", "visible": false },
+                    { "data": "Name" },
+                    { "data": "Email", "visible": false },
+                    { "data": "Description", "visible": false },
+                    { "data": "Rating", "visible": false },
+                    { "data": "Created", "visible": false },
+                    { "data": "ProductId", "visible": false }
+                ],
+                "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                    /* Used to overwrite user privileges */
+
+                    var reviewStar = '';
+                    var reviewStarEmpty = '';
+
+                    for (var i = 0; i < parseInt(aData.Rating); i++) {
+                        reviewStar = reviewStar + '<i style="margin-right: 4px;" class="fa fa-star"></i>';
+                    }
+                    for (var i = 0; i < (5 - parseInt(aData.Rating)); i++) {
+                        reviewStarEmpty = reviewStarEmpty + '<i style="margin-right: 4px;" class="fa fa-star-o empty"></i>';
+                    }
+
+                    var capitalizeName = aData.Name.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
+
+                    var reviewTemplate = '<div id="reviews"><ul style="list-style: none;" class="reviews">' +
+                        '<li ><div class="review-heading"><h5 class="name">' + capitalizeName + '</h5><p class="date" style="letter-spacing: 0.4px;">' + aData.Created.toUpperCase() + '</p>' +
+                        '<div class="review-rating">' +
+                        reviewStar + reviewStarEmpty +
+                        '</div>' +
+                        '</div >' +
+                        '<div class="review-body">' +
+                        '<p>' + aData.Description + '</p>' +
+                        ' </div> </li>' +
+                        '</ul></div>';
+
+
+                    $('td:eq(0)', nRow).html(reviewTemplate);
+
+                    return nRow;
+                },
+                "drawCallback": function (settings) {
+                    $("#reviewTable_wrapper > div:nth-child(3) > div.col-sm-12.col-md-5").remove();
+                    var previousHtml = $("#reviewTable_previous").html().replace('Previous', '<i class="fa fa-angle-left"></i>');
+                    var nextHtml = $("#reviewTable_next").html().replace('Next', '<i class="fa fa-angle-right"></i>');
+                    $("#reviewTable_previous").html(previousHtml);
+                    $("#reviewTable_next").html(nextHtml);
+
+
+                    $("#reviewTable_wrapper > div:nth-child(3) > div").removeClass("col-sm-12").removeClass("col-md-7").addClass("col-md-12");
+                    $("#reviewTable_wrapper > div:nth-child(3) > div > div").addClass("col-center-block");
+                },
+                oLanguage: { sProcessing: '<img src="/images/ajax-loader2.gif" alt="Computer man" style="width:40px;height:40px;opacity:0.7">' }
+            });
+        }
+        //-- /END OF DATA TABLE CODE --
+
+
+
+        // GET RATINGS INFO
+            function LoadReviewRatingInfo(_productId) {
+                  var _baseUrl = '@Url.Content("~/")';
+            $.ajax({
+                url: _baseUrl + 'api/Review/GetReviewRatingInfo?productId=' + _productId,
+                type: "get", //send it through get method
+                success: function (response) {
+
+
+
+                    var averageRatingStarTemplate = '';
+                    for (var i = 0; i < parseInt(response.averageRating); i++) {
+                        averageRatingStarTemplate = averageRatingStarTemplate + '<i class="fa fa-star"></i>';
+                    }
+
+                    for (var i = 0; i < (5 - parseInt(response.averageRating)); i++) {
+                        averageRatingStarTemplate = averageRatingStarTemplate + '<i class="fa fa-star-o"></i>';
+                    }
+
+
+                    $("#average-rating-star").html(averageRatingStarTemplate);
+                    $("#average-rating").text(response.averageRating);
+                    //rating count percent
+
+                    $("#r5-progress").css("width", (parseFloat(response.data[4].percent) * 100).toString() + '%');
+                    $("#r5-sum").text(response.data[4].count.toString());
+
+                    $("#r4-progress").css("width", (parseFloat(response.data[3].percent) * 100).toString() + '%');
+                    $("#r4-sum").text(response.data[3].count.toString());
+
+                    $("#r3-progress").css("width", (parseFloat(response.data[2].percent) * 100).toString() + '%');
+                    $("#r3-sum").text(response.data[2].count.toString());
+
+
+                    $("#r2-progress").css("width", (parseFloat(response.data[1].percent) * 100).toString() + '%');
+                    $("#r2-sum").text(response.data[1].count.toString());
+
+                    $("#r1-progress").css("width", (parseFloat(response.data[0].percent) * 100).toString() + '%');
+                    $("#r1-sum").text(response.data[0].count.toString());
+
+
+                    //parseFloat('0.25')
+                    $("#reviews-tab").text("Reviews (" + response.totalReviews.toString() + ")")
+                    alert('done')
+                },
+                error: function (xhr) {
+                    alert('something failed!');
+                }
+            });
+
+
+        }
+ // -- END OF RATINGS INFO
         $(document).ready(function () {
+
+            var baseUrl = '@Url.Content("~/")';
+            var liProductId = $("#li-product-id").text().replace("Id: ","").trim();
+
+
+            LoadReviewsDataTable(liProductId);
+            LoadReviewRatingInfo(liProductId);
+
+
+            // -- ADD REVIEW AND RATINGS ---
+
+            $(".form-review").submit(function (e) {
+                e.preventDefault();
+            });
+
+            $("#review-form-btn").click(function (e) {
+
+                $("#rating-validation").hide();
+                var rating = 0;
+
+                $(".review-form-radio").each(function (i) {
+                    if ($(this).is(":checked")) { // check if the radio is checked
+                        rating = $(this).val(); // retrieve the value
+                    }
+
+                });
+
+                if (rating == 0) {
+                    $("#rating-validation").show();
+                    e.preventDefault();
+                    return;
+                }
+
+
+                $.post(baseUrl + 'api/Review/AddReview',
+                    {
+                        ReviewId: 0,
+                        Name: $("#review-form-name").val(),
+                        Email: $("#review-form-email").val(),
+                        Description: $("#review-form-review").val(),
+                        Rating: rating,
+                        Created: '',
+                        ProductId: liProductId
+                    })
+                    .done(function () {
+                        LoadReviewsDataTable(liProductId);
+                        LoadReviewRatingInfo(liProductId);
+                        alert('review added!');
+                    })
+                    .fail(function () {
+                        alert('something failed!');
+                    });
+
+                e.preventDefault();
+
+            });
+            // -- END OF ADD REVIEW AND RATINGS ---
+
 
             @{
 
@@ -534,7 +734,7 @@
             $('#pDetails').html(tempDetails);
             $('#pDetails > :header').removeAttr("style");
         });
-    </script>
-}
+        </script>
+    }
 
 
