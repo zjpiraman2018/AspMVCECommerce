@@ -641,17 +641,26 @@
 
 
                     var averageRatingStarTemplate = '';
-                    for (var i = 0; i < parseInt(response.averageRating); i++) {
+                    var _averageRating = '';
+                    if (response.averageRating == 'NaN') {
+                        _averageRating = '0';
+                    }
+                    else {
+                        _averageRating = response.averageRating;
+                    }
+
+
+                    for (var i = 0; i < parseInt(_averageRating); i++) {
                         averageRatingStarTemplate = averageRatingStarTemplate + '<i class="fa fa-star"></i>';
                     }
 
-                    for (var i = 0; i < (5 - parseInt(response.averageRating)); i++) {
+                    for (var i = 0; i < (5 - parseInt(_averageRating)); i++) {
                         averageRatingStarTemplate = averageRatingStarTemplate + '<i class="fa fa-star-o"></i>';
                     }
 
 
                     $("#average-rating-star").html(averageRatingStarTemplate);
-                    $("#average-rating").text(response.averageRating);
+                    $("#average-rating").text(_averageRating);
                     //rating count percent
 
                     $("#r5-progress").css("width", (parseFloat(response.data[4].percent) * 100).toString() + '%');

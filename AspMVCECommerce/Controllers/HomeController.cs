@@ -381,14 +381,13 @@ namespace AspMVCECommerce.Controllers
         }
 
 
-        public ActionResult Product()
+        public ActionResult Product(int? productId)
         {
-            int id = 2;
-            if (id == null)
+            if (productId == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Products.Include(p => p.Category).Include(p => p.Brand).Include(p => p.Images).Single(p => p.ProductId == id);
+            Product product = db.Products.Include(p => p.Category).Include(p => p.Brand).Include(p => p.Images).Single(p => p.ProductId == productId);
             product.Description = WebUtility.HtmlDecode(product.Description).Replace("'", "\\'").Replace("\r\n", "");
             product.Details = WebUtility.HtmlDecode(product.Details).Replace("'", "\\'").Replace("\r\n", "");
             if (product == null)
