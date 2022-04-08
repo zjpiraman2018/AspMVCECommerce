@@ -243,7 +243,7 @@
                                                     <i class="fa fa-star-o"></i>
                                                     <i class="fa fa-star-o"></i>
                                                 </div>
-                                                <div class="rating-progress" >
+                                                <div class="rating-progress">
                                                     <div style="width: 80%;" id="r3-progress"></div>
                                                 </div>
                                                 <span class="sum" id="r3-sum">0</span>
@@ -257,7 +257,7 @@
                                                     <i class="fa fa-star-o"></i>
                                                 </div>
                                                 <div class="rating-progress">
-                                                    <div style="width: 80%;"  id="r2-progress"></div>
+                                                    <div style="width: 80%;" id="r2-progress"></div>
                                                 </div>
                                                 <span class="sum" id="r2-sum">0</span>
                                             </li>
@@ -280,7 +280,7 @@
                                 <!-- /Rating -->
                                 <!-- Reviews -->
                                 <div class="col-md-6">
-                                    <table id="reviewTable" style="width: 100%; border-bottom: none" >
+                                    <table id="reviewTable" style="width: 100%; border-bottom: none">
                                         <thead>
                                             <tr hidden>
                                                 <th>ID</th>
@@ -298,13 +298,13 @@
                                                 </td>
                                                 <td>
                                                 </td>
-                                                <td >
-                                                </td>
                                                 <td>
                                                 </td>
                                                 <td>
                                                 </td>
-                                                <td > 
+                                                <td>
+                                                </td>
+                                                <td>
                                                 </td>
                                                 <td>
                                                 </td>
@@ -318,12 +318,16 @@
                                     <div id="review-form">
 
                                         <form class="review-form">
-                                            <div class="alertx alert-primaryx" role="alert" id="review-form-success">
-                                                This is a primary alert—check it out!
-                                            </div>
-                                            <input class="input" type="text" placeholder="Your Name" id="review-form-name" required>
-                                            <input class="input" type="email" placeholder="Your Email" id="review-form-email" required>
-                                            <textarea class="input" placeholder="Your Review" id="review-form-review" required></textarea>
+
+                                            <input class="input form-controlx" type="text" placeholder="Your Name" id="review-form-name" required>
+                                            <p class="text-danger" id="name-validation" hidden>Name is required!</p>
+
+                                            <input class="input form-controlx" type="email" placeholder="Your Email" id="review-form-email" required>
+                                            <p class="text-danger" id="email-validation" hidden>Email is required!</p>
+                                            <p class="text-danger" id="valid-email-validation" hidden>Invalid email!</p>
+
+                                            <textarea class="input form-controlx" placeholder="Your Review" id="review-form-review" required></textarea>
+                                            <p class="text-danger" id="review-validation" hidden>Review is required!</p>
                                             <div class="input-rating">
                                                 <span>Your Rating: </span>
                                                 <div class="stars">
@@ -490,38 +494,60 @@
     <!-- /container -->
 </div>
 <!-- /Section -->
-
-
-
-
-
 <!-- DATA TABLE CODE -->
 
+<link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
+
+<!-- /END OF DATA TABLE CODE -->
+
+<link rel="stylesheet" href="~/Content/toastr.min.css">
 
 
+@section Scripts {
 
-
-
-    <link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
-
+    <!-- DATA TABLE CODE -->
+    <script type="text/javascript" src="~/Scripts/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/dataTables.bootstrap4.min.js"></script>
     <!-- /END OF DATA TABLE CODE -->
 
+    <script type="text/javascript" src="~/Scripts/toastr.min.js"></script>
 
-    @section Scripts {
 
-        <!-- DATA TABLE CODE -->
-        <script type="text/javascript" src="~/Scripts/jquery.dataTables.min.js"></script>
-        <script type="text/javascript" src="~/Scripts/dataTables.bootstrap4.min.js"></script>
-        <!-- /END OF DATA TABLE CODE -->
+    <script type="text/javascript">
 
-        <script type="text/javascript">
+            function isEmail(email) {
+              var regex = /^([a-zA-Z0-9_.+-])+\@@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+              return regex.test(email);
+            }
+
+            // Display an info toast
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": true,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "1000",
+                "hideDuration": "1000",
+                "timeOut": "10000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+
+
+
+            // --DATA TABLE CODE--
             var reviewDatatable;
-        // --DATA TABLE CODE--
+
             function LoadReviewsDataTable(_productId) {
                 var _baseUrl = '@Url.Content("~/")';
 
                 if (reviewDatatable) {
-                    alert('destroy dt');
                     reviewDatatable.destroy();
                     //$("#reviewTable").dataTable().fnDestroy();
                 }
@@ -647,10 +673,11 @@
 
                     //parseFloat('0.25')
                     $("#reviews-tab").text("Reviews (" + response.totalReviews.toString() + ")")
-                    alert('done')
+
                 },
                 error: function (xhr) {
-                    alert('something failed!');
+                    var err = eval("(" + xhr.responseText + ")");
+                    toastr.error('The <strong>Review</strong> retrieving failed due to: ' + err.Message, 'Record Load Failed.');
                 }
             });
 
@@ -669,13 +696,19 @@
 
             // -- ADD REVIEW AND RATINGS ---
 
-            $(".form-review").submit(function (e) {
+            $("#review-form > form").submit(function (e) {
                 e.preventDefault();
             });
 
             $("#review-form-btn").click(function (e) {
 
                 $("#rating-validation").hide();
+                $("#name-validation").hide();
+                $("#review-validation").hide();
+                $("#email-validation").hide();
+                $("#valid-email-validation").hide();
+
+
                 var rating = 0;
 
                 $(".review-form-radio").each(function (i) {
@@ -687,6 +720,33 @@
 
                 if (rating == 0) {
                     $("#rating-validation").show();
+                    e.preventDefault();
+                    return;
+                }
+
+
+                if ($("#review-form-name").val().trim() == '') {
+                    $("#name-validation").show();
+                    e.preventDefault();
+                    return;
+                }
+
+                if ($("#review-form-email").val().trim() == '') {
+                    $("#email-validation").show();
+                    e.preventDefault();
+                    return;
+                }
+                else {
+                    if (!isEmail($("#review-form-email").val())) {
+                        $("#valid-email-validation").show();
+                        e.preventDefault();
+                        return;
+                    }
+                }
+
+
+                if ($("#review-form-review").val().trim() == '') {
+                    $("#review-validation").show();
                     e.preventDefault();
                     return;
                 }
@@ -705,10 +765,12 @@
                     .done(function () {
                         LoadReviewsDataTable(liProductId);
                         LoadReviewRatingInfo(liProductId);
-                        alert('review added!');
+                        $("#review-form > form").trigger('reset');
+                        toastr.success('The <strong>Review</strong> record has been successfully added.', 'Record Added.');
                     })
-                    .fail(function () {
-                        alert('something failed!');
+                    .fail(function (xhr) {
+                        var err = eval("(" + xhr.responseText + ")");
+                        toastr.error('The <strong>Review</strong> saving failed due to: ' + err.Message, 'Record Add Failed.');
                     });
 
                 e.preventDefault();
@@ -734,7 +796,7 @@
             $('#pDetails').html(tempDetails);
             $('#pDetails > :header').removeAttr("style");
         });
-        </script>
-    }
+    </script>
+}
 
 
