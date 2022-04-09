@@ -176,6 +176,20 @@ div.scroll {
 /* end here no stretch for product image on store page */
 
 
+/* no stretch for product image on product page */
+
+.productx .product-img {
+    padding: 15px;
+}
+
+.productx .product-img img {
+    width: 100%;
+    height: 263px;
+    object-fit: scale-down;
+}
+
+/* end here no stretch for product image on product page */
+
 .td-image .imgthumbnail {
     width: 100%;
     height: 160px;
@@ -541,4 +555,47 @@ input:focus-visible {
     color: #721c24;
     background-color: #f8d7da;
     border-color: #f5c6cb;
+}
+
+
+
+
+
+
+
+
+
+
+/* CSS FOR SHOW MORE SHOW LESS */
+.addReadMore.showlesscontent .SecSec,
+.addReadMore.showlesscontent .readLess {
+    display: none;
+}
+
+.addReadMore.showmorecontent .readMore {
+    display: none;
+}
+
+.addReadMore .readMore,
+.addReadMore .readLess {
+    font-weight: bold;
+    margin-left: 2px;
+    color: black;
+    cursor: pointer;
+
+    line-height: 35px !important;
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+}
+
+    .addReadMore .readMore:hover,
+    .addReadMore .readLess:hover {
+        color: #D10024 !important;
+    }
+
+
+.addReadMoreWrapTxt.showmorecontent .SecSec,
+.addReadMoreWrapTxt.showmorecontent .readLess {
+    display: block;
 }

@@ -51,6 +51,8 @@ namespace AspMVCECommerce.ViewModel
         [Display(Name = "Created Date")]
         public string CreatedDateTime { get; set; }
 
+        public int? AverageRating { get; set; }
+
         public HttpPostedFileBase ImageFile { get; set; }
 
         public List<ImageViewModel> Images { get; set; }

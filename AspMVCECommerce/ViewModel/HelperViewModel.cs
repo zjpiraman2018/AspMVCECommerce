@@ -38,7 +38,8 @@ namespace AspMVCECommerce.ViewModel
                 PromoSaleOFF = productViewModel.PromoSaleOFF != null ? Double.Parse(productViewModel.PromoSaleOFF.ToString()) : 0,
                 PromoSaleStartDateTime = promoSaleStartDateTime,
                 PromoSaleEndDateTime = promoSaleEndDateTime,
-                CreatedDateTime = CreatedDate
+                CreatedDateTime = CreatedDate,
+                AverageRating = productViewModel.AverageRating
             };
 
             return product;
@@ -61,6 +62,7 @@ namespace AspMVCECommerce.ViewModel
                 PromoSaleStartDateTime = product.PromoSaleStartDateTime != null ? product.PromoSaleStartDateTime.ToDateTimeString() : "", 
                 PromoSaleEndDateTime = product.PromoSaleEndDateTime != null ? product.PromoSaleEndDateTime.ToDateTimeString() : "",
                 CreatedDateTime = ((DateTime?)product.CreatedDateTime).ToDateTimeString(),
+                AverageRating = product.AverageRating
             };
 
             return productViewModel;

@@ -394,7 +394,11 @@ namespace AspMVCECommerce.Controllers
             {
                 return HttpNotFound();
             }
+
+            var products = db.Products.Include(p => p.Category).Include(p => p.Images).Where(p=>p.CategoryId == product.CategoryId && p.ProductId != productId).Take(4);
+
             ViewBag.SelectedNavCategory = "Home";
+            ViewBag.RelatedProduct = products;
 
             return View(product);
         }

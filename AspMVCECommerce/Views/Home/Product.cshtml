@@ -1,4 +1,7 @@
 ﻿@model AspMVCECommerce.Models.Product
+@using System.Linq;
+@using System.Collections.Generic;
+
 @{
     ViewBag.Title = "Product";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -78,8 +81,18 @@
             <!-- Product details -->
             <div class="col-md-5">
                 <div class="product-details">
-                    <h2 class="product-name">       @Html.DisplayFor(model => model.Name)</h2>
+                    <h2 class="product-name">@Html.DisplayFor(model => model.Name)</h2>
 
+                    <div>
+                        <div class="product-rating" id="product-average-rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-o"></i>
+                        </div>
+                        <a class="review-link" data-toggle="tab" href="#tab3" >10 Review(s) | Add your review</a>
+                    </div>
                     <div>
                         @if (Model.PromoSaleOFF > 0)
                         {
@@ -208,7 +221,7 @@
                                                 <i class="fa fa-star-o"></i>
                                             </div>
                                         </div>
-                                        <ul class="rating">
+                                        <ul class="rating" style="list-style: none;">
                                             <li>
                                                 <div class="rating-stars">
                                                     <i class="fa fa-star"></i>
@@ -218,7 +231,7 @@
                                                     <i class="fa fa-star"></i>
                                                 </div>
                                                 <div class="rating-progress">
-                                                    <div style="width: 80%;" id="r5-progress"></div>
+                                                    <div style="width: 0%;" id="r5-progress"></div>
                                                 </div>
                                                 <span class="sum" id="r5-sum">3</span>
                                             </li>
@@ -231,7 +244,7 @@
                                                     <i class="fa fa-star-o"></i>
                                                 </div>
                                                 <div class="rating-progress">
-                                                    <div style="width: 60%;" id="r4-progress"></div>
+                                                    <div style="width: 0%;" id="r4-progress"></div>
                                                 </div>
                                                 <span class="sum" id="r4-sum">2</span>
                                             </li>
@@ -244,7 +257,7 @@
                                                     <i class="fa fa-star-o"></i>
                                                 </div>
                                                 <div class="rating-progress">
-                                                    <div style="width: 80%;" id="r3-progress"></div>
+                                                    <div style="width: 0%;" id="r3-progress"></div>
                                                 </div>
                                                 <span class="sum" id="r3-sum">0</span>
                                             </li>
@@ -257,7 +270,7 @@
                                                     <i class="fa fa-star-o"></i>
                                                 </div>
                                                 <div class="rating-progress">
-                                                    <div style="width: 80%;" id="r2-progress"></div>
+                                                    <div style="width: 0%;" id="r2-progress"></div>
                                                 </div>
                                                 <span class="sum" id="r2-sum">0</span>
                                             </li>
@@ -270,7 +283,7 @@
                                                     <i class="fa fa-star-o"></i>
                                                 </div>
                                                 <div class="rating-progress">
-                                                    <div style="width: 80%;" id="r1-progress"></div>
+                                                    <div style="width: 0%;" id="r1-progress"></div>
                                                 </div>
                                                 <span class="sum" id="r1-sum">0</span>
                                             </li>
@@ -373,7 +386,7 @@
             </div>
 
             <!-- product -->
-            <div class="col-md-3 col-xs-6">
+            @*<div class="col-md-3 col-xs-6">
                 <div class="product">
                     <div class="product-img">
                         <img src="~/FrontEnd/img/product01.png" alt="">
@@ -397,96 +410,137 @@
                         <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
                     </div>
                 </div>
-            </div>
+            </div>*@
             <!-- /product -->
-            <!-- product -->
-            <div class="col-md-3 col-xs-6">
-                <div class="product">
-                    <div class="product-img">
-                        <img src="~/FrontEnd/img/product02.png" alt="">
-                        <div class="product-label">
-                            <span class="new">NEW</span>
-                        </div>
-                    </div>
-                    <div class="product-body">
-                        <p class="product-category">Category</p>
-                        <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                        <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                        <div class="product-rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                        </div>
-                        <div class="product-btns">
-                            <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                            <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                            <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-                        </div>
-                    </div>
-                    <div class="add-to-cart">
-                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-                    </div>
-                </div>
-            </div>
-            <!-- /product -->
+            <!-- load product zaldy -->
+           
+            <!-- store products -->
+           
+          @if (ViewBag.RelatedProduct != null)
+          {
+              foreach (var item in ViewBag.RelatedProduct)
+              {
+                    <!-- product -->
+                    <div class="col-md-3 col-xs-6">
 
-            <div class="clearfix visible-sm visible-xs"></div>
+                        <div class="product productx">
+                            <div class="product-img">
+                                @if (item.Images.Count > 0)
+                                {
 
-            <!-- product -->
-            <div class="col-md-3 col-xs-6">
-                <div class="product">
-                    <div class="product-img">
-                        <img src="~/FrontEnd/img/product03.png" alt="">
-                    </div>
-                    <div class="product-body">
-                        <p class="product-category">Category</p>
-                        <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                        <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                        <div class="product-rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star-o"></i>
+                                    var itemImages = item.Images;
+
+                                    foreach (var itemImage in itemImages)
+                                    {
+                                        if (itemImage.Default)
+                                        {
+                                            <img src="@Url.Content(itemImage.ImagePath)" alt="@itemImage.Title">
+
+                                            break;
+                                        }
+                                    }
+                                }
+
+
+                                <div class="product-label">
+
+
+                                    @if (item.PromoSaleOFF > 0)
+                                    {
+                                        if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
+                                        {
+                                            <span class="sale">
+                                                -@(double.Parse(@item.PromoSaleOFF.ToString()) * 100)<label class="danger">%</label>
+                                            </span>
+
+                                        }
+
+                                    }
+
+
+                                    @if ((DateTime.Now - item.CreatedDateTime).TotalDays <= 30)
+                                    {
+                                        <span class="new">NEW</span>
+                                    }
+
+
+
+                                </div>
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">@item.Category.Name</p>
+                                <h3 class="product-name"><a href="/Home/Product?productId=@item.ProductId" class="product-namex">@item.Name</a></h3>
+
+
+                                @if (item.PromoSaleOFF > 0)
+                                {
+                                    if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
+                                    {
+
+                                        <h4 class="product-price">₱@Convert.ToDecimal(item.DiscountedPrice).ToString("#,##0.00") <del class="product-old-price">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</del></h4>
+                                        @*<h4 class="product-price">@item.DiscountedPrice <del class="product-old-price">@item.OriginalPrice</del></h4>*@
+                                    }
+                                    else
+                                    {
+                                        <h4 class="product-price">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</h4>
+                                    }
+                                }
+                                else
+                                {
+                                    <h4 class="product-price">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</h4>
+                                }
+
+
+
+                                @*<div class="product-rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>*@
+
+
+                                <div class="product-rating">
+                                    @if (item.AverageRating != null)
+                                    {
+                                        for (int i = 0; i < item.AverageRating; i++)
+                                        {
+                                            <i class="fa fa-star"></i>
+                                        }
+
+                                        for (int i = 0; i < 5 - item.AverageRating; i++)
+                                        {
+                                            <i class="fa fa-star-o"></i>
+                                        }
+                                    }
+                                </div>
+
+
+                                <div class="product-btns">
+                                    <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                    <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+                                    @*<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>*@
+
+                                    <button class="quick-view" onclick="location.href='/Home/Product?productId=@item.ProductId'"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                                </div>
+                            </div>
+                            <div class="add-to-cart">
+                                <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                            </div>
                         </div>
-                        <div class="product-btns">
-                            <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                            <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                            <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-                        </div>
+
+                        <!-- /product -->
+
                     </div>
-                    <div class="add-to-cart">
-                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-                    </div>
-                </div>
-            </div>
-            <!-- /product -->
-            <!-- product -->
-            <div class="col-md-3 col-xs-6">
-                <div class="product">
-                    <div class="product-img">
-                        <img src="~/FrontEnd/img/product04.png" alt="">
-                    </div>
-                    <div class="product-body">
-                        <p class="product-category">Category</p>
-                        <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                        <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                        <div class="product-rating">
-                        </div>
-                        <div class="product-btns">
-                            <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                            <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                            <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-                        </div>
-                    </div>
-                    <div class="add-to-cart">
-                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-                    </div>
-                </div>
-            </div>
-            <!-- /product -->
+              }
+          }
+            <!-- /store products -->
+
+            <!-- end of load product zaldy-->
+
+
+
 
         </div>
         <!-- /row -->
@@ -603,7 +657,7 @@
                         '</div>' +
                         '</div >' +
                         '<div class="review-body">' +
-                        '<p>' + aData.Description + '</p>' +
+                        '<p class="addReadMore showlesscontent">' + aData.Description + '</p>' +
                         ' </div> </li>' +
                         '</ul></div>';
 
@@ -613,6 +667,8 @@
                     return nRow;
                 },
                 "drawCallback": function (settings) {
+                    // THIS CODE WILL BE CALLED AFTER LOADING DATA AND RENDERING TABLE HMTL COMPLETE
+
                     $("#reviewTable_wrapper > div:nth-child(3) > div.col-sm-12.col-md-5").remove();
                     var previousHtml = $("#reviewTable_previous").html().replace('Previous', '<i class="fa fa-angle-left"></i>');
                     var nextHtml = $("#reviewTable_next").html().replace('Next', '<i class="fa fa-angle-right"></i>');
@@ -622,6 +678,11 @@
 
                     $("#reviewTable_wrapper > div:nth-child(3) > div").removeClass("col-sm-12").removeClass("col-md-7").addClass("col-md-12");
                     $("#reviewTable_wrapper > div:nth-child(3) > div > div").addClass("col-center-block");
+
+
+                    // ZALDY SHOW MORE SHOW LESS CODE
+                    AddReadMore();
+                    
                 },
                 oLanguage: { sProcessing: '<img src="/images/ajax-loader2.gif" alt="Computer man" style="width:40px;height:40px;opacity:0.7">' }
             });
@@ -631,68 +692,131 @@
 
 
         // GET RATINGS INFO
-            function LoadReviewRatingInfo(_productId) {
-                  var _baseUrl = '@Url.Content("~/")';
-            $.ajax({
-                url: _baseUrl + 'api/Review/GetReviewRatingInfo?productId=' + _productId,
-                type: "get", //send it through get method
-                success: function (response) {
+        function LoadReviewRatingInfo(_productId) {
+
+                var _baseUrl = '@Url.Content("~/")';
+
+                $.ajax({
+                    url: _baseUrl + 'api/Review/GetReviewRatingInfo?productId=' + _productId,
+                    type: "get", //send it through get method
+                    success: function (response) {
 
 
 
-                    var averageRatingStarTemplate = '';
-                    var _averageRating = '';
-                    if (response.averageRating == 'NaN') {
-                        _averageRating = '0';
+                        var averageRatingStarTemplate = '';
+                        var _averageRating = '';
+                        if (response.averageRating == 'NaN') {
+                            _averageRating = '0';
+                        }
+                        else {
+                            _averageRating = response.averageRating;
+                        }
+
+
+                        for (var i = 0; i < parseInt(_averageRating); i++) {
+                            averageRatingStarTemplate = averageRatingStarTemplate + '<i class="fa fa-star" style="margin-right: 5px;"></i>';
+                        }
+
+                        for (var i = 0; i < (5 - parseInt(_averageRating)); i++) {
+                            averageRatingStarTemplate = averageRatingStarTemplate + '<i class="fa fa-star-o" style="margin-right: 5px;"></i>';
+                        }
+
+
+                        $("#average-rating-star").html(averageRatingStarTemplate);
+                        $("#average-rating").text(_averageRating);
+                        //rating count percent
+
+                        $("#r5-progress").css("width", (parseFloat(response.data[4].percent) * 100).toString() + '%');
+                        $("#r5-sum").text(response.data[4].count.toString());
+
+                        $("#r4-progress").css("width", (parseFloat(response.data[3].percent) * 100).toString() + '%');
+                        $("#r4-sum").text(response.data[3].count.toString());
+
+                        $("#r3-progress").css("width", (parseFloat(response.data[2].percent) * 100).toString() + '%');
+                        $("#r3-sum").text(response.data[2].count.toString());
+
+
+                        $("#r2-progress").css("width", (parseFloat(response.data[1].percent) * 100).toString() + '%');
+                        $("#r2-sum").text(response.data[1].count.toString());
+
+                        $("#r1-progress").css("width", (parseFloat(response.data[0].percent) * 100).toString() + '%');
+                        $("#r1-sum").text(response.data[0].count.toString());
+
+
+                        //parseFloat('0.25')
+                        $("#reviews-tab").text("Reviews (" + response.totalReviews.toString() + ")");
+
+
+                        $(".review-link").text(response.totalReviews.toString() + ' Review(s) | Add your review')
+
+                        var productAverageRatingStarTemplate = '';
+                        for (var i = 0; i < parseInt(_averageRating); i++) {
+                            productAverageRatingStarTemplate = productAverageRatingStarTemplate + '<i class="fa fa-star" style="margin-right: 4px;"></i>';
+                        }
+
+                        for (var i = 0; i < (5 - parseInt(_averageRating)); i++) {
+                            productAverageRatingStarTemplate = productAverageRatingStarTemplate + '<i class="fa fa-star-o" style="margin-right: 4px;"></i>';
+                        }
+                        $("#product-average-rating").html(productAverageRatingStarTemplate);
+
+                    },
+                    error: function (xhr) {
+                        var err = eval("(" + xhr.responseText + ")");
+                        toastr.error('The <strong>Review</strong> retrieving failed due to: ' + err.Message, 'Record Load Failed.');
                     }
-                    else {
-                        _averageRating = response.averageRating;
-                    }
-
-
-                    for (var i = 0; i < parseInt(_averageRating); i++) {
-                        averageRatingStarTemplate = averageRatingStarTemplate + '<i class="fa fa-star"></i>';
-                    }
-
-                    for (var i = 0; i < (5 - parseInt(_averageRating)); i++) {
-                        averageRatingStarTemplate = averageRatingStarTemplate + '<i class="fa fa-star-o"></i>';
-                    }
-
-
-                    $("#average-rating-star").html(averageRatingStarTemplate);
-                    $("#average-rating").text(_averageRating);
-                    //rating count percent
-
-                    $("#r5-progress").css("width", (parseFloat(response.data[4].percent) * 100).toString() + '%');
-                    $("#r5-sum").text(response.data[4].count.toString());
-
-                    $("#r4-progress").css("width", (parseFloat(response.data[3].percent) * 100).toString() + '%');
-                    $("#r4-sum").text(response.data[3].count.toString());
-
-                    $("#r3-progress").css("width", (parseFloat(response.data[2].percent) * 100).toString() + '%');
-                    $("#r3-sum").text(response.data[2].count.toString());
-
-
-                    $("#r2-progress").css("width", (parseFloat(response.data[1].percent) * 100).toString() + '%');
-                    $("#r2-sum").text(response.data[1].count.toString());
-
-                    $("#r1-progress").css("width", (parseFloat(response.data[0].percent) * 100).toString() + '%');
-                    $("#r1-sum").text(response.data[0].count.toString());
-
-
-                    //parseFloat('0.25')
-                    $("#reviews-tab").text("Reviews (" + response.totalReviews.toString() + ")")
-
-                },
-                error: function (xhr) {
-                    var err = eval("(" + xhr.responseText + ")");
-                    toastr.error('The <strong>Review</strong> retrieving failed due to: ' + err.Message, 'Record Load Failed.');
-                }
-            });
-
+                });
 
         }
- // -- END OF RATINGS INFO
+        // -- END OF RATINGS INFO
+
+
+
+        // -- CODE FOR TEXT SHOW MORE SHOW LESS --
+
+        function AddReadMore() {
+            //This limit you can set after how much characters you want to show Read More.
+            var carLmt = 260;
+            // Text to show when text is collapsed
+            var readMoreTxt = " ... Read More";
+            // Text to show when text is expanded
+            var readLessTxt = " Read Less";
+
+
+            //Traverse all selectors with this class and manupulate HTML part to show Read More
+            $(".addReadMore").each(function () {
+                if ($(this).find(".firstSec").length)
+                    return;
+
+                var allstr = $(this).text();
+                if (allstr.length > carLmt) {
+                    var firstSet = allstr.substring(0, carLmt);
+                    var secdHalf = allstr.substring(carLmt, allstr.length);
+                    var strtoadd = firstSet + "<span class='SecSec'>" + secdHalf + "</span><span class='readMore'  title='Click to Show More'>" + readMoreTxt + "</span><span class='readLess' title='Click to Show Less'>" + readLessTxt + "</span>";
+                    $(this).html(strtoadd);
+                }
+
+            });
+            //Read More and Read Less Click Event binding
+            //$(document).on("click", ".readMore,.readLess", function () {
+            //    $(this).closest(".addReadMore").toggleClass("showlesscontent showmorecontent");
+            //});
+
+            $(".readMore").click(function () {
+                $(this).closest(".addReadMore").toggleClass("showlesscontent showmorecontent");
+            });
+
+            $(".readLess").click(function () {
+                $(this).closest(".addReadMore").toggleClass("showlesscontent showmorecontent");
+            });
+
+        }
+
+
+        // --- END HERE CODE FOR TEXT SHOW MORE SHOW LESS --
+
+
+
+
         $(document).ready(function () {
 
             var baseUrl = '@Url.Content("~/")';
@@ -775,6 +899,8 @@
                         LoadReviewsDataTable(liProductId);
                         LoadReviewRatingInfo(liProductId);
                         $("#review-form > form").trigger('reset');
+
+   
                         toastr.success('The <strong>Review</strong> record has been successfully added.', 'Record Added.');
                     })
                     .fail(function (xhr) {
@@ -786,6 +912,21 @@
 
             });
             // -- END OF ADD REVIEW AND RATINGS ---
+
+
+            // ACTIVATE REVIEW TAB
+           
+            $(".review-link").click(function () {
+                $('.tab-nav a[href="#tab3"]').tab('show');
+                //$(".tab-nav").get(0).scrollIntoView();
+
+                document.getElementById("product-tab").scrollIntoView({ behavior: "smooth" });
+              
+                setTimeout(function () { $('#review-form-name').focus() }, 500);
+            });
+
+            // END OF ACTIVATE REVIEW TAB
+
 
 
             @{

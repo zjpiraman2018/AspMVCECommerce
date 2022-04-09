@@ -41,6 +41,9 @@ namespace AspMVCECommerce.Models
         [ForeignKey("BrandId")]
         public Brand Brand { get; set; }
 
+        public int? AverageRating { get; set; }
+
+
         public ICollection<Review> Reviews { get; set; }
         public ICollection<Image> Images { get; set; }
 

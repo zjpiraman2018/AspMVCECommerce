@@ -213,6 +213,10 @@
     <Compile Include="Migrations\202204041449599_addbrand.Designer.cs">
       <DependentUpon>202204041449599_addbrand.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202204090751319_AddAverageRatingPropertyToProductModel.cs" />
+    <Compile Include="Migrations\202204090751319_AddAverageRatingPropertyToProductModel.Designer.cs">
+      <DependentUpon>202204090751319_AddAverageRatingPropertyToProductModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Brand.cs" />
@@ -224,6 +228,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Review.cs" />
+    <Compile Include="Models\ReviewRating.cs" />
     <Compile Include="Models\ShoppingCart.cs" />
     <Compile Include="Models\Size.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -379,6 +384,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202204041449599_addbrand.resx">
       <DependentUpon>202204041449599_addbrand.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202204090751319_AddAverageRatingPropertyToProductModel.resx">
+      <DependentUpon>202204090751319_AddAverageRatingPropertyToProductModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
