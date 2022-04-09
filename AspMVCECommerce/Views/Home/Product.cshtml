@@ -651,7 +651,8 @@
                     var capitalizeName = aData.Name.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
 
                     var reviewTemplate = '<div id="reviews"><ul style="list-style: none;" class="reviews">' +
-                        '<li ><div class="review-heading"><h5 class="name">' + capitalizeName + '</h5><p class="date" style="letter-spacing: 0.4px;">' + aData.Created.toUpperCase() + '</p>' +
+                        '<li ><div class="review-heading"><h5 class="name">' + capitalizeName +
+                        '</h5><p class="date" style="letter-spacing: 0.4px;">' + aData.Created.toUpperCase() + '</p>' +
                         '<div class="review-rating">' +
                         reviewStar + reviewStarEmpty +
                         '</div>' +
