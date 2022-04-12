@@ -97,6 +97,33 @@ namespace AspMVCECommerce.ViewModel
             return imageViewModel;
         }
 
+
+        public static SizeViewModel ToSizeViewModel(this Size size)
+        {
+            var sizeViewModel = new SizeViewModel()
+            {
+                SizeId = size.SizeId,
+                ProductId = size.ProductId,
+                Deleted = false,
+                Name = size.Name
+            };
+
+            return sizeViewModel;
+        }
+
+        public static ColorViewModel ToColorViewModel(this Color color)
+        {
+            var colorViewModel = new ColorViewModel()
+            {
+                ColorId = color.ColorId,
+                ProductId = color.ProductId,
+                Deleted = false,
+                Name = color.Name
+            };
+
+            return colorViewModel;
+        }
+
         public static string ToDateTimeString(this DateTime? dateTime)
         {
             return ((DateTime)dateTime).ToString("MM/dd/yyyy h:mm tt");
@@ -110,12 +137,21 @@ namespace AspMVCECommerce.ViewModel
 
             // Parse date with no style flags.
             //dateString = " 5/01/2009 8:30 AM";
+
+
+            if (string.IsNullOrEmpty(dateTime))
+            {
+                dateValue = new DateTime();
+                return dateValue;
+            }
+
+
             try
             {
                 dateValue = DateTime.ParseExact(dateTime, "g", enUS, DateTimeStyles.None);
 
             }
-            catch (FormatException)
+            catch (FormatException ex)
             {
                 dateValue = new DateTime();
             }

@@ -205,17 +205,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202203310853503_initialmigration.cs" />
-    <Compile Include="Migrations\202203310853503_initialmigration.Designer.cs">
-      <DependentUpon>202203310853503_initialmigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202204041449599_addbrand.cs" />
-    <Compile Include="Migrations\202204041449599_addbrand.Designer.cs">
-      <DependentUpon>202204041449599_addbrand.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202204090751319_AddAverageRatingPropertyToProductModel.cs" />
-    <Compile Include="Migrations\202204090751319_AddAverageRatingPropertyToProductModel.Designer.cs">
-      <DependentUpon>202204090751319_AddAverageRatingPropertyToProductModel.cs</DependentUpon>
+    <Compile Include="Migrations\202204091804143_InitialMigration.cs" />
+    <Compile Include="Migrations\202204091804143_InitialMigration.Designer.cs">
+      <DependentUpon>202204091804143_InitialMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -235,9 +227,11 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\BrandViewModel.cs" />
     <Compile Include="ViewModel\CategoryViewModel.cs" />
+    <Compile Include="ViewModel\ColorViewModel.cs" />
     <Compile Include="ViewModel\HelperViewModel.cs" />
     <Compile Include="ViewModel\ImageViewModel.cs" />
     <Compile Include="ViewModel\ProductViewModel.cs" />
+    <Compile Include="ViewModel\SizeViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
@@ -379,14 +373,8 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202203310853503_initialmigration.resx">
-      <DependentUpon>202203310853503_initialmigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202204041449599_addbrand.resx">
-      <DependentUpon>202204041449599_addbrand.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202204090751319_AddAverageRatingPropertyToProductModel.resx">
-      <DependentUpon>202204090751319_AddAverageRatingPropertyToProductModel.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202204091804143_InitialMigration.resx">
+      <DependentUpon>202204091804143_InitialMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -599,3 +599,116 @@ input:focus-visible {
 .addReadMoreWrapTxt.showmorecontent .readLess {
     display: block;
 }
+
+
+
+
+/* OVERRIDE BOOTSTRAP LIST BOX STYLE*/
+
+/** LIST BOX SIZE */
+#list-group-size .list-group-item:last-child {
+    margin-bottom: 0; 
+    border-bottom-right-radius: 0px; 
+     border-bottom-left-radius: 0px; 
+}
+
+
+#list-group-size .list-group-item:first-child {
+     border-top-left-radius: 0px; 
+     border-top-right-radius: 0px; 
+}
+
+#list-group-size .list-group {
+    border-radius: 0px;
+}
+
+#list-group-size .list-group-item {
+    border: 0px;
+}
+    #list-group-size .list-group-item:hover {
+        background-color: hsl(210deg 100% 56%);
+        color:white;
+    }
+
+
+
+    #list-group-size .list-group-item a:hover, #list-group-size .list-group-item a:focus {
+        color: white !important;
+        text-decoration: none;
+        outline: none;
+    }
+
+.list-group-item-remove-size {
+    font-size: 12px;
+    line-height: 20px;
+    color: #b9bbbf;
+}
+
+/* END OF LIST BOX SIZE */
+
+
+/* LIST BOX COLOR */
+    #list-group-color .list-group-item:last-child {
+        margin-bottom: 0;
+        border-bottom-right-radius: 0px;
+        border-bottom-left-radius: 0px;
+    }
+
+
+#list-group-color .list-group-item:first-child {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+#list-group-color .list-group {
+    border-radius: 0px;
+}
+
+#list-group-color .list-group-item {
+    border: 0px;
+   
+}
+
+    #list-group-color .list-group-item:hover {
+        background-color: hsl(210deg 100% 56%);
+        color: white;
+    }
+
+
+
+    #list-group-color .list-group-item a:hover, #list-group-color .list-group-item a:focus {
+        color: white !important;
+        text-decoration: none;
+        outline: none;
+    }
+
+.list-group-item-remove-color {
+    font-size: 12px;
+    line-height: 20px;
+    color: #b9bbbf;
+}
+
+/* END OF LIST BOX COLOR*/
+
+
+
+
+.input-selectx {
+    width: 150px !important;
+    text-transform: uppercase;
+}
+
+
+.add-to-cart-btn-disabled:hover {
+    background-color: #FFF !important;
+    color: #a7a7a7 !important;
+    border-color: #a7a7a7 !important;
+}
+.add-to-cart-btn-disabled > i {
+    color: #a7a7a7 !important;
+}
+
+.add-to-cart-btn-disabled {
+    background-color: #a7a7a7 !important;
+}
+

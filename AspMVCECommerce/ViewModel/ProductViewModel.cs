@@ -10,7 +10,11 @@ namespace AspMVCECommerce.ViewModel
         public ProductViewModel()
         {
             Images = new List<ImageViewModel>();
+            Sizes = new List<SizeViewModel>();
+            Colors = new List<ColorViewModel>();
         }
+
+
         public int ProductId { get; set; }
 
         [Required]
@@ -56,5 +60,8 @@ namespace AspMVCECommerce.ViewModel
         public HttpPostedFileBase ImageFile { get; set; }
 
         public List<ImageViewModel> Images { get; set; }
+
+        public List<SizeViewModel> Sizes { get; set; }
+        public List<ColorViewModel> Colors { get; set; }
     }
 }

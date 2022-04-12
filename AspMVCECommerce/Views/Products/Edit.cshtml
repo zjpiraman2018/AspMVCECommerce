@@ -189,11 +189,73 @@
             </div>
 
 
+
             <div class="form-group">
-                <label class="control-label col-md-2" for="CreatedDateTime" >Created Date Time:</label>
+                <label class="control-label col-md-2" for="list-group-size">Sizes</label>
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-9" style="margin-right: 0px; padding-right: 0px;padding-right:5px;">
+                            <input class="form-controlx text-box single-line" placeholder="Enter size here" maxlength="29" data-val="true" id="size-textbox" name="size-textbox" type="text" value="">
+                            <p class="text-danger" id="size-textbox-validation" hidden>Size input cannot be empty!</p>
+                            <p class="text-danger" id="size-textbox-validation-duplicate" hidden>Size already exist!</p>
+                        </div>
+                        <div class="col-md-3" style="padding-left: 0px; margin-left: 0px;">
+                            <a href="javascript:void(0)" id="add-size-link" class="btn-default btnx" style="width: 100%; height: 40px; padding-top: 5px; ">Add</a>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:5px;width: 100%; height: 166px; overflow: scroll; border: 1px solid #E4E7ED; overflow-x: hidden; ">
+                        <ul class="list-group" id="list-group-size" style="margin-bottom: 0px;border: 0px ">
+                        </ul>
+
+                        <div hidden id="size-list-container">
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="control-label col-md-2" for="list-group-color">Colors</label>
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-9" style="margin-right: 0px; padding-right: 0px;padding-right:5px;">
+                            <input class="form-controlx text-box single-line" placeholder="Enter color here" maxlength="29" data-val="true" id="color-textbox" name="color-textbox" type="text" value="">
+                            <p class="text-danger" id="color-textbox-validation" hidden>Color input cannot be empty!</p>
+                            <p class="text-danger" id="color-textbox-validation-duplicate" hidden>Color already exist!</p>
+                        </div>
+                        <div class="col-md-3" style="padding-left: 0px; margin-left: 0px;">
+                            <a href="javascript:void(0)" id="add-color-link" class="btn-default btnx" style="width: 100%; height: 40px; padding-top: 5px; ">Add</a>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:5px;width: 100%; height: 166px; overflow: scroll; border: 1px solid #E4E7ED; overflow-x: hidden; ">
+                        <ul class="list-group" id="list-group-color" style="margin-bottom: 0px;border: 0px ">
+                        </ul>
+                        <div hidden id="color-list-container">
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+            <div class="form-group">
+                <label class="control-label col-md-2" for="CreatedDateTime">Created Date Time:</label>
                 <div class="col-md-10">
                     <div class='input-group date' id='dtpCreatedDateTime'>
-                        <input type='text' class="form-controlx" id='CreatedDateTime' name="CreatedDateTime" value="@Model.CreatedDateTime"  required/>
+                        <input type='text' class="form-controlx" id='CreatedDateTime' name="CreatedDateTime" value="@Model.CreatedDateTime" required />
                         <span class="input-group-addon" style="border: 1px solid #E4E7ED !important; border-radius: 0px !important;">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
@@ -333,6 +395,157 @@
             date.setDate(date.getDate() + days);
             return date;
         }
+
+
+
+         // UPDATE SIZE HIDDEN INPUT ID INDEX
+        function UpdateSizeHiddenInputIndex() {
+            const sizeHiddenInputIdList = [];
+            $('#size-list-container input').each(function (index) {
+                var hiddenInputSizeClass = $(this).attr('class');
+                if ($.inArray(hiddenInputSizeClass, sizeHiddenInputIdList) == -1) {
+                    sizeHiddenInputIdList.push(hiddenInputSizeClass);
+                }
+            });
+
+            $.each(sizeHiddenInputIdList, function (index, value) {
+                var sizeHiddenIndex = index;
+
+                $('.' + value).each(function () {
+
+                    if ($(this).attr('id').indexOf('.Name') > -1) {
+                        $(this).attr("id", "Sizes[" + sizeHiddenIndex.toString() + "].Name");
+                        $(this).attr("name", "Sizes[" + sizeHiddenIndex.toString() + "].Name");
+                    }
+                    else if ($(this).attr('id').indexOf('.SizeId') > -1) {
+                        $(this).attr("id", "Sizes[" + sizeHiddenIndex.toString() + "].SizeId");
+                        $(this).attr("name", "Sizes[" + sizeHiddenIndex.toString() + "].SizeId");
+                    }
+                    else if ($(this).attr('id').indexOf('.Deleted') > -1) {
+                        $(this).attr("id", "Sizes[" + sizeHiddenIndex.toString() + "].Deleted");
+                        $(this).attr("name", "Sizes[" + sizeHiddenIndex.toString() + "].Deleted");
+                    }
+                    else if ($(this).attr('id').indexOf('.ProductId') > -1) {
+                        $(this).attr("id", "Sizes[" + sizeHiddenIndex.toString() + "].ProductId");
+                        $(this).attr("name", "Sizes[" + sizeHiddenIndex.toString() + "].ProductId");
+                    }
+                });
+            });
+
+        }
+        // END OF UPDATE SIZE HIDDEN INPUT ID INDEX
+
+
+
+        function AddSizeToList(sizeName, sizeId, sizeIsDeleted, productId) {
+            var sizeListBoxUniqueId = new Date().toISOString().replace("-", "").replace("-", "").replace(":", "").replace(":", "").replace(".", "") + sizeId.toString();
+            var sizeListBoxItemTemplate = '<li id="size-list-item-' + sizeListBoxUniqueId + '" class="list-group-item d-flex justify-content-between align-items-center">' +
+                sizeName +
+                '<a href="javascript:void(0)" id="size-list-item-remove-' + sizeListBoxUniqueId + '" class="pull-right list-group-item-remove list-group-item-remove-size" >Remove</a >' +
+                '</li >';
+
+            $("#list-group-size").append(sizeListBoxItemTemplate);
+
+            $("#size-list-container").append('<input class="size-list-item-hidden-' + sizeListBoxUniqueId + '" type="hidden" id="Sizes[0].Name" name="Sizes[0].Name" value="' + sizeName + '">');
+            $("#size-list-container").append('<input class="size-list-item-hidden-' + sizeListBoxUniqueId + '" type="hidden" id="Sizes[0].SizeId" name="Sizes[0].SizeId" value="' + sizeId + '">');
+            $("#size-list-container").append('<input class="size-list-item-hidden-' + sizeListBoxUniqueId + '" type="hidden" id="Sizes[0].Deleted" name="Sizes[0].Deleted" value="' + sizeIsDeleted + '">');
+            $("#size-list-container").append('<input class="size-list-item-hidden-' + sizeListBoxUniqueId + '" type="hidden" id="Sizes[0].ProductId" name="Sizes[0].ProductId" value="' + productId + '">');
+
+
+            $(".list-group-item-remove-size").click(function () {
+                var sizeListItemId = $(this).attr("id").replace("remove-", "");
+                var sizeListHiddenItemId = $(this).attr("id").replace("remove-", "hidden-");
+                $("#" + sizeListItemId).remove();
+                $("." + sizeListHiddenItemId).remove();
+
+                UpdateSizeHiddenInputIndex();
+            });
+
+
+            $("#size-textbox").val("");
+
+            // UPDATE SIZE HIDDEN INPUT ID INDEX
+            UpdateSizeHiddenInputIndex();
+            // END OF UPDATE SIZE HIDDEN INPUT ID INDEX
+        }
+
+
+
+
+
+        // UPDATE COLOR HIDDEN INPUT ID INDEX
+        function UpdateColorHiddenInputIndex() {
+            const colorHiddenInputIdList = [];
+            $('#color-list-container input').each(function (index) {
+                var hiddenInputColorClass = $(this).attr('class');
+                if ($.inArray(hiddenInputColorClass, colorHiddenInputIdList) == -1) {
+                    colorHiddenInputIdList.push(hiddenInputColorClass);
+                }
+            });
+
+            $.each(colorHiddenInputIdList, function (index, value) {
+                var colorHiddenIndex = index;
+
+                $('.' + value).each(function () {
+
+                    if ($(this).attr('id').indexOf('.Name') > -1) {
+                        $(this).attr("id", "Colors[" + colorHiddenIndex.toString() + "].Name");
+                        $(this).attr("name", "Colors[" + colorHiddenIndex.toString() + "].Name");
+                    }
+                    else if ($(this).attr('id').indexOf('.ColorId') > -1) {
+                        $(this).attr("id", "Colors[" + colorHiddenIndex.toString() + "].ColorId");
+                        $(this).attr("name", "Colors[" + colorHiddenIndex.toString() + "].ColorId");
+                    }
+                    else if ($(this).attr('id').indexOf('.Deleted') > -1) {
+                        $(this).attr("id", "Colors[" + colorHiddenIndex.toString() + "].Deleted");
+                        $(this).attr("name", "Colors[" + colorHiddenIndex.toString() + "].Deleted");
+                    }
+                    else if ($(this).attr('id').indexOf('.ProductId') > -1) {
+                        $(this).attr("id", "Colors[" + colorHiddenIndex.toString() + "].ProductId");
+                        $(this).attr("name", "Colors[" + colorHiddenIndex.toString() + "].ProductId");
+                    }
+                });
+            });
+
+        }
+        // END OF UPDATE COLOR HIDDEN INPUT ID INDEX
+
+
+
+        function AddColorToList(colorName, colorId, colorIsDeleted, productId) {
+            var colorListBoxUniqueId = new Date().toISOString().replace("-", "").replace("-", "").replace(":", "").replace(":", "").replace(".", "") + colorId.toString();
+            var colorListBoxItemTemplate = '<li id="color-list-item-' + colorListBoxUniqueId + '" class="list-group-item d-flex justify-content-between align-items-center">' +
+                colorName +
+                '<a href="javascript:void(0)" id="color-list-item-remove-' + colorListBoxUniqueId + '" class="pull-right list-group-item-remove list-group-item-remove-color" >Remove</a >' +
+                '</li >';
+
+            $("#list-group-color").append(colorListBoxItemTemplate);
+
+            $("#color-list-container").append('<input class="color-list-item-hidden-' + colorListBoxUniqueId + '" type="hidden" id="Colors[0].Name" name="Colors[0].Name" value="' + colorName + '">');
+            $("#color-list-container").append('<input class="color-list-item-hidden-' + colorListBoxUniqueId + '" type="hidden" id="Colors[0].ColorId" name="Colors[0].ColorId" value="' + colorId + '">');
+            $("#color-list-container").append('<input class="color-list-item-hidden-' + colorListBoxUniqueId + '" type="hidden" id="Colors[0].Deleted" name="Colors[0].Deleted" value="' + colorIsDeleted + '">');
+            $("#color-list-container").append('<input class="color-list-item-hidden-' + colorListBoxUniqueId + '" type="hidden" id="Colors[0].ProductId" name="Colors[0].ProductId" value="' + productId + '">');
+
+
+            $(".list-group-item-remove-color").click(function () {
+                var colorListItemId = $(this).attr("id").replace("remove-", "");
+                var colorListHiddenItemId = $(this).attr("id").replace("remove-", "hidden-");
+                $("#" + colorListItemId).remove();
+                $("." + colorListHiddenItemId).remove();
+
+                UpdateColorHiddenInputIndex();
+            });
+
+
+            $("#color-textbox").val("");
+
+            // UPDATE COLOR HIDDEN INPUT ID INDEX
+            UpdateColorHiddenInputIndex();
+            // END OF UPDATE COLOR HIDDEN INPUT ID INDEX
+        }
+
+
+
 
         $(document).ready(function () {
             // ------ Initialize summernote -----
@@ -580,6 +793,106 @@
                 $('input[name="' + imageId + ".IsRemove" + '"]').val(true);
 
             });
+
+
+
+            // REMOVE HTML ELEMENT FROM HTMLSTRING
+            $.strRemove = function (theTarget, theString) {
+                return $("<div/>").append(
+                    $(theTarget, theString).remove().end()
+                ).html();
+            };
+
+            // Add size to list group
+            $("#add-size-link").click(function () {
+                $("#size-textbox-validation").hide();
+                $("#size-textbox-validation-duplicate").hide();
+
+                if ($("#size-textbox").val().trim() == "") {
+                    $("#size-textbox-validation").show();
+                    return;
+                }
+                var duplicateSizeExist = false;
+                $("#list-group-size li").each(function () {
+
+                    var tempSizeListHtmlString = '<div>' + $(this).html() + '</div>';
+                    var tempSizeListHtmlStringResult = $.strRemove("a", tempSizeListHtmlString);;
+
+                    if ($("#size-textbox").val().toUpperCase().trim() == $(tempSizeListHtmlStringResult).text().toUpperCase().trim()) {
+                        $("#size-textbox-validation-duplicate").show();
+                        duplicateSizeExist = true;
+                        return;
+                    }
+
+                })
+
+                if (duplicateSizeExist) { return; }
+
+                AddSizeToList($("#size-textbox").val(), 0, false, 0);
+            });
+            // end of add size to list group
+
+            // LOAD SIZES FROM VIEWMODEL
+            @if(Model.Sizes.Count > 0)
+            {
+                for(int i = 0; i < Model.Sizes.Count; i++)
+                {
+                    <text>
+                        AddSizeToList('@Model.Sizes[i].Name', parseInt('@Model.Sizes[i].SizeId'), '@Model.Sizes[i].Deleted', parseInt('@Model.Sizes[i].ProductId'));
+                    </text>
+                }
+            }
+
+            // END OF LOAD SIZES FROM VIEW MODEL
+
+
+
+
+            // Add color to list group
+            $("#add-color-link").click(function () {
+                $("#color-textbox-validation").hide();
+                $("#color-textbox-validation-duplicate").hide();
+
+                if ($("#color-textbox").val().trim() == "") {
+                    $("#color-textbox-validation").show();
+                    return;
+                }
+                var duplicateColorExist = false;
+                $("#list-group-color li").each(function () {
+
+                    var tempColorListHtmlString = '<div>' + $(this).html() + '</div>';
+                    var tempColorListHtmlStringResult = $.strRemove("a", tempColorListHtmlString);;
+
+
+                    if ($("#color-textbox").val().toUpperCase().trim() == $(tempColorListHtmlStringResult).text().toUpperCase().trim()) {
+                        $("#color-textbox-validation-duplicate").show();
+                        duplicateColorExist = true;
+                        return;
+                    }
+
+                })
+
+                if (duplicateColorExist) { return; }
+
+
+                AddColorToList($("#color-textbox").val(), 0, false, 0);
+            });
+            // end of add color to list group
+
+
+            // LOAD COLORS FROM VIEWMODEL
+            @if(Model.Colors.Count > 0)
+            {
+                for(int i = 0; i < Model.Colors.Count; i++)
+                {
+                    <text>
+                        AddColorToList('@Model.Colors[i].Name', parseInt('@Model.Colors[i].ColorId'), '@Model.Colors[i].Deleted', parseInt('@Model.Colors[i].ProductId'));
+                    </text>
+                }
+            }
+
+            // END OF LOAD COLORS FROM VIEW MODEL
+
         });
 
     </script>

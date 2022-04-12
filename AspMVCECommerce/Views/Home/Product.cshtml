@@ -18,20 +18,12 @@
         <!-- row -->
         <div class="row">
             <div class="col-md-12">
-                <ul class="breadcrumb-tree">
-                    <li><a href="~/Home/Index">Home</a></li>
-                    <li>Product</li>
-                    <li class="active" id="li-product-id">Id: @Html.DisplayFor(model => model.ProductId)</li>
 
+                <ul class="breadcrumb-tree product-page-breadcrumb">
+                    <li id="li-home-breadcrumb"><a href="~/Home/Index">Home</a></li>
+                    <li id="li-product-id" style="display:none">Id: @Html.DisplayFor(model => model.ProductId)</li>
                 </ul>
 
-
-                <ul class="breadcrumb-tree pull-right">
-                    <li> @Html.ActionLink("Back to List", "Index")</li>
-
-
-
-                </ul>
             </div>
         </div>
         <!-- /row -->
@@ -110,9 +102,17 @@
                             <h3 class="product-price">@Html.DisplayFor(model => model.OriginalPrice)</h3>
                         }
 
-                        <span class="product-available"> @Html.DisplayFor(model => model.Stock) In Stock</span>
+                        @if (Model.Stock > 0)
+                        {
+                            <span class="product-available">@Html.DisplayFor(model => model.Stock) In Stock</span>
+                        }
+                        else
+                        {
+                            <span class="product-available">Out of Stock</span>
+                        }
+
                     </div>
-                    <p id="pDescription1"></p>
+                    <p id="pDescription1" style="word-wrap:break-word";></p>
 
                     @*<p>@Html.DisplayFor(model => model.Description)</p>*@
 
@@ -122,15 +122,30 @@
                     <div class="product-options">
                         <label>
                             Size
-                            <select class="input-select">
-                                <option value="0">X</option>
-                            </select>
+                            @if (ViewBag.Sizes.Items.Count ==  0)
+                            {
+                                <select class="input-select input-selectx">
+                                    <option value="0">Default</option>
+                                </select>
+                            }
+                            else
+                            {
+                                @Html.DropDownList("Sizes", null, htmlAttributes: new { @class = "input-select input-selectx" })
+                            }
                         </label>
                         <label>
                             Color
-                            <select class="input-select">
-                                <option value="0">Red</option>
-                            </select>
+                            @if (ViewBag.Colors.Items.Count == 0)
+                            {
+                                <select class="input-select input-selectx">
+                                    <option value="0">Default</option>
+                                </select>
+                            }
+                            else
+                            {
+                                @Html.DropDownList("Colors", null, htmlAttributes: new { @class = "input-select input-selectx" })
+                            }
+
                         </label>
                     </div>
 
@@ -138,12 +153,19 @@
                         <div class="qty-label">
                             Qty
                             <div class="input-number">
-                                <input type="number">
+                                <input type="number" value="1" id="Quantity" name="Quantity" min="1" max="@Model.Stock">
                                 <span class="qty-up">+</span>
                                 <span class="qty-down">-</span>
                             </div>
                         </div>
-                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                        @if (Model.Stock > 0)
+                        {
+                            <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                        }
+                        else
+                        {
+                            <button class="add-to-cart-btn add-to-cart-btn-disabled"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                        }
                     </div>
 
                     <ul class="product-btns">
@@ -163,10 +185,10 @@
 
                     <ul class="product-links">
                         <li>Share:</li>
-                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                        <li><a href="#"><i class="fa fa-envelope"></i></a></li>
+                        <li><a href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="https://twitter.com/?lang=en"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="https://accounts.google.com/login"><i class="fa fa-google-plus"></i></a></li>
+                        <li><a href="https://www.google.com/gmail/"><i class="fa fa-envelope"></i></a></li>
                     </ul>
 
 
@@ -189,7 +211,7 @@
                         <div id="tab1" class="tab-pane fade in">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <p id="pDescription2"></p>
+                                    <p id="pDescription2" style="word-wrap:break-word"></p>
                                     @*<p>  @Html.DisplayFor(model => model.Description)</p>*@
                                 </div>
                             </div>
@@ -200,7 +222,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     @*<p>     @Html.DisplayFor(model => model.Details)</p>*@
-                                    <p id="pDetails"> </p>
+                                    <p id="pDetails" style="word-wrap:break-word"> </p>
                                 </div>
                             </div>
                         </div>
@@ -292,7 +314,7 @@
                                 </div>
                                 <!-- /Rating -->
                                 <!-- Reviews -->
-                                <div class="col-md-6">
+                                <div class="col-md-6" id="review-table-container">
                                     <table id="reviewTable" style="width: 100%; border-bottom: none">
                                         <thead>
                                             <tr hidden>
@@ -469,7 +491,7 @@
                             </div>
                             <div class="product-body">
                                 <p class="product-category">@item.Category.Name</p>
-                                <h3 class="product-name"><a href="/Home/Product?productId=@item.ProductId" class="product-namex">@item.Name</a></h3>
+                                <h3 class="product-name"><a href="/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory" class="product-namex">@item.Name</a></h3>
 
 
                                 @if (item.PromoSaleOFF > 0)
@@ -522,7 +544,7 @@
                                     <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
                                     @*<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>*@
 
-                                    <button class="quick-view" onclick="location.href='/Home/Product?productId=@item.ProductId'"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                                    <button class="quick-view" onclick="location.href='/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory'"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
                                 </div>
                             </div>
                             <div class="add-to-cart">
@@ -650,7 +672,7 @@
 
                     var capitalizeName = aData.Name.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
 
-                    var reviewTemplate = '<div id="reviews"><ul style="list-style: none;" class="reviews">' +
+                    var reviewTemplate = '<div id="reviews"><ul style="list-style: none;word-wrap:break-word;" class="reviews">' +
                         '<li ><div class="review-heading"><h5 class="name">' + capitalizeName +
                         '</h5><p class="date" style="letter-spacing: 0.4px;">' + aData.Created.toUpperCase() + '</p>' +
                         '<div class="review-rating">' +
@@ -680,10 +702,9 @@
                     $("#reviewTable_wrapper > div:nth-child(3) > div").removeClass("col-sm-12").removeClass("col-md-7").addClass("col-md-12");
                     $("#reviewTable_wrapper > div:nth-child(3) > div > div").addClass("col-center-block");
 
-
                     // ZALDY SHOW MORE SHOW LESS CODE
                     AddReadMore();
-                    
+
                 },
                 oLanguage: { sProcessing: '<img src="/images/ajax-loader2.gif" alt="Computer man" style="width:40px;height:40px;opacity:0.7">' }
             });
@@ -901,7 +922,7 @@
                         LoadReviewRatingInfo(liProductId);
                         $("#review-form > form").trigger('reset');
 
-   
+
                         toastr.success('The <strong>Review</strong> record has been successfully added.', 'Record Added.');
                     })
                     .fail(function (xhr) {
@@ -916,22 +937,20 @@
 
 
             // ACTIVATE REVIEW TAB
-           
+
             $(".review-link").click(function () {
                 $('.tab-nav a[href="#tab3"]').tab('show');
                 //$(".tab-nav").get(0).scrollIntoView();
 
                 document.getElementById("product-tab").scrollIntoView({ behavior: "smooth" });
-              
+
                 setTimeout(function () { $('#review-form-name').focus() }, 500);
             });
 
             // END OF ACTIVATE REVIEW TAB
 
 
-
             @{
-
                <text>
                 var tempDescription = '@Html.Raw(Model.Description)';
                 var tempDetails = '@Html.Raw(Model.Details)';
@@ -946,6 +965,173 @@
 
             $('#pDetails').html(tempDetails);
             $('#pDetails > :header').removeAttr("style");
+
+
+
+
+
+
+            // LOAD BREAD CRUMB LINKS BASE ON PREVIUSPAGE
+
+            @{
+               <text>
+                var tempPrevPage = '@ViewBag.PrevPage';
+                var tempCategoryId = parseInt('@Model.Category.CategoryId');
+                var tempSelectedNavCategory = '@ViewBag.SelectedNavCategory';
+                var tempProductName = '@Model.Name';
+               </text>
+            }
+
+            switch (tempSelectedNavCategory) {
+
+               case "Hot Deals":
+                        var selectedNavCategoryHD = '';
+                        if (tempCategoryId == 1) {
+                            selectedNavCategoryHD = 'Laptops';
+                        }
+                        else if (tempCategoryId == 2) {
+                            selectedNavCategoryHD = 'Smartphones';
+                        }
+                        else if (tempCategoryId == 3) {
+                            selectedNavCategoryHD = 'Accessories';
+                        }
+                        else if (tempCategoryId == 4) {
+                            selectedNavCategoryHD = 'Headphones';
+                        }
+                        else if (tempCategoryId == 5) {
+                            selectedNavCategoryHD = 'Cameras';
+                        }
+                        else if (tempCategoryId == 6) {
+                            selectedNavCategoryHD = 'Tablet';
+                        }
+
+
+                        $(".product-page-breadcrumb")
+                            .append('<li><a href="/Home/Store?selectedCategory=1%2C2%2C3%2C4%2C5%2C6&selectedNavCategory=Hot%20Deals">Hot Deals</a></li>')
+                            .append('<li><a href="/Home/Store?selectedCategory=' + tempCategoryId + '&selectedNavCategory=' + selectedNavCategoryHD + '">' + selectedNavCategoryHD.toUpperCase() + '</a></li>')
+                            .append('<li class="active">' + tempProductName.toUpperCase() + '</li>');
+
+                        break;
+
+                case "Categories":
+
+                        var selectedNavCategoryAC = '';
+                        if (tempCategoryId == 1) {
+                            selectedNavCategoryAC = 'Laptops';
+                        }
+                        else if (tempCategoryId == 2) {
+                            selectedNavCategoryAC = 'Smartphones';
+                        }
+                        else if (tempCategoryId == 3) {
+                            selectedNavCategoryAC = 'Accessories';
+                        }
+                        else if (tempCategoryId == 4) {
+                            selectedNavCategoryAC = 'Headphones';
+                        }
+                        else if (tempCategoryId == 5) {
+                            selectedNavCategoryAC = 'Cameras';
+                        }
+                        else if (tempCategoryId == 6) {
+                            selectedNavCategoryAC = 'Tablet';
+                        }
+
+                        $(".product-page-breadcrumb")
+                            .append('<li><a href="/Home/Store?selectedCategory=1%2C2%2C3%2C4%2C5%2C6&selectedNavCategory=Categories">ALL CATEGORIES</a></li>')
+                            .append('<li><a href="/Home/Store?selectedCategory=' + tempCategoryId + '&selectedNavCategory=' + selectedNavCategoryAC + '">' + selectedNavCategoryAC.toUpperCase() + '</a></li>')
+                            .append('<li class="active">' + tempProductName.toUpperCase() + '</li>');
+
+                        break;
+
+                case "Home":
+                        var selectedNavCategoryH = '';
+                        if (tempCategoryId == 1) {
+                            selectedNavCategoryH = 'Laptops';
+                        }
+                        else if (tempCategoryId == 2) {
+                            selectedNavCategoryH = 'Smartphones';
+                        }
+                        else if (tempCategoryId == 3) {
+                            selectedNavCategoryH = 'Accessories';
+                        }
+                        else if (tempCategoryId == 4) {
+                            selectedNavCategoryH = 'Headphones';
+                        }
+                        else if (tempCategoryId == 5) {
+                            selectedNavCategoryH = 'Cameras';
+                        }
+                        else if (tempCategoryId == 6) {
+                            selectedNavCategoryH = 'Tablet';
+                        }
+
+
+                        $(".product-page-breadcrumb")
+                            .append('<li><a href="/Home/Store?selectedCategory=' + tempCategoryId + '&selectedNavCategory=' + selectedNavCategoryH + '">' + selectedNavCategoryH.toUpperCase() + '</a></li>')
+                            .append('<li class="active">' + tempProductName.toUpperCase() + '</li>');
+                    break;
+
+                case "Laptops":
+                    $(".product-page-breadcrumb")
+                        .append('<li><a href="/Home/Store?selectedCategory=' + tempCategoryId + '&selectedNavCategory=Laptops">LAPTOPS</a></li>')
+                        .append('<li class="active">' + tempProductName.toUpperCase() + '</li>');
+                    break;
+
+
+                case "Smartphones":
+                    $(".product-page-breadcrumb")
+                        .append('<li><a href="/Home/Store?selectedCategory=' + tempCategoryId + '&selectedNavCategory=Smartphones">SMARTPHONES</a></li>')
+                        .append('<li class="active">' + tempProductName.toUpperCase() + '</li>');
+                    break;
+
+
+                case "Cameras":
+                    $(".product-page-breadcrumb")
+                        .append('<li><a href="/Home/Store?selectedCategory=' + tempCategoryId + '&selectedNavCategory=Cameras">CAMERAS</a></li>')
+                        .append('<li class="active">' + tempProductName.toUpperCase() + '</li>');
+                    break;
+
+
+                case "Accessories":
+                    $(".product-page-breadcrumb")
+                        .append('<li><a href="/Home/Store?selectedCategory=' + tempCategoryId + '&selectedNavCategory=Accessories">ACCESSORIES</a></li>')
+                        .append('<li class="active">' + tempProductName.toUpperCase() + '</li>');
+                    break;
+
+
+                case "Headphones":
+                    $(".product-page-breadcrumb")
+                        .append('<li><a href="/Home/Store?selectedCategory=' + tempCategoryId + '&selectedNavCategory=Headphones">HEADPHONES</a></li>')
+                        .append('<li class="active">' + tempProductName.toUpperCase() + '</li>');
+                    break;
+
+
+                case "Tablet":
+                    $(".product-page-breadcrumb")
+                        .append('<li><a href="/Home/Store?selectedCategory=' + tempCategoryId + '&selectedNavCategory=Tablet">TABLET</a></li>')
+                        .append('<li class="active">' + tempProductName.toUpperCase() + '</li>');
+                    break;
+
+                default:
+                        break;
+            }
+
+            // END OF LOAD BREAD CRUMB LINKS BASE ON PREVIUSPAGE
+            if (parseInt($("#Quantity").attr("max")) == 0) {
+                $("#Quantity").val(0);
+         
+            }
+
+            $("#Quantity").change(function (e) {
+                if (parseInt($(this).val()) > parseInt($(this).attr("max"))) {
+                    $(this).val(parseInt($(this).attr("max")));
+                }
+
+            });
+
+            $("#Quantity").keypress(function (event) {
+                if (event.keyCode == 46) {
+                    event.preventDefault();
+                }
+            });
         });
     </script>
 }

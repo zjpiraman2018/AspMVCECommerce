@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AspMVCECommerce.Models
 {
@@ -7,5 +8,9 @@ namespace AspMVCECommerce.Models
         [Key]
         public int SizeId { get; set; }
         public string Name { get; set; }
+
+        public int ProductId { get; set; }
+        [ForeignKey("ProductId")]
+        public Product Product { get; set; }
     }
 }

@@ -50,8 +50,8 @@ namespace AspMVCECommerce.Models
         {
             modelBuilder.Entity<Product>().HasMany(p => p.Reviews).WithRequired(r => r.Product).WillCascadeOnDelete(true);
             modelBuilder.Entity<Product>().HasMany(p => p.Images).WithRequired(r => r.Product).WillCascadeOnDelete(true);
-            //modelBuilder.Entity<Product>().HasMany(p => p.Sizes).WithOptional().WillCascadeOnDelete(false);
-            //modelBuilder.Entity<Product>().HasMany(p => p.Colors).WithOptional().WillCascadeOnDelete(false);
+            modelBuilder.Entity<Product>().HasMany(p => p.Sizes).WithRequired(r => r.Product).WillCascadeOnDelete(true);
+            modelBuilder.Entity<Product>().HasMany(p => p.Colors).WithRequired(r => r.Product).WillCascadeOnDelete(true);
 
    
             modelBuilder.Entity<ShoppingCart>().HasMany(s=>s.LineItems).WithRequired(l => l.ShoppingCart).WillCascadeOnDelete(false);

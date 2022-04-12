@@ -398,8 +398,8 @@
                                 </div>
                                 <div class="product-body">
                                     <p class="product-category">@item.Category.Name</p>
-                                    <h3 class="product-name"><a href="/Home/Product?productId=@item.ProductId" class="product-namex">@item.Name</a></h3>
-
+                                    @*<h3 class="product-name"><a href="/Home/Product?productId=@item.ProductId" class="product-namex">@item.Name</a></h3>*@
+                                    <h3 class="product-name"><a href="/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory" class="product-namex">@item.Name</a></h3>
 
                                     @if (item.PromoSaleOFF > 0)
                                     {
@@ -422,12 +422,12 @@
 
 
                                     @*<div class="product-rating">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>*@
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+        </div>*@
 
 
                                     <div class="product-rating">
@@ -451,7 +451,7 @@
                                         <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
                                         @*<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>*@
 
-                                        <button class="quick-view" onclick="location.href='/Home/Product?productId=@item.ProductId'"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                                        <button class="quick-view" onclick="location.href='/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory'"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
                                     </div>
                                 </div>
                                 <div class="add-to-cart">

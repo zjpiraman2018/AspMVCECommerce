@@ -101,13 +101,13 @@ namespace AspMVCECommerce.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(
-            [Bind(Include = "ProductId,Name,Description,Details,OriginalPrice,DiscountedPrice,Stock,CategoryId,BrandId,ImageFile,Images,PromoSaleOFF,PromoSaleStartDateTime,PromoSaleEndDateTime")]
+            [Bind(Include = "ProductId,Name,Description,Details,OriginalPrice,DiscountedPrice,Stock,CategoryId,BrandId,ImageFile,Images,Colors,Sizes,PromoSaleOFF,PromoSaleStartDateTime,PromoSaleEndDateTime")]
             ProductViewModel productViewModel)
         {
             if (ModelState.IsValid)
             {
-      
 
+           
                 var product = productViewModel.ToProduct();
                 product.CreatedDateTime = DateTime.Now;
 
@@ -156,6 +156,30 @@ namespace AspMVCECommerce.Controllers
                     db.SaveChanges();
                     ModelState.Clear();
                 }
+
+                // ADD SIZES TO DATABASE
+                foreach (var size in productViewModel.Sizes)
+                {
+                    var _size = new Size();
+                    _size.Name = size.Name;
+                    _size.ProductId = productId;
+                    db.Sizes.Add(_size);
+                    db.SaveChanges();
+                }
+                // END OF ADD SIZES TO DATABASE
+
+
+                // ADD COLORS TO DATABASE
+                foreach (var color in productViewModel.Colors)
+                {
+                    var _color = new Color();
+                    _color.Name = color.Name;
+                    _color.ProductId = productId;
+                    db.Colors.Add(_color);
+                    db.SaveChanges();
+                }
+                // END OF ADD COLORS TO DATABASE
+
                 return RedirectToAction("Index");
             }
             ViewBag.SelectedNavCategory = "Manage Product";
@@ -187,6 +211,20 @@ namespace AspMVCECommerce.Controllers
                 productViewModel.Images.Add(image.ToImageViewModel());
             }
 
+
+            var sizes = db.Sizes.Where(a => a.ProductId == id).ToList();
+            foreach (var size in sizes)
+            {
+                productViewModel.Sizes.Add(size.ToSizeViewModel());
+            }
+
+            var colors = db.Colors.Where(a => a.ProductId == id).ToList();
+            foreach (var color in colors)
+            {
+                productViewModel.Colors.Add(color.ToColorViewModel());
+            }
+
+
             ViewBag.CategoryId = new SelectList(db.Categories, "CategoryId", "Name", product.CategoryId);
             ViewBag.BrandId = new SelectList(db.Brands, "BrandId", "Name", product.BrandId);
 
@@ -201,7 +239,7 @@ namespace AspMVCECommerce.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ProductId,Name,Description,Details,OriginalPrice,DiscountedPrice,Stock,CategoryId,BrandId,ImageFile,Images,PromoSaleOFF,CreatedDateTime,PromoSaleStartDateTime,PromoSaleEndDateTime")] ProductViewModel productViewModel)
+        public ActionResult Edit([Bind(Include = "ProductId,Name,Description,Details,OriginalPrice,DiscountedPrice,Stock,CategoryId,BrandId,ImageFile,Images,Colors,Sizes,PromoSaleOFF,CreatedDateTime,PromoSaleStartDateTime,PromoSaleEndDateTime")] ProductViewModel productViewModel)
         {
             var product = productViewModel.ToProduct();
             if (ModelState.IsValid)
@@ -224,6 +262,57 @@ namespace AspMVCECommerce.Controllers
 
                 db.Entry(_product).State = EntityState.Modified;
                 db.SaveChanges();
+
+
+
+                // UPDATE SIZES RECORD
+                var notForDeleteSizeIdList = productViewModel.Sizes.Where(s => s.SizeId > 0).Select(s=>s.SizeId).ToList();
+                var forDeleteSizeList = db.Sizes.Where(s => s.ProductId == product.ProductId && !notForDeleteSizeIdList.Contains(s.SizeId)).ToList();
+
+                db.Sizes.RemoveRange(forDeleteSizeList);
+                db.SaveChanges();
+
+
+                var sizeViewModelList = productViewModel.Sizes.Where(s => s.SizeId == 0).ToList();
+
+                foreach (var sizeViewModel in sizeViewModelList)
+                {
+                    var size = new Size()
+                    {
+                         Name = sizeViewModel.Name,
+                         ProductId = product.ProductId,
+                         SizeId = 0
+                    };
+
+                    db.Sizes.Add(size);
+                    db.SaveChanges();
+                }
+                // END OF UPDATE SIZES RECORD
+
+
+                // UPDATE COLORS RECORD
+                var notForDeleteColorIdList = productViewModel.Colors.Where(s => s.ColorId > 0).Select(s => s.ColorId).ToList();
+                var forDeleteColorList = db.Colors.Where(s => s.ProductId == product.ProductId && !notForDeleteColorIdList.Contains(s.ColorId)).ToList();
+
+                db.Colors.RemoveRange(forDeleteColorList);
+                db.SaveChanges();
+
+
+                var colorViewModelList = productViewModel.Colors.Where(s => s.ColorId == 0).ToList();
+
+                foreach (var colorViewModel in colorViewModelList)
+                {
+                    var color = new Color()
+                    {
+                        Name = colorViewModel.Name,
+                        ProductId = product.ProductId,
+                        ColorId = 0
+                    };
+
+                    db.Colors.Add(color);
+                    db.SaveChanges();
+                }
+                // END OF UPDATE Colors RECORD
 
                 foreach (var imageViewModel in productViewModel.Images)
                 {

@@ -13,6 +13,9 @@ namespace AspMVCECommerce.Models
         {
             Reviews = new Collection<Review>();
             Images = new Collection<Image>();
+
+            Sizes = new Collection<Size>();
+            Colors = new Collection<Color>();
         }
 
         [Key]
@@ -47,6 +50,7 @@ namespace AspMVCECommerce.Models
         public ICollection<Review> Reviews { get; set; }
         public ICollection<Image> Images { get; set; }
 
-
+        public ICollection<Size> Sizes { get; set; }
+        public ICollection<Color> Colors { get; set; }
     }
 }

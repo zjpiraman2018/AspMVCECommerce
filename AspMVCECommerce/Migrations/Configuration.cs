@@ -19,27 +19,27 @@ namespace AspMVCECommerce.Migrations
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
-            var Colors = new List<Color>
-            {
-                 new Color {ColorId =1, Name = "Red"},
-                 new Color {ColorId =2, Name = "Blue"},
-                 new Color {ColorId =3, Name = "Yellow"},
-                 new Color {ColorId =4, Name = "Green"},
-                 new Color {ColorId =5, Name = "Purple"}
-            };
+            //var Colors = new List<Color>
+            //{
+            //     new Color {ColorId =1, Name = "Red"},
+            //     new Color {ColorId =2, Name = "Blue"},
+            //     new Color {ColorId =3, Name = "Yellow"},
+            //     new Color {ColorId =4, Name = "Green"},
+            //     new Color {ColorId =5, Name = "Purple"}
+            //};
 
-            Colors.ForEach(color => context.Colors.AddOrUpdate(x => x.Name, color));
+            //Colors.ForEach(color => context.Colors.AddOrUpdate(x => x.Name, color));
 
-            var Sizes = new List<Size>
-            {
-                 new Size {SizeId =1, Name = "Small"},
-                 new Size {SizeId =2, Name = "Extra Small"},
-                 new Size {SizeId =3, Name = "Medium"},
-                 new Size {SizeId =4, Name = "Large"},
-                 new Size {SizeId =5, Name = "Extra Large"}
-            };
+            //var Sizes = new List<Size>
+            //{
+            //     new Size {SizeId =1, Name = "Small"},
+            //     new Size {SizeId =2, Name = "Extra Small"},
+            //     new Size {SizeId =3, Name = "Medium"},
+            //     new Size {SizeId =4, Name = "Large"},
+            //     new Size {SizeId =5, Name = "Extra Large"}
+            //};
 
-            Sizes.ForEach(size => context.Sizes.AddOrUpdate(x => x.Name, size));
+            //Sizes.ForEach(size => context.Sizes.AddOrUpdate(x => x.Name, size));
 
             var Categories = new List<Category>
             {

@@ -19,6 +19,7 @@ namespace AspMVCECommerce.Controllers
         public ActionResult Index()
         {
             var products = db.Products.Include(p => p.Category).Include(p => p.Images).ToList();
+            ViewBag.SelectedNavCategory = "Home";
             return View(products);
         }
 
@@ -381,7 +382,7 @@ namespace AspMVCECommerce.Controllers
         }
 
 
-        public ActionResult Product(int? productId)
+        public ActionResult Product(int? productId, string selectedNavCategory)
         {
             if (productId == null)
             {
@@ -395,10 +396,37 @@ namespace AspMVCECommerce.Controllers
                 return HttpNotFound();
             }
 
-            var products = db.Products.Include(p => p.Category).Include(p => p.Images).Where(p=>p.CategoryId == product.CategoryId && p.ProductId != productId).Take(4);
+            IQueryable<Product> products = null;
 
-            ViewBag.SelectedNavCategory = "Home";
+            // -- FILTER BY PROMO SALES ---
+            if (!string.IsNullOrEmpty(selectedNavCategory))
+            {
+                if (selectedNavCategory == "Hot Deals")
+                {
+                    products = db.Products.Include(p => p.Category).Include(p => p.Images).Where(p => p.CategoryId == product.CategoryId && p.ProductId != productId && (p.PromoSaleOFF > 0 ? (DateTime.Now >= p.PromoSaleStartDateTime && DateTime.Now <= p.PromoSaleEndDateTime) : false)).Take(4);
+                }
+                else
+                {
+                    products = db.Products.Include(p => p.Category).Include(p => p.Images).Where(p => p.CategoryId == product.CategoryId && p.ProductId != productId).Take(4);
+                }
+            }
+            else
+            {
+                products = db.Products.Include(p => p.Category).Include(p => p.Images).Where(p => p.CategoryId == product.CategoryId && p.ProductId != productId).Take(4);
+            }
+            // -- END OF FILTER BY PROMO SALES ---
+
+            ViewBag.Sizes = new SelectList(db.Sizes.Where(s => s.ProductId == productId).ToList(), "SizeId", "Name");
+            ViewBag.Colors = new SelectList(db.Colors.Where(c => c.ProductId == productId).ToList(), "ColorId", "Name");
+
+            ViewBag.SelectedNavCategory = selectedNavCategory;
+
+
+
+
             ViewBag.RelatedProduct = products;
+  
+
 
             return View(product);
         }
