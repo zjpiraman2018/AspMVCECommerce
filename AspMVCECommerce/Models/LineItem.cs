@@ -11,6 +11,7 @@ namespace AspMVCECommerce.Models
 
         public int Quantity { get; set; }
 
+        [DisplayFormat(DataFormatString = "₱{0:#,0}", ApplyFormatInEditMode = true)]
         public int TotalPrice { get; set; }
 
         public int ProductId { get; set; }

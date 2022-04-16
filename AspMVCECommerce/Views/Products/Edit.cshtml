@@ -10,7 +10,7 @@
 <div id="breadcrumb" class="section breadcrumbx" style="display: flex;">
     <div class="container">
 
-        <div class="row pull-left" >
+        <div class="row pull-left">
             <div class="col-md-12">
                 <ul class="breadcrumb-tree">
                     <li> <a href="#" style="font-size: 16px; font-weight: bold; white-space: nowrap;">Manage Product</a></li>
@@ -59,315 +59,315 @@
         {
             @Html.AntiForgeryToken()
 
-        <div class="form-horizontal">
+            <div class="form-horizontal">
 
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            @Html.HiddenFor(model => model.ProductId)
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.ProductId)
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-controlx" } })
-                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @*@Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })*@
-                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = 4 })
-                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Details, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @*@Html.EditorFor(model => model.Details, new { htmlAttributes = new { @class = "form-control" } })*@
-                    @Html.TextAreaFor(model => model.Details, new { @class = "form-control", @rows = 4 })
-                    @Html.ValidationMessageFor(model => model.Details, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.OriginalPrice, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.OriginalPrice, new { htmlAttributes = new { @class = "form-controlx" } })
-                    @Html.ValidationMessageFor(model => model.OriginalPrice, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.DiscountedPrice, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.DiscountedPrice, new { htmlAttributes = new { @class = "form-controlx" } })
-                    @Html.ValidationMessageFor(model => model.DiscountedPrice, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Stock, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Stock, new { htmlAttributes = new { @class = "form-controlx" } })
-                    @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.PromoSaleOFF, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    <div class="row" style="display: flex; margin-right:0px; margin-left: 0px; ">
-                        @Html.EditorFor(model => model.PromoSaleOFF, new { htmlAttributes = new { @class = "form-controlx promosale" } })
-                        <label id="PromoSaleOFFPercent" for="PromoSaleOFF" style="padding-left: 6px; padding-top: 7px;"></label>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-controlx" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                     </div>
-
-                    @Html.ValidationMessageFor(model => model.PromoSaleOFF, "", new { @class = "text-danger" })
                 </div>
-            </div>
 
-            <div class="form-group" id="PromoDurationDiv" hidden>
-                <label class="control-label col-md-2" for="PromoSaleStartDateTime">Promo Sale Duration</label>
-                <div class="col-md-10">
-
-
-                    <div class="container" style="padding-left:0px">
-                        <div class='col-md-4' style="padding-left:0px">
-                            <div class="form-group">
-                                <label class="control-label col-md-3" for="PromoSaleStartDateTime" style="text-align: left; width: auto;">Start Date:</label>
-                                <div class='input-group date' id='datetimepicker6'>
-
-
-                                    <input type='text' class="form-controlx" id='PromoSaleStartDateTime' name="PromoSaleStartDateTime" />
-                                    <span class="input-group-addon" style="border: 1px solid #E4E7ED !important; border-radius: 0px !important;">
-                                        <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
-                                </div>
-
-                                @Html.ValidationMessageFor(model => model.PromoSaleStartDateTime, "", new { @class = "text-danger  col-md-offset-3", @Style = "padding-left:8px;" })
-                            </div>
-                        </div>
-                        <div class='col-md-4' style="padding-left:0px">
-                            <div class="form-group">
-                                <label class="control-label col-md-3" for="PromoSaleEndDateTime" style="text-align: left; width: auto;">End Date:</label>
-                                <div class='input-group date' id='datetimepicker7'>
-
-                                    <input type='text' class="form-controlx" id='PromoSaleEndDateTime' name="PromoSaleEndDateTime" />
-                                    <span class="input-group-addon" style="border: 1px solid #E4E7ED !important; border-radius: 0px !important;">
-                                        <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
-                                </div>
-                                @Html.ValidationMessageFor(model => model.PromoSaleEndDateTime, "", new { @class = "text-danger   col-md-offset-3" })
-                            </div>
-                        </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @*@Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })*@
+                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = 4 })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                     </div>
-
-
-
                 </div>
-            </div>
 
-
-
-            <div class="form-group">
-                @*@Html.LabelFor(model => model.CategoryId, "CategoryId", htmlAttributes: new { @class = "control-label col-md-2" })*@
-
-                <label class="control-label col-md-2" for="CategoryId">Category</label>
-                <div class="col-md-10">
-                    @Html.DropDownList("CategoryId", null, htmlAttributes: new { @class = "form-controlx" })
-                    @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group">
-
-
-                <label class="control-label col-md-2" for="BrandId">Brand</label>
-                <div class="col-md-10">
-                    @Html.DropDownList("BrandId", null, htmlAttributes: new { @class = "form-controlx" })
-                    @Html.ValidationMessageFor(model => model.BrandId, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-
-
-            <div class="form-group">
-                <label class="control-label col-md-2" for="list-group-size">Sizes</label>
-                <div class="col-md-4">
-                    <div class="row">
-                        <div class="col-md-9" style="margin-right: 0px; padding-right: 0px;padding-right:5px;">
-                            <input class="form-controlx text-box single-line" placeholder="Enter size here" maxlength="29" data-val="true" id="size-textbox" name="size-textbox" type="text" value="">
-                            <p class="text-danger" id="size-textbox-validation" hidden>Size input cannot be empty!</p>
-                            <p class="text-danger" id="size-textbox-validation-duplicate" hidden>Size already exist!</p>
-                        </div>
-                        <div class="col-md-3" style="padding-left: 0px; margin-left: 0px;">
-                            <a href="javascript:void(0)" id="add-size-link" class="btn-default btnx" style="width: 100%; height: 40px; padding-top: 5px; ">Add</a>
-                        </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Details, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @*@Html.EditorFor(model => model.Details, new { htmlAttributes = new { @class = "form-control" } })*@
+                        @Html.TextAreaFor(model => model.Details, new { @class = "form-control", @rows = 4 })
+                        @Html.ValidationMessageFor(model => model.Details, "", new { @class = "text-danger" })
                     </div>
-
-                    <div style="margin-top:5px;width: 100%; height: 166px; overflow: scroll; border: 1px solid #E4E7ED; overflow-x: hidden; ">
-                        <ul class="list-group" id="list-group-size" style="margin-bottom: 0px;border: 0px ">
-                        </ul>
-
-                        <div hidden id="size-list-container">
-
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-
-            <div class="form-group">
-                <label class="control-label col-md-2" for="list-group-color">Colors</label>
-                <div class="col-md-4">
-                    <div class="row">
-                        <div class="col-md-9" style="margin-right: 0px; padding-right: 0px;padding-right:5px;">
-                            <input class="form-controlx text-box single-line" placeholder="Enter color here" maxlength="29" data-val="true" id="color-textbox" name="color-textbox" type="text" value="">
-                            <p class="text-danger" id="color-textbox-validation" hidden>Color input cannot be empty!</p>
-                            <p class="text-danger" id="color-textbox-validation-duplicate" hidden>Color already exist!</p>
-                        </div>
-                        <div class="col-md-3" style="padding-left: 0px; margin-left: 0px;">
-                            <a href="javascript:void(0)" id="add-color-link" class="btn-default btnx" style="width: 100%; height: 40px; padding-top: 5px; ">Add</a>
-                        </div>
-                    </div>
-
-                    <div style="margin-top:5px;width: 100%; height: 166px; overflow: scroll; border: 1px solid #E4E7ED; overflow-x: hidden; ">
-                        <ul class="list-group" id="list-group-color" style="margin-bottom: 0px;border: 0px ">
-                        </ul>
-                        <div hidden id="color-list-container">
-
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-
-
-
-
-
-
-
-
-
-            <div class="form-group">
-                <label class="control-label col-md-2" for="CreatedDateTime">Created Date Time:</label>
-                <div class="col-md-10">
-                    <div class='input-group date' id='dtpCreatedDateTime'>
-                        <input type='text' class="form-controlx" id='CreatedDateTime' name="CreatedDateTime" value="@Model.CreatedDateTime" required />
-                        <span class="input-group-addon" style="border: 1px solid #E4E7ED !important; border-radius: 0px !important;">
-                            <span class="glyphicon glyphicon-calendar"></span>
-                        </span>
-                    </div>
-
-                    @Html.ValidationMessageFor(model => model.CreatedDateTime, "", new { @class = "text-danger" })
                 </div>
 
+                <div class="form-group">
+                    @Html.LabelFor(model => model.OriginalPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.OriginalPrice, new { htmlAttributes = new { @class = "form-controlx" } })
+                        @Html.ValidationMessageFor(model => model.OriginalPrice, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DiscountedPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.DiscountedPrice, new { htmlAttributes = new { @class = "form-controlx" } })
+                        @Html.ValidationMessageFor(model => model.DiscountedPrice, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Stock, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Stock, new { htmlAttributes = new { @class = "form-controlx" } })
+                        @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PromoSaleOFF, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div class="row" style="display: flex; margin-right:0px; margin-left: 0px; ">
+                            @Html.EditorFor(model => model.PromoSaleOFF, new { htmlAttributes = new { @class = "form-controlx promosale" } })
+                            <label id="PromoSaleOFFPercent" for="PromoSaleOFF" style="padding-left: 6px; padding-top: 7px;"></label>
+                        </div>
+
+                        @Html.ValidationMessageFor(model => model.PromoSaleOFF, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" id="PromoDurationDiv" hidden>
+                    <label class="control-label col-md-2" for="PromoSaleStartDateTime">Promo Sale Duration</label>
+                    <div class="col-md-10">
 
 
-            </div>
+                        <div class="container" style="padding-left:0px">
+                            <div class='col-md-4' style="padding-left:0px">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3" for="PromoSaleStartDateTime" style="text-align: left; width: auto;">Start Date:</label>
+                                    <div class='input-group date' id='datetimepicker6'>
 
 
-
-            <!-- Thumbnail gallery for product images -->
-            <div class="form-group">
-                <label class="control-label col-md-2" for="">Images</label>
-                <div class="col-md-10">
-
-                    <center>
-
-                        <div class="scroll">
-                            <div class="row" style="margin-right:0px; margin-left: 0px;">
-
-                                @for (int i = 0; i < Model.Images.Count; i++)
-                                {
-
-
-
-
-                                    <div class="col-md-3" name="@("Images[" + i.ToString() + "]")" style="padding: 4px; margin: 10px;">
-                                        <div class="thumbnailx" style="height: 300px;width:230px;">
-                                            <a href="@Url.Content(Model.Images[i].ImagePath)">
-
-                                                <img src="@Url.Content(Model.Images[i].ImagePath)"
-                                                     alt="Lights">
-
-
-                                                <div class="caption">
-
-
-
-                                                    <input type="hidden" id="@("Images[" + i.ToString() + "]" + ".ImageId")" name="@("Images[" + i.ToString() + "]" + ".ImageId")" value="@Model.Images[i].ImageId">
-
-                                                    @if (Model.Images[i].Default.ToString() == "True")
-                                                    {
-                                                        <a href="javascript:void(0)" image-id="@("Images[" + i.ToString() + "]")" class="btnx btn-default btn-sm disabled IsImageDefault" style="line-height:18px !important;font-size:12px !important;height:30px;">Primary</a>
-                                                    }
-                                                    else
-                                                    {
-                                                        <a href="javascript:void(0)" image-id="@("Images[" + i.ToString() + "]")" class="btnx btn-primary btn-sm IsImageDefault" style="line-height:18px !important;font-size:12px !important;height:30px;">Set as Default</a>
-                                                    }
-
-                                                    <input type="hidden" id="@("Images[" + i.ToString() + "]" + ".Default")" name="@("Images[" + i.ToString() + "]" + ".Default")" value="@Model.Images[i].Default.ToString()">
-
-                                                    <a href="javascript:void(0)" image-id="@("Images[" + i.ToString() + "]")" class="btnx btn-danger btn-sm IsImageRemove" style="line-height:18px !important;font-size:12px !important;height:30px;">Remove</a>
-
-                                                    <input type="hidden" id="@("Images[" + i.ToString() + "]" + ".IsRemove")" name="@("Images[" + i.ToString() + "]" + ".IsRemove")" value="false">
-                                                </div>
-                                            </a>
-                                        </div>
+                                        <input type='text' class="form-controlx" id='PromoSaleStartDateTime' name="PromoSaleStartDateTime" />
+                                        <span class="input-group-addon" style="border: 1px solid #E4E7ED !important; border-radius: 0px !important;">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
                                     </div>
 
-                                }
+                                    @Html.ValidationMessageFor(model => model.PromoSaleStartDateTime, "", new { @class = "text-danger  col-md-offset-3", @Style = "padding-left:8px;" })
+                                </div>
+                            </div>
+                            <div class='col-md-4' style="padding-left:0px">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3" for="PromoSaleEndDateTime" style="text-align: left; width: auto;">End Date:</label>
+                                    <div class='input-group date' id='datetimepicker7'>
+
+                                        <input type='text' class="form-controlx" id='PromoSaleEndDateTime' name="PromoSaleEndDateTime" />
+                                        <span class="input-group-addon" style="border: 1px solid #E4E7ED !important; border-radius: 0px !important;">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.PromoSaleEndDateTime, "", new { @class = "text-danger   col-md-offset-3" })
+                                </div>
+                            </div>
+                        </div>
 
 
 
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    @*@Html.LabelFor(model => model.CategoryId, "CategoryId", htmlAttributes: new { @class = "control-label col-md-2" })*@
+
+                    <label class="control-label col-md-2" for="CategoryId">Category</label>
+                    <div class="col-md-10">
+                        @Html.DropDownList("CategoryId", null, htmlAttributes: new { @class = "form-controlx" })
+                        @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+
+
+                    <label class="control-label col-md-2" for="BrandId">Brand</label>
+                    <div class="col-md-10">
+                        @Html.DropDownList("BrandId", null, htmlAttributes: new { @class = "form-controlx" })
+                        @Html.ValidationMessageFor(model => model.BrandId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="list-group-size">Sizes</label>
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div class="col-md-9" style="margin-right: 0px; padding-right: 0px;padding-right:5px;">
+                                <input class="form-controlx text-box single-line" placeholder="Enter size here" maxlength="29" data-val="true" id="size-textbox" name="size-textbox" type="text" value="">
+                                <p class="text-danger" id="size-textbox-validation" hidden>Size input cannot be empty!</p>
+                                <p class="text-danger" id="size-textbox-validation-duplicate" hidden>Size already exist!</p>
+                            </div>
+                            <div class="col-md-3" style="padding-left: 0px; margin-left: 0px;">
+                                <a href="javascript:void(0)" id="add-size-link" class="btn-default btnx" style="width: 100%; height: 40px; padding-top: 5px; ">Add</a>
+                            </div>
+                        </div>
+
+                        <div style="margin-top:5px;width: 100%; height: 166px; overflow: scroll; border: 1px solid #E4E7ED; overflow-x: hidden; ">
+                            <ul class="list-group" id="list-group-size" style="margin-bottom: 0px;border: 0px ">
+                            </ul>
+
+                            <div hidden id="size-list-container">
 
                             </div>
                         </div>
-                    </center>
+
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="list-group-color">Colors</label>
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div class="col-md-9" style="margin-right: 0px; padding-right: 0px;padding-right:5px;">
+                                <input class="form-controlx text-box single-line" placeholder="Enter color here" maxlength="29" data-val="true" id="color-textbox" name="color-textbox" type="text" value="">
+                                <p class="text-danger" id="color-textbox-validation" hidden>Color input cannot be empty!</p>
+                                <p class="text-danger" id="color-textbox-validation-duplicate" hidden>Color already exist!</p>
+                            </div>
+                            <div class="col-md-3" style="padding-left: 0px; margin-left: 0px;">
+                                <a href="javascript:void(0)" id="add-color-link" class="btn-default btnx" style="width: 100%; height: 40px; padding-top: 5px; ">Add</a>
+                            </div>
+                        </div>
+
+                        <div style="margin-top:5px;width: 100%; height: 166px; overflow: scroll; border: 1px solid #E4E7ED; overflow-x: hidden; ">
+                            <ul class="list-group" id="list-group-color" style="margin-bottom: 0px;border: 0px ">
+                            </ul>
+                            <div hidden id="color-list-container">
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="CreatedDateTime">Created Date Time:</label>
+                    <div class="col-md-10">
+                        <div class='input-group date' id='dtpCreatedDateTime'>
+                            <input type='text' class="form-controlx" id='CreatedDateTime' name="CreatedDateTime" value="@Model.CreatedDateTime" required />
+                            <span class="input-group-addon" style="border: 1px solid #E4E7ED !important; border-radius: 0px !important;">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+
+                        @Html.ValidationMessageFor(model => model.CreatedDateTime, "", new { @class = "text-danger" })
+                    </div>
+
 
 
                 </div>
-            </div>
-
-            <!-- End of Thumbnail gallery -->
-
-
-            <div class="form-group">
-                @*@Html.LabelFor(model => model.ImageFile, "ImageFile", htmlAttributes: new { @class = "control-label col-md-2" })*@
-
-                <label class="control-label col-md-2" for="ImageFile">Upload Images</label>
-                <div class="col-md-10">
-
-                    @*<input type="file" class="custom-file-input" id="ImageFile" name="ImageFile" multiple>*@
 
 
 
-                    <!--file input example -->
+                <!-- Thumbnail gallery for product images -->
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="">Images</label>
+                    <div class="col-md-10">
 
-                    <label class="btnx btn-primary" for="ImageFile" style="width:150px;height:40px;padding-top:5px;">
-                        <input id="ImageFile" type="file" style="display:none"
-                               name="ImageFile" multiple accept="image/*">
-                        Choose Files
-                    </label>
-                    <span class='label label-info' id="upload-file-info" style="font-size:medium"></span>
-                    <!--./file input example -->
+                        <center>
+
+                            <div class="scroll">
+                                <div class="row" style="margin-right:0px; margin-left: 0px;">
+
+                                    @for (int i = 0; i < Model.Images.Count; i++)
+                                    {
 
 
 
 
+                                        <div class="col-md-3" name="@("Images[" + i.ToString() + "]")" style="padding: 4px; margin: 10px;">
+                                            <div class="thumbnailx" style="height: 300px;width:230px;">
+                                                <a href="@Url.Content(Model.Images[i].ImagePath)">
 
+                                                    <img src="@Url.Content(Model.Images[i].ImagePath)"
+                                                         alt="Lights">
+
+
+                                                    <div class="caption">
+
+
+
+                                                        <input type="hidden" id="@("Images[" + i.ToString() + "]" + ".ImageId")" name="@("Images[" + i.ToString() + "]" + ".ImageId")" value="@Model.Images[i].ImageId">
+
+                                                        @if (Model.Images[i].Default.ToString() == "True")
+                                                        {
+                                                            <a href="javascript:void(0)" image-id="@("Images[" + i.ToString() + "]")" class="btnx btn-default btn-sm disabled IsImageDefault" style="line-height:18px !important;font-size:12px !important;height:30px;">Primary</a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a href="javascript:void(0)" image-id="@("Images[" + i.ToString() + "]")" class="btnx btn-primary btn-sm IsImageDefault" style="line-height:18px !important;font-size:12px !important;height:30px;">Set as Default</a>
+                                                        }
+
+                                                        <input type="hidden" id="@("Images[" + i.ToString() + "]" + ".Default")" name="@("Images[" + i.ToString() + "]" + ".Default")" value="@Model.Images[i].Default.ToString()">
+
+                                                        <a href="javascript:void(0)" image-id="@("Images[" + i.ToString() + "]")" class="btnx btn-danger btn-sm IsImageRemove" style="line-height:18px !important;font-size:12px !important;height:30px;">Remove</a>
+
+                                                        <input type="hidden" id="@("Images[" + i.ToString() + "]" + ".IsRemove")" name="@("Images[" + i.ToString() + "]" + ".IsRemove")" value="false">
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    }
+
+
+
+
+                                </div>
+                            </div>
+                        </center>
+
+
+                    </div>
+                </div>
+
+                <!-- End of Thumbnail gallery -->
+
+
+                <div class="form-group">
+                    @*@Html.LabelFor(model => model.ImageFile, "ImageFile", htmlAttributes: new { @class = "control-label col-md-2" })*@
+
+                    <label class="control-label col-md-2" for="ImageFile">Upload Images</label>
+                    <div class="col-md-10">
+
+                        @*<input type="file" class="custom-file-input" id="ImageFile" name="ImageFile" multiple>*@
+
+
+
+                        <!--file input example -->
+
+                        <label class="btnx btn-primary" for="ImageFile" style="width:150px;height:40px;padding-top:5px;">
+                            <input id="ImageFile" type="file" style="display:none"
+                                   name="ImageFile" multiple accept="image/*">
+                            Choose Files
+                        </label>
+                        <span class='label label-info' id="upload-file-info" style="font-size:medium"></span>
+                        <!--./file input example -->
+
+
+
+
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Save" class="btnx btn-default" style="width: 150px; height: 40px;" />
+                    </div>
                 </div>
             </div>
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Save" class="btnx btn-default" style="width: 150px; height: 40px;" />
-                </div>
-            </div>
-        </div>
         }
 
 
@@ -386,8 +386,8 @@
     <script src="~/Scripts/moment.min.js"></script>
 
     <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
-
     <script type="text/javascript" src="~/Scripts/toastr.min.js"></script>
+
     <script type="text/javascript">
 
         Date.prototype.addDays = function (days) {

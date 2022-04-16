@@ -455,7 +455,28 @@
                                     </div>
                                 </div>
                                 <div class="add-to-cart">
-                                    <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                    @if (item.Stock > 0)
+                                    {
+                                        if (Request.IsAuthenticated)
+                                        {
+
+
+                                            <button class="add-to-cart-btn" onclick="GetProductDetails(@(item.ProductId));"><i class="fa fa-shopping-cart"></i> add to cart</button>
+
+                                        }
+                                        else
+                                        {
+                                            <button class="add-to-cart-btn" onclick="location.href='/Account/Login'"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <button class="add-to-cart-btn add-to-cart-btn-disabled"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                    }
+
+
+
+                                    @*<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>*@
                                 </div>
                             </div>
 

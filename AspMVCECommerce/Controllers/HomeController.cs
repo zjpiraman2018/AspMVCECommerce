@@ -1,4 +1,5 @@
 ﻿using AspMVCECommerce.Models;
+using AspMVCECommerce.Utility;
 using AspMVCECommerce.ViewModel;
 using PagedList;
 using System;
@@ -7,7 +8,6 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
-
 
 
 
@@ -431,6 +431,37 @@ namespace AspMVCECommerce.Controllers
             return View(product);
         }
 
+        public ActionResult ShoppingCart()
+        {
+            //if (productId == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
 
+            string userId = Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity);
+            int shoppingCartId = ShoppingCartUtility.GetShoppingCartId(userId, db); ;
+
+            var lineItems = db.LineItems.Include(l => l.Product).Include(l => l.Product.Images).Include(l=>l.Size).Include(l=>l.Color).Where(l=>l.ShoppingCartId == shoppingCartId).ToList();
+            //ViewBag.Sizes = new SelectList(db.Sizes.Where(s => s.ProductId == productId).ToList(), "SizeId", "Name");
+ 
+            //ViewBag.RelatedProduct = products;
+
+
+            return View(lineItems);
+        }
+
+        public ActionResult CheckOut()
+        {
+            string userId = Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity);
+            int shoppingCartId = ShoppingCartUtility.GetShoppingCartId(userId, db); ;
+
+            var lineItems = db.LineItems.Include(l => l.Product).Where(l => l.ShoppingCartId == shoppingCartId).ToList();
+            //ViewBag.Sizes = new SelectList(db.Sizes.Where(s => s.ProductId == productId).ToList(), "SizeId", "Name");
+
+            //ViewBag.RelatedProduct = products;
+
+
+            return View(lineItems);
+        }
     }
 }

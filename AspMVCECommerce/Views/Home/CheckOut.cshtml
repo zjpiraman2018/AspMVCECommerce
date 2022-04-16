@@ -1,0 +1,266 @@
+﻿@model IEnumerable<AspMVCECommerce.Models.LineItem>
+@{
+    ViewBag.Title = "CheckOut";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="breadcrumb-header">Checkout</h3>
+                <ul class="breadcrumb-tree">
+                    <li><a href="#">Home</a></li>
+                    <li class="active">Checkout</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+
+            <div class="col-md-7">
+                <!-- Billing Details -->
+                <div class="billing-details">
+                    <div class="section-title">
+                        <h3 class="title">Billing address</h3>
+                    </div>
+                    <div class="form-group">
+                        <input class="input" type="text" name="first-name" placeholder="First Name">
+                    </div>
+                    <div class="form-group">
+                        <input class="input" type="text" name="last-name" placeholder="Last Name">
+                    </div>
+                    <div class="form-group">
+                        <input class="input" type="email" name="email" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <input class="input" type="text" name="address" placeholder="Address">
+                    </div>
+                    <div class="form-group">
+                        <input class="input" type="text" name="city" placeholder="City">
+                    </div>
+                    <div class="form-group">
+                        <input class="input" type="text" name="country" placeholder="Country">
+                    </div>
+                    <div class="form-group">
+                        <input class="input" type="text" name="zip-code" placeholder="ZIP Code">
+                    </div>
+                    <div class="form-group">
+                        <input class="input" type="tel" name="tel" placeholder="Telephone">
+                    </div>
+                    <div class="form-group">
+                        <div class="input-checkbox">
+                            <input type="checkbox" id="create-account">
+                            <label for="create-account">
+                                <span></span>
+                                Create Account?
+                            </label>
+                            <div class="caption">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p>
+                                <input class="input" type="password" name="password" placeholder="Enter Your Password">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Billing Details -->
+                <!-- Shiping Details -->
+                <div class="shiping-details">
+                    <div class="section-title">
+                        <h3 class="title">Shiping address</h3>
+                    </div>
+                    <div class="input-checkbox">
+                        <input type="checkbox" id="shiping-address">
+                        <label for="shiping-address">
+                            <span></span>
+                            Ship to a diffrent address?
+                        </label>
+                        <div class="caption">
+                            <div class="form-group">
+                                <input class="input" type="text" name="first-name" placeholder="First Name">
+                            </div>
+                            <div class="form-group">
+                                <input class="input" type="text" name="last-name" placeholder="Last Name">
+                            </div>
+                            <div class="form-group">
+                                <input class="input" type="email" name="email" placeholder="Email">
+                            </div>
+                            <div class="form-group">
+                                <input class="input" type="text" name="address" placeholder="Address">
+                            </div>
+                            <div class="form-group">
+                                <input class="input" type="text" name="city" placeholder="City">
+                            </div>
+                            <div class="form-group">
+                                <input class="input" type="text" name="country" placeholder="Country">
+                            </div>
+                            <div class="form-group">
+                                <input class="input" type="text" name="zip-code" placeholder="ZIP Code">
+                            </div>
+                            <div class="form-group">
+                                <input class="input" type="tel" name="tel" placeholder="Telephone">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Shiping Details -->
+                <!-- Order notes -->
+                <div class="order-notes">
+                    <textarea class="input" placeholder="Order Notes"></textarea>
+                </div>
+                <!-- /Order notes -->
+            </div>
+
+            <!-- Order Details -->
+            <div class="col-md-5 order-details">
+                <div class="section-title text-center">
+                    <h3 class="title">Your Order</h3>
+                </div>
+                <div class="order-summary">
+                    <div class="order-col">
+                        <div><strong>PRODUCT</strong></div>
+                        <div><strong>TOTAL</strong></div>
+                    </div>
+                    <div class="order-products" id="module">
+                        <div class="collapse" id="collapseExample" aria-expanded="false">
+
+
+
+                            @foreach (var item in Model)
+                            {
+                                <div class="order-col">
+                                    <div>@Html.DisplayFor(modelItem => item.Quantity)x <span style="text-transform:uppercase;">@Html.DisplayFor(modelItem => item.Product.Name)</span></div>
+                                    <div>@Html.DisplayFor(modelItem => item.TotalPrice)</div>
+                                </div>
+
+
+                            }
+
+                        </div>
+
+
+                        @if (Model.Count() > 5)
+                        {
+                            <a role="button" class="collapsed pull-right" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                            </a>
+                        }
+
+                        @*<div class="order-col">
+            <div>2x Product Name Goes Here</div>
+            <div>$980.00</div>
+        </div>*@
+                    </div>
+                    <div class="order-col">
+                        <div>Shiping</div>
+                        <div><strong>FREE</strong></div>
+                    </div>
+                    <div class="order-col">
+                        <div><strong>TOTAL</strong></div>
+                        <div><strong class="order-total">@(Model.Sum(p=>p.TotalPrice))</strong></div>
+                    </div>
+                </div>
+                <div class="payment-method">
+                    <div class="input-radio">
+                        <input type="radio" name="payment" id="payment-1">
+                        <label for="payment-1">
+                            <span></span>
+                            Direct Bank Transfer
+                        </label>
+                        <div class="caption">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        </div>
+                    </div>
+                    <div class="input-radio">
+                        <input type="radio" name="payment" id="payment-2">
+                        <label for="payment-2">
+                            <span></span>
+                            Cheque Payment
+                        </label>
+                        <div class="caption">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        </div>
+                    </div>
+                    <div class="input-radio">
+                        <input type="radio" name="payment" id="payment-3">
+                        <label for="payment-3">
+                            <span></span>
+                            Paypal System
+                        </label>
+                        <div class="caption">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-checkbox">
+                    <input type="checkbox" id="terms">
+                    <label for="terms">
+                        <span></span>
+                        I've read and accept the <a href="#">terms & conditions</a>
+                    </label>
+                </div>
+                <a href="#" class="primary-btn order-submit">Place order</a>
+            </div>
+            <!-- /Order Details -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->
+<style>
+/*    #module {
+        width: 500px;
+    }
+*/
+        #module div.collapse[aria-expanded="false"] {
+            display: block;
+            height: 200px !important;
+            overflow: hidden;
+        }
+
+        #module div.collapsing[aria-expanded="false"] {
+            height: 200px !important;
+        }
+
+        #module a.collapsed:after {
+            content: '+ Show More';
+        }
+
+        #module a:not(.collapsed):after {
+            content: '- Show Less';
+        }
+</style>
+
+@*<div id="module" >
+    <h3>Bacon Ipsum</h3>
+    <p class="collapse" id="collapseExample" aria-expanded="false">
+        Bacon ipsum dolor amet doner picanha tri-tip biltong leberkas salami meatball tongue filet mignon landjaeger tail. Kielbasa salami tenderloin picanha spare ribs, beef ribs strip steak jerky cow. Pork chop chicken ham hock beef ribs turkey jerky. Shoulder beef capicola doner, tongue tail sausage short ribs andouille. Rump frankfurter landjaeger t-bone, kielbasa doner ham hock shankle venison. Cupim capicola kielbasa t-bone, ball tip chicken andouille venison pork chop doner bacon beef ribs kevin shankle. Short loin leberkas tenderloin ground round shank, brisket strip steak ham hock ham.
+    </p>
+    <a role="button" class="collapsed" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    </a>
+</div>*@
+
+
+@section Scripts {
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('.order-total').text('₱' +  parseInt($('.order-total').text()).toLocaleString());
+
+        });
+    </script>
+}
+
+

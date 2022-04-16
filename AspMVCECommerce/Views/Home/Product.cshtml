@@ -1,6 +1,8 @@
 ﻿@model AspMVCECommerce.Models.Product
 @using System.Linq;
 @using System.Collections.Generic;
+@using Microsoft.AspNet.Identity
+
 
 @{
     ViewBag.Title = "Product";
@@ -90,16 +92,16 @@
                         {
                             if (DateTime.Now >= Model.PromoSaleStartDateTime && DateTime.Now <= Model.PromoSaleEndDateTime)
                             {
-                                <h3 class="product-price">@Html.DisplayFor(model => model.DiscountedPrice) <del class="product-old-price">@Html.DisplayFor(model => model.OriginalPrice)</del></h3>
+                                <h3 class="product-price" id="h3-product-price">@Html.DisplayFor(model => model.DiscountedPrice) <del class="product-old-price">@Html.DisplayFor(model => model.OriginalPrice)</del></h3>
                             }
                             else
                             {
-                                <h3 class="product-price">@Html.DisplayFor(model => model.OriginalPrice)</h3>
+                                <h3 class="product-price" id="h3-product-price">@Html.DisplayFor(model => model.OriginalPrice)</h3>
                             }
                         }
                         else
                         {
-                            <h3 class="product-price">@Html.DisplayFor(model => model.OriginalPrice)</h3>
+                            <h3 class="product-price" id="h3-product-price">@Html.DisplayFor(model => model.OriginalPrice)</h3>
                         }
 
                         @if (Model.Stock > 0)
@@ -158,9 +160,20 @@
                                 <span class="qty-down">-</span>
                             </div>
                         </div>
+
+
+
                         @if (Model.Stock > 0)
                         {
-                            <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                            if (Request.IsAuthenticated)
+                            {
+                                <button class="add-to-cart-btn" onclick="AddToCart(event);"><i class="fa fa-shopping-cart"></i> add to cart</button>
+
+                            }
+                            else
+                            {
+                                <button class="add-to-cart-btn" onclick="location.href='/Account/Login'"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                            }
                         }
                         else
                         {
@@ -548,7 +561,28 @@
                                 </div>
                             </div>
                             <div class="add-to-cart">
-                                <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                @if (item.Stock > 0)
+                                {
+                                    if (Request.IsAuthenticated)
+                                    {
+
+
+                                        <button class="add-to-cart-btn" onclick="GetProductDetails(@(item.ProductId));"><i class="fa fa-shopping-cart"></i> add to cart</button>
+
+                                    }
+                                    else
+                                    {
+                                        <button class="add-to-cart-btn" onclick="location.href='/Account/Login'"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                    }
+                                }
+                                else
+                                {
+                                    <button class="add-to-cart-btn add-to-cart-btn-disabled"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                }
+
+
+
+                                @*<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>*@
                             </div>
                         </div>
 
@@ -586,7 +620,7 @@
     <script type="text/javascript" src="~/Scripts/dataTables.bootstrap4.min.js"></script>
     <!-- /END OF DATA TABLE CODE -->
 
-    <script type="text/javascript" src="~/Scripts/toastr.min.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/toastr.min.js"></script>*@
 
 
     <script type="text/javascript">
@@ -597,23 +631,23 @@
             }
 
             // Display an info toast
-            toastr.options = {
-                "closeButton": false,
-                "debug": false,
-                "newestOnTop": false,
-                "progressBar": true,
-                "positionClass": "toast-top-right",
-                "preventDuplicates": false,
-                "onclick": null,
-                "showDuration": "1000",
-                "hideDuration": "1000",
-                "timeOut": "10000",
-                "extendedTimeOut": "1000",
-                "showEasing": "swing",
-                "hideEasing": "linear",
-                "showMethod": "fadeIn",
-                "hideMethod": "fadeOut"
-            }
+            //toastr.options = {
+            //    "closeButton": false,
+            //    "debug": false,
+            //    "newestOnTop": false,
+            //    "progressBar": true,
+            //    "positionClass": "toast-top-right",
+            //    "preventDuplicates": false,
+            //    "onclick": null,
+            //    "showDuration": "1000",
+            //    "hideDuration": "1000",
+            //    "timeOut": "10000",
+            //    "extendedTimeOut": "1000",
+            //    "showEasing": "swing",
+            //    "hideEasing": "linear",
+            //    "showMethod": "fadeIn",
+            //    "hideMethod": "fadeOut"
+            //}
 
 
 
@@ -784,7 +818,7 @@
                     },
                     error: function (xhr) {
                         var err = eval("(" + xhr.responseText + ")");
-                        toastr.error('The <strong>Review</strong> retrieving failed due to: ' + err.Message, 'Record Load Failed.');
+                        toastr.error('The <strong>Review</strong> retrieving failed due to: ' + err +  'Record Load Failed.');
                     }
                 });
 
@@ -837,7 +871,37 @@
         // --- END HERE CODE FOR TEXT SHOW MORE SHOW LESS --
 
 
+        // ADD PRODUCT TO CART
+        function AddToCart(e) {
+              var baseUrl = '@Url.Content("~/")';
+            var _productId = parseInt('@Model.ProductId');
 
+                $.post(baseUrl + 'api/LineItem/AddLineItem',
+                    {
+                        LineItemId: 0,
+                        Quantity: $('#Quantity').val(),
+                        TotalPrice: parseInt($('#h3-product-price').text().replace('₱', '').replaceAll(',', '')) * parseInt($('#Quantity').val()),
+                        ProductId: _productId,
+                        SizeId: $('#Sizes').val(),
+                        ColorId: $('#Colors').val(),
+                        ShoppingCartId: 0
+                    })
+                    .done(function () {
+
+                        // NAVIGATE TO SHOPPING CART PAGE CODE HERE
+                        GetLineItems();
+
+                        toastr.success('The <strong>Product</strong> record has been successfully added to shopping cart.', 'Record Added.');
+                    })
+                    .fail(function (xhr) {
+                        toastr.error('The <strong>Product</strong> saving failed due to: ' + xhr.responseText, 'Record Add Failed.');
+                    });
+
+                e.preventDefault();
+
+        }
+
+         // END OF ADD PRODUCT TO CART
 
         $(document).ready(function () {
 
@@ -1115,9 +1179,13 @@
             }
 
             // END OF LOAD BREAD CRUMB LINKS BASE ON PREVIUSPAGE
+
+
+
+            // VALIDATE QUANTITY BASE ON PRODUCT CURRENT STOCK
             if (parseInt($("#Quantity").attr("max")) == 0) {
                 $("#Quantity").val(0);
-         
+
             }
 
             $("#Quantity").change(function (e) {
@@ -1132,6 +1200,10 @@
                     event.preventDefault();
                 }
             });
+
+            // END OF VALIDATE
+
+
         });
     </script>
 }

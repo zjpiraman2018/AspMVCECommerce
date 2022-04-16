@@ -269,6 +269,16 @@ namespace AspMVCECommerce.Controllers
                 var notForDeleteSizeIdList = productViewModel.Sizes.Where(s => s.SizeId > 0).Select(s=>s.SizeId).ToList();
                 var forDeleteSizeList = db.Sizes.Where(s => s.ProductId == product.ProductId && !notForDeleteSizeIdList.Contains(s.SizeId)).ToList();
 
+                var forUpdateSizeIdList = forDeleteSizeList.Select(s => (int?)s.SizeId).ToList();
+
+                var forUpdateSizeOnLineItemList = db.LineItems.Where(l => forUpdateSizeIdList.Contains(l.SizeId)).ToList();
+                foreach (var lineItem in forUpdateSizeOnLineItemList)
+                {
+                    lineItem.SizeId = null;
+                    db.Entry(lineItem).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+
                 db.Sizes.RemoveRange(forDeleteSizeList);
                 db.SaveChanges();
 
@@ -293,6 +303,22 @@ namespace AspMVCECommerce.Controllers
                 // UPDATE COLORS RECORD
                 var notForDeleteColorIdList = productViewModel.Colors.Where(s => s.ColorId > 0).Select(s => s.ColorId).ToList();
                 var forDeleteColorList = db.Colors.Where(s => s.ProductId == product.ProductId && !notForDeleteColorIdList.Contains(s.ColorId)).ToList();
+
+
+                var forUpdateColorIdList = forDeleteColorList.Select(s => (int?)s.ColorId).ToList();
+
+                var forUpdateColorOnLineItemList = db.LineItems.Where(l => forUpdateColorIdList.Contains(l.ColorId)).ToList();
+
+
+                //var forUpdateColorOnLineItemList = db.LineItems.Where(l => forDeleteColorList.Select(s => s.ColorId).ToList().Contains((int)l.ColorId)).ToList();
+                foreach (var lineItem in forUpdateColorOnLineItemList)
+                {
+                    lineItem.ColorId = null;
+                    db.Entry(lineItem).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+
+
 
                 db.Colors.RemoveRange(forDeleteColorList);
                 db.SaveChanges();

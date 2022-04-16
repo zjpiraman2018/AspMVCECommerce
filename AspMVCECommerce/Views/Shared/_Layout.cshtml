@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -36,7 +38,7 @@
     <![endif]-->
     <!-- custom site css -->
     <link rel="stylesheet" href="~/Content/Site.css">
-
+    <link rel="stylesheet" href="~/Content/toastr.min.css">
 </head>
 <body>
     <!-- HEADER -->
@@ -88,11 +90,11 @@
                                     <option value="Headphones">Headphones</option>
                                     <option value="Tablet">Tablet</option>
                                 </select>
-           
+
                                 <input type="hidden" class="form-layout-selected-nav-category" name="selectedNavCategory" id="selectedNavCategory" value="Categories" />
                                 <input type="hidden" class="form-layout-selected-category" name="selectedCategory" id="selectedCategory" value="1,2,3,4,5,6" />
 
-                                <input class="input form-layout-search-products"  placeholder="Search product here" id="searchProducts" name="searchProducts"/>
+                                <input class="input form-layout-search-products" placeholder="Search product here" id="searchProducts" name="searchProducts" />
 
 
                                 <input type="submit" class="search-btn" id="btn-product-search"></input>
@@ -117,39 +119,39 @@
                                 <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                     <i class="fa fa-shopping-cart"></i>
                                     <span>Your Cart</span>
-                                    <div class="qty">3</div>
+                                    <div class="qty" id="shopping-cart-items-count">0</div>
                                 </a>
                                 <div class="cart-dropdown">
-                                    <div class="cart-list">
-                                        <div class="product-widget">
-                                            <div class="product-img">
-                                                <img src="~/FrontEnd/img/product01.png" alt="">
+                                    <div class="cart-list" id="my-cart-list">
+                                        @*<div class="product-widget">
+                                                <div class="product-img">
+                                                    <img src="~/FrontEnd/img/product01.png" alt="">
+                                                </div>
+                                                <div class="product-body">
+                                                    <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                                                    <h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
+                                                </div>
+                                                <button class="delete"><i class="fa fa-close"></i></button>
                                             </div>
-                                            <div class="product-body">
-                                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                                <h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
-                                            </div>
-                                            <button class="delete"><i class="fa fa-close"></i></button>
-                                        </div>
 
-                                        <div class="product-widget">
-                                            <div class="product-img">
-                                                <img src="~/FrontEnd/img/product02.png" alt="">
-                                            </div>
-                                            <div class="product-body">
-                                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                                <h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
-                                            </div>
-                                            <button class="delete"><i class="fa fa-close"></i></button>
-                                        </div>
+                                            <div class="product-widget">
+                                                <div class="product-img">
+                                                    <img src="~/FrontEnd/img/product02.png" alt="">
+                                                </div>
+                                                <div class="product-body">
+                                                    <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                                                    <h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
+                                                </div>
+                                                <button class="delete"><i class="fa fa-close"></i></button>
+                                            </div>*@
                                     </div>
                                     <div class="cart-summary">
-                                        <small>3 Item(s) selected</small>
-                                        <h5>SUBTOTAL: $2940.00</h5>
+                                        <small id="cart-summary-selected-items">0 Item(s) selected</small>
+                                        <h5 id="cart-summary-subtotal">SUBTOTAL: $0.00</h5>
                                     </div>
                                     <div class="cart-btns">
-                                        <a href="#">View Cart</a>
-                                        <a href="#">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
+                                        <a href="~/Home/ShoppingCart">View Cart</a>
+                                        <a href="~/Home/CheckOut">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -185,8 +187,9 @@
                     <li><a href="~/Home/Index" class="link-nav-bar">Home</a></li>
                     @if (User.IsInRole("Admin"))
                     {
-                <li><a href="~/Manage" class="link-nav-bar">Account</a></li>
-                                <li><a href="~/Products/Index" class="link-nav-bar">Manage Product</a></li>}
+        <li><a href="~/Manage" class="link-nav-bar">Account</a></li>
+                        <li><a href="~/Products/Index" class="link-nav-bar">Manage Product</a></li>
+}
 
                     <li><a class="link-nav-bar" href="~/Home/Store?selectedCategory=1%2C2%2C3%2C4%2C5%2C6&selectedNavCategory=Hot%20Deals">Hot Deals</a></li>
                     <li><a class="link-nav-bar" href="~/Home/Store?selectedCategory=1%2C2%2C3%2C4%2C5%2C6&selectedNavCategory=Categories">Categories</a></li>
@@ -245,6 +248,90 @@
         <!-- /container -->
     </div>
     <!-- /NEWSLETTER -->
+    <!-- MODAL CODE ZALDY -->
+
+
+
+    <div class="container">
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog" style="width:400px;">
+
+                <!-- Modal content-->
+                <div class="modal-content" style="border-radius: 0px;">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">ADD TO CART</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div id="modal-product-id" style="display:none;" hidden></div>
+                                <div class="product-widget">
+                                    <div class="product-img" style="width: 70px; height: 60px; padding: 4px;">
+                                        <img style="width: 100%; height: 60px; object-fit: scale-down;" id="modal-product-image" src="~/FrontEnd/img/product06.png" alt="">
+                                    </div>
+                                    <div class="product-body">
+                                        <p class="product-category" id="modal-product-category">Category</p>
+                                        <h3 class="product-name"><a href="" id="modal-product-name">product name goes here</a></h3>
+                                        <h4 class="product-price" id="modal-product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+
+                        <div class="row" style="font-size:12px !important;">
+                            <div class="col-md-12">
+                                <table style="width:100%">
+                                    <tr>
+                                        <td style="width:75px;text-align:right;padding-right:17px;">Size</td>
+                                        <td style="height:40px;line-height:34px">
+                                            <select class="input-select" style="height: 34px; width: 90%;text-transform:uppercase;" id="modal-product-sizes">
+                                                <option value="0">X</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:75px;text-align:right;padding-right:17px;">Color</td>
+                                        <td style="height:40px;line-height:34px">
+                                            <select class="input-select" style="height: 34px; width: 90%; text-transform: uppercase;" id="modal-product-colors">
+                                                <option value="0">Red</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:75px;text-align:right;padding-right:17px;">Qty</td>
+                                        <td style="height:40px;line-height:34px">
+                                            <div class="input-number" style="height: 34px; line-height: 34px; width: 40%;">
+                                                <input type="number" value="1" style="height:34px;line-height:34px;" id="modal-product-quantity"  min="1" max="1">
+                                                <span class="qty-up" style="height:17px;line-height:17px;">+</span>
+                                                <span class="qty-down" style="height:17px;line-height:17px;">-</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+
+                        <button type="button" id="modal-product-add-btn" class="btnx btn-default modal-product-add-btn" style="width: 85px; height: 34px; background-color: #D10024; border-color: #D10024; color: #FFF; opacity: 0.8;">Add</button>
+                        <button type="button" class="btnx btn-default" style="width: 85px; height: 34px;" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <!-- MODAL CODE ZALDY END -->
     <!-- FOOTER -->
     <footer id="footer">
         <!-- top footer -->
@@ -350,12 +437,249 @@
     <script src="~/FrontEnd/js/nouislider.min.js"></script>
     <script src="~/FrontEnd/js/jquery.zoom.min.js"></script>
     <script src="~/FrontEnd/js/main.js"></script>
+    <script type="text/javascript" src="~/Scripts/toastr.min.js"></script>
 
     @RenderSection("scripts", required: false)
 
 
-  
+
 <script type="text/javascript">
+
+
+       // MODAL ADD PRODUCT TO CART
+        function ModalAddToCart() {
+            var baseUrl = '@Url.Content("~/")';
+            var tempModalProductPriceHtmlStringResult = $.strRemove2("del", '<div>' + $('#modal-product-price').html() + '</div>') ;
+
+            $.post(baseUrl + 'api/LineItem/AddLineItem',
+                {
+                    LineItemId: 0,
+                    Quantity: $("#modal-product-quantity").val(),
+                    TotalPrice: parseInt($(tempModalProductPriceHtmlStringResult).text().trim().replace('₱', '').replaceAll(',', '')) * parseInt($("#modal-product-quantity").val()),
+                    ProductId: parseInt($('#modal-product-id').text()),
+                    SizeId: $('#modal-product-sizes').val() == 0 ? null : $('#modal-product-sizes').val(),
+                    ColorId: $('#modal-product-colors').val() == 0 ? null : $('#modal-product-colors').val(),
+                        ShoppingCartId: 0
+                    })
+                    .done(function () {
+
+                        // NAVIGATE TO SHOPPING CART PAGE CODE HERE
+                        GetLineItems();
+                        //$('#myModal').modal('toggle');
+                 
+                        toastr.success('The <strong>Product</strong> record has been successfully added to shopping cart.', 'Record Added.');
+                    })
+                    .fail(function (xhr) {
+                        toastr.error('The <strong>Product</strong> saving failed due to: ' + xhr.responseText, 'Record Add Failed.');
+                    });
+
+                //e.preventDefault();
+
+        }
+        // END OF MODAL ADD PRODUCT TO CART
+
+
+
+
+       // DELETE LINE ITEM
+        function DeleteLineItem(lineItemId) {
+
+                var _baseUrl = '@Url.Content("~/")';
+
+                $.ajax({
+                    url: _baseUrl + 'api/LineItem/DeleteLineItem?lineItemId=' + lineItemId,
+                    type: "get", //send it through get method
+                    success: function (response) {
+
+                        //location.href = window.location.href;
+                        window.location.reload(true);
+
+                    },
+                    error: function (xhr) {
+                        var err = eval("(" + xhr.responseText + ")");
+                        toastr.error('Deleting <strong>Line Item</strong> failed due to: ' + err +  'Record Delete Failed.');
+                    }
+                });
+
+        }
+        // -- END OF DELETE LINE ITEM
+
+
+
+        // GET SHOPPING CART LINEITEMS
+
+
+        function GetLineItems() {
+
+                var _baseUrl = '@Url.Content("~/")';
+
+                $.ajax({
+                    url: _baseUrl + 'api/LineItem/GetLineItemsOfCurrentUser',
+                    type: "get", //send it through get method
+                    success: function (response) {
+
+                        $("#my-cart-list").html("");
+                        var count = Object.keys(response.lineItemViewDTOList).length;
+                        var subTotal = 0;
+                        for (var i = 0; i < count; i++) {
+                            subTotal = subTotal + parseInt(response.lineItemViewDTOList[i].TotalPrice);
+                            let cartItemTemplate = '<div class="product-widget" id="' + response.lineItemViewDTOList[i].LineItemId + '">' +
+                                                    '<div class="product-img" style="width: 70px; height: 60px; padding: 4px;" >' +
+                                '<img style="width: 100%; height: 60px; object-fit: scale-down;" src="' + _baseUrl + response.lineItemViewDTOList[i].ImagePath.replace('~/','') + '" alt="">' +
+                                                    '</div>' +
+                                                    '<div class="product-body">' +
+                                '<h3 class="product-name"><a href="/Home/Product?productId=' + response.lineItemViewDTOList[i].ProductId + '&selectedNavCategory=Home' + '" id="' + response.lineItemViewDTOList[i].ProductId + '">' +
+                                                                                            response.lineItemViewDTOList[i].ProductName + '</a></h3>' +
+                                                    '<h4 class="product-price"><span class="qty">' + response.lineItemViewDTOList[i].Quantity + 'x</span>' +
+                               '₱' + parseInt(response.lineItemViewDTOList[i].TotalPrice).toLocaleString('en', { useGrouping: true }) + '</h4>' +
+                                                    '</div>' +
+                                '<button class="delete cart-items-delete" id="' + response.lineItemViewDTOList[i].LineItemId + '"><i class="fa fa-close"></i></button>' +
+                                                    '</div >';
+
+                            $("#my-cart-list").append(cartItemTemplate);
+                        }
+
+                        $("#shopping-cart-items-count").text(count.toString());
+                        $("#cart-summary-selected-items").text(count.toString() + " Item(s) selected");
+
+                        $("#cart-summary-subtotal").text('SUBTOTAL: ₱' + subTotal.toLocaleString('en', { useGrouping: true }) );
+                        // LINEITEM DELETE SUCCESSFULL
+                        $(".cart-items-delete").click(function () {
+                            DeleteLineItem($(this).attr("id"));
+
+                        });
+                    },
+                    error: function (xhr) {
+                        var err = eval("(" + xhr.responseText + ")");
+                        toastr.error('Deleting <strong>Line Item</strong> failed due to: ' + err +  'Record Delete Failed.');
+                    }
+                });
+
+        }
+        // -- END OF GET SHOPPING CART LINEITEMS
+
+
+
+
+            // GET PRODUCT DETAILS BY ID
+
+
+        function GetProductDetails(productId) {
+
+                var _baseUrl = '@Url.Content("~/")';
+
+                $.ajax({
+                    url: _baseUrl + 'api/ProductsWA/GetProductDetails?productId=' + productId,
+                    type: "get", //send it through get method
+                    success: function (response) {
+                        //ProductId
+                        //Stock
+                        //OriginalPrice
+                        //DiscountedPrice
+                        //ProductName
+                        //Sizes
+                        //Colors
+                        //ImagePath
+
+                        //productDTO:
+
+                        //IsPromo: true
+                        var colorsCount = Object.keys(response.productDTO.Colors).length;
+                        var sizesCount = Object.keys(response.productDTO.Sizes).length;
+
+
+
+
+                        if (sizesCount == 0) {
+                            $("#modal-product-sizes").html('<option value="0">DEFAULT</option>');
+                        }
+                        else {
+                            $("#modal-product-sizes").html("");
+                        }
+
+
+
+                        if (colorsCount == 0) {
+                            $("#modal-product-colors").html('<option value="0">DEFAULT</option>');
+                        }
+                        else {
+                            $("#modal-product-colors").html("");
+                        }
+
+
+                        for (let i = 0; i < colorsCount; i++) {
+                            $("#modal-product-colors").append('<option value="' + response.productDTO.Colors[i].ColorId  + '">' + response.productDTO.Colors[i].Name + '</option>');
+                        }
+
+                        for (let i = 0; i < sizesCount; i++) {
+                            $("#modal-product-sizes").append('<option value="' + response.productDTO.Sizes[i].SizeId + '">' + response.productDTO.Sizes[i].Name + '</option>');
+                        }
+
+
+                        $('#modal-product-name').attr('href', "/Home/Product?productId=" + productId + "&selectedNavCategory=@ViewBag.SelectedNavCategory");
+                        $('#modal-product-id').text(response.productDTO.ProductId);
+                        $('#modal-product-name').text(response.productDTO.ProductName);
+                        $('#modal-product-category').text(response.productDTO.Brand + ' ' + response.productDTO.Category);
+
+
+                        $('#modal-product-image').attr('src', _baseUrl + response.productDTO.ImagePath.replace('~/', '') );
+
+                        if (response.productDTO.IsPromo) {
+                            $('#modal-product-price').html('₱' + parseInt(response.productDTO.DiscountedPrice).toLocaleString() + ' <del class="product-old-price">₱' + parseInt(response.productDTO.OriginalPrice).toLocaleString() + '</del>');
+                        }
+                        else {
+                            $('#modal-product-price').html('₱' + parseInt(response.productDTO.OriginalPrice).toLocaleString());
+                        }
+
+
+                        $("#modal-product-quantity").val(1);
+                        if (parseInt(response.productDTO.Stock) == 0) {
+                            $("#modal-product-quantity").val(0);
+                        }
+
+                        $("#modal-product-quantity").attr("max", parseInt(response.productDTO.Stock));
+
+
+
+                        // VALIDATE QUANTITY BASE ON PRODUCT CURRENT STOCK
+                        if (parseInt($("#modal-product-quantity").attr("max")) == 0) {
+                            $("#modal-product-quantity").val(0);
+
+                        }
+
+                        $("#modal-product-quantity").change(function (e) {
+                            if (parseInt($(this).val()) > parseInt($(this).attr("max"))) {
+                                $(this).val(parseInt($(this).attr("max")));
+                            }
+
+                            if (parseInt($(this).val()) < parseInt($(this).attr("min"))) {
+                                $(this).val(parseInt($(this).attr("min")));
+                            }
+
+                        });
+
+                        $("#modal-product-quantity").keypress(function (event) {
+                            if (event.keyCode == 46) {
+                                event.preventDefault();
+                            }
+                        });
+
+                        // END OF VALIDATE
+
+
+
+                        $('#myModal').modal('show');
+                    },
+                    error: function (xhr) {
+                        var err = eval("(" + xhr.responseText + ")");
+                        toastr.error('Loading <strong>Product Details</strong> failed due to: ' + err +  'Record Loading Failed.');
+                    }
+                });
+
+        }
+        // -- END OF GET PRODUCT DETAILS BY ID
+
+
         $(document).ready(function () {
             @{
 
@@ -364,6 +688,27 @@
                     var tempSearchProducts = '@ViewBag.SearchProducts';
                </text>
             }
+
+            // Display an info toast with no title
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": true,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "1000",
+                "hideDuration": "1000",
+                "timeOut": "10000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+
+
 
             $(".form-layout-search-products").val(tempSearchProducts);
 
@@ -431,9 +776,39 @@
             //    $(this).parent().addClass("active")
             //});
 
+            @if (Request.IsAuthenticated)
+            {
+
+                    if (User.IsInRole("Customer"))
+                    {
+                          <Text>
+                            GetLineItems();
+                          </Text>
+                    }
+
+
+
+            }
+
+
+
+            $("#modal-product-add-btn").click(function () {
+                ModalAddToCart();
+                $('#myModal').modal('hide');
+            });
+
+
+
+
+            // REMOVE HTML ELEMENT FROM HTMLSTRING
+            $.strRemove2 = function (theTarget, theString) {
+                return $("<div/>").append(
+                    $(theTarget, theString).remove().end()
+                ).html();
+            };
         });
 </script>
-    
+
 
 </body>
 </html>

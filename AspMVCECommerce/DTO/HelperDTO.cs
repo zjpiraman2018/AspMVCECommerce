@@ -5,6 +5,43 @@ namespace AspMVCECommerce.DTO
 {
     public static class HelperDTO
     {
+
+
+        public static LineItemDTO ToLineItemDTO(this LineItem lineItem)
+        {
+            var lineItemDTO = new LineItemDTO()
+            {
+                 ColorId = lineItem.ColorId,
+                  LineItemId = lineItem.LineItemId,
+                   ProductId = lineItem.ProductId,
+                    ShoppingCartId = lineItem.ShoppingCartId,
+                     Quantity = lineItem.Quantity,
+                      SizeId = lineItem.SizeId,
+                       TotalPrice = lineItem.TotalPrice
+            };
+
+            return lineItemDTO;
+        }
+
+
+        public static LineItem ToLineItem(this LineItemDTO lineItemDTO)
+        {
+            var lineItem = new LineItem()
+            {
+                ColorId = lineItemDTO.ColorId,
+                LineItemId = lineItemDTO.LineItemId,
+                ProductId = lineItemDTO.ProductId,
+                ShoppingCartId = lineItemDTO.ShoppingCartId,
+                Quantity = lineItemDTO.Quantity,
+                SizeId = lineItemDTO.SizeId,
+                TotalPrice = lineItemDTO.TotalPrice
+            };
+
+            return lineItem;
+        }
+
+
+
         public static ReviewDTO ToReviewDTO(this Review review)
         {
             var reviewDTO = new ReviewDTO()

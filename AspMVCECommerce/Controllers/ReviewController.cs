@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Dynamic;
+using System.Net;
 using System.Web;
 using System.Web.Http;
 
@@ -96,7 +97,8 @@ namespace AspMVCECommerce.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { result = "add new reviews failed!\n error:" + ex.InnerException.Message });
+                return Content(HttpStatusCode.InternalServerError, "add new reviews failed!\n error:" + ex.InnerException.Message);
+                //return Json(new { result = "add new reviews failed!\n error:" + ex.InnerException.Message });
             }
         }
 

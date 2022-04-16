@@ -712,3 +712,10 @@ input:focus-visible {
     background-color: #a7a7a7 !important;
 }
 
+
+
+
+/* CHANGE MODAL ADD BUTTON OPACITY ON HOVER */
+.modal-product-add-btn:hover {
+    opacity: 1 !important;
+}
