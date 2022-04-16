@@ -2,6 +2,7 @@
 using AspMVCECommerce.Utility;
 using AspMVCECommerce.ViewModel;
 using PagedList;
+using PayPal.Api;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -16,6 +17,289 @@ namespace AspMVCECommerce.Controllers
     public class HomeController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+
+        private CheckOut checkOutObj { get; set; }
+
+        public ActionResult PaymentWithPaypal(string Cancel = null)
+        {
+           
+            if(Request.Form.Count > 0)
+            {
+
+                checkOutObj = new CheckOut();
+                checkOutObj.FirstName = Request.Form.GetValues("FirstName").FirstOrDefault().ToUpper();
+                checkOutObj.LastName =Request.Form.GetValues("LastName").FirstOrDefault().ToUpper();
+                checkOutObj.Email = Request.Form.GetValues("Email").FirstOrDefault();
+                checkOutObj.Mobile = Request.Form.GetValues("MobilePhone").FirstOrDefault();
+
+                checkOutObj.CustomAddress = new CustomAddress();
+                checkOutObj.CustomAddress.Line1 =  Request.Form.GetValues("CALine1").FirstOrDefault().ToUpper();
+                checkOutObj.CustomAddress.Line2 = Request.Form.GetValues("CALine2").FirstOrDefault().ToUpper();
+                checkOutObj.CustomAddress.City = Request.Form.GetValues("CACity").FirstOrDefault().ToUpper();
+                checkOutObj.CustomAddress.PostalCode = Request.Form.GetValues("CAPostalCode").FirstOrDefault();
+                checkOutObj.CustomAddress.Province = Request.Form.GetValues("CAProvince").FirstOrDefault();
+                checkOutObj.CustomAddress.Phone = checkOutObj.Mobile;
+
+
+                checkOutObj.ShippingAddress = new ShippingAddress2();
+                checkOutObj.ShippingAddress.Line1 = Request.Form.GetValues("SALine1").FirstOrDefault().ToUpper();
+                checkOutObj.ShippingAddress.Line2 = Request.Form.GetValues("SALine2").FirstOrDefault().ToUpper();
+                checkOutObj.ShippingAddress.City = Request.Form.GetValues("SACity").FirstOrDefault().ToUpper();
+                checkOutObj.ShippingAddress.PostalCode = Request.Form.GetValues("SAPostalCode").FirstOrDefault();
+                checkOutObj.ShippingAddress.Province = Request.Form.GetValues("SAProvince").FirstOrDefault();
+                checkOutObj.ShippingAddress.Phone = checkOutObj.Mobile;
+                checkOutObj.ShippingAddress.FirstName = Request.Form.GetValues("RFirstName").FirstOrDefault().Replace(" ", "").ToUpper();
+                checkOutObj.ShippingAddress.LastName = Request.Form.GetValues("RLastName").FirstOrDefault().Replace(" ", "").ToUpper();
+
+                checkOutObj.ShippingAddress.RecipientName = checkOutObj.ShippingAddress.FirstName + " " + checkOutObj.ShippingAddress.LastName;
+            }
+            // get Start (paging start index) and length (page size for paging)
+      
+
+            //getting the apiContext  
+            APIContext apiContext = PaypalConfiguration.GetAPIContext();
+            try
+            {
+                //A resource representing a Payer that funds a payment Payment Method as paypal  
+                //Payer Id will be returned when payment proceeds or click to pay  
+                string payerId = Request.Params["PayerID"];
+                if (string.IsNullOrEmpty(payerId))
+                {
+                    //this section will be executed first because PayerID doesn't exist  
+                    //it is returned by the create function call of the payment class  
+                    // Creating a payment  
+                    // baseURL is the url on which paypal sendsback the data.  
+                    string baseURI = Request.Url.Scheme + "://" + Request.Url.Authority + "/Home/PaymentWithPayPal?";
+                    //here we are generating guid for storing the paymentID received in session  
+                    //which will be used in the payment execution  
+                    var guid = Convert.ToString((new Random()).Next(100000));
+                    //CreatePayment function gives us the payment approval url  
+                    //on which payer is redirected for paypal account payment  
+                    var createdPayment = this.CreatePayment(apiContext, baseURI + "guid=" + guid);
+                    //get links returned from paypal in response to Create function call  
+                    var links = createdPayment.links.GetEnumerator();
+                    string paypalRedirectUrl = null;
+                    while (links.MoveNext())
+                    {
+                        Links lnk = links.Current;
+                        if (lnk.rel.ToLower().Trim().Equals("approval_url"))
+                        {
+                            //saving the payapalredirect URL to which user will be redirected for payment  
+                            paypalRedirectUrl = lnk.href;
+                        }
+                    }
+                    // saving the paymentID in the key guid  
+                    Session.Add(guid, createdPayment.id);
+
+                    //return Redirect(paypalRedirectUrl);
+
+                    return Content($"<script>window.location = '{paypalRedirectUrl}';</script>");
+                }
+                else
+                {
+                    // This function exectues after receving all parameters for the payment  
+                    var guid = Request.Params["guid"];
+                    var executedPayment = ExecutePayment(apiContext, payerId, Session[guid] as string);
+                    //If executed payment failed then we will show payment failure message to user  
+                    if (executedPayment.state.ToLower() != "approved")
+                    {
+                        return View("FailureView");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return View("FailureView");
+            }
+            //on successful payment, show success page to user.  
+            return View("SuccessView");
+        }
+        private PayPal.Api.Payment payment;
+        private Payment ExecutePayment(APIContext apiContext, string payerId, string paymentId)
+        {
+
+            // Create the web experience profile
+            var profile = new WebProfile
+            {
+                name = "My web experience profile",
+                //presentation = new Presentation
+                //{
+                //    brand_name = "My brand name",
+                //    locale_code = "US",
+                //    logo_image = ""
+                //},
+                input_fields = new InputFields
+                {
+                    no_shipping = 0
+                }
+            };
+
+            var createdProfile = profile.Create(apiContext);
+
+            this.payment = new Payment()
+            {
+                id = paymentId,
+                experience_profile_id = createdProfile.id
+            };
+
+
+
+
+            var paymentExecution = new PaymentExecution()
+            {
+                payer_id = payerId
+            };
+            //this.payment = new Payment()
+            //{
+            //    id = paymentId
+            //};
+
+          
+
+
+            return this.payment.Execute(apiContext, paymentExecution);
+        }
+        private Payment CreatePayment(APIContext apiContext, string redirectUrl)
+        {
+
+            var lineitems1 = GetLineItemsForCheckOut();
+
+            ShippingAddress shippingAddress = new ShippingAddress();
+
+            shippingAddress.city = checkOutObj.ShippingAddress.City;
+            shippingAddress.country_code = checkOutObj.ShippingAddress.CountryCode;
+            shippingAddress.line1 = checkOutObj.ShippingAddress.Line1;
+            shippingAddress.phone = checkOutObj.ShippingAddress.Phone;
+            shippingAddress.postal_code = checkOutObj.ShippingAddress.PostalCode;
+            shippingAddress.state = checkOutObj.ShippingAddress.Province;
+            shippingAddress.line2 = checkOutObj.ShippingAddress.Line2;
+            shippingAddress.default_address = false; //checkOutObj.ShippingAddress.DefaultAddress;
+            shippingAddress.preferred_address = false; //checkOutObj.ShippingAddress.PreferredAddress;
+            shippingAddress.recipient_name = checkOutObj.ShippingAddress.RecipientName;
+            shippingAddress.status = checkOutObj.ShippingAddress.Status;
+            shippingAddress.type = checkOutObj.ShippingAddress.Type;
+
+            //create itemlist and add item objects to it  
+            var itemList = new ItemList()
+            {
+                items = new List<Item>(), 
+                shipping_address = shippingAddress
+            };
+            //Adding Item Details like name, currency, price etc  
+
+            foreach (var lineitem in lineitems1)
+            {
+                bool isPromo = (lineitem.Product.PromoSaleOFF > 0 ? (DateTime.Now >= lineitem.Product.PromoSaleStartDateTime && DateTime.Now <= lineitem.Product.PromoSaleEndDateTime) : false);
+
+                string tempPrice = isPromo ? lineitem.Product.DiscountedPrice.ToString() : lineitem.Product.OriginalPrice.ToString();
+
+                itemList.items.Add(new Item()
+                {
+                    name = lineitem.Product.Name.ToUpper(),
+                    currency = "PHP",
+                    //price = lineitem.TotalPrice.ToString(),
+                    price = tempPrice,
+                    quantity = lineitem.Quantity.ToString(),
+                    sku = lineitem.ProductId.ToString()
+                });
+
+            }
+            //itemList.items.Add(new Item()
+            //{
+            //    name = "Item Name comes here",
+            //    currency = "PHP",
+            //    price = "1",
+            //    quantity = "1",
+            //    sku = "sku"
+            //});
+
+
+            var payer = new Payer()
+            {
+                payment_method = "paypal"
+            };
+
+
+            payer.payer_info = new PayerInfo();
+
+
+            Address customAddress = new Address();
+
+            customAddress.city = checkOutObj.CustomAddress.City;
+            customAddress.country_code = checkOutObj.CustomAddress.CountryCode;
+            customAddress.line1 = checkOutObj.CustomAddress.Line1;
+            customAddress.phone = checkOutObj.CustomAddress.Phone; 
+            customAddress.postal_code = checkOutObj.CustomAddress.PostalCode;
+            customAddress.state = checkOutObj.CustomAddress.Province;
+            customAddress.line2 = checkOutObj.CustomAddress.Line2;
+            customAddress.status = checkOutObj.CustomAddress.Status;
+            customAddress.type = checkOutObj.CustomAddress.Type;
+
+
+            payer.payer_info.billing_address = customAddress;
+
+
+
+
+
+            payer.payer_info.shipping_address = shippingAddress;
+            // end Remove this after zaldy
+
+            payer.payer_info.country_code = checkOutObj.CountryCode;
+            payer.payer_info.email = checkOutObj.Email;
+            payer.payer_info.first_name = checkOutObj.FirstName;
+            payer.payer_info.last_name = checkOutObj.LastName;
+            // Configure Redirect Urls here with RedirectUrls object  
+            var redirUrls = new RedirectUrls()
+            {
+                cancel_url = redirectUrl + "&Cancel=true",
+                return_url = redirectUrl
+            };
+            // Adding Tax, shipping and Subtotal details  
+            var details = new Details()
+            {
+                tax = "0",
+                shipping = "0",
+                subtotal = lineitems1.Sum(l => l.TotalPrice).ToString()
+            };
+            //Final amount with details  
+            var amount = new Amount()
+            {
+                currency = "PHP",
+                total = lineitems1.Sum(l => l.TotalPrice).ToString(), // Total must be equal to sum of tax, shipping and subtotal.  
+                details = details
+            };
+
+
+            string cartid = lineitems1.Count > 0 ? lineitems1[0].ShoppingCartId.ToString() : "";
+            var randomInvoiceNo = "INVOICENO-" + cartid + DateTime.Now.ToString("MMddyyyyhhmmssffftt");
+
+            var transactionList = new List<Transaction>();
+            // Adding description about the transaction  
+            transactionList.Add(new Transaction()
+            {
+                description = "Zaldy's Ecommerce Checkout",
+
+                //invoice_number = "your generated invoice number", //Generate an Invoice No  
+                invoice_number = randomInvoiceNo,
+
+                amount = amount,
+                item_list = itemList
+
+            });
+            this.payment = new Payment()
+            {
+                intent = "sale",
+                payer = payer,
+                transactions = transactionList,
+                redirect_urls = redirUrls
+
+            };
+            // Create a payment using a APIContext  
+            return this.payment.Create(apiContext);
+        }
+
+
         public ActionResult Index()
         {
             var products = db.Products.Include(p => p.Category).Include(p => p.Images).ToList();
@@ -452,16 +736,18 @@ namespace AspMVCECommerce.Controllers
 
         public ActionResult CheckOut()
         {
+            return View(GetLineItemsForCheckOut());
+        }
+
+
+        private List<LineItem> GetLineItemsForCheckOut()
+        {
             string userId = Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity);
             int shoppingCartId = ShoppingCartUtility.GetShoppingCartId(userId, db); ;
 
             var lineItems = db.LineItems.Include(l => l.Product).Where(l => l.ShoppingCartId == shoppingCartId).ToList();
-            //ViewBag.Sizes = new SelectList(db.Sizes.Where(s => s.ProductId == productId).ToList(), "SizeId", "Name");
 
-            //ViewBag.RelatedProduct = products;
-
-
-            return View(lineItems);
+            return lineItems;
         }
     }
 }

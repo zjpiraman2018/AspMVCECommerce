@@ -30,95 +30,301 @@
         <div class="row">
 
             <div class="col-md-7">
-                <!-- Billing Details -->
+                @using (Html.BeginForm("PaymentWithPaypal", "Home", FormMethod.Post, new { id = "check-out-form" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <!-- Contact Information Details -->
                 <div class="billing-details">
                     <div class="section-title">
-                        <h3 class="title">Billing address</h3>
+                        <h3 class="title">Contact Information</h3>
+                    </div>
+
+
+                    <div class="form-group">
+                        <input class="input" type="text" name="FirstName" id="FirstName" placeholder="First Name"  required>
+                        <small id="first-name-val" class="text-danger" hidden>
+                            First name is required!
+                        </small>
                     </div>
                     <div class="form-group">
-                        <input class="input" type="text" name="first-name" placeholder="First Name">
+                        <input class="input" type="text" name="LastName" id="LastName" placeholder="Last Name" >
                     </div>
                     <div class="form-group">
-                        <input class="input" type="text" name="last-name" placeholder="Last Name">
+                        <input class="input" type="email" name="Email" id="Email" placeholder="Email" >
                     </div>
                     <div class="form-group">
-                        <input class="input" type="email" name="email" placeholder="Email">
+                        <input class="input" type="tel" name="MobilePhone" id="MobilePhone" placeholder="Mobile Number" >
                     </div>
-                    <div class="form-group">
-                        <input class="input" type="text" name="address" placeholder="Address">
+                </div>
+                    <!-- /Contact Information Details -->
+
+                        <!-- Billing Details -->
+                    <div class="billing-details">
+                        <div class="section-title">
+                            <h3 class="title">Billing address</h3>
+                        </div>
+                        <div class="form-group">
+                            <select id="CACountry" name="CACountry" class="form-select input">
+                                <option value="PH" selected disabled>Philippines</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input class="input" type="text" name="CALine1" id="CALine1" placeholder="Street name. house number, subdivision" autocomplete="on" >
+                        </div>
+                        <div class="form-group">
+                            <input class="input" type="text" name="CALine2" id="CALine2" placeholder="Barangay / District (optional)" autocomplete="on" >
+                        </div>
+                        <div class="form-group">
+                            <input class="input" type="text" name="CACity" id="CACity" placeholder="City / Municipality" >
+                        </div>
+                        <div class="form-group">
+                            <input class="input" type="text" name="CAPostalCode" id="CAPostalCode" placeholder="ZIP Code (optional)" >
+                        </div>
+                        <div class="form-group">
+                            <select id="CAProvince" name="CAProvince" class="form-select input">
+                                <option value="" style="color:darkgray">Province / Region (optional)</option>
+                                <option value="ABRA">Abra</option>
+                                <option value="AGUSAN DEL NORTE">Agusan del Norte</option>
+                                <option value="AGUSAN DEL SUR">Agusan del Sur</option>
+                                <option value="AKLAN">Aklan</option>
+                                <option value="ALBAY">Albay</option>
+                                <option value="ANTIQUE">Antique</option>
+                                <option value="APAYAO">Apayao</option>
+                                <option value="AURORA">Aurora</option>
+                                <option value="BASILAN">Basilan</option>
+                                <option value="BATAAN">Bataan</option>
+                                <option value="BATANES">Batanes</option>
+                                <option value="BATANGAS">Batangas</option>
+                                <option value="BENGUET">Benguet</option>
+                                <option value="BILIRAN">Biliran</option>
+                                <option value="BOHOL">Bohol</option>
+                                <option value="BUKIDNON">Bukidnon</option>
+                                <option value="BULACAN">Bulacan</option>
+                                <option value="CAGAYAN">Cagayan</option>
+                                <option value="CAMARINES NORTE">Camarines Norte</option>
+                                <option value="CAMARINES SUR">Camarines Sur</option>
+                                <option value="CAMIGUIN">Camiguin</option>
+                                <option value="CAPIZ">Capiz</option>
+                                <option value="CATANDUANES">Catanduanes</option>
+                                <option value="CAVITE">Cavite</option>
+                                <option value="CEBU">Cebu</option>
+                                <option value="COMPOSTELA VALLEY">Compostela Valley</option>
+                                <option value="COTABATO">Cotabato</option>
+                                <option value="DAVAO DEL NORTE">Davao del Norte</option>
+                                <option value="DAVAO DEL SUR">Davao del Sur</option>
+                                <option value="DAVAO ORIENTAL">Davao Oriental</option>
+                                <option value="DINAGAT ISLANDS">Dinagat Islands</option>
+                                <option value="EASTERN SAMAR">Eastern Samar</option>
+                                <option value="GUIMARAS">Guimaras</option>
+                                <option value="IFUGAO">Ifugao</option>
+                                <option value="ILOCOS NORTE">Ilocos Norte</option>
+                                <option value="ILOCOS SUR">Ilocos Sur</option>
+                                <option value="ILOILO">Iloilo</option>
+                                <option value="ISABELA">Isabela</option>
+                                <option value="KALINGA">Kalinga</option>
+                                <option value="LA UNION">La Union</option>
+                                <option value="LAGUNA">Laguna</option>
+                                <option value="LANAO DEL NORTE">Lanao del Norte</option>
+                                <option value="LANAO DEL SUR">Lanao del Sur</option>
+                                <option value="LEYTE">Leyte</option>
+                                <option value="MAGUINDANAO">Maguindanao</option>
+                                <option value="MANILA">Manila</option>
+                                <option value="MARINDUQUE">Marinduque</option>
+                                <option value="MASBATE">Masbate</option>
+                                <option value="METRO MANILA">Metro Manila</option>
+                                <option value="MINDORO OCCIDENTAL">Mindoro Occidental</option>
+                                <option value="MINDORO ORIENTAL">Mindoro Oriental</option>
+                                <option value="MISAMIS OCCIDENTAL">Misamis Occidental</option>
+                                <option value="MISAMIS ORIENTAL">Misamis Oriental</option>
+                                <option value="MOUNTAIN PROVINCE">Mountain Province</option>
+                                <option value="NEGROS OCCIDENTAL">Negros Occidental</option>
+                                <option value="NEGROS ORIENTAL">Negros Oriental</option>
+                                <option value="NORTHERN SAMAR">Northern Samar</option>
+                                <option value="NUEVA ECIJA">Nueva Ecija</option>
+                                <option value="NUEVA VIZCAYA">Nueva Vizcaya</option>
+                                <option value="PALAWAN">Palawan</option>
+                                <option value="PAMPANGA">Pampanga</option>
+                                <option value="PANGASINAN">Pangasinan</option>
+                                <option value="QUEZON">Quezon</option>
+                                <option value="QUIRINO">Quirino</option>
+                                <option value="RIZAL">Rizal</option>
+                                <option value="ROMBLON">Romblon</option>
+                                <option value="SAMAR">Samar&nbsp;(Western Samar)</option>
+                                <option value="SARANGANI">Sarangani</option>
+                                <option value="SIQUIJOR">Siquijor</option>
+                                <option value="SORSOGON">Sorsogon</option>
+                                <option value="SOUTH COTABATO">South Cotabato</option>
+                                <option value="SOUTHERN LEYTE">Southern Leyte</option>
+                                <option value="SULTAN KUDARAT">Sultan Kudarat</option>
+                                <option value="SULU">Sulu</option>
+                                <option value="SURIGAO DEL NORTE">Surigao del Norte</option>
+                                <option value="SURIGAO DEL SUR">Surigao del Sur</option>
+                                <option value="TARLAC">Tarlac</option>
+                                <option value="TAWI-TAWI">Tawi-Tawi</option>
+                                <option value="ZAMBALES">Zambales</option>
+                                <option value="ZAMBOANGA DEL NORTE">Zamboanga del Norte</option>
+                                <option value="ZAMBOANGA DEL SUR">Zamboanga del Sur</option>
+                                <option value="ZAMBOANGA SIBUGAY">Zamboanga Sibugay</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-checkbox">
+                                <input type="checkbox" id="create-account">
+                                <label for="create-account">
+                                    <span></span>
+                                    Create Account?
+                                </label>
+                                <div class="caption">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p>
+                                    <input class="input" type="password" name="password" placeholder="Enter Your Password">
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <input class="input" type="text" name="city" placeholder="City">
-                    </div>
-                    <div class="form-group">
-                        <input class="input" type="text" name="country" placeholder="Country">
-                    </div>
-                    <div class="form-group">
-                        <input class="input" type="text" name="zip-code" placeholder="ZIP Code">
-                    </div>
-                    <div class="form-group">
-                        <input class="input" type="tel" name="tel" placeholder="Telephone">
-                    </div>
-                    <div class="form-group">
+                        <!-- /Billing Details -->
+                    <!-- Shiping Details -->
+                    <div class="shiping-details">
+                        <div class="section-title">
+                            <h3 class="title">Shiping address</h3>
+                        </div>
                         <div class="input-checkbox">
-                            <input type="checkbox" id="create-account">
-                            <label for="create-account">
+                            <input type="checkbox" id="shiping-address">
+                            <label for="shiping-address">
                                 <span></span>
-                                Create Account?
+                                Ship to a diffrent address?
                             </label>
                             <div class="caption">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p>
-                                <input class="input" type="password" name="password" placeholder="Enter Your Password">
+                                <div class="form-group">
+                                    <select id="SACountry" name="SACountry" class="form-select input">
+                                        <option value="PH" selected disabled>Philippines</option>
+
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <input class="input" type="text" name="RFirstName" id="RFirstName" placeholder="Recipient first name"  required>
+                                    <small id="first-name-val" class="text-danger" hidden>
+                                        Recipient First name is required!
+                                    </small>
+                                </div>
+                                <div class="form-group">
+                                    <input class="input" type="text" name="RLastName" id="RLastName" placeholder="Recipient last name" >
+                                </div>
+
+                                <div class="form-group">
+                                    <input class="input" type="text" name="SALine1" id="SALine1" placeholder="Street name. house number, subdivision" autocomplete="on" >
+                                </div>
+                                <div class="form-group">
+                                    <input class="input" type="text" name="SALine2" id="SALine2" placeholder="Barangay / District (optional)" autocomplete="on" >
+                                </div>
+                                <div class="form-group">
+                                    <input class="input" type="text" name="SACity" id="SACity" placeholder="City / Municipality" >
+                                </div>
+                                <div class="form-group">
+                                    <input class="input" type="text" name="SAPostalCode" id="SAPostalCode" placeholder="ZIP Code (optional)" >
+                                </div>
+
+                                <div class="form-group">
+                                    <select id="SAProvince" name="SAProvince" class="form-select input">
+                                        <option value="" style="color:darkgray">Province / Region (optional)</option>
+                                        <option value="ABRA">Abra</option>
+                                        <option value="AGUSAN DEL NORTE">Agusan del Norte</option>
+                                        <option value="AGUSAN DEL SUR">Agusan del Sur</option>
+                                        <option value="AKLAN">Aklan</option>
+                                        <option value="ALBAY">Albay</option>
+                                        <option value="ANTIQUE">Antique</option>
+                                        <option value="APAYAO">Apayao</option>
+                                        <option value="AURORA">Aurora</option>
+                                        <option value="BASILAN">Basilan</option>
+                                        <option value="BATAAN">Bataan</option>
+                                        <option value="BATANES">Batanes</option>
+                                        <option value="BATANGAS">Batangas</option>
+                                        <option value="BENGUET">Benguet</option>
+                                        <option value="BILIRAN">Biliran</option>
+                                        <option value="BOHOL">Bohol</option>
+                                        <option value="BUKIDNON">Bukidnon</option>
+                                        <option value="BULACAN">Bulacan</option>
+                                        <option value="CAGAYAN">Cagayan</option>
+                                        <option value="CAMARINES NORTE">Camarines Norte</option>
+                                        <option value="CAMARINES SUR">Camarines Sur</option>
+                                        <option value="CAMIGUIN">Camiguin</option>
+                                        <option value="CAPIZ">Capiz</option>
+                                        <option value="CATANDUANES">Catanduanes</option>
+                                        <option value="CAVITE">Cavite</option>
+                                        <option value="CEBU">Cebu</option>
+                                        <option value="COMPOSTELA VALLEY">Compostela Valley</option>
+                                        <option value="COTABATO">Cotabato</option>
+                                        <option value="DAVAO DEL NORTE">Davao del Norte</option>
+                                        <option value="DAVAO DEL SUR">Davao del Sur</option>
+                                        <option value="DAVAO ORIENTAL">Davao Oriental</option>
+                                        <option value="DINAGAT ISLANDS">Dinagat Islands</option>
+                                        <option value="EASTERN SAMAR">Eastern Samar</option>
+                                        <option value="GUIMARAS">Guimaras</option>
+                                        <option value="IFUGAO">Ifugao</option>
+                                        <option value="ILOCOS NORTE">Ilocos Norte</option>
+                                        <option value="ILOCOS SUR">Ilocos Sur</option>
+                                        <option value="ILOILO">Iloilo</option>
+                                        <option value="ISABELA">Isabela</option>
+                                        <option value="KALINGA">Kalinga</option>
+                                        <option value="LA UNION">La Union</option>
+                                        <option value="LAGUNA">Laguna</option>
+                                        <option value="LANAO DEL NORTE">Lanao del Norte</option>
+                                        <option value="LANAO DEL SUR">Lanao del Sur</option>
+                                        <option value="LEYTE">Leyte</option>
+                                        <option value="MAGUINDANAO">Maguindanao</option>
+                                        <option value="MANILA">Manila</option>
+                                        <option value="MARINDUQUE">Marinduque</option>
+                                        <option value="MASBATE">Masbate</option>
+                                        <option value="METRO MANILA">Metro Manila</option>
+                                        <option value="MINDORO OCCIDENTAL">Mindoro Occidental</option>
+                                        <option value="MINDORO ORIENTAL">Mindoro Oriental</option>
+                                        <option value="MISAMIS OCCIDENTAL">Misamis Occidental</option>
+                                        <option value="MISAMIS ORIENTAL">Misamis Oriental</option>
+                                        <option value="MOUNTAIN PROVINCE">Mountain Province</option>
+                                        <option value="NEGROS OCCIDENTAL">Negros Occidental</option>
+                                        <option value="NEGROS ORIENTAL">Negros Oriental</option>
+                                        <option value="NORTHERN SAMAR">Northern Samar</option>
+                                        <option value="NUEVA ECIJA">Nueva Ecija</option>
+                                        <option value="NUEVA VIZCAYA">Nueva Vizcaya</option>
+                                        <option value="PALAWAN">Palawan</option>
+                                        <option value="PAMPANGA">Pampanga</option>
+                                        <option value="PANGASINAN">Pangasinan</option>
+                                        <option value="QUEZON">Quezon</option>
+                                        <option value="QUIRINO">Quirino</option>
+                                        <option value="RIZAL">Rizal</option>
+                                        <option value="ROMBLON">Romblon</option>
+                                        <option value="SAMAR">Samar&nbsp;(Western Samar)</option>
+                                        <option value="SARANGANI">Sarangani</option>
+                                        <option value="SIQUIJOR">Siquijor</option>
+                                        <option value="SORSOGON">Sorsogon</option>
+                                        <option value="SOUTH COTABATO">South Cotabato</option>
+                                        <option value="SOUTHERN LEYTE">Southern Leyte</option>
+                                        <option value="SULTAN KUDARAT">Sultan Kudarat</option>
+                                        <option value="SULU">Sulu</option>
+                                        <option value="SURIGAO DEL NORTE">Surigao del Norte</option>
+                                        <option value="SURIGAO DEL SUR">Surigao del Sur</option>
+                                        <option value="TARLAC">Tarlac</option>
+                                        <option value="TAWI-TAWI">Tawi-Tawi</option>
+                                        <option value="ZAMBALES">Zambales</option>
+                                        <option value="ZAMBOANGA DEL NORTE">Zamboanga del Norte</option>
+                                        <option value="ZAMBOANGA DEL SUR">Zamboanga del Sur</option>
+                                        <option value="ZAMBOANGA SIBUGAY">Zamboanga Sibugay</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- /Billing Details -->
-                <!-- Shiping Details -->
-                <div class="shiping-details">
-                    <div class="section-title">
-                        <h3 class="title">Shiping address</h3>
+                    <!-- /Shiping Details -->
+
+
+
+                    <!-- Order notes -->
+                    <div class="order-notes">
+                        <textarea class="input" placeholder="Order Notes"></textarea>
                     </div>
-                    <div class="input-checkbox">
-                        <input type="checkbox" id="shiping-address">
-                        <label for="shiping-address">
-                            <span></span>
-                            Ship to a diffrent address?
-                        </label>
-                        <div class="caption">
-                            <div class="form-group">
-                                <input class="input" type="text" name="first-name" placeholder="First Name">
-                            </div>
-                            <div class="form-group">
-                                <input class="input" type="text" name="last-name" placeholder="Last Name">
-                            </div>
-                            <div class="form-group">
-                                <input class="input" type="email" name="email" placeholder="Email">
-                            </div>
-                            <div class="form-group">
-                                <input class="input" type="text" name="address" placeholder="Address">
-                            </div>
-                            <div class="form-group">
-                                <input class="input" type="text" name="city" placeholder="City">
-                            </div>
-                            <div class="form-group">
-                                <input class="input" type="text" name="country" placeholder="Country">
-                            </div>
-                            <div class="form-group">
-                                <input class="input" type="text" name="zip-code" placeholder="ZIP Code">
-                            </div>
-                            <div class="form-group">
-                                <input class="input" type="tel" name="tel" placeholder="Telephone">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /Shiping Details -->
-                <!-- Order notes -->
-                <div class="order-notes">
-                    <textarea class="input" placeholder="Order Notes"></textarea>
-                </div>
-                <!-- /Order notes -->
+                    <!-- /Order notes -->
+                }
             </div>
 
             <!-- Order Details -->
@@ -156,9 +362,9 @@
                         }
 
                         @*<div class="order-col">
-            <div>2x Product Name Goes Here</div>
-            <div>$980.00</div>
-        </div>*@
+                    <div>2x Product Name Goes Here</div>
+                    <div>$980.00</div>
+                </div>*@
                     </div>
                     <div class="order-col">
                         <div>Shiping</div>
@@ -208,7 +414,9 @@
                         I've read and accept the <a href="#">terms & conditions</a>
                     </label>
                 </div>
-                <a href="#" class="primary-btn order-submit">Place order</a>
+
+                @*@Html.ActionLink("Place order", "PaymentWithPaypal", "Home", new { @class= "primary-btn order-submit",  Cancel = "" })*@
+                <a href="#" id="place-order-btn" class="primary-btn order-submit">Place order</a>
             </div>
             <!-- /Order Details -->
         </div>
@@ -258,6 +466,10 @@
         $(document).ready(function () {
 
             $('.order-total').text('₱' +  parseInt($('.order-total').text()).toLocaleString());
+
+            $('#place-order-btn').click(function () {
+                $('#check-out-form').submit();
+            });
 
         });
     </script>
