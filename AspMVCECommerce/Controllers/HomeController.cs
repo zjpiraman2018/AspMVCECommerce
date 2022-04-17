@@ -19,10 +19,16 @@ namespace AspMVCECommerce.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         private CheckOut checkOutObj { get; set; }
-
+        [Authorize(Roles = "Customer")]
         public ActionResult PaymentWithPaypal(string Cancel = null)
         {
-           
+            if(Cancel != null)
+            if(Cancel.ToLower().Trim() == "true")
+            {
+                string homeUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/Home/Index";
+                return Content($"<script>window.location = '{homeUrl}';</script>");
+            }
+
             if(Request.Form.Count > 0)
             {
 
@@ -31,8 +37,7 @@ namespace AspMVCECommerce.Controllers
                 checkOutObj.LastName =Request.Form.GetValues("LastName").FirstOrDefault().ToUpper();
                 checkOutObj.Email = Request.Form.GetValues("Email").FirstOrDefault();
                 checkOutObj.Mobile = Request.Form.GetValues("MobilePhone").FirstOrDefault();
-
-                checkOutObj.CustomAddress = new CustomAddress();
+               checkOutObj.CustomAddress = new CustomAddress();
                 checkOutObj.CustomAddress.Line1 =  Request.Form.GetValues("CALine1").FirstOrDefault().ToUpper();
                 checkOutObj.CustomAddress.Line2 = Request.Form.GetValues("CALine2").FirstOrDefault().ToUpper();
                 checkOutObj.CustomAddress.City = Request.Form.GetValues("CACity").FirstOrDefault().ToUpper();
@@ -117,11 +122,11 @@ namespace AspMVCECommerce.Controllers
         private PayPal.Api.Payment payment;
         private Payment ExecutePayment(APIContext apiContext, string payerId, string paymentId)
         {
-
+            var randomProfileName = "PROFILENAME-" + DateTime.Now.ToString("MMddyyyyhhmmssffftt");
             // Create the web experience profile
             var profile = new WebProfile
             {
-                name = "My web experience profile",
+                name = randomProfileName,
                 //presentation = new Presentation
                 //{
                 //    brand_name = "My brand name",
@@ -163,29 +168,44 @@ namespace AspMVCECommerce.Controllers
         {
 
             var lineitems1 = GetLineItemsForCheckOut();
+            ShippingAddress shippingAddress = null;
+            ItemList itemList = null;
 
-            ShippingAddress shippingAddress = new ShippingAddress();
-
-            shippingAddress.city = checkOutObj.ShippingAddress.City;
-            shippingAddress.country_code = checkOutObj.ShippingAddress.CountryCode;
-            shippingAddress.line1 = checkOutObj.ShippingAddress.Line1;
-            shippingAddress.phone = checkOutObj.ShippingAddress.Phone;
-            shippingAddress.postal_code = checkOutObj.ShippingAddress.PostalCode;
-            shippingAddress.state = checkOutObj.ShippingAddress.Province;
-            shippingAddress.line2 = checkOutObj.ShippingAddress.Line2;
-            shippingAddress.default_address = false; //checkOutObj.ShippingAddress.DefaultAddress;
-            shippingAddress.preferred_address = false; //checkOutObj.ShippingAddress.PreferredAddress;
-            shippingAddress.recipient_name = checkOutObj.ShippingAddress.RecipientName;
-            shippingAddress.status = checkOutObj.ShippingAddress.Status;
-            shippingAddress.type = checkOutObj.ShippingAddress.Type;
-
-            //create itemlist and add item objects to it  
-            var itemList = new ItemList()
+            if (!string.IsNullOrEmpty(checkOutObj.ShippingAddress.RecipientName.Trim()))
             {
-                items = new List<Item>(), 
-                shipping_address = shippingAddress
-            };
-            //Adding Item Details like name, currency, price etc  
+                shippingAddress = new ShippingAddress();
+
+                shippingAddress.city = checkOutObj.ShippingAddress.City;
+                shippingAddress.country_code = checkOutObj.ShippingAddress.CountryCode;
+                shippingAddress.line1 = checkOutObj.ShippingAddress.Line1;
+                shippingAddress.phone = checkOutObj.ShippingAddress.Phone;
+                shippingAddress.postal_code = checkOutObj.ShippingAddress.PostalCode;
+                shippingAddress.state = checkOutObj.ShippingAddress.Province;
+                shippingAddress.line2 = checkOutObj.ShippingAddress.Line2;
+                shippingAddress.default_address = false; //checkOutObj.ShippingAddress.DefaultAddress;
+                shippingAddress.preferred_address = false; //checkOutObj.ShippingAddress.PreferredAddress;
+                shippingAddress.recipient_name = checkOutObj.ShippingAddress.RecipientName;
+                shippingAddress.status = checkOutObj.ShippingAddress.Status;
+                shippingAddress.type = checkOutObj.ShippingAddress.Type;
+
+                //with shipping address create itemlist and add item objects to it  
+                itemList = new ItemList()
+                {
+                    items = new List<Item>(),
+                    shipping_address = shippingAddress
+                };
+                //Adding Item Details like name, currency, price etc  
+            }
+            else
+            {
+                // without shipping address create itemlist and add item objects to it  
+                itemList = new ItemList()
+                {
+                    items = new List<Item>()
+                };
+                //Adding Item Details like name, currency, price etc  
+            }
+
 
             foreach (var lineitem in lineitems1)
             {
@@ -239,11 +259,10 @@ namespace AspMVCECommerce.Controllers
             payer.payer_info.billing_address = customAddress;
 
 
-
-
-
-            payer.payer_info.shipping_address = shippingAddress;
-            // end Remove this after zaldy
+            if (shippingAddress != null)
+            {
+                payer.payer_info.shipping_address = shippingAddress;
+            }
 
             payer.payer_info.country_code = checkOutObj.CountryCode;
             payer.payer_info.email = checkOutObj.Email;
@@ -734,6 +753,7 @@ namespace AspMVCECommerce.Controllers
             return View(lineItems);
         }
 
+        [Authorize(Roles = "Customer")]
         public ActionResult CheckOut()
         {
             return View(GetLineItemsForCheckOut());

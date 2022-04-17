@@ -43,24 +43,46 @@
 
                     <div class="form-group">
                         <input class="input" type="text" name="FirstName" id="FirstName" placeholder="First Name"  required>
-                        <small id="first-name-val" class="text-danger" hidden>
+                        <small id="FirstNameVal" class="text-danger" hidden>
                             First name is required!
                         </small>
                     </div>
                     <div class="form-group">
-                        <input class="input" type="text" name="LastName" id="LastName" placeholder="Last Name" >
+                        <input class="input" type="text" name="LastName" id="LastName" placeholder="Last Name">
+                        <small id="LastNameVal" class="text-danger" hidden>
+                            Last name is required!
+                        </small>
                     </div>
                     <div class="form-group">
-                        <input class="input" type="email" name="Email" id="Email" placeholder="Email" >
+                        <input class="input" type="email" name="Email" id="Email" placeholder="Email">
+                        <small id="EmailVal" class="text-danger" hidden>
+                            Email is required!
+                        </small>
+                        <small id="EmailVal2" class="text-danger" hidden>
+                            Email is invalid!
+                        </small>
                     </div>
                     <div class="form-group">
-                        <input class="input" type="tel" name="MobilePhone" id="MobilePhone" placeholder="Mobile Number" >
+                        <div class="UrlInput">
+                            <label>+63</label>
+                            <input name="MobilePhone"  id="MobilePhone" type="text" class="input" placeholder="Mobile Number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
+                        </div>
+
+
+                        @*<input class="input" type="tel" name="MobilePhone" id="MobilePhone" placeholder="Mobile Number">*@
+                        <small id="MobilePhoneVal" class="text-danger" style=" top: 40px; position: relative;" hidden>
+                            Mobile Phone number is required!
+                        </small>
+
+                        <small id="MobilePhoneVal2" class="text-danger" style=" top: 40px; position: relative;" hidden>
+                            Mobile Phone number is invalid!
+                        </small>
                     </div>
                 </div>
                     <!-- /Contact Information Details -->
 
                         <!-- Billing Details -->
-                    <div class="billing-details">
+                    <div class="billing-details" style="margin-top:80px;">
                         <div class="section-title">
                             <h3 class="title">Billing address</h3>
                         </div>
@@ -70,19 +92,27 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <input class="input" type="text" name="CALine1" id="CALine1" placeholder="Street name. house number, subdivision" autocomplete="on" >
+                            <input class="input" type="text" name="CALine1" id="CALine1" placeholder="Street name. house number, subdivision" autocomplete="on">
+                            <small id="CALine1Val" class="text-danger" hidden>
+                                Address is required!
+                            </small>
+
                         </div>
                         <div class="form-group">
                             <input class="input" type="text" name="CALine2" id="CALine2" placeholder="Barangay / District (optional)" autocomplete="on" >
                         </div>
                         <div class="form-group">
-                            <input class="input" type="text" name="CACity" id="CACity" placeholder="City / Municipality" >
+                            <input class="input" type="text" name="CACity" id="CACity" placeholder="City / Municipality">
+
+                            <small id="CACityVal" class="text-danger" hidden>
+                                City / Municipality is required!
+                            </small>
                         </div>
                         <div class="form-group">
                             <input class="input" type="text" name="CAPostalCode" id="CAPostalCode" placeholder="ZIP Code (optional)" >
                         </div>
                         <div class="form-group">
-                            <select id="CAProvince" name="CAProvince" class="form-select input">
+                            <select id="CAProvince" name="CAProvince" class="form-select input" style="color: #7d8085">
                                 <option value="" style="color:darkgray">Province / Region (optional)</option>
                                 <option value="ABRA">Abra</option>
                                 <option value="AGUSAN DEL NORTE">Agusan del Norte</option>
@@ -203,30 +233,39 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <input class="input" type="text" name="RFirstName" id="RFirstName" placeholder="Recipient first name"  required>
-                                    <small id="first-name-val" class="text-danger" hidden>
-                                        Recipient First name is required!
+                                    <input class="input" type="text" name="RFirstName" id="RFirstName" placeholder="Recipient First Name"  required>
+                                    <small id="RFirstNameVal" class="text-danger" hidden>
+                                        Recipient First Name is required!
                                     </small>
                                 </div>
                                 <div class="form-group">
-                                    <input class="input" type="text" name="RLastName" id="RLastName" placeholder="Recipient last name" >
+                                    <input class="input" type="text" name="RLastName" id="RLastName" placeholder="Recipient Last Name">
+                                    <small id="RLastNameVal" class="text-danger" hidden>
+                                        Recipient Last Name is required!
+                                    </small>
                                 </div>
 
                                 <div class="form-group">
-                                    <input class="input" type="text" name="SALine1" id="SALine1" placeholder="Street name. house number, subdivision" autocomplete="on" >
+                                    <input class="input" type="text" name="SALine1" id="SALine1" placeholder="Street name. house number, subdivision" autocomplete="on">
+                                    <small id="SALine1Val" class="text-danger" hidden>
+                                        Address is required!
+                                    </small>
                                 </div>
                                 <div class="form-group">
                                     <input class="input" type="text" name="SALine2" id="SALine2" placeholder="Barangay / District (optional)" autocomplete="on" >
                                 </div>
                                 <div class="form-group">
-                                    <input class="input" type="text" name="SACity" id="SACity" placeholder="City / Municipality" >
+                                    <input class="input" type="text" name="SACity" id="SACity" placeholder="City / Municipality">
+                                    <small id="SACityVal" class="text-danger" hidden>
+                                        City / Municipality is required!
+                                    </small>
                                 </div>
                                 <div class="form-group">
                                     <input class="input" type="text" name="SAPostalCode" id="SAPostalCode" placeholder="ZIP Code (optional)" >
                                 </div>
 
                                 <div class="form-group">
-                                    <select id="SAProvince" name="SAProvince" class="form-select input">
+                                    <select id="SAProvince" name="SAProvince" class="form-select input" style="color: #7d8085">
                                         <option value="" style="color:darkgray">Province / Region (optional)</option>
                                         <option value="ABRA">Abra</option>
                                         <option value="AGUSAN DEL NORTE">Agusan del Norte</option>
@@ -377,7 +416,7 @@
                 </div>
                 <div class="payment-method">
                     <div class="input-radio">
-                        <input type="radio" name="payment" id="payment-1">
+                        <input type="radio" name="payment" id="payment-1" disabled>
                         <label for="payment-1">
                             <span></span>
                             Direct Bank Transfer
@@ -387,7 +426,7 @@
                         </div>
                     </div>
                     <div class="input-radio">
-                        <input type="radio" name="payment" id="payment-2">
+                        <input type="radio" name="payment" id="payment-2" disabled>
                         <label for="payment-2">
                             <span></span>
                             Cheque Payment
@@ -397,18 +436,18 @@
                         </div>
                     </div>
                     <div class="input-radio">
-                        <input type="radio" name="payment" id="payment-3">
+                        <input type="radio" name="payment" id="payment-3" checked>
                         <label for="payment-3">
                             <span></span>
                             Paypal System
                         </label>
                         <div class="caption">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                            <p>Our ecommerce system is fully integrated with paypal with 24/7Transaction monitoring, real-time fraud prevention & a/c protection benefits. Join Over 300m Users. 25 Currencies Supported. Services: Credit card payment, Online payment, Overseas payment, Service catalog, Buyer Protection Policy, Return Shipping Refunds.</p>
                         </div>
                     </div>
                 </div>
                 <div class="input-checkbox">
-                    <input type="checkbox" id="terms">
+                    <input type="checkbox" id="terms"  checked>
                     <label for="terms">
                         <span></span>
                         I've read and accept the <a href="#">terms & conditions</a>
@@ -447,6 +486,43 @@
         #module a:not(.collapsed):after {
             content: '- Show Less';
         }
+
+
+    .UrlInput {
+        position: relative;
+    }
+
+ 
+
+        .UrlInput input:focus {
+            position: absolute;
+            left: 0;
+            top: 0;
+            padding-left: 42px;
+        }
+
+
+        .UrlInput label {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            color: white;
+            z-index: 0;
+            line-height: 35px;
+            padding-left: 10px;
+        }
+
+        .UrlInput input {
+            position: absolute;
+            left: 0px;
+            top: 0;
+            padding-left: 15px;
+        }
+
+
+    .UrlInput input:focus::placeholder {
+        color: transparent;
+    }
 </style>
 
 @*<div id="module" >
@@ -463,12 +539,127 @@
 
 
     <script type="text/javascript">
+
+        const forValidateFields = ["FirstNameVal", "LastNameVal", "EmailVal", "MobilePhoneVal", "CALine1Val", "CACityVal"];
+        const forValidateFields2 = ["RFirstNameVal", "RLastNameVal", "SALine1Val", "SACityVal"];
+
+
+
+
+        function isEmail2(email) {
+            var regex = /^([a-zA-Z0-9_.+-])+\@@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            return regex.test(email);
+        }
+
+
         $(document).ready(function () {
+
+
+            //$('.UrlInput input').keypress(function () {
+
+            //    if ($(this).val().length >= 10) {
+            //        $(this).val($(this).val().substring(0, 9));
+            //    }
+               
+            //});
+
+     
+  
+
+
+            $(".UrlInput input").focus(function () {
+                $('.UrlInput label').attr('style', 'font-weight:500;position: absolute;left: 3px;top: 3px;color: #999;z-index: 999;');
+                if ($('.UrlInput input').val().trim() != '') {
+                    $('.UrlInput input').val($('.UrlInput input').val().trim().replace('+63',''));
+                }
+                $('#MobilePhoneVal2').hide();
+                $('#MobilePhoneVal').hide();
+            }).focusout(function () {
+                $('#MobilePhoneVal2').hide();
+                $('.UrlInput label').attr('style', 'position: absolute;left: 0px;top: 0px;color: white;z-index: 0;');
+                if ($('.UrlInput input').val().trim() != '') {
+                    $('.UrlInput input').val('+63' + $('.UrlInput input').val().trim());
+
+
+                    if ($('.UrlInput input').val().length != 13) {
+                        $('#MobilePhoneVal2').show();
+                    }
+
+                }
+
+            });
+
 
             $('.order-total').text('₱' +  parseInt($('.order-total').text()).toLocaleString());
 
             $('#place-order-btn').click(function () {
                 $('#check-out-form').submit();
+            });
+
+            $('.form-select.input').change(function () {
+                if ($(this).val() == '') {
+                    $(this).css('color', '#7d8085');
+                }
+                else {
+                    $(this).css('color', 'black');
+                }
+            });
+
+
+            $('#check-out-form').submit(function (event) {
+                event.preventDefault(); //this will prevent the default submit
+
+                var haveInvalid = false;
+
+                // HIDE ALL VALIDATION MESSAGE
+                for (let i = 0; i < forValidateFields.length; i++) {
+                    $('#' + forValidateFields[i]).hide();
+                }
+
+                for (let i = 0; i < forValidateFields2.length; i++) {
+                    $('#' + forValidateFields2[i]).hide();
+                }
+                $('#MobilePhoneVal2').hide();
+                $('#EmailVal2').hide();
+                
+                // END OF HIDE ALL VALIDATION MESSAGE
+
+
+                // CHECK IF FIELD IS INVALID AND SHOW VALIDATION ERROR FOR CONTACT DETAILS AND CUSTOM ADDRESS
+                for (let i = 0; i < forValidateFields.length; i++) {
+                    if ($('#' + forValidateFields[i].replace('Val','')).val().trim() == '') {
+                        $('#' + forValidateFields[i]).show();
+                        haveInvalid = true;
+                    }
+                }
+                // END OF CHECK IF FIELD IS INVALID AND SHOW VALIDATION ERROR FOR CONTACT DETAILS AND CUSTOM ADDRESS
+
+                if ($('#shiping-address').prop("checked")) {
+                    // CHECK IF FIELD IS INVALID AND SHOW VALIDATION ERROR FOR SHIPPING ADDRESS
+                    for (let i = 0; i < forValidateFields2.length; i++) {
+                        if ($('#' + forValidateFields2[i].replace('Val', '')).val().trim() == '') {
+                            $('#' + forValidateFields2[i]).show();
+                            haveInvalid = true;
+                        }
+                    }
+                  // END OF CHECK IF FIELD IS INVALID AND SHOW VALIDATION ERROR FOR SHIPPING ADDRESS
+                }
+
+                if ($('.UrlInput input').val().length != 13 && $('.UrlInput input').val().length > 0) {
+                    haveInvalid = true;
+                    $('#MobilePhoneVal2').show();
+                }
+
+                if (!isEmail2($('#Email').val()) && $('#Email').val().length > 0) {
+                    haveInvalid = true;
+                    $('#EmailVal2').show();
+                }
+
+                if (haveInvalid) {
+                    return;
+                }
+
+                $(this).unbind('submit').submit(); // continue the submit unbind preventDefault
             });
 
         });
