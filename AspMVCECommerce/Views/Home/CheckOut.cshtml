@@ -42,19 +42,19 @@
 
 
                     <div class="form-group">
-                        <input class="input" type="text" name="FirstName" id="FirstName" placeholder="First Name"  required>
+                        <input class="input form-controlx" type="text" name="FirstName" id="FirstName" placeholder="First Name"  required>
                         <small id="FirstNameVal" class="text-danger" hidden>
                             First name is required!
                         </small>
                     </div>
                     <div class="form-group">
-                        <input class="input" type="text" name="LastName" id="LastName" placeholder="Last Name">
+                        <input class="input form-controlx" type="text" name="LastName" id="LastName" placeholder="Last Name">
                         <small id="LastNameVal" class="text-danger" hidden>
                             Last name is required!
                         </small>
                     </div>
                     <div class="form-group">
-                        <input class="input" type="email" name="Email" id="Email" placeholder="Email">
+                        <input class="input form-controlx" type="email" name="Email" id="Email" placeholder="Email">
                         <small id="EmailVal" class="text-danger" hidden>
                             Email is required!
                         </small>
@@ -65,7 +65,7 @@
                     <div class="form-group">
                         <div class="UrlInput">
                             <label>+63</label>
-                            <input name="MobilePhone"  id="MobilePhone" type="text" class="input" placeholder="Mobile Number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
+                            <input name="MobilePhone"  id="MobilePhone" type="text" class="input form-controlx" placeholder="Mobile Number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
                         </div>
 
 
@@ -87,29 +87,29 @@
                             <h3 class="title">Billing address</h3>
                         </div>
                         <div class="form-group">
-                            <select id="CACountry" name="CACountry" class="form-select input">
+                            <select id="CACountry" name="CACountry" class="form-select input form-controlx">
                                 <option value="PH" selected disabled>Philippines</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <input class="input" type="text" name="CALine1" id="CALine1" placeholder="Street name. house number, subdivision" autocomplete="on">
+                            <input class="input form-controlx" type="text" name="CALine1" id="CALine1" placeholder="Street name. house number, subdivision" autocomplete="on">
                             <small id="CALine1Val" class="text-danger" hidden>
                                 Address is required!
                             </small>
 
                         </div>
                         <div class="form-group">
-                            <input class="input" type="text" name="CALine2" id="CALine2" placeholder="Barangay / District (optional)" autocomplete="on" >
+                            <input class="input form-controlx" type="text" name="CALine2" id="CALine2" placeholder="Barangay / District (optional)" autocomplete="on" >
                         </div>
                         <div class="form-group">
-                            <input class="input" type="text" name="CACity" id="CACity" placeholder="City / Municipality">
+                            <input class="input form-controlx" type="text" name="CACity" id="CACity" placeholder="City / Municipality">
 
                             <small id="CACityVal" class="text-danger" hidden>
                                 City / Municipality is required!
                             </small>
                         </div>
                         <div class="form-group">
-                            <input class="input" type="text" name="CAPostalCode" id="CAPostalCode" placeholder="ZIP Code (optional)" >
+                            <input class="input form-controlx" type="text" name="CAPostalCode" id="CAPostalCode" placeholder="ZIP Code (optional)" >
                         </div>
                         <div class="form-group">
                             <select id="CAProvince" name="CAProvince" class="form-select input" style="color: #7d8085">
@@ -198,7 +198,7 @@
                                 <option value="ZAMBOANGA SIBUGAY">Zamboanga Sibugay</option>
                             </select>
                         </div>
-                        <div class="form-group">
+                        @*<div class="form-group">
                             <div class="input-checkbox">
                                 <input type="checkbox" id="create-account">
                                 <label for="create-account">
@@ -210,7 +210,7 @@
                                     <input class="input" type="password" name="password" placeholder="Enter Your Password">
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
                     </div>
                         <!-- /Billing Details -->
                     <!-- Shiping Details -->
@@ -224,7 +224,7 @@
                                 <span></span>
                                 Ship to a diffrent address?
                             </label>
-                            <div class="caption">
+                            <div class="caption" style="padding-right: 2px; padding-left: 2px; ">
                                 <div class="form-group">
                                     <select id="SACountry" name="SACountry" class="form-select input">
                                         <option value="PH" selected disabled>Philippines</option>
@@ -233,35 +233,35 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <input class="input" type="text" name="RFirstName" id="RFirstName" placeholder="Recipient First Name"  required>
+                                    <input class="input form-controlx" type="text" name="RFirstName" id="RFirstName" placeholder="Recipient First Name"  required>
                                     <small id="RFirstNameVal" class="text-danger" hidden>
                                         Recipient First Name is required!
                                     </small>
                                 </div>
                                 <div class="form-group">
-                                    <input class="input" type="text" name="RLastName" id="RLastName" placeholder="Recipient Last Name">
+                                    <input class="input form-controlx" type="text" name="RLastName" id="RLastName" placeholder="Recipient Last Name">
                                     <small id="RLastNameVal" class="text-danger" hidden>
                                         Recipient Last Name is required!
                                     </small>
                                 </div>
 
                                 <div class="form-group">
-                                    <input class="input" type="text" name="SALine1" id="SALine1" placeholder="Street name. house number, subdivision" autocomplete="on">
+                                    <input class="input form-controlx" type="text" name="SALine1" id="SALine1" placeholder="Street name. house number, subdivision" autocomplete="on">
                                     <small id="SALine1Val" class="text-danger" hidden>
                                         Address is required!
                                     </small>
                                 </div>
                                 <div class="form-group">
-                                    <input class="input" type="text" name="SALine2" id="SALine2" placeholder="Barangay / District (optional)" autocomplete="on" >
+                                    <input class="input form-controlx" type="text" name="SALine2" id="SALine2" placeholder="Barangay / District (optional)" autocomplete="on" >
                                 </div>
                                 <div class="form-group">
-                                    <input class="input" type="text" name="SACity" id="SACity" placeholder="City / Municipality">
+                                    <input class="input form-controlx" type="text" name="SACity" id="SACity" placeholder="City / Municipality">
                                     <small id="SACityVal" class="text-danger" hidden>
                                         City / Municipality is required!
                                     </small>
                                 </div>
                                 <div class="form-group">
-                                    <input class="input" type="text" name="SAPostalCode" id="SAPostalCode" placeholder="ZIP Code (optional)" >
+                                    <input class="input form-controlx" type="text" name="SAPostalCode" id="SAPostalCode" placeholder="ZIP Code (optional)" >
                                 </div>
 
                                 <div class="form-group">
@@ -359,9 +359,9 @@
 
 
                     <!-- Order notes -->
-                    <div class="order-notes">
+                    @*<div class="order-notes">
                         <textarea class="input" placeholder="Order Notes"></textarea>
-                    </div>
+                    </div>*@
                     <!-- /Order notes -->
                 }
             </div>
