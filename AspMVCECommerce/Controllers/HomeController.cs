@@ -37,14 +37,14 @@ namespace AspMVCECommerce.Controllers
                 checkOutObj.LastName =Request.Form.GetValues("LastName").FirstOrDefault().ToUpper();
                 checkOutObj.Email = Request.Form.GetValues("Email").FirstOrDefault();
                 checkOutObj.Mobile = Request.Form.GetValues("MobilePhone").FirstOrDefault();
-               checkOutObj.CustomAddress = new CustomAddress();
+
+                checkOutObj.CustomAddress = new CustomAddress();
                 checkOutObj.CustomAddress.Line1 =  Request.Form.GetValues("CALine1").FirstOrDefault().ToUpper();
                 checkOutObj.CustomAddress.Line2 = Request.Form.GetValues("CALine2").FirstOrDefault().ToUpper();
                 checkOutObj.CustomAddress.City = Request.Form.GetValues("CACity").FirstOrDefault().ToUpper();
                 checkOutObj.CustomAddress.PostalCode = Request.Form.GetValues("CAPostalCode").FirstOrDefault();
                 checkOutObj.CustomAddress.Province = Request.Form.GetValues("CAProvince").FirstOrDefault();
                 checkOutObj.CustomAddress.Phone = checkOutObj.Mobile;
-
 
                 checkOutObj.ShippingAddress = new ShippingAddress2();
                 checkOutObj.ShippingAddress.Line1 = Request.Form.GetValues("SALine1").FirstOrDefault().ToUpper();
@@ -116,9 +116,38 @@ namespace AspMVCECommerce.Controllers
             {
                 return View("FailureView");
             }
+
+
+
             //on successful payment, show success page to user.  
+
+
+            SaveCheckOutDetails();
+
             return View("SuccessView");
         }
+
+
+        private void SaveCheckOutDetails()
+        {
+            string userId = Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity);
+            int shoppingCartId = ShoppingCartUtility.GetShoppingCartId(userId, db);
+           
+            var checkOut = (CheckOut)this.HttpContext.Session["CheckOutDetails"];
+            checkOut.ShoppingCartId = shoppingCartId;
+
+            CheckOutUtility.AddCheckOut(checkOut, db);
+
+            var tempLineItems = GetLineItemsForCheckOut();
+            int totalItems = tempLineItems.Count;
+            int totalAmount = tempLineItems.Sum(l => l.TotalPrice);
+
+            OrderUtility.AddOrder( shoppingCartId, totalItems, totalAmount, userId, db);
+
+            //ShoppingCartUtility.AddShoppingCart(userId, db);
+        }
+
+
         private PayPal.Api.Payment payment;
         private Payment ExecutePayment(APIContext apiContext, string payerId, string paymentId)
         {
@@ -314,6 +343,9 @@ namespace AspMVCECommerce.Controllers
                 redirect_urls = redirUrls
 
             };
+
+
+            this.HttpContext.Session["CheckOutDetails"] = checkOutObj;
             // Create a payment using a APIContext  
             return this.payment.Create(apiContext);
         }
@@ -742,7 +774,7 @@ namespace AspMVCECommerce.Controllers
             //}
 
             string userId = Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity);
-            int shoppingCartId = ShoppingCartUtility.GetShoppingCartId(userId, db); ;
+            int shoppingCartId = ShoppingCartUtility.GetShoppingCartId(userId, db); 
 
             var lineItems = db.LineItems.Include(l => l.Product).Include(l => l.Product.Images).Include(l=>l.Size).Include(l=>l.Color).Where(l=>l.ShoppingCartId == shoppingCartId).ToList();
             //ViewBag.Sizes = new SelectList(db.Sizes.Where(s => s.ProductId == productId).ToList(), "SizeId", "Name");
@@ -769,5 +801,24 @@ namespace AspMVCECommerce.Controllers
 
             return lineItems;
         }
+
+        public ActionResult Order()
+        {
+            // 1. Create new Shopping Cart
+            // 2. Save Checkout Details
+            // 3. Save Custome Address
+            // 4. Save Shippinh Address
+            // 5. Create new Order
+            // 6. Display List of order
+
+
+            //string userId = Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity);
+            //int shoppingCartId = ShoppingCartUtility.GetShoppingCartId(userId, db); ;
+            //var lineItems = db.LineItems.Include(l => l.Product).Where(l => l.ShoppingCartId == shoppingCartId).ToList();
+
+            return View();
+        }
+
+
     }
 }

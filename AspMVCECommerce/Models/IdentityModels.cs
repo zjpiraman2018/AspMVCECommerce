@@ -32,7 +32,12 @@ namespace AspMVCECommerce.Models
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Brand> Brands { get; set; }
-        
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<ShippingAddress2> ShippingAddresses { get; set; }
+        public DbSet<CustomAddress> CustomAddresses { get; set; }
+        public DbSet<CheckOut> CheckOuts { get; set; }
+
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
@@ -55,6 +60,10 @@ namespace AspMVCECommerce.Models
 
    
             modelBuilder.Entity<ShoppingCart>().HasMany(s=>s.LineItems).WithRequired(l => l.ShoppingCart).WillCascadeOnDelete(false);
+
+
+
+
 
             base.OnModelCreating(modelBuilder);
         }

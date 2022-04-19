@@ -1,7 +1,12 @@
-﻿namespace AspMVCECommerce.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AspMVCECommerce.Models
 {
     public class ShippingAddress2
     {
+        [Key]
+        public int ShippingAddress2Id { get; set; }
+
         public string City { get; set; }
         public string CountryCode { get { return "PH"; } }
         public string Line1 { get; set; }
@@ -17,5 +22,8 @@
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
+
+        public int CheckOutId { get; set; }
+
     }
 }
