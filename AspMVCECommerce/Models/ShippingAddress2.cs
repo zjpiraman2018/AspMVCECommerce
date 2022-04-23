@@ -8,7 +8,7 @@ namespace AspMVCECommerce.Models
         public int ShippingAddress2Id { get; set; }
 
         public string City { get; set; }
-        public string CountryCode { get { return "PH"; } }
+        public string CountryCode { get { return "PH"; } set { } }
         public string Line1 { get; set; }
         public string Phone { get; set; }
         public string PostalCode { get; set; }
@@ -22,8 +22,6 @@ namespace AspMVCECommerce.Models
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
-
-        public int CheckOutId { get; set; }
 
     }
 }

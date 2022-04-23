@@ -4,11 +4,23 @@ namespace AspMVCECommerce.Utility
 {
     public static class CheckOutUtility
     {
-        public  static void AddCheckOut(CheckOut checkOut, ApplicationDbContext context)
+        public static int AddCheckOut(CheckOut checkOut, ApplicationDbContext context)
         {
 
             var tempCustomAddress = checkOut.CustomAddress;
             var tempShippingAddress = checkOut.ShippingAddress;
+
+
+            int customAddressId = CustomAddressUtility.AddCustomAddress(tempCustomAddress, context);
+            checkOut.CustomAddressId = customAddressId;
+
+            int? shippingAddress2Id = null;
+
+            if (!string.IsNullOrEmpty(tempShippingAddress.RecipientName))
+            {
+                shippingAddress2Id = ShippingAddress2Utility.AddShippingAddress2(tempShippingAddress, context);
+                checkOut.ShippingAddress2Id = shippingAddress2Id;
+            }
 
             checkOut.CustomAddress = null;
             checkOut.ShippingAddress = null;
@@ -17,13 +29,7 @@ namespace AspMVCECommerce.Utility
             context.CheckOuts.Add(checkOut);
             context.SaveChanges();
 
-            var checkOutId = checkOut.CheckOutId;
-            tempCustomAddress.CheckOutId = checkOutId;
-            tempShippingAddress.CheckOutId = checkOutId;
-
-            CustomAddressUtility.AddCustomAddress(tempCustomAddress, context);
-            ShippingAddress2Utility.AddShippingAddress2(tempShippingAddress, context);
-
+            return checkOut.CheckOutId;
         }
 
     }

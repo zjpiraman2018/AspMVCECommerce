@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AspMVCECommerce.Models
 {
@@ -8,7 +7,7 @@ namespace AspMVCECommerce.Models
         [Key]
         public int CustomAddressId { get; set; }
         public string City { get; set; }
-        public string CountryCode { get { return "PH"; } }
+        public string CountryCode { get { return "PH"; } set { } }
         public string Line1 { get; set; }
         public string Phone { get; set; }
         public string PostalCode { get; set; }
@@ -17,7 +16,5 @@ namespace AspMVCECommerce.Models
         public string Status { get { return "CONFIRMED"; } }
         public string Type { get { return "HOME_OR_WORK"; } }
 
-
-        public int CheckOutId { get; set; }
     }
 }

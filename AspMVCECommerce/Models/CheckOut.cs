@@ -21,7 +21,14 @@ namespace AspMVCECommerce.Models
         [ForeignKey("ShoppingCartId")]
         public ShoppingCart ShoppingCart { get; set; }
 
+        public int? ShippingAddress2Id { get; set; }
+        [ForeignKey("ShippingAddress2Id")]
         public ShippingAddress2 ShippingAddress { get; set; }
+
+
+        public int? CustomAddressId { get; set; }
+        [ForeignKey("CustomAddressId")]
         public CustomAddress CustomAddress { get; set; }
+
     }
 }

@@ -7,13 +7,13 @@ namespace AspMVCECommerce.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class initia : IMigrationMetadata
+    public sealed partial class initialmigration : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(initia));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(initialmigration));
         
         string IMigrationMetadata.Id
         {
-            get { return "202204191132166_initia"; }
+            get { return "202204210502114_initialmigration"; }
         }
         
         string IMigrationMetadata.Source

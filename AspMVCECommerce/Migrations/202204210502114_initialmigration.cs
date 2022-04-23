@@ -3,7 +3,7 @@ namespace AspMVCECommerce.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class initia : DbMigration
+    public partial class initialmigration : DbMigration
     {
         public override void Up()
         {
@@ -35,16 +35,16 @@ namespace AspMVCECommerce.Migrations
                         LastName = c.String(),
                         Mobile = c.String(),
                         ShoppingCartId = c.Int(nullable: false),
-                        CustomAddress_CustomAddressId = c.Int(),
-                        ShippingAddress_ShippingAddress2Id = c.Int(),
+                        ShippingAddress2Id = c.Int(),
+                        CustomAddressId = c.Int(),
                     })
                 .PrimaryKey(t => t.CheckOutId)
-                .ForeignKey("dbo.CustomAddresses", t => t.CustomAddress_CustomAddressId)
-                .ForeignKey("dbo.ShippingAddress2", t => t.ShippingAddress_ShippingAddress2Id)
+                .ForeignKey("dbo.CustomAddresses", t => t.CustomAddressId)
+                .ForeignKey("dbo.ShippingAddress2", t => t.ShippingAddress2Id)
                 .ForeignKey("dbo.ShoppingCarts", t => t.ShoppingCartId, cascadeDelete: true)
                 .Index(t => t.ShoppingCartId)
-                .Index(t => t.CustomAddress_CustomAddressId)
-                .Index(t => t.ShippingAddress_ShippingAddress2Id);
+                .Index(t => t.ShippingAddress2Id)
+                .Index(t => t.CustomAddressId);
             
             CreateTable(
                 "dbo.CustomAddresses",
@@ -52,12 +52,12 @@ namespace AspMVCECommerce.Migrations
                     {
                         CustomAddressId = c.Int(nullable: false, identity: true),
                         City = c.String(),
+                        CountryCode = c.String(),
                         Line1 = c.String(),
                         Phone = c.String(),
                         PostalCode = c.String(),
                         Line2 = c.String(),
                         Province = c.String(),
-                        CheckOutId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.CustomAddressId);
             
@@ -67,6 +67,7 @@ namespace AspMVCECommerce.Migrations
                     {
                         ShippingAddress2Id = c.Int(nullable: false, identity: true),
                         City = c.String(),
+                        CountryCode = c.String(),
                         Line1 = c.String(),
                         Phone = c.String(),
                         PostalCode = c.String(),
@@ -75,7 +76,6 @@ namespace AspMVCECommerce.Migrations
                         Province = c.String(),
                         FirstName = c.String(),
                         LastName = c.String(),
-                        CheckOutId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.ShippingAddress2Id);
             
@@ -298,8 +298,8 @@ namespace AspMVCECommerce.Migrations
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.CheckOuts", "ShippingAddress_ShippingAddress2Id", "dbo.ShippingAddress2");
-            DropForeignKey("dbo.CheckOuts", "CustomAddress_CustomAddressId", "dbo.CustomAddresses");
+            DropForeignKey("dbo.CheckOuts", "ShippingAddress2Id", "dbo.ShippingAddress2");
+            DropForeignKey("dbo.CheckOuts", "CustomAddressId", "dbo.CustomAddresses");
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.Orders", new[] { "ShoppingCartId" });
             DropIndex("dbo.Sizes", new[] { "ProductId" });
@@ -318,8 +318,8 @@ namespace AspMVCECommerce.Migrations
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.ShoppingCarts", new[] { "CustomerId" });
-            DropIndex("dbo.CheckOuts", new[] { "ShippingAddress_ShippingAddress2Id" });
-            DropIndex("dbo.CheckOuts", new[] { "CustomAddress_CustomAddressId" });
+            DropIndex("dbo.CheckOuts", new[] { "CustomAddressId" });
+            DropIndex("dbo.CheckOuts", new[] { "ShippingAddress2Id" });
             DropIndex("dbo.CheckOuts", new[] { "ShoppingCartId" });
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.Orders");

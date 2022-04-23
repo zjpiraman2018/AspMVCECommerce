@@ -1,8 +1,88 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "FailureView";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>FailureView</h2>
 
+
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+
+            <div class="col-md-12 error-container">
+                <div class="bd-example">
+                    <div class="alert alert-success" role="alert">
+                        <h4 class="alert-heading">The transaction failed to complete</h4>
+                        <p>@ViewData["ErrorMessage"]</p>
+                        <hr>
+                        <p class="mb-0">Contact our Customer Service for answers to all of your online payment questions or to sign up for our services!</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->
+
+<style>
+    .error-container .bd-example {
+        position: relative;
+        padding: 1rem;
+        margin: 1rem -15px 0;
+        /*        border: solid #f7f7f9;*/
+        border-width: 0.2rem 0 0;
+    }
+
+    .error-container .alert-success {
+        color: #721c24;
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+    }
+
+    .error-container .alert {
+        position: relative;
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 1rem;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+    }
+
+    .error-container .h4 {
+        margin-bottom: 0.5rem;
+        font-family: inherit;
+        font-weight: 500;
+        line-height: 1.2;
+        color: inherit;
+    }
+
+    .error-container .h4, .error-container h4 {
+        font-size: 1.5rem;
+    }
+
+    .error-container .alert-success hr {
+        border-top-color: #f5c6cb;
+    }
+
+    .error-container hr {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 0;
+        border-top: 1px solid rgba(0,0,0,.1);
+    }
+
+    .error-container hr {
+        box-sizing: content-box;
+        height: 0;
+        overflow: visible;
+    }
+
+    .error-container .mb-0, .error-container .my-0 {
+        margin-bottom: 0 !important;
+    }
+</style>

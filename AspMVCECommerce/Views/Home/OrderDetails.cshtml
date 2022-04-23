@@ -1,0 +1,100 @@
+﻿@model AspMVCECommerce.ViewModel.OrderDetailViewModel
+@using System.Collections.Generic;
+@using System.Data.Entity;
+@using System.Linq;
+@using System.Net;
+
+@{
+    ViewBag.Title = "OrderDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <div class="container-fluid">
+            <h4 class="text-center">ORDER DETAIL</h4>
+            <h2 class="text-center">Thursday, July 24, 2017</h2>
+            <p class="text-center">Order #12615 has been delivered</p>
+            <div class="row row-no-gutters">
+                <div class="col-md-12">
+                    <table class="table table-bordered table-responsive">
+                        <thead>
+                            <tr>
+                                <td>Product</td>
+                                <td>Total</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.LineItems)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.Quantity)x <span style="text-transform:uppercase;">@Html.DisplayFor(modelItem => item.Product.Name)</span></td>
+                                    <td>@Html.DisplayFor(modelItem => item.TotalPrice)</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+            <br>
+            <div class="row row-no-gutters">
+                <div class="col-md-offset-6 col-md-3" style="background-color:lavender;">Payment Method</div>
+                <div class="col-sm-3 text-right" style="background-color:lavenderblush;"> Paypal</div>
+            </div>
+            <div class="row row-no-gutters">
+                <div class="col-md-offset-6 col-md-3" style="background-color:lavender;">Shipping</div>
+                <div class="col-md-3 text-right" style="background-color:lavenderblush;">Free</div>
+            </div>
+            <div class="row row-no-gutters">
+                <div class="col-md-offset-6 col-md-3" style="background-color:lavender;">Total</div>
+                <div class="col-md-3 text-right" style="background-color:lavenderblush;">@(Model.LineItems.Sum(p=>p.TotalPrice))</div>
+            </div>
+            <br>
+            <div class="row row-no-gutters">
+                <div class="col-md-6" style="background-color:lavender;">
+                    <div class="row row-no-gutters">
+                        <div class="col-md-12">
+                            <h4>Billing Address</h4>
+                        </div>
+                    </div>
+                    <div class="row row-no-gutters">
+                        <div class="col-md-12">
+                            @(Model.CheckOut.FirstName + " " + Model.CheckOut.LastName + ", " + Model.CheckOut.CustomAddress.Line1 + " " +Model.CheckOut.CustomAddress.Line2)
+
+                        </div>
+                    </div>
+                    <div class="row row-no-gutters">
+                        <div class="col-md-12">
+                            @(Model.CheckOut.CustomAddress.Province + ", " + Model.CheckOut.CustomAddress.CountryCode)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="row row-no-gutters">
+                        <div class="col-md-12">
+                            <h4>Shipping Address</h4>
+                        </div>
+                    </div>
+                    <div class="row row-no-gutters">
+                        <div class="col-md-12">
+                            @(Model.CheckOut.ShippingAddress.RecipientName + ", " + Model.CheckOut.ShippingAddress.Line1 + " " + Model.CheckOut.ShippingAddress.Line2)
+                        </div>
+                    </div>
+                    <div class="row row-no-gutters">
+                        <div class="col-md-12">
+                            @(Model.CheckOut.ShippingAddress.Province + ", " + Model.CheckOut.ShippingAddress.CountryCode)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->

@@ -22,24 +22,24 @@ namespace AspMVCECommerce.Controllers
         [Authorize(Roles = "Customer")]
         public ActionResult PaymentWithPaypal(string Cancel = null)
         {
-            if(Cancel != null)
-            if(Cancel.ToLower().Trim() == "true")
-            {
-                string homeUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/Home/Index";
-                return Content($"<script>window.location = '{homeUrl}';</script>");
-            }
+            if (Cancel != null)
+                if (Cancel.ToLower().Trim() == "true")
+                {
+                    string homeUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/Home/Index";
+                    return Content($"<script>window.location = '{homeUrl}';</script>");
+                }
 
-            if(Request.Form.Count > 0)
+            if (Request.Form.Count > 0)
             {
 
                 checkOutObj = new CheckOut();
                 checkOutObj.FirstName = Request.Form.GetValues("FirstName").FirstOrDefault().ToUpper();
-                checkOutObj.LastName =Request.Form.GetValues("LastName").FirstOrDefault().ToUpper();
+                checkOutObj.LastName = Request.Form.GetValues("LastName").FirstOrDefault().ToUpper();
                 checkOutObj.Email = Request.Form.GetValues("Email").FirstOrDefault();
                 checkOutObj.Mobile = Request.Form.GetValues("MobilePhone").FirstOrDefault();
 
                 checkOutObj.CustomAddress = new CustomAddress();
-                checkOutObj.CustomAddress.Line1 =  Request.Form.GetValues("CALine1").FirstOrDefault().ToUpper();
+                checkOutObj.CustomAddress.Line1 = Request.Form.GetValues("CALine1").FirstOrDefault().ToUpper();
                 checkOutObj.CustomAddress.Line2 = Request.Form.GetValues("CALine2").FirstOrDefault().ToUpper();
                 checkOutObj.CustomAddress.City = Request.Form.GetValues("CACity").FirstOrDefault().ToUpper();
                 checkOutObj.CustomAddress.PostalCode = Request.Form.GetValues("CAPostalCode").FirstOrDefault();
@@ -59,8 +59,8 @@ namespace AspMVCECommerce.Controllers
                 checkOutObj.ShippingAddress.RecipientName = checkOutObj.ShippingAddress.FirstName + " " + checkOutObj.ShippingAddress.LastName;
             }
             // get Start (paging start index) and length (page size for paging)
-      
 
+            string tempPaymentId = "";
             //getting the apiContext  
             APIContext apiContext = PaypalConfiguration.GetAPIContext();
             try
@@ -93,27 +93,55 @@ namespace AspMVCECommerce.Controllers
                             paypalRedirectUrl = lnk.href;
                         }
                     }
+
+                    this.HttpContext.Session["TempPaymentId"] = createdPayment.id;
                     // saving the paymentID in the key guid  
                     Session.Add(guid, createdPayment.id);
 
+
+
+                    //createdPayment.payer.payer_info.billing_address
                     //return Redirect(paypalRedirectUrl);
 
                     return Content($"<script>window.location = '{paypalRedirectUrl}';</script>");
                 }
                 else
                 {
+
                     // This function exectues after receving all parameters for the payment  
                     var guid = Request.Params["guid"];
                     var executedPayment = ExecutePayment(apiContext, payerId, Session[guid] as string);
+
+
+
+
+
                     //If executed payment failed then we will show payment failure message to user  
                     if (executedPayment.state.ToLower() != "approved")
                     {
                         return View("FailureView");
                     }
+
+
+                    // Zaldy custom paypal code
+                    tempPaymentId = (string)this.HttpContext.Session["TempPaymentId"];
+                    var paymentExecution = new PaymentExecution() { payer_id = payerId };
+                    this.payment = new Payment() { id = tempPaymentId };
+                    var paymentInfo = this.payment.Execute(apiContext, paymentExecution);
+               
+                    // var creditCard = GetCreditCard().Create(apiContext);
+
+
+                    SaveCheckOutDetails(paymentInfo);
+                    //this.RecordConnectionDetails();
+
+                    //Assert.IsNotNull(retrievedCreditCard);
+                    //Assert.IsNotNull(retrievedCreditCard.billing_address
                 }
             }
             catch (Exception ex)
             {
+                ViewData["ErrorMessage"] = ex.Message;
                 return View("FailureView");
             }
 
@@ -122,19 +150,84 @@ namespace AspMVCECommerce.Controllers
             //on successful payment, show success page to user.  
 
 
-            SaveCheckOutDetails();
-
-            return View("SuccessView");
+            return RedirectToAction("Order");
+            //return View("SuccessView");
         }
 
 
-        private void SaveCheckOutDetails()
+        private CheckOut UpdateCheckOutDetails(Payment payment, CheckOut checkOut)
+        {
+
+            if(payment.payer.payer_info.billing_address != null)
+            {
+                checkOut.CustomAddress.City = payment.payer.payer_info.billing_address.city;
+                checkOut.CustomAddress.Line1 = payment.payer.payer_info.billing_address.line1;
+
+                checkOut.CustomAddress.Line2 = payment.payer.payer_info.billing_address.line2;
+                checkOut.CustomAddress.Phone = payment.payer.payer_info.billing_address.phone;
+                checkOut.CustomAddress.PostalCode = payment.payer.payer_info.billing_address.postal_code;
+                checkOut.CustomAddress.CountryCode = payment.payer.payer_info.billing_address.country_code;
+                checkOut.CustomAddress.Province = payment.payer.payer_info.billing_address.state;
+            }
+            else
+            {
+                checkOut.CustomAddress.City = "";
+                checkOut.CustomAddress.Line1 = "";
+                checkOut.CustomAddress.Line2 = "";
+                checkOut.CustomAddress.Phone = "";
+                checkOut.CustomAddress.PostalCode = "";
+                checkOut.CustomAddress.CountryCode = "";
+                checkOut.CustomAddress.Province = "";
+            }
+
+
+            if (!string.IsNullOrEmpty(payment.payer.payer_info.shipping_address.recipient_name))
+            {
+                if (payment.payer.payer_info.shipping_address.recipient_name.Trim() != "")
+                {
+
+                    if (payment.payer.payer_info.shipping_address.country_code.Trim().ToUpper() != "PH")
+                    {
+                        throw new ArgumentException("Shipping address is invalid\nWe cannot shipped product outside the philippines. your payment transaction will be refunded within 24hours.\nKindly save your invoice no#: " + (string)this.HttpContext.Session["INVOICENO"] + " for reference");
+                    }
+                    checkOut.ShippingAddress.City = payment.payer.payer_info.shipping_address.city;
+                    checkOut.ShippingAddress.Line1 = payment.payer.payer_info.shipping_address.line1;
+                    checkOut.ShippingAddress.Line2 = payment.payer.payer_info.shipping_address.line2;
+                    checkOut.ShippingAddress.Phone = payment.payer.payer_info.shipping_address.phone;
+                    checkOut.ShippingAddress.PostalCode = payment.payer.payer_info.shipping_address.postal_code;
+                    checkOut.ShippingAddress.CountryCode = payment.payer.payer_info.shipping_address.country_code;
+                    checkOut.ShippingAddress.RecipientName = payment.payer.payer_info.shipping_address.recipient_name;
+                    checkOut.ShippingAddress.Province = payment.payer.payer_info.shipping_address.state;
+                }
+                else
+                {
+                    checkOut.ShippingAddress = null;
+                }
+            }
+            else
+            {
+                checkOut.ShippingAddress = null;
+            }
+
+
+            checkOut.FirstName = payment.payer.payer_info.first_name;
+            checkOut.LastName = payment.payer.payer_info.last_name;
+            checkOut.Mobile = payment.payer.payer_info.phone;
+            checkOut.Email = payment.payer.payer_info.email;
+
+            return checkOut;
+        }
+
+
+        private void SaveCheckOutDetails(Payment payment)
         {
             string userId = Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity);
             int shoppingCartId = ShoppingCartUtility.GetShoppingCartId(userId, db);
            
-            var checkOut = (CheckOut)this.HttpContext.Session["CheckOutDetails"];
+
+            var checkOut = UpdateCheckOutDetails(payment, (CheckOut)this.HttpContext.Session["CheckOutDetails"]);
             checkOut.ShoppingCartId = shoppingCartId;
+
 
             CheckOutUtility.AddCheckOut(checkOut, db);
 
@@ -144,7 +237,7 @@ namespace AspMVCECommerce.Controllers
 
             OrderUtility.AddOrder( shoppingCartId, totalItems, totalAmount, userId, db);
 
-            //ShoppingCartUtility.AddShoppingCart(userId, db);
+            ShoppingCartUtility.AddShoppingCart(userId, db);
         }
 
 
@@ -286,8 +379,10 @@ namespace AspMVCECommerce.Controllers
 
 
             payer.payer_info.billing_address = customAddress;
-
-
+            
+            //remove zaldy for testing
+            payer.payer_info.billing_address = null;
+            
             if (shippingAddress != null)
             {
                 payer.payer_info.shipping_address = shippingAddress;
@@ -321,6 +416,9 @@ namespace AspMVCECommerce.Controllers
 
             string cartid = lineitems1.Count > 0 ? lineitems1[0].ShoppingCartId.ToString() : "";
             var randomInvoiceNo = "INVOICENO-" + cartid + DateTime.Now.ToString("MMddyyyyhhmmssffftt");
+            
+            
+            this.HttpContext.Session["INVOICENO"] = randomInvoiceNo;
 
             var transactionList = new List<Transaction>();
             // Adding description about the transaction  
@@ -812,13 +910,27 @@ namespace AspMVCECommerce.Controllers
             // 6. Display List of order
 
 
-            //string userId = Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity);
+            string userId = Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity);
             //int shoppingCartId = ShoppingCartUtility.GetShoppingCartId(userId, db); ;
-            //var lineItems = db.LineItems.Include(l => l.Product).Where(l => l.ShoppingCartId == shoppingCartId).ToList();
-
-            return View();
+         
+           var orders =  db.Orders.Include(o => o.ShoppingCart).Where(l => l.ShoppingCart.CustomerId == userId).ToList();
+            return View(orders);
         }
 
+        public ActionResult OrderDetails(int orderId)
+        {
+            var order = db.Orders.Where(o=>o.OrderId == orderId).FirstOrDefault();
+            var checkout = db.CheckOuts.Include(c => c.ShippingAddress).Include(c => c.CustomAddress).Where(c => c.ShoppingCartId == order.ShoppingCartId).FirstOrDefault();
+            var lineItems = db.LineItems.Include(l => l.Product).Where(l => l.ShoppingCartId == order.ShoppingCartId).ToList();
 
+            var orderDetailVM = new OrderDetailViewModel()
+            {
+                Order = order,
+                CheckOut = checkout,
+                LineItems = lineItems
+            };
+
+            return View(orderDetailVM);
+        }
     }
 }
