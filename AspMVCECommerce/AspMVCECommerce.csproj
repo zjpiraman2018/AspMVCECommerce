@@ -219,6 +219,10 @@
     <Compile Include="Migrations\202204210502114_initialmigration.Designer.cs">
       <DependentUpon>202204210502114_initialmigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202204260916137_addinvoiceno.cs" />
+    <Compile Include="Migrations\202204260916137_addinvoiceno.Designer.cs">
+      <DependentUpon>202204260916137_addinvoiceno.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Brand.cs" />
@@ -403,6 +407,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202204210502114_initialmigration.resx">
       <DependentUpon>202204210502114_initialmigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202204260916137_addinvoiceno.resx">
+      <DependentUpon>202204260916137_addinvoiceno.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

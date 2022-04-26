@@ -12,6 +12,7 @@ namespace AspMVCECommerce.Models
         public int LineItemsCount { get; set; }
         public int TotalAmount { get; set; }
         public string OrderStatus { get; set; }
+        public string InvoiceNo { get; set; }
 
         public int ShoppingCartId { get; set; }
         [ForeignKey("ShoppingCartId")]

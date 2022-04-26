@@ -112,31 +112,31 @@ namespace AspMVCECommerce.Controllers
                     var guid = Request.Params["guid"];
                     var executedPayment = ExecutePayment(apiContext, payerId, Session[guid] as string);
 
-
-
-
-
                     //If executed payment failed then we will show payment failure message to user  
                     if (executedPayment.state.ToLower() != "approved")
                     {
                         return View("FailureView");
                     }
 
-
-                    // Zaldy custom paypal code
-                    tempPaymentId = (string)this.HttpContext.Session["TempPaymentId"];
-                    var paymentExecution = new PaymentExecution() { payer_id = payerId };
-                    this.payment = new Payment() { id = tempPaymentId };
-                    var paymentInfo = this.payment.Execute(apiContext, paymentExecution);
-               
-                    // var creditCard = GetCreditCard().Create(apiContext);
+                    SaveCheckOutDetails(executedPayment);
 
 
-                    SaveCheckOutDetails(paymentInfo);
-                    //this.RecordConnectionDetails();
 
-                    //Assert.IsNotNull(retrievedCreditCard);
-                    //Assert.IsNotNull(retrievedCreditCard.billing_address
+                    // zaldy custom paypal code for testing
+                        //tempPaymentId = (string)this.HttpContext.Session["TempPaymentId"];
+                        //var paymentExecution = new PaymentExecution() { payer_id = payerId };
+                        //this.payment = new Payment() { id = tempPaymentId };
+                        //var paymentInfo = this.payment.Execute(apiContext, paymentExecution);
+                        //// var creditCard = GetCreditCard().Create(apiContext);
+                        //SaveCheckOutDetails(paymentInfo);
+                        //Payment payment = Payment.Get(apiContext, tempPaymentId);
+                        //var xxx = payment.payment_instruction;
+                        //ShippingAddress shippingAddress = payment.pa.getPayerInfo().getShippingAddress();
+                        //Address billingAddress = payment.getPayer().getPayerInfo().getBillingAddress();
+                        //this.RecordConnectionDetails();
+                        //Assert.IsNotNull(retrievedCreditCard);
+                        //Assert.IsNotNull(retrievedCreditCard.billing_address
+                    // end of zaldy custom paypal code for testing
                 }
             }
             catch (Exception ex)
@@ -235,7 +235,7 @@ namespace AspMVCECommerce.Controllers
             int totalItems = tempLineItems.Count;
             int totalAmount = tempLineItems.Sum(l => l.TotalPrice);
 
-            OrderUtility.AddOrder( shoppingCartId, totalItems, totalAmount, userId, db);
+            OrderUtility.AddOrder((string)this.HttpContext.Session["INVOICENO"], shoppingCartId, totalItems, totalAmount, userId, db);
 
             ShoppingCartUtility.AddShoppingCart(userId, db);
         }
@@ -255,10 +255,16 @@ namespace AspMVCECommerce.Controllers
                 //    locale_code = "US",
                 //    logo_image = ""
                 //},
+                  flow_config = new FlowConfig() { landing_page_type = "Billing"},
                 input_fields = new InputFields
                 {
-                    no_shipping = 0
-                }
+                    no_shipping = 1,
+                    address_override = 1, 
+                    allow_note = true
+                     
+                },
+
+                temporary = false 
             };
 
             var createdProfile = profile.Create(apiContext);
@@ -380,8 +386,6 @@ namespace AspMVCECommerce.Controllers
 
             payer.payer_info.billing_address = customAddress;
             
-            //remove zaldy for testing
-            payer.payer_info.billing_address = null;
             
             if (shippingAddress != null)
             {

@@ -3,7 +3,6 @@
 @using System.Data.Entity;
 @using System.Linq;
 @using System.Net;
-
 @{
     ViewBag.Title = "OrderDetails";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -55,23 +54,43 @@
             </div>
             <br>
             <div class="row row-no-gutters">
-                <div class="col-md-6" style="background-color:lavender;">
+                <div class="col-md-6">
                     <div class="row row-no-gutters">
                         <div class="col-md-12">
                             <h4>Billing Address</h4>
                         </div>
                     </div>
-                    <div class="row row-no-gutters">
-                        <div class="col-md-12">
-                            @(Model.CheckOut.FirstName + " " + Model.CheckOut.LastName + ", " + Model.CheckOut.CustomAddress.Line1 + " " +Model.CheckOut.CustomAddress.Line2)
 
+                    @if (Model.CheckOut.CustomAddress.Line1.Trim() == "" && Model.CheckOut.CustomAddress.City.Trim() == "")
+                    {
+                        <div class="row row-no-gutters">
+                            <div class="col-md-12">
+                                <span style="color:gray;">PAYPAL BILLING ADDRESS IS NOT PROVIDED FOR SECURITY REASONS</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row row-no-gutters">
-                        <div class="col-md-12">
-                            @(Model.CheckOut.CustomAddress.Province + ", " + Model.CheckOut.CustomAddress.CountryCode)
+                        <div class="row row-no-gutters">
+                            <div class="col-md-12">
+                          
+                            </div>
                         </div>
-                    </div>
+                    }
+                    else
+                    {
+                        <div class="row row-no-gutters">
+                            <div class="col-md-12">
+                                @(Model.CheckOut.FirstName + " " + Model.CheckOut.LastName + ", " + Model.CheckOut.CustomAddress.Line1 + " " +Model.CheckOut.CustomAddress.Line2 + " " + Model.CheckOut.CustomAddress.City)
+
+                            </div>
+                        </div>
+                        <div class="row row-no-gutters">
+                            <div class="col-md-12">
+                                @(Model.CheckOut.CustomAddress.Province + ", PHILIPPINES")
+                            </div>
+                        </div>
+                    }
+
+
+
                 </div>
 
                 <div class="col-md-6">
@@ -82,12 +101,12 @@
                     </div>
                     <div class="row row-no-gutters">
                         <div class="col-md-12">
-                            @(Model.CheckOut.ShippingAddress.RecipientName + ", " + Model.CheckOut.ShippingAddress.Line1 + " " + Model.CheckOut.ShippingAddress.Line2)
+                            @(Model.CheckOut.ShippingAddress.RecipientName + ", " + Model.CheckOut.ShippingAddress.Line1 + " " + Model.CheckOut.ShippingAddress.Line2 + " " + Model.CheckOut.ShippingAddress.City)
                         </div>
                     </div>
                     <div class="row row-no-gutters">
                         <div class="col-md-12">
-                            @(Model.CheckOut.ShippingAddress.Province + ", " + Model.CheckOut.ShippingAddress.CountryCode)
+                            @(Model.CheckOut.ShippingAddress.Province + ", PHILIPPINES")
                         </div>
                     </div>
                 </div>
