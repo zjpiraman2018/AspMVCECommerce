@@ -7,21 +7,67 @@
     ViewBag.Title = "OrderDetails";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="breadcrumb-header">Order Details</h3>
+                <ul class="breadcrumb-tree">
+                    <li><a href="/Home/Index">Home</a></li>
+                    <li><a href="/Home/Order">Order</a></li>
+                    <li class="active">Order Details</li>
+                </ul>
+
+
+                <ul class="breadcrumb-tree pull-right">
+                    <li>  @Html.ActionLink("Back to List", "Order")</li>
+
+
+
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
 <!-- SECTION -->
 <div class="section">
     <!-- container -->
     <div class="container">
-        <div class="container-fluid">
-            <h4 class="text-center">ORDER DETAIL</h4>
-            <h2 class="text-center">Thursday, July 24, 2017</h2>
-            <p class="text-center">Order #12615 has been delivered</p>
+        <div class="container-fluid" id="order-detail-print-page">
+            <h3 class="text-center">Order No#: @Model.Order.OrderId</h3>
+            <br />
+
+            <div class="row row-no-gutters">
+               
+
+                <div class="col-md-9"><span style="font-weight: 600; line-height: 25px;">Invoice No#: </span> <span> @Model.Order.InvoiceNo</span></div>
+                <div class="col-md-3"><span style="font-weight: 600; line-height: 25px;">Order Date: </span> <span>@(Model.Order.CreatedDate.ToString("MM/dd/yyyy hh:mm tt"))</span></div>
+            </div>
+            <div class="row row-no-gutters">
+                <div class="col-md-9"><span style="font-weight:600;line-height:25px;">Account Name: </span> <span style="text-transform:uppercase">@(Model.CheckOut.FirstName + " " + Model.CheckOut.LastName)</span></div>
+
+                <div class="col-md-3"><span style="font-weight: 600; line-height: 25px;">Status: </span> <span>@Model.Order.OrderStatus</span></div>
+            </div>
+            <div class="row row-no-gutters">
+                
+                <div class="col-md-12"><span style="font-weight: 600; line-height: 25px;">Contact No#: </span> <span> @(Model.CheckOut.Mobile == null ? "" : Model.CheckOut.Mobile.Replace(" ",""))</span></div>
+            </div>
+            <br />
+            <br />
             <div class="row row-no-gutters">
                 <div class="col-md-12">
                     <table class="table table-bordered table-responsive">
                         <thead>
                             <tr>
                                 <td>Product</td>
-                                <td>Total</td>
+                                <td class="text-right">Total</td>
                             </tr>
                         </thead>
                         <tbody>
@@ -29,7 +75,7 @@
                             {
                                 <tr>
                                     <td>@Html.DisplayFor(modelItem => item.Quantity)x <span style="text-transform:uppercase;">@Html.DisplayFor(modelItem => item.Product.Name)</span></td>
-                                    <td>@Html.DisplayFor(modelItem => item.TotalPrice)</td>
+                                    <td class="text-right">@Html.DisplayFor(modelItem => item.TotalPrice)</td>
                                 </tr>
                             }
 
@@ -41,16 +87,16 @@
             </div>
             <br>
             <div class="row row-no-gutters">
-                <div class="col-md-offset-6 col-md-3" style="background-color:lavender;">Payment Method</div>
-                <div class="col-sm-3 text-right" style="background-color:lavenderblush;"> Paypal</div>
+                <div class="col-md-offset-6 col-md-3" style="font-weight:600;">Payment Method</div>
+                <div class="col-sm-3 text-right"> Paypal</div>
             </div>
             <div class="row row-no-gutters">
-                <div class="col-md-offset-6 col-md-3" style="background-color:lavender;">Shipping</div>
-                <div class="col-md-3 text-right" style="background-color:lavenderblush;">Free</div>
+                <div class="col-md-offset-6 col-md-3" style="font-weight:600;">Shipping</div>
+                <div class="col-md-3 text-right">Free</div>
             </div>
             <div class="row row-no-gutters">
-                <div class="col-md-offset-6 col-md-3" style="background-color:lavender;">Total</div>
-                <div class="col-md-3 text-right" style="background-color:lavenderblush;">@(Model.LineItems.Sum(p=>p.TotalPrice))</div>
+                <div class="col-md-offset-6 col-md-3" style="font-weight: 600; font-size: medium">Total</div>
+                <div class="col-md-3 text-right" id="TotalPrice" style="font-weight:600;font-size:medium">@(Model.LineItems.Sum(p=>p.TotalPrice))</div>
             </div>
             <br>
             <div class="row row-no-gutters">
@@ -70,20 +116,20 @@
                         </div>
                         <div class="row row-no-gutters">
                             <div class="col-md-12">
-                          
+
                             </div>
                         </div>
                     }
                     else
                     {
                         <div class="row row-no-gutters">
-                            <div class="col-md-12">
+                            <div class="col-md-12" style="text-transform:uppercase">
                                 @(Model.CheckOut.FirstName + " " + Model.CheckOut.LastName + ", " + Model.CheckOut.CustomAddress.Line1 + " " +Model.CheckOut.CustomAddress.Line2 + " " + Model.CheckOut.CustomAddress.City)
 
                             </div>
                         </div>
                         <div class="row row-no-gutters">
-                            <div class="col-md-12">
+                            <div class="col-md-12" style="text-transform:uppercase">
                                 @(Model.CheckOut.CustomAddress.Province + ", PHILIPPINES")
                             </div>
                         </div>
@@ -100,16 +146,26 @@
                         </div>
                     </div>
                     <div class="row row-no-gutters">
-                        <div class="col-md-12">
+                        <div class="col-md-12" style="text-transform:uppercase">
                             @(Model.CheckOut.ShippingAddress.RecipientName + ", " + Model.CheckOut.ShippingAddress.Line1 + " " + Model.CheckOut.ShippingAddress.Line2 + " " + Model.CheckOut.ShippingAddress.City)
                         </div>
                     </div>
                     <div class="row row-no-gutters">
-                        <div class="col-md-12">
+                        <div class="col-md-12" style="text-transform:uppercase">
                             @(Model.CheckOut.ShippingAddress.Province + ", PHILIPPINES")
                         </div>
                     </div>
                 </div>
+
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <br />
+                        <br />
+                        <a href="#" style="width:200px" id="print-order-detail" class="primary-btn order-submit pull-right">Print</a>
+                    </div>
+                </div>
+
             </div>
 
         </div>
@@ -117,3 +173,34 @@
     <!-- /container -->
 </div>
 <!-- /SECTION -->
+
+
+
+@section Scripts {
+    <script type="text/javascript">
+        function printDiv(divName) {
+
+            //var printContents = document.getElementsByClassName(divName).innerHTML;
+            var printContents = $("#" + divName).html();
+            w = window.open();
+
+            w.document.write(printContents);
+            w.document.write('<script type="text/javascript">window.onload = function() { window.print(); window.close(); };' + '</sc' + 'ript>');
+
+            w.document.close(); // necessary for IE >= 10
+            w.focus(); // necessary for IE >= 10
+
+            return true;
+        }
+        $(document).ready(function () {
+           
+
+            $("#print-order-detail").click(function () {
+                printDiv("order-detail-print-page");
+                //window.print();
+                //$(".order-detail-print-page").printElement();
+            });
+            $('#TotalPrice').text('₱' + parseInt($('#TotalPrice').text()).toLocaleString());
+        });
+    </script>
+}

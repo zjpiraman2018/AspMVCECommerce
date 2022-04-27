@@ -1,64 +1,200 @@
-﻿@model IEnumerable<AspMVCECommerce.Models.Order>
+﻿@model PagedList.IPagedList<AspMVCECommerce.Models.Order>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "Order";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Order</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ShoppingCart.CustomerId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreatedDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PaymentMethod)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PaymentStatus)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LineItemsCount)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TotalAmount)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ShoppingCart.CustomerId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreatedDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PaymentMethod)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PaymentStatus)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LineItemsCount)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TotalAmount)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.OrderId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.OrderId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.OrderId })
-        </td>
-    </tr>
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="breadcrumb-header">Order History</h3>
+                <ul class="breadcrumb-tree">
+                    <li><a href="#">Home</a></li>
+                    <li class="active">Order History</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        @using (Html.BeginForm("Order", "Home", FormMethod.Get, htmlAttributes: new { @class = "searchboxorder" }))
+        {
+
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table ">
+                        <tr>
+                            <td style="width: 65px; line-height: 40px; border-top:0px !important; ">
+                                <span style="font-weight:600;">Per Page:</span>
+                            </td>
+                            <td style="width: 100px; line-height: 40px; border-top: 0px !important; ">
+                                @{
+                                    var listItem = new List<SelectListItem>();
+
+                                    listItem.Add(new SelectListItem() { Text = "10", Value = "10" });
+                                    listItem.Add(new SelectListItem() { Text = "20", Value = "20" });
+                                }
+
+                                @Html.DropDownList("pageSize", listItem, null, htmlAttributes: new { @class = "input-select" })
+                            </td>
+
+                            <td style="width: 115px; line-height: 40px; border-top: 0px !important; ">
+                                <span style="font-weight:600;"> Find by Invoice No#:</span>
+                            </td>
+                            <td style="width: 300px; line-height: 40px; border-top: 0px !important; ">
+                                @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, htmlAttributes: new { @class = "form-controlx" })
+                            </td>
+                            <td style="width: 200px; border-top: 0px !important; ">
+                                <input type="submit" style="margin-left: 0px; width: 100px; height: 40px;" id="SearchProduct" value="Search" class="btnx btn-default" />
+                            </td>
+                        </tr>
+
+
+                    </table>
+
+
+
+                </div>
+            </div>
+
+        }
+
+
+        <table class="table table-bordered   table-responsive table-hover table-striped">
+            <tr>
+                <th>
+                    Order No#
+                </th>
+                <th>
+                    Invoice No#
+                </th>
+                <th>
+                    Created Date
+                </th>
+                <th>
+                    Payment Method
+                </th>
+                <th>
+                    Payment Status
+                </th>
+                <th>
+                    Items
+                </th>
+                <th>
+                    Total Amount
+                </th>
+                <th>
+                    Order Status
+                </th>
+                <th>
+
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvoiceNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaymentMethod)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaymentStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LineItemsCount)
+            </td>
+            <td>
+                <span class="totalamountspan">@Html.DisplayFor(modelItem => item.TotalAmount)</span>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderStatus)
+            </td>
+            <td>
+                <span style="white-space: nowrap;">
+                  
+                    @Html.ActionLink("View Details", "OrderDetails", "Home", new { orderId = item.OrderId }, htmlAttributes: new { @style= "line-height:25px;", @class="viewDetails" })
+                </span>
+       
+            </td>
+        </tr>
+            }
+
+        </table>
+
+
+
+        <br />
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("Order", "Home",
+            new
+            {
+                page,
+                sortOrder = ViewBag.CurrentSort,
+                currentFilter = ViewBag.CurrentFilter,
+                pageSize = ViewBag.CurrentItemsPerPage
+            }))
+
+
+
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+
+</div>
+<!-- /SECTION -->
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#pageSize").change(function () {
+                $('.searchboxorder').submit();
+            });
+
+
+            $('#TotalPrice').text('₱' + parseInt($('#TotalPrice').text()).toLocaleString());
+
+            $(".totalamountspan").each(function () {
+
+                $(this).text('₱' + parseInt($(this).text()).toLocaleString());
+
+            });
+
+            //$(".viewDetails").each(function () {
+
+            //    $(this).html('<i class="fa fa-eye" style="font-size: 18px;line-height:25px; "></i> View Details');
+   
+            //});
+        });
+    </script>
 }
 
-</table>
+

@@ -904,23 +904,79 @@ namespace AspMVCECommerce.Controllers
             return lineItems;
         }
 
-        public ActionResult Order()
-        {
-            // 1. Create new Shopping Cart
-            // 2. Save Checkout Details
-            // 3. Save Custome Address
-            // 4. Save Shippinh Address
-            // 5. Create new Order
-            // 6. Display List of order
+        //public ActionResult Order()
+        //{
+        //    // 1. Create new Shopping Cart
+        //    // 2. Save Checkout Details
+        //    // 3. Save Custome Address
+        //    // 4. Save Shippinh Address
+        //    // 5. Create new Order
+        //    // 6. Display List of order
 
+
+        //    string userId = Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity);
+        //    //int shoppingCartId = ShoppingCartUtility.GetShoppingCartId(userId, db); ;
+
+        //   var orders =  db.Orders.Include(o => o.ShoppingCart).Where(l => l.ShoppingCart.CustomerId == userId).ToList();
+        //    return View(orders);
+        //}
+
+        [Authorize(Roles = "Customer")]
+        // GET: Student
+        public ActionResult Order(string currentFilter, string searchString, int? page, string pageSize)
+        {
+            //ViewBag.CurrentSort = sortOrder;
+
+            //ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            //ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
 
             string userId = Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity);
-            //int shoppingCartId = ShoppingCartUtility.GetShoppingCartId(userId, db); ;
-         
-           var orders =  db.Orders.Include(o => o.ShoppingCart).Where(l => l.ShoppingCart.CustomerId == userId).ToList();
-            return View(orders);
+
+            var orders = from s in db.Orders
+                           select s;
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                orders = orders.Where(s => s.InvoiceNo.Contains(searchString));
+            }
+
+            //switch (sortOrder)
+            //{
+            //    case "name_desc":
+            //        students = students.OrderByDescending(s => s.LastName);
+            //        break;
+            //    case "Date":
+            //        students = students.OrderBy(s => s.EnrollmentDate);
+            //        break;
+            //    case "date_desc":
+            //        students = students.OrderByDescending(s => s.EnrollmentDate);
+            //        break;
+            //    default:
+            //        students = students.OrderBy(s => s.LastName);
+            //        break;
+            //}
+
+            orders = orders.OrderByDescending(s => s.CreatedDate);
+
+            int _pageSize = string.IsNullOrEmpty(pageSize) ? 10 : Int32.Parse(pageSize);
+            ViewBag.CurrentItemsPerPage = _pageSize;
+            int pageNumber = (page ?? 1);
+            return View(orders.ToPagedList(pageNumber, _pageSize));
         }
 
+
+        [Authorize(Roles = "Customer")]
         public ActionResult OrderDetails(int orderId)
         {
             var order = db.Orders.Where(o=>o.OrderId == orderId).FirstOrDefault();
