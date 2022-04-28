@@ -236,10 +236,20 @@ namespace AspMVCECommerce.Controllers
             int totalAmount = tempLineItems.Sum(l => l.TotalPrice);
 
             OrderUtility.AddOrder((string)this.HttpContext.Session["INVOICENO"], shoppingCartId, totalItems, totalAmount, userId, db);
+            
+            UpdateProductsSoldByLineItems(tempLineItems);
 
             ShoppingCartUtility.AddShoppingCart(userId, db);
         }
 
+
+        private void UpdateProductsSoldByLineItems(List<LineItem> lineItems)
+        {
+            foreach (var item in lineItems)
+            {
+                ProductUtility.UpdateProductSold(item.ProductId, item.Quantity, db);
+            }
+        }
 
         private PayPal.Api.Payment payment;
         private Payment ExecutePayment(APIContext apiContext, string payerId, string paymentId)
@@ -932,8 +942,11 @@ namespace AspMVCECommerce.Controllers
 
             string userId = Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity);
 
+            var shoppingCartIdList = db.ShoppingCarts.Where(s => s.CustomerId == userId).Select(s=>s.ShoppingCartId).ToList();
+
             var orders = from s in db.Orders
-                           select s;
+                         where shoppingCartIdList.Contains(s.ShoppingCartId)  
+                         select s;
 
             if (searchString != null)
             {

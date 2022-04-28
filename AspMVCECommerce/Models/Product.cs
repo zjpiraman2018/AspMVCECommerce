@@ -28,6 +28,7 @@ namespace AspMVCECommerce.Models
         [DisplayFormat(DataFormatString = "₱{0:#,0}", ApplyFormatInEditMode = true)]
         public int DiscountedPrice { get; set; }
         public int Stock { get; set; }
+        public int? Sold { get; set; }
 
         public double PromoSaleOFF { get; set; }
         public DateTime? PromoSaleStartDateTime { get; set; }

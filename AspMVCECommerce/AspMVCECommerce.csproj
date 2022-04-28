@@ -223,6 +223,10 @@
     <Compile Include="Migrations\202204260916137_addinvoiceno.Designer.cs">
       <DependentUpon>202204260916137_addinvoiceno.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202204280702402_addsoldproperty.cs" />
+    <Compile Include="Migrations\202204280702402_addsoldproperty.Designer.cs">
+      <DependentUpon>202204280702402_addsoldproperty.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Brand.cs" />
@@ -247,6 +251,7 @@
     <Compile Include="Utility\CheckOutUtility.cs" />
     <Compile Include="Utility\CustomAddressUtility.cs" />
     <Compile Include="Utility\OrderUtility.cs" />
+    <Compile Include="Utility\ProductUtility.cs" />
     <Compile Include="Utility\ShippingAddress2Utility.cs" />
     <Compile Include="Utility\ShoppingCartUtility.cs" />
     <Compile Include="ViewModel\BrandViewModel.cs" />
@@ -410,6 +415,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202204260916137_addinvoiceno.resx">
       <DependentUpon>202204260916137_addinvoiceno.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202204280702402_addsoldproperty.resx">
+      <DependentUpon>202204280702402_addsoldproperty.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

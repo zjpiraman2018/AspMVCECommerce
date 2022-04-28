@@ -30,7 +30,7 @@ namespace AspMVCECommerce.Controllers
                 productDTO.ProductId = product.ProductId;
                 productDTO.Colors = product.Colors.ToList().Select(c => new ColorDTO() { Name = c.Name, ColorId = c.ColorId  }).ToList();
                 productDTO.Sizes = product.Sizes.ToList().Select(c => new SizeDTO() { Name = c.Name, SizeId = c.SizeId }).ToList();
-                productDTO.ImagePath = product.Images.Where(i => i.Default = true).FirstOrDefault().ImagePath;
+                productDTO.ImagePath = product.Images.Where(i => i.Default == true).FirstOrDefault().ImagePath;
                 productDTO.DiscountedPrice = product.DiscountedPrice;
                 productDTO.OriginalPrice = product.OriginalPrice;
                 productDTO.Stock = product.Stock;

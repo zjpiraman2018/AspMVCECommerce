@@ -98,7 +98,7 @@ namespace AspMVCECommerce.Controllers
                 foreach (var item in lineItems)
                 {
                     var lineItemView = new LineItemViewDTO();
-                    lineItemView.ImagePath = item.Product.Images.Where(i => i.Default = true).FirstOrDefault().ImagePath;
+                    lineItemView.ImagePath = item.Product.Images.Where(i => i.Default == true).FirstOrDefault().ImagePath;
                     lineItemView.ColorName = item.Color == null ? "DEFAULT" : item.Color.Name;
                     lineItemView.ColorId = item.ColorId;
                     lineItemView.SizeId = item.SizeId;
