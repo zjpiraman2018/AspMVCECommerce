@@ -963,12 +963,18 @@
                 <div class="section-title">
                     <h3 class="title">Top selling</h3>
                     <div class="section-nav">
+
                         <ul class="section-tab-nav tab-nav">
-                            <li class="active"><a data-toggle="tab" href="#tabx2">Laptops</a></li>
-                            <li><a data-toggle="tab" href="#tabx2">Smartphones</a></li>
-                            <li><a data-toggle="tab" href="#tabx2">Cameras</a></li>
-                            <li><a data-toggle="tab" href="#tabx2">Accessories</a></li>
+                            <li class="active"><a data-toggle="tab" href="#tabn1">Laptops</a></li>
+                            <li><a data-toggle="tab" href="#tabn2">Smartphones</a></li>
+                            <li><a data-toggle="tab" href="#tabn3">Cameras</a></li>
+                            <li><a data-toggle="tab" href="#tabn4">Accessories</a></li>
+                            <li><a data-toggle="tab" href="#tabn5">Headphones</a></li>
+                            <li><a data-toggle="tab" href="#tabn6">Tablet</a></li>
                         </ul>
+
+
+
                     </div>
                 </div>
             </div>
@@ -977,153 +983,811 @@
             <div class="col-md-12">
                 <div class="row">
                     <div class="products-tabs">
-                        <!-- tab -->
-                        <div id="tabx2" class="tab-pane fade in active">
-                            <div class="products-slick" data-nav="#slick-navx-2">
-                                <!-- product -->
-                                <div class="product">
-                                    <div class="product-img">
-                                        <img src="~/FrontEnd/img/product06.png" alt="">
-                                        <div class="product-label">
-                                            <span class="sale">-30%</span>
-                                            <span class="new">NEW</span>
+                        <!-- tab top selling laptop -->
+                        <div id="tabn1" class="tab-pane active">
+
+
+                            <div class="products-slick" data-nav="#slick-navn-1">
+                                @{var topSellLaptopItems = Model.Where(a => a.Category.Name == "Laptop").OrderByDescending(p => p.Sold).ToList(); }
+
+                                @foreach (var item in topSellLaptopItems)
+                                {
+
+
+                                    <!-- product -->
+                                    <div class="product">
+                                        <div class="product-img">
+                                            @if (item.Images.Count > 0)
+                                            {
+                                                <a href="#" class="d-block mb-4">
+                                                    @{var itemImages = item.Images.ToList(); }
+                                                    @foreach (var itemImage in itemImages)
+                                                    {
+                                                        if (itemImage.Default)
+                                                        {
+                                                            <img src="@Url.Content(itemImage.ImagePath)" alt="@itemImage.Title">
+
+                                                            break;
+                                                        }
+                                                    }
+
+                                                </a>
+                                            }
+
+                                            <div class="product-label">
+
+
+                                                @if (item.PromoSaleOFF > 0)
+                                                {
+                                                    if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
+                                                    {
+                                                        <span class="sale">
+                                                            -@(double.Parse(@item.PromoSaleOFF.ToString()) * 100)<label class="danger">%</label>
+                                                        </span>
+
+                                                    }
+
+                                                }
+
+
+                                                <span class="new">NEW</span>
+
+                                            </div>
+                                        </div>
+                                        <div class="product-body">
+                                            <p class="product-category">@item.Category.Name</p>
+                                            <h3 class="product-name"><a href="/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory">@item.Name</a></h3>
+
+
+
+                                            @if (item.PromoSaleOFF > 0)
+                                            {
+                                                if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
+                                                {
+
+                                                    <h4 class="product-price">₱@Convert.ToDecimal(item.DiscountedPrice).ToString("#,##0.00") <del class="product-old-price">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</del></h4>
+                                                    @*<h4 class="product-price">@item.DiscountedPrice <del class="product-old-price">@item.OriginalPrice</del></h4>*@
+                                                }
+                                                else
+                                                {
+                                                    <h4 class="product-price">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</h4>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <h4 class="product-price">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</h4>
+                                            }
+
+
+                                            <div class="product-rating">
+                                                @if (item.AverageRating != null)
+                                                {
+                                                    for (int i = 0; i < item.AverageRating; i++)
+                                                    {
+                                                        <i class="fa fa-star"></i>
+                                                    }
+
+                                                    for (int i = 0; i < 5 - item.AverageRating; i++)
+                                                    {
+                                                        <i class="fa fa-star-o"></i>
+                                                    }
+                                                }
+                                            </div>
+
+
+                                            <div class="product-btns">
+                                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+                                                <button class="quick-view" onclick="location.href='/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory'"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                                            </div>
+                                        </div>
+                                        <div class="add-to-cart">
+                                            @if (item.Stock > 0)
+                                            {
+                                                if (Request.IsAuthenticated)
+                                                {
+
+
+                                                    <button class="add-to-cart-btn" onclick="GetProductDetails(@(item.ProductId));"><i class="fa fa-shopping-cart"></i> add to cart</button>
+
+                                                }
+                                                else
+                                                {
+                                                    <button class="add-to-cart-btn" onclick="location.href='/Account/Login'"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <button class="add-to-cart-btn add-to-cart-btn-disabled"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                            }
+
+
+
+
                                         </div>
                                     </div>
-                                    <div class="product-body">
-                                        <p class="product-category">Category</p>
-                                        <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                        <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="product-btns">
-                                            <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                                            <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                                            <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-                                        </div>
-                                    </div>
-                                    <div class="add-to-cart">
-                                        <button class="add-to-cart-btn" ><i class="fa fa-shopping-cart"></i> add to cart</button>
-                                    </div>
-                                </div>
-                                <!-- /product -->
-                                <!-- product -->
-                                <div class="product">
-                                    <div class="product-img">
-                                        <img src="~/FrontEnd/img/product07.png" alt="">
-                                        <div class="product-label">
-                                            <span class="new">NEW</span>
-                                        </div>
-                                    </div>
-                                    <div class="product-body">
-                                        <p class="product-category">Category</p>
-                                        <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                        <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </div>
-                                        <div class="product-btns">
-                                            <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                                            <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                                            <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-                                        </div>
-                                    </div>
-                                    <div class="add-to-cart">
-                                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-                                    </div>
-                                </div>
-                                <!-- /product -->
-                                <!-- product -->
-                                <div class="product">
-                                    <div class="product-img">
-                                        <img src="~/FrontEnd/img/product08.png" alt="">
-                                        <div class="product-label">
-                                            <span class="sale">-30%</span>
-                                        </div>
-                                    </div>
-                                    <div class="product-body">
-                                        <p class="product-category">Category</p>
-                                        <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                        <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                                        <div class="product-rating">
-                                        </div>
-                                        <div class="product-btns">
-                                            <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                                            <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                                            <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-                                        </div>
-                                    </div>
-                                    <div class="add-to-cart">
-                                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-                                    </div>
-                                </div>
-                                <!-- /product -->
-                                <!-- product -->
-                                <div class="product">
-                                    <div class="product-img">
-                                        <img src="~/FrontEnd/img/product09.png" alt="">
-                                    </div>
-                                    <div class="product-body">
-                                        <p class="product-category">Category</p>
-                                        <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                        <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="product-btns">
-                                            <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                                            <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                                            <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-                                        </div>
-                                    </div>
-                                    <div class="add-to-cart">
-                                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-                                    </div>
-                                </div>
-                                <!-- /product -->
-                                <!-- product -->
-                                <div class="product">
-                                    <div class="product-img">
-                                        <img src="~/FrontEnd/img/product01.png" alt="">
-                                    </div>
-                                    <div class="product-body">
-                                        <p class="product-category">Category</p>
-                                        <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                        <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="product-btns">
-                                            <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                                            <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                                            <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-                                        </div>
-                                    </div>
-                                    <div class="add-to-cart">
-                                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-                                    </div>
-                                </div>
-                                <!-- /product -->
+                                    <!-- /product -->
+
+                                }
+
+
+
                             </div>
-                            <div id="slick-navx-2" class="products-slick-nav"></div>
+                            <div id="slick-navn-1" class="products-slick-nav"></div>
+
+
+
+
+
                         </div>
-                        <!-- /tab -->
+                        <!-- /tab top selling laptop -->
+                        <!-- tab top selling smart phone -->
+                        <div id="tabn2" class="tab-pane">
+
+
+                            <div class="products-slick" data-nav="#slick-navn-2">
+                                @{var topSellSmartPhoneItems = Model.Where(a => a.Category.Name == "Smart Phones").OrderByDescending(p => p.Sold).ToList(); }
+
+                                @foreach (var item in topSellSmartPhoneItems)
+                                {
+
+
+                                    <!-- product -->
+                                    <div class="product">
+                                        <div class="product-img">
+                                            @if (item.Images.Count > 0)
+                                            {
+                                                <a href="#" class="d-block mb-4">
+                                                    @{var itemImages = item.Images.ToList(); }
+                                                    @foreach (var itemImage in itemImages)
+                                                    {
+                                                        if (itemImage.Default)
+                                                        {
+                                                            <img src="@Url.Content(itemImage.ImagePath)" alt="@itemImage.Title">
+
+                                                            break;
+                                                        }
+                                                    }
+
+                                                </a>
+                                            }
+
+                                            <div class="product-label">
+
+
+                                                @if (item.PromoSaleOFF > 0)
+                                                {
+                                                    if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
+                                                    {
+                                                        <span class="sale">
+                                                            -@(double.Parse(@item.PromoSaleOFF.ToString()) * 100)<label class="danger">%</label>
+                                                        </span>
+
+                                                    }
+
+                                                }
+
+
+                                                <span class="new">NEW</span>
+
+                                            </div>
+                                        </div>
+                                        <div class="product-body">
+                                            <p class="product-category">@item.Category.Name</p>
+                                            <h3 class="product-name"><a href="/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory">@item.Name</a></h3>
+
+
+
+                                            @if (item.PromoSaleOFF > 0)
+                                            {
+                                                if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
+                                                {
+
+                                                    <h4 class="product-price">₱@Convert.ToDecimal(item.DiscountedPrice).ToString("#,##0.00") <del class="product-old-price">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</del></h4>
+                                                    @*<h4 class="product-price">@item.DiscountedPrice <del class="product-old-price">@item.OriginalPrice</del></h4>*@
+                                                }
+                                                else
+                                                {
+                                                    <h4 class="product-price">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</h4>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <h4 class="product-price">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</h4>
+                                            }
+
+
+                                            <div class="product-rating">
+                                                @if (item.AverageRating != null)
+                                                {
+                                                    for (int i = 0; i < item.AverageRating; i++)
+                                                    {
+                                                        <i class="fa fa-star"></i>
+                                                    }
+
+                                                    for (int i = 0; i < 5 - item.AverageRating; i++)
+                                                    {
+                                                        <i class="fa fa-star-o"></i>
+                                                    }
+                                                }
+                                            </div>
+
+
+                                            <div class="product-btns">
+                                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+                                                <button class="quick-view" onclick="location.href='/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory'"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                                            </div>
+                                        </div>
+                                        <div class="add-to-cart">
+                                            @if (item.Stock > 0)
+                                            {
+                                                if (Request.IsAuthenticated)
+                                                {
+
+
+                                                    <button class="add-to-cart-btn" onclick="GetProductDetails(@(item.ProductId));"><i class="fa fa-shopping-cart"></i> add to cart</button>
+
+                                                }
+                                                else
+                                                {
+                                                    <button class="add-to-cart-btn" onclick="location.href='/Account/Login'"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <button class="add-to-cart-btn add-to-cart-btn-disabled"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                            }
+
+
+
+
+                                        </div>
+                                    </div>
+                                    <!-- /product -->
+
+                                }
+
+
+
+                            </div>
+                            <div id="slick-navn-2" class="products-slick-nav"></div>
+                        </div>
+                        <!-- /tab top selling smart phone -->
+                        <!-- tab top selling cameras -->
+                        <div id="tabn3" class="tab-pane">
+
+
+                            <div class="products-slick" data-nav="#slick-navn-3">
+                                @{var topSellCameraItems = Model.Where(a => a.Category.Name == "Camera").OrderByDescending(p => p.Sold).ToList(); }
+
+                                @foreach (var item in topSellCameraItems)
+                                {
+
+
+                                    <!-- product -->
+                                    <div class="product">
+                                        <div class="product-img">
+                                            @if (item.Images.Count > 0)
+                                            {
+                                                <a href="#" class="d-block mb-4">
+                                                    @{var itemImages = item.Images.ToList(); }
+                                                    @foreach (var itemImage in itemImages)
+                                                    {
+                                                        if (itemImage.Default)
+                                                        {
+                                                            <img src="@Url.Content(itemImage.ImagePath)" alt="@itemImage.Title">
+
+                                                            break;
+                                                        }
+                                                    }
+
+                                                </a>
+                                            }
+
+                                            <div class="product-label">
+
+
+                                                @if (item.PromoSaleOFF > 0)
+                                                {
+                                                    if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
+                                                    {
+                                                        <span class="sale">
+                                                            -@(double.Parse(@item.PromoSaleOFF.ToString()) * 100)<label class="danger">%</label>
+                                                        </span>
+
+                                                    }
+
+                                                }
+
+
+                                                <span class="new">NEW</span>
+
+                                            </div>
+                                        </div>
+                                        <div class="product-body">
+                                            <p class="product-category">@item.Category.Name</p>
+                                            <h3 class="product-name"><a href="/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory">@item.Name</a></h3>
+
+
+
+                                            @if (item.PromoSaleOFF > 0)
+                                            {
+                                                if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
+                                                {
+
+                                                    <h4 class="product-price">₱@Convert.ToDecimal(item.DiscountedPrice).ToString("#,##0.00") <del class="product-old-price">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</del></h4>
+                                                    @*<h4 class="product-price">@item.DiscountedPrice <del class="product-old-price">@item.OriginalPrice</del></h4>*@
+                                                }
+                                                else
+                                                {
+                                                    <h4 class="product-price">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</h4>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <h4 class="product-price">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</h4>
+                                            }
+
+
+                                            <div class="product-rating">
+                                                @if (item.AverageRating != null)
+                                                {
+                                                    for (int i = 0; i < item.AverageRating; i++)
+                                                    {
+                                                        <i class="fa fa-star"></i>
+                                                    }
+
+                                                    for (int i = 0; i < 5 - item.AverageRating; i++)
+                                                    {
+                                                        <i class="fa fa-star-o"></i>
+                                                    }
+                                                }
+                                            </div>
+
+
+                                            <div class="product-btns">
+                                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+                                                <button class="quick-view" onclick="location.href='/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory'"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                                            </div>
+                                        </div>
+                                        <div class="add-to-cart">
+                                            @if (item.Stock > 0)
+                                            {
+                                                if (Request.IsAuthenticated)
+                                                {
+
+
+                                                    <button class="add-to-cart-btn" onclick="GetProductDetails(@(item.ProductId));"><i class="fa fa-shopping-cart"></i> add to cart</button>
+
+                                                }
+                                                else
+                                                {
+                                                    <button class="add-to-cart-btn" onclick="location.href='/Account/Login'"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <button class="add-to-cart-btn add-to-cart-btn-disabled"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                            }
+
+
+
+
+                                        </div>
+                                    </div>
+                                    <!-- /product -->
+
+                                }
+
+
+
+                            </div>
+                            <div id="slick-navn-3" class="products-slick-nav"></div>
+                        </div>
+                        <!-- /tab top selling cameras -->
+                        <!-- tab top selling Accessories -->
+                        <div id="tabn4" class="tab-pane">
+
+
+                            <div class="products-slick" data-nav="#slick-navn-4">
+                                @{var topSellAccessoriesItems = Model.Where(a => a.Category.Name == "Accessories").OrderByDescending(p => p.Sold).ToList(); }
+
+                                @foreach (var item in topSellAccessoriesItems)
+                                {
+
+
+                                    <!-- product -->
+                                    <div class="product">
+                                        <div class="product-img">
+                                            @if (item.Images.Count > 0)
+                                            {
+                                                <a href="#" class="d-block mb-4">
+                                                    @{var itemImages = item.Images.ToList(); }
+                                                    @foreach (var itemImage in itemImages)
+                                                    {
+                                                        if (itemImage.Default)
+                                                        {
+                                                            <img src="@Url.Content(itemImage.ImagePath)" alt="@itemImage.Title">
+
+                                                            break;
+                                                        }
+                                                    }
+
+                                                </a>
+                                            }
+
+                                            <div class="product-label">
+
+
+                                                @if (item.PromoSaleOFF > 0)
+                                                {
+                                                    if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
+                                                    {
+                                                        <span class="sale">
+                                                            -@(double.Parse(@item.PromoSaleOFF.ToString()) * 100)<label class="danger">%</label>
+                                                        </span>
+
+                                                    }
+
+                                                }
+
+
+                                                <span class="new">NEW</span>
+
+                                            </div>
+                                        </div>
+                                        <div class="product-body">
+                                            <p class="product-category">@item.Category.Name</p>
+                                            <h3 class="product-name"><a href="/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory">@item.Name</a></h3>
+
+
+
+                                            @if (item.PromoSaleOFF > 0)
+                                            {
+                                                if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
+                                                {
+
+                                                    <h4 class="product-price">₱@Convert.ToDecimal(item.DiscountedPrice).ToString("#,##0.00") <del class="product-old-price">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</del></h4>
+                                                    @*<h4 class="product-price">@item.DiscountedPrice <del class="product-old-price">@item.OriginalPrice</del></h4>*@
+                                                }
+                                                else
+                                                {
+                                                    <h4 class="product-price">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</h4>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <h4 class="product-price">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</h4>
+                                            }
+
+
+                                            <div class="product-rating">
+                                                @if (item.AverageRating != null)
+                                                {
+                                                    for (int i = 0; i < item.AverageRating; i++)
+                                                    {
+                                                        <i class="fa fa-star"></i>
+                                                    }
+
+                                                    for (int i = 0; i < 5 - item.AverageRating; i++)
+                                                    {
+                                                        <i class="fa fa-star-o"></i>
+                                                    }
+                                                }
+                                            </div>
+
+
+                                            <div class="product-btns">
+                                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+                                                <button class="quick-view" onclick="location.href='/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory'"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                                            </div>
+                                        </div>
+                                        <div class="add-to-cart">
+                                            @if (item.Stock > 0)
+                                            {
+                                                if (Request.IsAuthenticated)
+                                                {
+
+
+                                                    <button class="add-to-cart-btn" onclick="GetProductDetails(@(item.ProductId));"><i class="fa fa-shopping-cart"></i> add to cart</button>
+
+                                                }
+                                                else
+                                                {
+                                                    <button class="add-to-cart-btn" onclick="location.href='/Account/Login'"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <button class="add-to-cart-btn add-to-cart-btn-disabled"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                            }
+
+
+
+
+                                        </div>
+                                    </div>
+                                    <!-- /product -->
+
+                                }
+
+
+
+                            </div>
+                            <div id="slick-navn-4" class="products-slick-nav"></div>
+                        </div>
+                        <!-- /tab top selling Accessories -->
+                        <!-- tab top selling Headphones -->
+                        <div id="tabn5" class="tab-pane">
+
+
+                            <div class="products-slick" data-nav="#slick-navn-5">
+                                @{var topSellHeadphonesItems = Model.Where(a => a.Category.Name == "Headphones").OrderByDescending(p => p.Sold).ToList(); }
+
+                                @foreach (var item in topSellHeadphonesItems)
+                                {
+
+
+                                    <!-- product -->
+                                    <div class="product">
+                                        <div class="product-img">
+                                            @if (item.Images.Count > 0)
+                                            {
+                                                <a href="#" class="d-block mb-4">
+                                                    @{var itemImages = item.Images.ToList(); }
+                                                    @foreach (var itemImage in itemImages)
+                                                    {
+                                                        if (itemImage.Default)
+                                                        {
+                                                            <img src="@Url.Content(itemImage.ImagePath)" alt="@itemImage.Title">
+
+                                                            break;
+                                                        }
+                                                    }
+
+                                                </a>
+                                            }
+
+                                            <div class="product-label">
+
+
+                                                @if (item.PromoSaleOFF > 0)
+                                                {
+                                                    if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
+                                                    {
+                                                        <span class="sale">
+                                                            -@(double.Parse(@item.PromoSaleOFF.ToString()) * 100)<label class="danger">%</label>
+                                                        </span>
+
+                                                    }
+
+                                                }
+
+
+                                                <span class="new">NEW</span>
+
+                                            </div>
+                                        </div>
+                                        <div class="product-body">
+                                            <p class="product-category">@item.Category.Name</p>
+                                            <h3 class="product-name"><a href="/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory">@item.Name</a></h3>
+
+
+
+                                            @if (item.PromoSaleOFF > 0)
+                                            {
+                                                if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
+                                                {
+
+                                                    <h4 class="product-price">₱@Convert.ToDecimal(item.DiscountedPrice).ToString("#,##0.00") <del class="product-old-price">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</del></h4>
+                                                    @*<h4 class="product-price">@item.DiscountedPrice <del class="product-old-price">@item.OriginalPrice</del></h4>*@
+                                                }
+                                                else
+                                                {
+                                                    <h4 class="product-price">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</h4>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <h4 class="product-price">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</h4>
+                                            }
+
+
+                                            <div class="product-rating">
+                                                @if (item.AverageRating != null)
+                                                {
+                                                    for (int i = 0; i < item.AverageRating; i++)
+                                                    {
+                                                        <i class="fa fa-star"></i>
+                                                    }
+
+                                                    for (int i = 0; i < 5 - item.AverageRating; i++)
+                                                    {
+                                                        <i class="fa fa-star-o"></i>
+                                                    }
+                                                }
+                                            </div>
+
+
+                                            <div class="product-btns">
+                                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+                                                <button class="quick-view" onclick="location.href='/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory'"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                                            </div>
+                                        </div>
+                                        <div class="add-to-cart">
+                                            @if (item.Stock > 0)
+                                            {
+                                                if (Request.IsAuthenticated)
+                                                {
+
+
+                                                    <button class="add-to-cart-btn" onclick="GetProductDetails(@(item.ProductId));"><i class="fa fa-shopping-cart"></i> add to cart</button>
+
+                                                }
+                                                else
+                                                {
+                                                    <button class="add-to-cart-btn" onclick="location.href='/Account/Login'"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <button class="add-to-cart-btn add-to-cart-btn-disabled"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                            }
+
+
+
+
+                                        </div>
+                                    </div>
+                                    <!-- /product -->
+
+                                }
+
+
+
+                            </div>
+                            <div id="slick-navn-5" class="products-slick-nav"></div>
+                        </div>
+                        <!-- /tab top selling Headphones -->
+                        <!-- tab top selling Tablet -->
+                        <div id="tabn6" class="tab-pane">
+
+
+                            <div class="products-slick" data-nav="#slick-navn-6">
+                                @{var topSellTabletItems = Model.Where(a => a.Category.Name == "Tablet").OrderByDescending(p => p.Sold).ToList(); }
+
+                                @foreach (var item in topSellTabletItems)
+                                {
+
+
+                                    <!-- product -->
+                                    <div class="product">
+                                        <div class="product-img">
+                                            @if (item.Images.Count > 0)
+                                            {
+                                                <a href="#" class="d-block mb-4">
+                                                    @{var itemImages = item.Images.ToList(); }
+                                                    @foreach (var itemImage in itemImages)
+                                                    {
+                                                        if (itemImage.Default)
+                                                        {
+                                                            <img src="@Url.Content(itemImage.ImagePath)" alt="@itemImage.Title">
+
+                                                            break;
+                                                        }
+                                                    }
+
+                                                </a>
+                                            }
+
+                                            <div class="product-label">
+
+
+                                                @if (item.PromoSaleOFF > 0)
+                                                {
+                                                    if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
+                                                    {
+                                                        <span class="sale">
+                                                            -@(double.Parse(@item.PromoSaleOFF.ToString()) * 100)<label class="danger">%</label>
+                                                        </span>
+
+                                                    }
+
+                                                }
+
+
+                                                <span class="new">NEW</span>
+
+                                            </div>
+                                        </div>
+                                        <div class="product-body">
+                                            <p class="product-category">@item.Category.Name</p>
+                                            <h3 class="product-name"><a href="/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory">@item.Name</a></h3>
+
+
+
+                                            @if (item.PromoSaleOFF > 0)
+                                            {
+                                                if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
+                                                {
+
+                                                    <h4 class="product-price">₱@Convert.ToDecimal(item.DiscountedPrice).ToString("#,##0.00") <del class="product-old-price">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</del></h4>
+                                                    @*<h4 class="product-price">@item.DiscountedPrice <del class="product-old-price">@item.OriginalPrice</del></h4>*@
+                                                }
+                                                else
+                                                {
+                                                    <h4 class="product-price">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</h4>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <h4 class="product-price">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</h4>
+                                            }
+
+
+                                            <div class="product-rating">
+                                                @if (item.AverageRating != null)
+                                                {
+                                                    for (int i = 0; i < item.AverageRating; i++)
+                                                    {
+                                                        <i class="fa fa-star"></i>
+                                                    }
+
+                                                    for (int i = 0; i < 5 - item.AverageRating; i++)
+                                                    {
+                                                        <i class="fa fa-star-o"></i>
+                                                    }
+                                                }
+                                            </div>
+
+
+                                            <div class="product-btns">
+                                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+                                                <button class="quick-view" onclick="location.href='/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory'"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                                            </div>
+                                        </div>
+                                        <div class="add-to-cart">
+                                            @if (item.Stock > 0)
+                                            {
+                                                if (Request.IsAuthenticated)
+                                                {
+
+
+                                                    <button class="add-to-cart-btn" onclick="GetProductDetails(@(item.ProductId));"><i class="fa fa-shopping-cart"></i> add to cart</button>
+
+                                                }
+                                                else
+                                                {
+                                                    <button class="add-to-cart-btn" onclick="location.href='/Account/Login'"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <button class="add-to-cart-btn add-to-cart-btn-disabled"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                            }
+
+
+
+
+                                        </div>
+                                    </div>
+                                    <!-- /product -->
+
+                                }
+
+
+
+                            </div>
+                            <div id="slick-navn-6" class="products-slick-nav"></div>
+                        </div>
+                        <!-- /tab top selling Tablet -->
+
+
                     </div>
                 </div>
             </div>
