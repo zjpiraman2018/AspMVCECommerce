@@ -109,11 +109,10 @@ namespace AspMVCECommerce.Migrations
                 new Brand {BrandId =51, Name = "SUPERIORTEK"},
                 new Brand {BrandId =52, Name = "CANON"},
                 new Brand {BrandId =53, Name = "KODAK"},
-                new Brand {BrandId =54, Name = "CANON"},
-                new Brand {BrandId =55, Name = "VMOTAL"},
-                new Brand {BrandId =56, Name = "VETEK"},
-                new Brand {BrandId =57, Name = "BIFEVSR"},
-                new Brand {BrandId =58, Name = "VJIANGER"}
+                new Brand {BrandId =54, Name = "VMOTAL"},
+                new Brand {BrandId =55, Name = "VETEK"},
+                new Brand {BrandId =56, Name = "BIFEVSR"},
+                new Brand {BrandId =57, Name = "VJIANGER"}
 
             };
 
