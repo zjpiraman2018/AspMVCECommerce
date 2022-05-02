@@ -206,9 +206,9 @@
                 </div>
                 <!-- /aside Widget -->
                 <!-- aside Widget -->
-                <div class="aside">
+                <div class="aside" id="module">
                     <h3 class="aside-title">Brand</h3>
-                    <div class="checkbox-filter">
+                    <div class="checkbox-filter collapse" id="collapseExample" aria-expanded="false">
                         @foreach (var brand in (List<BrandViewModel>)ViewBag.Brands)
                         {
 
@@ -219,7 +219,7 @@
                                 }
                                 else
                                 {
-                                   var listSelectedBrand = ((string)ViewBag.SelectedBrand).Split(',').ToList();
+                                    var listSelectedBrand = ((string)ViewBag.SelectedBrand).Split(',').ToList();
 
                                     if (listSelectedBrand.Contains(brand.BrandId.ToString()))
                                     {
@@ -242,7 +242,10 @@
 
                         }
 
+
                     </div>
+                    <a role="button" class="collapsed" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    </a>
                 </div>
                 <!-- /aside Widget -->
                 <!-- aside Widget -->
@@ -399,7 +402,7 @@
                                 <div class="product-body">
                                     <p class="product-category">@item.Category.Name</p>
                                     @*<h3 class="product-name"><a href="/Home/Product?productId=@item.ProductId" class="product-namex">@item.Name</a></h3>*@
-                                    <h3 class="product-name"><a href="/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory" class="product-namex">@item.Name</a></h3>
+                                    <h3 class="product-name"><a href="/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory" class="product-namex" title="@item.Name">@item.Name</a></h3>
 
                                     @if (item.PromoSaleOFF > 0)
                                     {
@@ -493,7 +496,7 @@
 
 
                     @Html.PagedListPager(Model, page => Url.Action("Store",
-                        new { page, pageSort = ViewBag.CurrentSort, pageSize = ViewBag.CurrentItemsPerPage,selectedCategory = ViewBag.SelectedCategory, minPrice = ViewBag.MinPrice, maxPrice = ViewBag.MaxPrice, maxPriceRange = ViewBag.MaxPriceRange } ))
+                        new { page, pageSort = ViewBag.CurrentSort, pageSize = ViewBag.CurrentItemsPerPage,selectedCategory = ViewBag.SelectedCategory, minPrice = ViewBag.MinPrice, maxPrice = ViewBag.MaxPrice, maxPriceRange = ViewBag.MaxPriceRange, selectedNavCategory = ViewBag.SelectedNavCategory } ))
 
 
 
@@ -515,6 +518,27 @@
     <!-- /container -->
 </div>
 <!-- /SECTION -->
+
+<style>
+    #module div.collapse[aria-expanded="false"] {
+        display: block;
+        height: 220px !important;
+        overflow: hidden;
+    }
+
+    #module div.collapsing[aria-expanded="false"] {
+        height: 220px !important;
+    }
+
+    #module a.collapsed:after {
+        content: '+ Show All Brand';
+    }
+
+    #module a:not(.collapsed):after {
+        content: '- Show Less Brand';
+    }
+
+</style>
 
 @section Scripts {
     <script type="text/javascript">
@@ -609,21 +633,19 @@
                 $('.change-page-size').submit();
             });
 
-            $(".product-namex").each(function (index) {
-                /* var imageDefaultId = $(this).attr("image-id") + ".Default";*/
+            //$(".product-namex").each(function (index) {
+            //    /* var imageDefaultId = $(this).attr("image-id") + ".Default";*/
 
-                let linkInnerText = $(this).html($(this).prop("innerText")).prop("innerText");
-                $(this).html(linkInnerText);
+            //    let linkInnerText = $(this).html($(this).prop("innerText")).prop("innerText");
+            //    $(this).html(linkInnerText);
 
-                $(this).attr("title", linkInnerText);
+            //    $(this).attr("title", linkInnerText);
 
-                var len = $(this).text().trim().length;
-                if (len > 23) {
-                    $(this).text($(this).text().substr(0, 23) + '...');
-                }
-            });
-
-
+            //    var len = $(this).text().trim().length;
+            //    if (len > 23) {
+            //        $(this).text($(this).text().substr(0, 23) + '...');
+            //    }
+            //});
 
 
             $('.checkbox-category').change(function () {

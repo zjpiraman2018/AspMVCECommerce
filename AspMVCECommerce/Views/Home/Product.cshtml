@@ -23,7 +23,7 @@
 
                 <ul class="breadcrumb-tree product-page-breadcrumb">
                     <li id="li-home-breadcrumb"><a href="~/Home/Index">Home</a></li>
-                    <li id="li-product-id" style="display:none">Id: @Html.DisplayFor(model => model.ProductId)</li>
+                    <li id="li-product-id" class="breadcrum-product-name" style="display:none">Id: @Html.DisplayFor(model => model.ProductId)</li>
                 </ul>
 
             </div>
@@ -504,7 +504,7 @@
                             </div>
                             <div class="product-body">
                                 <p class="product-category">@item.Category.Name</p>
-                                <h3 class="product-name"><a href="/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory" class="product-namex">@item.Name</a></h3>
+                                <h3 class="product-name"><a href="/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory" class="product-namex" title="@item.Name">@item.Name</a></h3>
 
 
                                 @if (item.PromoSaleOFF > 0)
@@ -1073,7 +1073,7 @@
                         $(".product-page-breadcrumb")
                             .append('<li><a href="/Home/Store?selectedCategory=1%2C2%2C3%2C4%2C5%2C6&selectedNavCategory=Hot%20Deals">Hot Deals</a></li>')
                             .append('<li><a href="/Home/Store?selectedCategory=' + tempCategoryId + '&selectedNavCategory=' + selectedNavCategoryHD + '">' + selectedNavCategoryHD.toUpperCase() + '</a></li>')
-                            .append('<li class="active">' + tempProductName.toUpperCase() + '</li>');
+                            .append('<li class="active breadcrum-product-name">' + tempProductName.toUpperCase() + '</li>');
 
                         break;
 
@@ -1102,7 +1102,7 @@
                         $(".product-page-breadcrumb")
                             .append('<li><a href="/Home/Store?selectedCategory=1%2C2%2C3%2C4%2C5%2C6&selectedNavCategory=Categories">ALL CATEGORIES</a></li>')
                             .append('<li><a href="/Home/Store?selectedCategory=' + tempCategoryId + '&selectedNavCategory=' + selectedNavCategoryAC + '">' + selectedNavCategoryAC.toUpperCase() + '</a></li>')
-                            .append('<li class="active">' + tempProductName.toUpperCase() + '</li>');
+                            .append('<li class="active breadcrum-product-name">' + tempProductName.toUpperCase() + '</li>');
 
                         break;
 
@@ -1130,48 +1130,48 @@
 
                         $(".product-page-breadcrumb")
                             .append('<li><a href="/Home/Store?selectedCategory=' + tempCategoryId + '&selectedNavCategory=' + selectedNavCategoryH + '">' + selectedNavCategoryH.toUpperCase() + '</a></li>')
-                            .append('<li class="active">' + tempProductName.toUpperCase() + '</li>');
+                            .append('<li class="active breadcrum-product-name">' + tempProductName.toUpperCase() + '</li>');
                     break;
 
                 case "Laptops":
                     $(".product-page-breadcrumb")
                         .append('<li><a href="/Home/Store?selectedCategory=' + tempCategoryId + '&selectedNavCategory=Laptops">LAPTOPS</a></li>')
-                        .append('<li class="active">' + tempProductName.toUpperCase() + '</li>');
+                        .append('<li class="active breadcrum-product-name">' + tempProductName.toUpperCase() + '</li>');
                     break;
 
 
                 case "Smartphones":
                     $(".product-page-breadcrumb")
                         .append('<li><a href="/Home/Store?selectedCategory=' + tempCategoryId + '&selectedNavCategory=Smartphones">SMARTPHONES</a></li>')
-                        .append('<li class="active">' + tempProductName.toUpperCase() + '</li>');
+                        .append('<li class="active breadcrum-product-name">' + tempProductName.toUpperCase() + '</li>');
                     break;
 
 
                 case "Cameras":
                     $(".product-page-breadcrumb")
                         .append('<li><a href="/Home/Store?selectedCategory=' + tempCategoryId + '&selectedNavCategory=Cameras">CAMERAS</a></li>')
-                        .append('<li class="active">' + tempProductName.toUpperCase() + '</li>');
+                        .append('<li class="active breadcrum-product-name">' + tempProductName.toUpperCase() + '</li>');
                     break;
 
 
                 case "Accessories":
                     $(".product-page-breadcrumb")
                         .append('<li><a href="/Home/Store?selectedCategory=' + tempCategoryId + '&selectedNavCategory=Accessories">ACCESSORIES</a></li>')
-                        .append('<li class="active">' + tempProductName.toUpperCase() + '</li>');
+                        .append('<li class="active breadcrum-product-name">' + tempProductName.toUpperCase() + '</li>');
                     break;
 
 
                 case "Headphones":
                     $(".product-page-breadcrumb")
                         .append('<li><a href="/Home/Store?selectedCategory=' + tempCategoryId + '&selectedNavCategory=Headphones">HEADPHONES</a></li>')
-                        .append('<li class="active">' + tempProductName.toUpperCase() + '</li>');
+                        .append('<li class="active breadcrum-product-name">' + tempProductName.toUpperCase() + '</li>');
                     break;
 
 
                 case "Tablet":
                     $(".product-page-breadcrumb")
                         .append('<li><a href="/Home/Store?selectedCategory=' + tempCategoryId + '&selectedNavCategory=Tablet">TABLET</a></li>')
-                        .append('<li class="active">' + tempProductName.toUpperCase() + '</li>');
+                        .append('<li class="active breadcrum-product-name">' + tempProductName.toUpperCase() + '</li>');
                     break;
 
                 default:
@@ -1203,7 +1203,20 @@
 
             // END OF VALIDATE
 
+            /* BREADCRUMB PRODUCT NAME LIMIT */
+            $(".breadcrum-product-name").each(function (index) {
+                /* var imageDefaultId = $(this).attr("image-id") + ".Default";*/
 
+                let linkInnerText = $(this).html($(this).prop("innerText")).prop("innerText");
+                $(this).html(linkInnerText);
+
+                $(this).attr("title", linkInnerText);
+
+                var len = $(this).text().trim().length;
+                if (len > 102) {
+                    $(this).text($(this).text().substr(0, 102) + '...');
+                }
+            });
         });
     </script>
 }
