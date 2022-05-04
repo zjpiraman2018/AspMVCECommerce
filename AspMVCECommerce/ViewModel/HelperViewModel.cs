@@ -126,7 +126,7 @@ namespace AspMVCECommerce.ViewModel
 
         public static string ToDateTimeString(this DateTime? dateTime)
         {
-            return ((DateTime)dateTime).ToString("MM/dd/yyyy h:mm tt");
+            return ((DateTime)dateTime).ToString("MM/dd/yyyy h:mm tt", CultureInfo.InvariantCulture);
         }
 
         public static DateTime ToDateTime(this string dateTime)

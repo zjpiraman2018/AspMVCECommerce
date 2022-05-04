@@ -44,27 +44,6 @@ namespace AspMVCECommerce.Controllers
             }
         }
 
-        [System.Web.Http.HttpPost]
-        public IHttpActionResult CheckOutfuckers([FromBody] LineItemDTO lineItemDTO)
-        {
-            try
-            {
-                string userId = Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity);
-                // CHECK OUT CODE HERE
-
-                // CREATE NEW SHOPPINGCART RECORD WHEN CHECKOUT IS COMPLETED
-                // UNCOMMENT WHEN CODE IS READY
-                // AddShoppingCart(userId);
-                return Json(new { result = "successfully checkout cart!" });
-            }
-            catch (Exception ex)
-            {
-                string exMsg = ex.InnerException == null ? ex.Message : ex.InnerException.Message;
-                //return Json(new { result = "add to cart failed!\n error:" + exMsg });
-                return Content(HttpStatusCode.InternalServerError, "checkout cart failed!\n error:" + exMsg);
-            }
-        }
-
         [System.Web.Http.HttpGet]
         public IHttpActionResult DeleteLineItem(int lineItemId)
         {
