@@ -250,39 +250,67 @@
                 <!-- /aside Widget -->
                 <!-- aside Widget -->
                 <div class="aside">
-                    <h3 class="aside-title">Top selling</h3>
-                    <div class="product-widget">
-                        <div class="product-img">
-                            <img src="~/FrontEnd/img/product01.png" alt="">
-                        </div>
-                        <div class="product-body">
-                            <p class="product-category">Category</p>
-                            <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                            <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                        </div>
-                    </div>
+                    <h3 class="aside-title">Top 5 Selling</h3>
 
-                    <div class="product-widget">
-                        <div class="product-img">
-                            <img src="~/FrontEnd/img/product02.png" alt="">
-                        </div>
-                        <div class="product-body">
-                            <p class="product-category">Category</p>
-                            <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                            <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                        </div>
-                    </div>
+                    @{
+                        var topSellProduct = Model.OrderByDescending(p => p.Sold).Take(5).ToList();
+                    }
 
-                    <div class="product-widget">
-                        <div class="product-img">
-                            <img src="~/FrontEnd/img/product03.png" alt="">
+                    @foreach (var item in topSellProduct)
+                    {
+
+
+
+                        <!-- product widget -->
+
+                        <div class="product-widget">
+                            <div class="product-img" style="width: 60px; height: 60px;">
+                                @if (item.Images.Count > 0)
+                                {
+                                    var itemImages = item.Images.ToList();
+
+                                    foreach (var itemImage in itemImages)
+                                    {
+                                        if (itemImage.Default)
+                                        {
+                                            <img style="width: 100%; height: 60px; object-fit: scale-down;" src="@Url.Content(itemImage.ImagePath)" alt="@itemImage.Title">
+                                            break;
+                                        }
+                                    }
+                                }
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">@item.Category.Name</p>
+                                <h3 class="product-name"><a href="/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory" class="product-namex  product-name-widget2" style="white-space: nowrap;" title="@item.Name">@item.Name</a></h3>
+
+
+                                @if (item.PromoSaleOFF > 0)
+                                {
+                                    if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
+                                    {
+
+                                        <h4 class="product-price">₱@Convert.ToDecimal(item.DiscountedPrice).ToString("#,##0.00") <del class="product-old-price">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</del></h4>
+                                        @*<h4 class="product-price">@item.DiscountedPrice <del class="product-old-price">@item.OriginalPrice</del></h4>*@
+                                    }
+                                    else
+                                    {
+                                        <h4 class="product-price">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</h4>
+                                    }
+                                }
+                                else
+                                {
+                                    <h4 class="product-price">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</h4>
+                                }
+                            </div>
                         </div>
-                        <div class="product-body">
-                            <p class="product-category">Category</p>
-                            <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                            <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                        </div>
-                    </div>
+
+
+                        <!-- /product widget -->
+
+
+
+                    }
+
                 </div>
                 <!-- /aside Widget -->
             </div>
@@ -881,7 +909,19 @@
 
 
 
+            $(".product-name-widget2").each(function (index) {
+                /* var imageDefaultId = $(this).attr("image-id") + ".Default";*/
 
+                let linkInnerText = $(this).html($(this).prop("innerText")).prop("innerText");
+                $(this).html(linkInnerText);
+
+                $(this).attr("title", linkInnerText);
+
+                var len = $(this).text().trim().length;
+                if (len > 20) {
+                    $(this).text($(this).text().substr(0, 20) + '...');
+                }
+            });
 
 
         });
