@@ -81,6 +81,18 @@ namespace AspMVCECommerce.DTO
             return review;
         }
 
+
+        public static NewsLetter ToNewsLetter(this NewsLetterDTO newsLetterDTO)
+        {
+            var newsLetter = new NewsLetter()
+            {
+                Created = DateTime.Now,
+                Email = newsLetterDTO.Email
+            };
+            return newsLetter;
+        }
+
+
         public static string ToAverageRatingString(this double ar)
         {
             string formattedAR = "";

@@ -202,6 +202,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LineItemController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\NewsLetterController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\ProductsWAController.cs" />
     <Compile Include="Controllers\ReviewController.cs" />
@@ -209,6 +210,7 @@
     <Compile Include="DTO\HelperDTO.cs" />
     <Compile Include="DTO\LineItemDTO.cs" />
     <Compile Include="DTO\LineItemViewDTO.cs" />
+    <Compile Include="DTO\NewsLetterDTO.cs" />
     <Compile Include="DTO\ProductDTO.cs" />
     <Compile Include="DTO\ReviewDTO.cs" />
     <Compile Include="DTO\SizeDTO.cs" />
@@ -227,6 +229,10 @@
     <Compile Include="Migrations\202204280702402_addsoldproperty.Designer.cs">
       <DependentUpon>202204280702402_addsoldproperty.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202205120746444_addnewsletter.cs" />
+    <Compile Include="Migrations\202205120746444_addnewsletter.Designer.cs">
+      <DependentUpon>202205120746444_addnewsletter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Brand.cs" />
@@ -238,6 +244,7 @@
     <Compile Include="Models\Image.cs" />
     <Compile Include="Models\LineItem.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\NewsLetter.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\PaypalConfiguration.cs" />
     <Compile Include="Models\Product.cs" />
@@ -418,6 +425,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202204280702402_addsoldproperty.resx">
       <DependentUpon>202204280702402_addsoldproperty.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202205120746444_addnewsletter.resx">
+      <DependentUpon>202205120746444_addnewsletter.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

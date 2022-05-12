@@ -222,9 +222,9 @@
                 <div class="col-md-12">
                     <div class="newsletter">
                         <p>Sign Up for the <strong>NEWSLETTER</strong></p>
-                        <form>
-                            <input class="input" type="email" placeholder="Enter Your Email">
-                            <button class="newsletter-btn"><i class="fa fa-envelope"></i> Subscribe</button>
+                        <form id="newsletter-form">
+                            <input class="input" type="email" id="newsletter-email" placeholder="Enter Your Email">
+                            <button class="newsletter-btn" id="newsletter-btn"><i class="fa fa-envelope"></i> Subscribe</button>
                         </form>
                         <ul class="newsletter-follow">
                             <li>
@@ -445,6 +445,10 @@
 
 <script type="text/javascript">
 
+        function isNewsLetterEmail(email) {
+            var regex = /^([a-zA-Z0-9_.+-])+\@@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            return regex.test(email);
+        }
 
        // MODAL ADD PRODUCT TO CART
         function ModalAddToCart() {
@@ -466,7 +470,7 @@
                         // NAVIGATE TO SHOPPING CART PAGE CODE HERE
                         GetLineItems();
                         //$('#myModal').modal('toggle');
-                 
+
                         toastr.success('The <strong>Product</strong> record has been successfully added to shopping cart.', 'Record Added.');
                     })
                     .fail(function (xhr) {
@@ -806,6 +810,52 @@
                     $(theTarget, theString).remove().end()
                 ).html();
             };
+
+
+
+            // -- ADD NEWSLETTER ---
+            var newsletterBaseUrl = '@Url.Content("~/")';
+            $("#newsletter-form").submit(function (e) {
+                e.preventDefault();
+            });
+
+            $("#newsletter-btn").click(function (e) {
+
+                if ($('#newsletter-email').val().trim() == '') {
+                    toastr.warning('The <strong>NewsLetter Email</strong> is required!', 'Validation Warning!');
+                    return;
+                }
+
+                if (!isNewsLetterEmail($('#newsletter-email').val().trim())) {
+                    toastr.warning('The <strong>NewsLetter Email</strong> is invalid!', 'Validation Warning!');
+                    return;
+                }
+
+
+                $.post(newsletterBaseUrl + 'api/NewsLetter/AddNewsLetter',
+                    {
+                        Email: $("#newsletter-email").val()
+                    })
+                    .done(function () {
+                        $("#newsletter-form").trigger('reset');
+                        toastr.success('The <strong>NewsLetter</strong> record has been successfully added.', 'Record Added.');
+                    })
+                    .fail(function (xhr) {
+                        if (xhr.status == 400) {
+                            toastr.error('The <strong>NewsLetter</strong> saving failed due to: ' + xhr.responseText, 'Record Add Failed.');
+                        }
+                        else {
+                            var err = eval("(" + xhr.responseText + ")");
+                            toastr.error('The <strong>NewsLetter</strong> saving failed due to: ' + err.Message, 'Record Add Failed.');
+                        }
+                
+                    });
+
+                e.preventDefault();
+
+            });
+            // -- END OF ADD NEWSLETTER ---
+
         });
 </script>
 

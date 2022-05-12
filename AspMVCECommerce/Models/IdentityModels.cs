@@ -38,6 +38,7 @@ namespace AspMVCECommerce.Models
         public DbSet<CustomAddress> CustomAddresses { get; set; }
         public DbSet<CheckOut> CheckOuts { get; set; }
 
+        public DbSet<NewsLetter> NewsLetters { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
