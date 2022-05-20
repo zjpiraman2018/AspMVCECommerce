@@ -51,6 +51,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.11.42.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.11.42\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebHelpers.3.2.7\lib\net45\Microsoft.Web.Helpers.dll</HintPath>
@@ -257,6 +260,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Utility\CheckOutUtility.cs" />
     <Compile Include="Utility\CustomAddressUtility.cs" />
+    <Compile Include="Utility\EmailUtility.cs" />
     <Compile Include="Utility\OrderUtility.cs" />
     <Compile Include="Utility\ProductUtility.cs" />
     <Compile Include="Utility\ShippingAddress2Utility.cs" />
@@ -403,6 +407,7 @@
     <Content Include="Views\Home\Order.cshtml" />
     <Content Include="Views\Home\OrderDetails.cshtml" />
     <Content Include="Views\Home\SendEmail.cshtml" />
+    <Content Include="Views\Home\TestEmail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

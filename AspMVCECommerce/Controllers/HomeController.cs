@@ -1,6 +1,7 @@
 ﻿using AspMVCECommerce.Models;
 using AspMVCECommerce.Utility;
 using AspMVCECommerce.ViewModel;
+using HtmlAgilityPack;
 using PagedList;
 using PayPal.Api;
 using System;
@@ -8,6 +9,11 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
+using System.Net.Mime;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Web;
 using System.Web.Mvc;
 
 
@@ -1019,5 +1025,105 @@ namespace AspMVCECommerce.Controllers
 
             return View(products);
         }
-    }
+   
+        public ActionResult TestEmail()
+        {
+            var randomProductIdList = db.Products
+                       .SqlQuery("SELECT TOP 6 * FROM Products ORDER BY NEWID()")
+                       .ToList<Product>().Select(p => p.ProductId).ToList();
+
+
+            var products = db.Products.Include(p => p.Category).Include(p => p.Images).Where(p => randomProductIdList.Contains(p.ProductId));
+            var emailViewHtmlString = EmailUtility.ViewToStringRenderer.RenderViewToString(this.ControllerContext, "~/Views/Home/SendEmail.cshtml", products);
+
+            using (MailMessage msg = new MailMessage())
+            {
+
+
+                HtmlAgilityPack.HtmlDocument htmldoc = new HtmlAgilityPack.HtmlDocument();
+                htmldoc.LoadHtml(emailViewHtmlString);
+
+
+                var imageTagNodes = (from action in htmldoc.DocumentNode.SelectNodes("//img").Cast<HtmlNode>()
+                                     select action).ToList();
+
+
+                int imgIndex = 0;
+                foreach (var imgNode in imageTagNodes)
+                {
+                    
+                    var src = imgNode.Attributes["src"].Value;
+                    if(src != "" && !src.Contains("ci6.googleusercontent.com") && !src.Contains("ci3.googleusercontent.com") && !src.Contains("ci4.googleusercontent.com"))
+                    {
+                        imgIndex += 1;
+                        emailViewHtmlString = emailViewHtmlString.Replace(src, "cid:img" + imgIndex.ToString());
+                    }
+                
+                }
+
+                // Create the HTML view
+                AlternateView htmlView = AlternateView.CreateAlternateViewFromString(
+                                                             emailViewHtmlString,
+                                                             Encoding.UTF8,
+                                                             MediaTypeNames.Text.Html);
+                // Create a plain text message for client that don't support HTML
+                AlternateView plainView = AlternateView.CreateAlternateViewFromString(
+                                                            Regex.Replace(emailViewHtmlString,
+                                                                          "<[^>]+?>",
+                                                                          string.Empty),
+                                                            Encoding.UTF8,
+                                                            MediaTypeNames.Text.Plain);
+
+
+
+                imgIndex = 0;
+                foreach (var imgNode in imageTagNodes)
+                {
+       
+                    var src = imgNode.Attributes["src"].Value;
+                    if (src != "" && !src.Contains("ci6.googleusercontent.com") && !src.Contains("ci3.googleusercontent.com") && !src.Contains("ci4.googleusercontent.com") )
+                    {
+                        imgIndex += 1;
+                        string mediaType = MediaTypeNames.Image.Jpeg;
+
+                        string path = Server.MapPath(src); // my sample image is placed in images folder
+
+                        LinkedResource img = new LinkedResource(path, mediaType);
+                        img.ContentId = "img" + imgIndex.ToString();
+
+                        img.ContentType.MediaType = mediaType;
+                        img.TransferEncoding = TransferEncoding.Base64;
+                        img.ContentType.Name = img.ContentId;
+                        img.ContentLink = new Uri("cid:" + img.ContentId);
+                        htmlView.LinkedResources.Add(img);
+                    }
+                }
+
+
+                msg.From = new MailAddress("zaldys.ecommerce.demo@gmail.com","Zaldy's Ecommerce");
+                msg.Bcc.Add("zaldys.ecommerce.demo@gmail.com");
+                msg.To.Add("zjpiraman2018@gmail.com");
+                msg.AlternateViews.Add(plainView);
+                msg.AlternateViews.Add(htmlView);
+       
+                msg.IsBodyHtml = true;
+                msg.Subject = "Top Picks Of The Week! " + DateTime.Now.ToString("MMMM dd, yyyy");
+
+                using (var client = new SmtpClient())
+                {
+                    client.Timeout = 180000;
+                    client.Send(msg);
+                }
+
+ 
+            }
+
+
+
+            return Content("test");
+        }
+
+ 
+
+}
 }
