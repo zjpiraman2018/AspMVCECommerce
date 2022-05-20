@@ -1005,5 +1005,19 @@ namespace AspMVCECommerce.Controllers
 
             return View(orderDetailVM);
         }
+
+
+        public ActionResult SendEmail()
+        {
+        
+            var randomProductIdList = db.Products
+                                .SqlQuery("SELECT TOP 6 * FROM Products ORDER BY NEWID()")
+                                .ToList<Product>().Select(p=>p.ProductId).ToList();
+
+
+            var products = db.Products.Include(p => p.Category).Include(p => p.Images).Where(p=> randomProductIdList.Contains(p.ProductId));
+
+            return View(products);
+        }
     }
 }

@@ -291,6 +291,9 @@
     <Content Include="FrontEnd\css\style.css" />
     <Content Include="FrontEnd\fonts\fontawesome-webfont.svg" />
     <Content Include="FrontEnd\fonts\slick.svg" />
+    <Content Include="FrontEnd\img\demo logo.png" />
+    <Content Include="FrontEnd\img\demo logo2.png" />
+    <Content Include="FrontEnd\img\help center button.png" />
     <Content Include="FrontEnd\img\hotdeal.png" />
     <Content Include="FrontEnd\img\logo.png" />
     <Content Include="FrontEnd\img\product01.png" />
@@ -302,6 +305,7 @@
     <Content Include="FrontEnd\img\product07.png" />
     <Content Include="FrontEnd\img\product08.png" />
     <Content Include="FrontEnd\img\product09.png" />
+    <Content Include="FrontEnd\img\shop now button.png" />
     <Content Include="FrontEnd\img\shop01.png" />
     <Content Include="FrontEnd\img\shop02.png" />
     <Content Include="FrontEnd\img\shop03.png" />
@@ -398,6 +402,7 @@
     <Content Include="Views\Home\FailureView.cshtml" />
     <Content Include="Views\Home\Order.cshtml" />
     <Content Include="Views\Home\OrderDetails.cshtml" />
+    <Content Include="Views\Home\SendEmail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
