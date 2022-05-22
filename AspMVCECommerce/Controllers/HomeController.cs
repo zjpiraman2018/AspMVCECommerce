@@ -1028,7 +1028,26 @@ namespace AspMVCECommerce.Controllers
 
             return View(products);
         }
-   
+
+        public ActionResult Unsubscribe(string email)
+        {
+            ViewBag.Email = email;
+            try
+            {
+                var newsLetter = db.NewsLetters.Where(n => n.Email.Trim().ToUpper() == email.Trim().ToUpper()).SingleOrDefault();
+                db.NewsLetters.Remove(newsLetter);
+                db.SaveChanges();
+                ViewBag.Result = "Success";
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Result = ex.Message;
+            }
+
+            return View();
+        }
+
+
         public ActionResult HangFireSendEmail()
         {
             var randomProductIdList = db.Products
@@ -1038,103 +1057,111 @@ namespace AspMVCECommerce.Controllers
 
             var products = db.Products.Include(p => p.Category).Include(p => p.Images).Where(p => randomProductIdList.Contains(p.ProductId));
             //var emailViewHtmlString = EmailUtility.ViewToStringRenderer.RenderViewToString(this.ControllerContext, "~/Views/Home/SendEmail.cshtml", products);
-            
+           
+            var subscribers = db.NewsLetters.ToList();
+
             // IF NO PRODUCTS RETURN NULL
             if (products.Count() == 0) return null;
 
-            var emailViewHtmlString = CreateEmailHtmlTemplate(products);
+            // IF NO SUBSCRIBER RETURN NULL
+            if (subscribers.Count() ==0) return null;
 
-            using (MailMessage msg = new MailMessage())
+            foreach (var subscriber in subscribers)
             {
+                var emailViewHtmlString = CreateEmailHtmlTemplate(products, subscriber.Email);
 
-
-                HtmlAgilityPack.HtmlDocument htmldoc = new HtmlAgilityPack.HtmlDocument();
-                htmldoc.LoadHtml(emailViewHtmlString);
-
-
-                var imageTagNodes = (from action in htmldoc.DocumentNode.SelectNodes("//img").Cast<HtmlNode>()
-                                     select action).ToList();
-
-
-                int imgIndex = 0;
-                foreach (var imgNode in imageTagNodes)
+                using (MailMessage msg = new MailMessage())
                 {
-                    
-                    var src = imgNode.Attributes["src"].Value;
-                    if(src != "" && !src.Contains("ci6.googleusercontent.com") && !src.Contains("ci3.googleusercontent.com") && !src.Contains("ci4.googleusercontent.com"))
+
+
+                    HtmlAgilityPack.HtmlDocument htmldoc = new HtmlAgilityPack.HtmlDocument();
+                    htmldoc.LoadHtml(emailViewHtmlString);
+
+
+                    var imageTagNodes = (from action in htmldoc.DocumentNode.SelectNodes("//img").Cast<HtmlNode>()
+                                         select action).ToList();
+
+
+                    int imgIndex = 0;
+                    foreach (var imgNode in imageTagNodes)
                     {
-                        imgIndex += 1;
-                        emailViewHtmlString = emailViewHtmlString.Replace(src, "cid:img" + imgIndex.ToString());
+
+                        var src = imgNode.Attributes["src"].Value;
+                        if (src != "" && !src.Contains("ci6.googleusercontent.com") && !src.Contains("ci3.googleusercontent.com") && !src.Contains("ci4.googleusercontent.com"))
+                        {
+                            imgIndex += 1;
+                            emailViewHtmlString = emailViewHtmlString.Replace(src, "cid:img" + imgIndex.ToString());
+                        }
+
                     }
-                
-                }
 
-                // Create the HTML view
-                AlternateView htmlView = AlternateView.CreateAlternateViewFromString(
-                                                             emailViewHtmlString,
-                                                             Encoding.UTF8,
-                                                             MediaTypeNames.Text.Html);
-                // Create a plain text message for client that don't support HTML
-                AlternateView plainView = AlternateView.CreateAlternateViewFromString(
-                                                            Regex.Replace(emailViewHtmlString,
-                                                                          "<[^>]+?>",
-                                                                          string.Empty),
-                                                            Encoding.UTF8,
-                                                            MediaTypeNames.Text.Plain);
+                    // Create the HTML view
+                    AlternateView htmlView = AlternateView.CreateAlternateViewFromString(
+                                                                 emailViewHtmlString,
+                                                                 Encoding.UTF8,
+                                                                 MediaTypeNames.Text.Html);
+                    // Create a plain text message for client that don't support HTML
+                    AlternateView plainView = AlternateView.CreateAlternateViewFromString(
+                                                                Regex.Replace(emailViewHtmlString,
+                                                                              "<[^>]+?>",
+                                                                              string.Empty),
+                                                                Encoding.UTF8,
+                                                                MediaTypeNames.Text.Plain);
 
 
 
-                imgIndex = 0;
-                foreach (var imgNode in imageTagNodes)
-                {
-       
-                    var src = imgNode.Attributes["src"].Value;
-                    if (src != "" && !src.Contains("ci6.googleusercontent.com") && !src.Contains("ci3.googleusercontent.com") && !src.Contains("ci4.googleusercontent.com") )
+                    imgIndex = 0;
+                    foreach (var imgNode in imageTagNodes)
                     {
-                        imgIndex += 1;
-                        string mediaType = MediaTypeNames.Image.Jpeg;
 
-                        string path = System.Web.Hosting.HostingEnvironment.MapPath(src);
+                        var src = imgNode.Attributes["src"].Value;
+                        if (src != "" && !src.Contains("ci6.googleusercontent.com") && !src.Contains("ci3.googleusercontent.com") && !src.Contains("ci4.googleusercontent.com"))
+                        {
+                            imgIndex += 1;
+                            string mediaType = MediaTypeNames.Image.Jpeg;
 
-                        //string path = Server.MapPath(src); // my sample image is placed in images folder
+                            string path = System.Web.Hosting.HostingEnvironment.MapPath(src);
 
-                        LinkedResource img = new LinkedResource(path, mediaType);
-                        img.ContentId = "img" + imgIndex.ToString();
+                            //string path = Server.MapPath(src); // my sample image is placed in images folder
 
-                        img.ContentType.MediaType = mediaType;
-                        img.TransferEncoding = TransferEncoding.Base64;
-                        img.ContentType.Name = img.ContentId;
-                        img.ContentLink = new Uri("cid:" + img.ContentId);
-                        htmlView.LinkedResources.Add(img);
+                            LinkedResource img = new LinkedResource(path, mediaType);
+                            img.ContentId = "img" + imgIndex.ToString();
+
+                            img.ContentType.MediaType = mediaType;
+                            img.TransferEncoding = TransferEncoding.Base64;
+                            img.ContentType.Name = img.ContentId;
+                            img.ContentLink = new Uri("cid:" + img.ContentId);
+                            htmlView.LinkedResources.Add(img);
+                        }
                     }
-                }
 
 
-                msg.From = new MailAddress("zaldys.ecommerce.demo@gmail.com","Zaldy's Ecommerce");
-                msg.Bcc.Add("zaldys.ecommerce.demo@gmail.com");
-                msg.To.Add("zjpiraman2018@gmail.com");
-                msg.AlternateViews.Add(plainView);
-                msg.AlternateViews.Add(htmlView);
-       
-                msg.IsBodyHtml = true;
-                msg.Subject = "Top Picks Of The Week! " + DateTime.Now.ToString("MMMM dd, yyyy");
+                    msg.From = new MailAddress("zaldys.ecommerce.demo@gmail.com", "Zaldy's Ecommerce");
+                    msg.Bcc.Add("zaldys.ecommerce.demo@gmail.com");
+                    msg.To.Add(subscriber.Email);
+                    msg.AlternateViews.Add(plainView);
+                    msg.AlternateViews.Add(htmlView);
 
-                try
-                {
-                    using (var client = new SmtpClient())
+                    msg.IsBodyHtml = true;
+                    msg.Subject = "Top Picks Of The Week! " + DateTime.Now.ToString("MMMM dd, yyyy");
+
+                    try
                     {
-                        client.Timeout = 480000;
-                        client.Send(msg);
+                        using (var client = new SmtpClient())
+                        {
+                            client.Timeout = 480000;
+                            client.Send(msg);
+                        }
                     }
+                    catch (Exception ex)
+                    {
+                        return Content(ex.Message);
+                    }
+
                 }
-                catch (Exception ex)
-                {
-                    return Content(ex.Message);
-                }
-          
+            }
 
  
-            }
 
 
 
@@ -1148,7 +1175,7 @@ namespace AspMVCECommerce.Controllers
             return string.Format("{0}/{1}", uri1, uri2);
         }
 
-        private  static string CreateEmailHtmlTemplate(IEnumerable<Product> products)
+        private  static string CreateEmailHtmlTemplate(IEnumerable<Product> products, string email)
         {
             string baseUrl = ConfigurationManager.AppSettings["BaseUrl"]; 
             string htmlString = "";
@@ -1687,7 +1714,7 @@ namespace AspMVCECommerce.Controllers
             htmlString += "                                                                                                        <span style='text-decoration:underline'><a href='#' style='color:#858585;text-decoration:underline' title='' target='_blank' data-saferedirecturl='#'>Privacy Notice</a></span> &nbsp;&nbsp; |&nbsp;&nbsp; <span style='text-decoration:underline'><a href='#' style='color:#858585;text-decoration:underline' title='' target='_blank' data-saferedirecturl='#'>Terms and Conditions</a></span> &nbsp;&nbsp; |&nbsp;&nbsp; <span style='text-decoration:underline'>";
             htmlString += "                                                                                                            <a href='#' style='color:#808080;text-decoration:underline;white-space:nowrap' title='' target='_blank' data-saferedirecturl='#'>View on Browser</a>";
             htmlString += "                                                                                                        </span> &nbsp;&nbsp; &nbsp;|&nbsp;&nbsp; <span style='text-decoration:underline'>";
-            htmlString += "                                                                                                            <a href='#' style='color:#858585;text-decoration:underline' title='' target='_blank' data-saferedirecturl='#'>Unsubscribe</a>";
+            htmlString += "                                                                                                            <a href='" + Combine(baseUrl, "/Home/Unsubscribe?email=" + email) + "' style='color:#858585;text-decoration:underline' title='' target='_blank' data-saferedirecturl='#'>Unsubscribe</a>";
             htmlString += "                                                                                                        </span>";
             htmlString += "                                                                                                    </div>";
             htmlString += "                                                                                                </td>";
@@ -1741,6 +1768,7 @@ namespace AspMVCECommerce.Controllers
         }
 
 
+        
 
     }
 }
