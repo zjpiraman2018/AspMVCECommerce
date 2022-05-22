@@ -20,7 +20,7 @@ namespace AspMVCECommerce
             app.UseHangfireDashboard();
             //
             HomeController homeController = new HomeController();
-            RecurringJob.AddOrUpdate(() => homeController.HangFireSendEmail(), Cron.Minutely);
+            RecurringJob.AddOrUpdate(() => homeController.HangFireSendEmail(""), Cron.Minutely);
 
             //ApplicationDbContext db = new ApplicationDbContext();
 

@@ -1048,7 +1048,7 @@ namespace AspMVCECommerce.Controllers
         }
 
 
-        public ActionResult HangFireSendEmail()
+        public ActionResult HangFireSendEmail(string newSubscriber = "")
         {
             var randomProductIdList = db.Products
                        .SqlQuery("SELECT TOP 6 * FROM Products ORDER BY NEWID()")
@@ -1057,9 +1057,19 @@ namespace AspMVCECommerce.Controllers
 
             var products = db.Products.Include(p => p.Category).Include(p => p.Images).Where(p => randomProductIdList.Contains(p.ProductId));
             //var emailViewHtmlString = EmailUtility.ViewToStringRenderer.RenderViewToString(this.ControllerContext, "~/Views/Home/SendEmail.cshtml", products);
-           
-            var subscribers = db.NewsLetters.ToList();
+            List<NewsLetter> subscribers = new List<NewsLetter>();
 
+            if(newSubscriber != "")
+            {
+                var newsLetter = new NewsLetter();
+                newsLetter.Email = newSubscriber.Trim();
+                subscribers.Add(newsLetter);
+            }
+            else
+            {
+                subscribers = db.NewsLetters.ToList();
+            }
+            
             // IF NO PRODUCTS RETURN NULL
             if (products.Count() == 0) return null;
 
@@ -1160,9 +1170,6 @@ namespace AspMVCECommerce.Controllers
 
                 }
             }
-
- 
-
 
 
             return Content("");

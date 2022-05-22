@@ -22,6 +22,9 @@ namespace AspMVCECommerce.Controllers
                 {
                     context.NewsLetters.Add(newsLetterDTO.ToNewsLetter());
                     context.SaveChanges();
+
+                    HomeController homeController = new HomeController();
+                    homeController.HangFireSendEmail(newsLetterDTO.Email);
                     return Json(new { result = "successfully added news letter!" });
                 }
                 else
