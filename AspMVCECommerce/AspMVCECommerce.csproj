@@ -415,6 +415,8 @@
     <Content Include="Views\Home\SendEmail.cshtml" />
     <Content Include="Views\Home\HangFireSendEmail.cshtml" />
     <Content Include="Views\Home\Unsubscribe.cshtml" />
+    <Content Include="Views\Home\PrivacyPolicy.cshtml" />
+    <Content Include="Views\Home\TermsAndCondition.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

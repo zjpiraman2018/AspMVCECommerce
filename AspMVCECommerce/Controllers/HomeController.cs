@@ -1047,7 +1047,15 @@ namespace AspMVCECommerce.Controllers
             return View();
         }
 
+        public ActionResult PrivacyPolicy()
+        {
+            return View();
+        }
 
+        public ActionResult TermsAndCondition()
+        {
+            return View();
+        }
         public ActionResult HangFireSendEmail(string newSubscriber = "")
         {
             var randomProductIdList = db.Products
@@ -1718,7 +1726,7 @@ namespace AspMVCECommerce.Controllers
             htmlString += "                                                                                            <tr>";
             htmlString += "                                                                                                <td>";
             htmlString += "                                                                                                    <div style=\"text-align:center;color:#858585;font-family:'Roboto',arial,sans-serif;font-size:12px;line-height:2\">";
-            htmlString += "                                                                                                        <span style='text-decoration:underline'><a href='#' style='color:#858585;text-decoration:underline' title='' target='_blank' data-saferedirecturl='#'>Privacy Notice</a></span> &nbsp;&nbsp; |&nbsp;&nbsp; <span style='text-decoration:underline'><a href='#' style='color:#858585;text-decoration:underline' title='' target='_blank' data-saferedirecturl='#'>Terms and Conditions</a></span> &nbsp;&nbsp; |&nbsp;&nbsp; <span style='text-decoration:underline'>";
+            htmlString += "                                                                                                        <span style='text-decoration:underline'><a href='" + Combine(baseUrl, "/Home/PrivacyPolicy") + "' style='color:#858585;text-decoration:underline' title='' target='_blank' data-saferedirecturl='#'>Privacy Notice</a></span> &nbsp;&nbsp; |&nbsp;&nbsp; <span style='text-decoration:underline'><a href='" + Combine(baseUrl, "/Home/TermsAndCondition" ) + "' style='color:#858585;text-decoration:underline' title='' target='_blank' data-saferedirecturl='#'>Terms and Conditions</a></span> &nbsp;&nbsp; |&nbsp;&nbsp; <span style='text-decoration:underline'>";
             htmlString += "                                                                                                            <a href='#' style='color:#808080;text-decoration:underline;white-space:nowrap' title='' target='_blank' data-saferedirecturl='#'>View on Browser</a>";
             htmlString += "                                                                                                        </span> &nbsp;&nbsp; &nbsp;|&nbsp;&nbsp; <span style='text-decoration:underline'>";
             htmlString += "                                                                                                            <a href='" + Combine(baseUrl, "/Home/Unsubscribe?email=" + email) + "' style='color:#858585;text-decoration:underline' title='' target='_blank' data-saferedirecturl='#'>Unsubscribe</a>";
