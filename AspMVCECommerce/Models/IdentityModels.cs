@@ -39,6 +39,7 @@ namespace AspMVCECommerce.Models
         public DbSet<CheckOut> CheckOuts { get; set; }
 
         public DbSet<NewsLetter> NewsLetters { get; set; }
+        public DbSet<WishList> WishLists { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

@@ -92,6 +92,15 @@ namespace AspMVCECommerce.DTO
             return newsLetter;
         }
 
+        public static WishList ToWishList(this WishListDTO wishListDTO)
+        {
+            var wishList = new WishList()
+            {
+                CustomerId = wishListDTO.CustomerId,
+                 ProductId = wishListDTO.ProductId
+            };
+            return wishList;
+        }
 
         public static string ToAverageRatingString(this double ar)
         {

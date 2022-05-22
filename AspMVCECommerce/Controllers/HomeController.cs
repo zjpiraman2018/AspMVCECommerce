@@ -877,12 +877,17 @@ namespace AspMVCECommerce.Controllers
 
             ViewBag.SelectedNavCategory = selectedNavCategory;
 
-
-
-
             ViewBag.RelatedProduct = products;
-  
+            ViewBag.WistList = null;
 
+            if (Request.IsAuthenticated)
+            {
+                if (User.IsInRole("Customer"))
+                {
+                     string CustomerId = Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity);
+                     ViewBag.WistList = db.WishLists.Where(w => w.CustomerId == CustomerId).ToList();
+                }
+            }
 
             return View(product);
         }
