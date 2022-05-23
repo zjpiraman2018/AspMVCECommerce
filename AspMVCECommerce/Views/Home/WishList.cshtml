@@ -1,0 +1,342 @@
+﻿@model PagedList.IPagedList<AspMVCECommerce.Models.Product>
+@using PagedList.Mvc;
+
+@using System.Linq;
+@using System.Collections.Generic;
+@using Microsoft.AspNet.Identity;
+@using AspMVCECommerce.Models;
+@{
+    ViewBag.Title = "WishList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="breadcrumb-header">My WishList</h3>
+                <ul class="breadcrumb-tree">
+                    <li><a href="~/Home/Index">Home</a></li>
+                    <li class="active">My WishList</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+<!-- Section -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        
+
+            @*<div class="col-md-12">
+                <div class="section-title text-center">
+                    <h3 class="title">Like Products</h3>
+                </div>
+            </div>*@
+
+            <div class="store-filter clearfix">
+                <div class="store-sort">
+
+
+                    @using (Html.BeginForm("WishList", "Home", FormMethod.Get, htmlAttributes: new { @class = "change-page-size" }))
+                    {
+                        <input type="hidden" class="form-store-selected-category" name="selectedCategory" id="selectedCategory" value="" />
+                        <input type="hidden" class="form-store-selected-nav-category" name="selectedNavCategory" id="selectedNavCategory" value="@ViewBag.SelectedNavCategory" />
+
+                        <label>
+                            Sort By:
+
+
+                            @{
+                                var listSortItem = new List<SelectListItem>();
+
+                                listSortItem.Add(new SelectListItem() { Text = "Popular", Value = "Popular" });
+                                listSortItem.Add(new SelectListItem() { Text = "Product Name", Value = "ProductName" });
+                                listSortItem.Add(new SelectListItem() { Text = "Created Date", Value = "CreatedDate" });
+                            }
+
+                            @Html.DropDownList("pageSort", listSortItem, null, htmlAttributes: new { @class = "input-select" })
+
+                        </label>
+                        <label>
+                            Show:
+
+                            @{
+                                var listPageSizeItem = new List<SelectListItem>();
+
+                                listPageSizeItem.Add(new SelectListItem() { Text = "20", Value = "20" });
+                                listPageSizeItem.Add(new SelectListItem() { Text = "50", Value = "50" });
+                            }
+
+                            @Html.DropDownList("pageSize", listPageSizeItem, null, htmlAttributes: new { @class = "input-select" })
+
+                        </label>
+                    }
+
+
+                </div>
+                <ul class="store-grid">
+                    <li class="active"><i class="fa fa-th"></i></li>
+                    <li><a href="#"><i class="fa fa-th-list"></i></a></li>
+                </ul>
+
+
+
+            </div>
+
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    <!-- product -->
+                    <div class="col-md-3 col-xs-6">
+
+                        <div class="product product-store">
+                            <div class="product-img">
+                                @if (item.Images.Count > 0)
+                                {
+
+                                    var itemImages = item.Images.ToList();
+
+                                    foreach (var itemImage in itemImages)
+                                    {
+                                        if (itemImage.Default)
+                                        {
+                                            <img src="@Url.Content(itemImage.ImagePath)" alt="@itemImage.Title">
+
+                                            break;
+                                        }
+                                    }
+                                }
+
+
+                                <div class="product-label">
+
+
+                                    @if (item.PromoSaleOFF > 0)
+                                    {
+                                        if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
+                                        {
+                                            <span class="sale">
+                                                -@(double.Parse(@item.PromoSaleOFF.ToString()) * 100)<label class="danger">%</label>
+                                            </span>
+
+                                        }
+
+                                    }
+
+
+                                    @if ((DateTime.Now - item.CreatedDateTime).TotalDays <= 30)
+                                    {
+                                        <span class="new">NEW</span>
+                                    }
+
+
+
+                                </div>
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">@item.Category.Name</p>
+                                @*<h3 class="product-name"><a href="/Home/Product?productId=@item.ProductId" class="product-namex">@item.Name</a></h3>*@
+                                <h3 class="product-name" style="height:30px;"><a href="/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory" class="product-namex" title="@item.Name">@item.Name</a></h3>
+
+                                @if (item.PromoSaleOFF > 0)
+                                {
+                                    if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
+                                    {
+
+                                        <h4 class="product-price">₱@Convert.ToDecimal(item.DiscountedPrice).ToString("#,##0.00") <del class="product-old-price">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</del></h4>
+                                        @*<h4 class="product-price">@item.DiscountedPrice <del class="product-old-price">@item.OriginalPrice</del></h4>*@
+                                    }
+                                    else
+                                    {
+                                        <h4 class="product-price">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</h4>
+                                    }
+                                }
+                                else
+                                {
+                                    <h4 class="product-price">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</h4>
+                                }
+
+
+
+                                @*<div class="product-rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>*@
+
+
+                                <div class="product-rating">
+                                    @if (item.AverageRating != null)
+                                    {
+                                        for (int i = 0; i < item.AverageRating; i++)
+                                        {
+                                            <i class="fa fa-star"></i>
+                                        }
+
+                                        for (int i = 0; i < 5 - item.AverageRating; i++)
+                                        {
+                                            <i class="fa fa-star-o"></i>
+                                        }
+                                    }
+                                </div>
+
+
+                                <div class="product-btns div-wislist-@item.ProductId" style="display: flex; align-items: center; justify-content: center; ">
+
+                                    @if (Request.IsAuthenticated)
+                                    {
+                                        if (User.IsInRole("Customer"))
+                                        {
+                                            if (ViewBag.WistList != null)
+                                            {
+                                                if (((List<WishList>)ViewBag.WistList).Count() > 0)
+                                                {
+                                                    var CustomerId = Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity);
+
+                                                    if (((List<WishList>)ViewBag.WistList).Where(w => w.CustomerId == CustomerId && w.ProductId == item.ProductId).ToList().Count() > 0)
+                                                    {
+                                                        <button id="remove-to-wishlist-@item.ProductId" onclick="RemoveToWishList(event,'@item.ProductId','button');setTimeout(function(){window.location.reload(true);}, 500); " class="add-to-wishlist"><i id="i-remove-to-wishlist-@item.ProductId" class="fa fa-heart" style="color: #D10024;"></i><span class="tooltipp">remove to wishlist</span></button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');setTimeout(function(){window.location.reload(true);}, 500); " class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');setTimeout(function(){window.location.reload(true);}, 500); " class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');setTimeout(function(){window.location.reload(true);}, 500); " class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            <button class="add-to-wishlist" onclick="location.href='/Account/Login'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                        }
+                                    }
+                                    else
+                                    {
+
+                                        <button class="add-to-wishlist" onclick="location.href='/Account/Login'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                    }
+
+                                    <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+                                    @*<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>*@
+
+                                    <button class="quick-view" onclick="location.href='/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory'"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                                </div>
+
+
+
+                                @*<div class="product-btns">
+                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+
+                            </div>*@
+                            </div>
+                            <div class="add-to-cart">
+                                @if (item.Stock > 0)
+                                {
+                                    if (Request.IsAuthenticated)
+                                    {
+
+
+                                        <button class="add-to-cart-btn" onclick="GetProductDetails(@(item.ProductId));"><i class="fa fa-shopping-cart"></i> add to cart</button>
+
+                                    }
+                                    else
+                                    {
+                                        <button class="add-to-cart-btn" onclick="location.href='/Account/Login'"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                    }
+                                }
+                                else
+                                {
+                                    <button class="add-to-cart-btn add-to-cart-btn-disabled"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                }
+
+
+
+                                @*<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>*@
+                            </div>
+                        </div>
+
+                        <!-- /product -->
+
+                    </div>
+                }
+            </div>
+            <!-- /store products -->
+            <!-- end of load product zaldy-->
+
+            @Html.PagedListPager(Model, page => Url.Action("WishList",
+                new { page, pageSort = ViewBag.CurrentSort, pageSize = ViewBag.CurrentItemsPerPage, selectedCategory = ViewBag.SelectedCategory, selectedNavCategory = ViewBag.SelectedNavCategory }))
+
+
+
+      
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /Section -->
+@section Scripts {
+    <script type="text/javascript">
+
+
+            $(document).ready(function () {
+
+           @{
+
+               <text>
+
+            var tempPageLabelHtml = '<div class="col-md-6"><span class="store-qty" style="line-height: 40px !important;"> SHOWING @Model.Count PRODUCTS</span></div>';
+            var paginationHtml = '<div class="col-md-6"><div class="row"> <div class="col-md-12 pull-right" style="width:auto !important"><span class="store-qty" style="line-height: 40px !important;">  Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</span><ul class="pagination  pull-right" style="margin:0px !important;">' + $(".pagination").html().replace('»', '<i class="fa fa-angle-right"></i>').replace('«', '<i class="fa fa-angle-left"></i>') + '</ul></div></div></div>';
+                  var tempSearchProducts1 = '@ViewBag.SearchProducts';
+            </text>
+            }
+
+
+            $(".form-store-search-products").val(tempSearchProducts1);
+            $(".form-layout-search-products").val(tempSearchProducts1);
+
+            $(".pagination").remove();
+
+
+            var pagecontainerHtml = tempPageLabelHtml + $(".pagination-container").html();
+
+            $(".pagination-container").html(pagecontainerHtml);
+
+            $(".pagination-container").addClass("row");
+            $(".pagination-container").append(paginationHtml);
+
+
+
+            $("#pageSize").change(function () {
+                $('.change-page-size').submit();
+            });
+
+            $("#pageSort").change(function () {
+                $('.change-page-size').submit();
+            });
+
+
+
+            });
+    </script>
+    }

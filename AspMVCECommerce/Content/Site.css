@@ -730,3 +730,8 @@ input:focus-visible {
     line-clamp: 2;
     -webkit-box-orient: vertical;
 }
+
+.tooltipp {
+    white-space: nowrap !important;
+    width: 160px !important;
+}

@@ -99,25 +99,3 @@
 
 
 
-@*@section Scripts {
-    <script type="text/javascript">
-
-        @{
-            <text>
-                var unsubscribeResult = '@ViewBag.Result';
-            </text>
-        }
-
-        $(document).ready(function () {
-
-            if (unsubscribeResult == 'Success') {
-                toastr.success('The <strong>NewsLetter</strong> record has been successfully unsubscribe.', 'Record Removed.');
-            }
-            else {
-                toastr.error('The <strong>NewsLetter</strong> Unsubscribe failed due to: ' + unsubscribeResult, 'Record Unsubscribe Failed.');
-            }
-          
-        });
-    </script>
-}*@
-

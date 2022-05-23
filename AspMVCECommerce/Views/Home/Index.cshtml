@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<AspMVCECommerce.Models.Product>
+@using AspMVCECommerce.Models;
 
 @{
     ViewBag.Title = "Home Page";
@@ -173,11 +174,55 @@
                                             </div>
 
 
-                                            <div class="product-btns">
-                                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+
+                                            <div class="product-btns div-wislist-@item.ProductId" style="display: flex; align-items: center; justify-content: center; ">
+                                                @if (Request.IsAuthenticated)
+                                                {
+                                                    if (User.IsInRole("Customer"))
+                                                    {
+                                                        if (ViewBag.WistList != null)
+                                                        {
+                                                            if (((List<WishList>)ViewBag.WistList).Count() > 0)
+                                                            {
+                                                                var CustomerId = Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity);
+
+                                                                if (((List<WishList>)ViewBag.WistList).Where(w => w.CustomerId == CustomerId && w.ProductId == item.ProductId).ToList().Count() > 0)
+                                                                {
+                                                                    <button id="remove-to-wishlist-@item.ProductId" onclick="RemoveToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-remove-to-wishlist-@item.ProductId" class="fa fa-heart" style="color: #D10024;"></i><span class="tooltipp">remove to wishlist</span></button>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                        }
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <button class="add-to-wishlist" onclick="location.href='/Account/Login'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <button class="add-to-wishlist" onclick="location.href='/Account/Login'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                }
                                                 <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
                                                 <button class="quick-view" onclick="location.href='/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory'"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
                                             </div>
+
+                                            @*<div class="product-btns">
+                                                    <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+
+                                                </div>*@
                                         </div>
                                         <div class="add-to-cart">
                                             @if (item.Stock > 0)
@@ -290,12 +335,12 @@
 
 
                                             @*<div class="product-rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>*@
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+        </div>*@
 
                                             <div class="product-rating">
                                                 @if (item.AverageRating != null)
@@ -313,12 +358,56 @@
                                             </div>
 
 
-                                            <div class="product-btns">
-                                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                            <div class="product-btns div-wislist-@item.ProductId" style="display: flex; align-items: center; justify-content: center; ">
+                                                @if (Request.IsAuthenticated)
+                                                {
+                                                    if (User.IsInRole("Customer"))
+                                                    {
+                                                        if (ViewBag.WistList != null)
+                                                        {
+                                                            if (((List<WishList>)ViewBag.WistList).Count() > 0)
+                                                            {
+                                                                var CustomerId = Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity);
+
+                                                                if (((List<WishList>)ViewBag.WistList).Where(w => w.CustomerId == CustomerId && w.ProductId == item.ProductId).ToList().Count() > 0)
+                                                                {
+                                                                    <button id="remove-to-wishlist-@item.ProductId" onclick="RemoveToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-remove-to-wishlist-@item.ProductId" class="fa fa-heart" style="color: #D10024;"></i><span class="tooltipp">remove to wishlist</span></button>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                        }
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <button class="add-to-wishlist" onclick="location.href='/Account/Login'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <button class="add-to-wishlist" onclick="location.href='/Account/Login'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                }
                                                 <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
                                                 @*<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>*@
                                                 <button class="quick-view" onclick="location.href='/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory'"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
                                             </div>
+
+
+                                            @*<div class="product-btns">
+                                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+
+                                            </div>*@
                                         </div>
                                         <div class="add-to-cart">
                                             @if (item.Stock > 0)
@@ -428,12 +517,12 @@
 
 
                                             @*<div class="product-rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>*@
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+        </div>*@
 
                                             <div class="product-rating">
                                                 @if (item.AverageRating != null)
@@ -451,12 +540,58 @@
                                             </div>
 
 
-                                            <div class="product-btns">
-                                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+
+                                            <div class="product-btns div-wislist-@item.ProductId" style="display: flex; align-items: center; justify-content: center; ">
+                                                @if (Request.IsAuthenticated)
+                                                {
+                                                    if (User.IsInRole("Customer"))
+                                                    {
+                                                        if (ViewBag.WistList != null)
+                                                        {
+                                                            if (((List<WishList>)ViewBag.WistList).Count() > 0)
+                                                            {
+                                                                var CustomerId = Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity);
+
+                                                                if (((List<WishList>)ViewBag.WistList).Where(w => w.CustomerId == CustomerId && w.ProductId == item.ProductId).ToList().Count() > 0)
+                                                                {
+                                                                    <button id="remove-to-wishlist-@item.ProductId" onclick="RemoveToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-remove-to-wishlist-@item.ProductId" class="fa fa-heart" style="color: #D10024;"></i><span class="tooltipp">remove to wishlist</span></button>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                        }
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <button class="add-to-wishlist" onclick="location.href='/Account/Login'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <button class="add-to-wishlist" onclick="location.href='/Account/Login'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                }
+
                                                 <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
                                                 @*<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>*@
                                                 <button class="quick-view" onclick="location.href='/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory'"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+
                                             </div>
+
+                                            @*<div class="product-btns">
+                                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+
+                                            </div>*@
                                         </div>
                                         <div class="add-to-cart">
 
@@ -568,12 +703,12 @@
 
 
                                             @*<div class="product-rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>*@
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+        </div>*@
 
 
                                             <div class="product-rating">
@@ -592,12 +727,55 @@
                                             </div>
 
 
-                                            <div class="product-btns">
-                                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                            <div class="product-btns div-wislist-@item.ProductId" style="display: flex; align-items: center; justify-content: center; ">
+                                                @if (Request.IsAuthenticated)
+                                                {
+                                                    if (User.IsInRole("Customer"))
+                                                    {
+                                                        if (ViewBag.WistList != null)
+                                                        {
+                                                            if (((List<WishList>)ViewBag.WistList).Count() > 0)
+                                                            {
+                                                                var CustomerId = Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity);
+
+                                                                if (((List<WishList>)ViewBag.WistList).Where(w => w.CustomerId == CustomerId && w.ProductId == item.ProductId).ToList().Count() > 0)
+                                                                {
+                                                                    <button id="remove-to-wishlist-@item.ProductId" onclick="RemoveToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-remove-to-wishlist-@item.ProductId" class="fa fa-heart" style="color: #D10024;"></i><span class="tooltipp">remove to wishlist</span></button>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                        }
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <button class="add-to-wishlist" onclick="location.href='/Account/Login'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <button class="add-to-wishlist" onclick="location.href='/Account/Login'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                }
                                                 <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
                                                 @*<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>*@
                                                 <button class="quick-view" onclick="location.href='/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory'"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
                                             </div>
+
+                                            @*<div class="product-btns">
+                                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+
+                                            </div>*@
                                         </div>
                                         <div class="add-to-cart">
                                             @if (item.Stock > 0)
@@ -724,11 +902,54 @@
                                             </div>
 
 
-                                            <div class="product-btns">
-                                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                            <div class="product-btns div-wislist-@item.ProductId" style="display: flex; align-items: center; justify-content: center; ">
+                                                @if (Request.IsAuthenticated)
+                                                {
+                                                    if (User.IsInRole("Customer"))
+                                                    {
+                                                        if (ViewBag.WistList != null)
+                                                        {
+                                                            if (((List<WishList>)ViewBag.WistList).Count() > 0)
+                                                            {
+                                                                var CustomerId = Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity);
+
+                                                                if (((List<WishList>)ViewBag.WistList).Where(w => w.CustomerId == CustomerId && w.ProductId == item.ProductId).ToList().Count() > 0)
+                                                                {
+                                                                    <button id="remove-to-wishlist-@item.ProductId" onclick="RemoveToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-remove-to-wishlist-@item.ProductId" class="fa fa-heart" style="color: #D10024;"></i><span class="tooltipp">remove to wishlist</span></button>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                        }
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <button class="add-to-wishlist" onclick="location.href='/Account/Login'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <button class="add-to-wishlist" onclick="location.href='/Account/Login'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                }
                                                 <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
                                                 <button class="quick-view" onclick="location.href='/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory'"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
                                             </div>
+
+                                            @*<div class="product-btns">
+                                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+
+                                            </div>*@
                                         </div>
                                         <div class="add-to-cart">
 
@@ -855,11 +1076,54 @@
                                             </div>
 
 
-                                            <div class="product-btns">
-                                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                            <div class="product-btns div-wislist-@item.ProductId" style="display: flex; align-items: center; justify-content: center; ">
+                                                @if (Request.IsAuthenticated)
+                                                {
+                                                    if (User.IsInRole("Customer"))
+                                                    {
+                                                        if (ViewBag.WistList != null)
+                                                        {
+                                                            if (((List<WishList>)ViewBag.WistList).Count() > 0)
+                                                            {
+                                                                var CustomerId = Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity);
+
+                                                                if (((List<WishList>)ViewBag.WistList).Where(w => w.CustomerId == CustomerId && w.ProductId == item.ProductId).ToList().Count() > 0)
+                                                                {
+                                                                    <button id="remove-to-wishlist-@item.ProductId" onclick="RemoveToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-remove-to-wishlist-@item.ProductId" class="fa fa-heart" style="color: #D10024;"></i><span class="tooltipp">remove to wishlist</span></button>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                        }
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <button class="add-to-wishlist" onclick="location.href='/Account/Login'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <button class="add-to-wishlist" onclick="location.href='/Account/Login'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                }
                                                 <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
                                                 <button class="quick-view" onclick="location.href='/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory'"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
                                             </div>
+
+                                            @*<div class="product-btns">
+                                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+
+                                            </div>*@
                                         </div>
                                         <div class="add-to-cart">
                                             @if (item.Stock > 0)
@@ -1075,11 +1339,54 @@
                                             </div>
 
 
-                                            <div class="product-btns">
-                                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                            <div class="product-btns div-wislist-@item.ProductId" style="display: flex; align-items: center; justify-content: center; ">
+                                                @if (Request.IsAuthenticated)
+                                                {
+                                                    if (User.IsInRole("Customer"))
+                                                    {
+                                                        if (ViewBag.WistList != null)
+                                                        {
+                                                            if (((List<WishList>)ViewBag.WistList).Count() > 0)
+                                                            {
+                                                                var CustomerId = Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity);
+
+                                                                if (((List<WishList>)ViewBag.WistList).Where(w => w.CustomerId == CustomerId && w.ProductId == item.ProductId).ToList().Count() > 0)
+                                                                {
+                                                                    <button id="remove-to-wishlist-@item.ProductId" onclick="RemoveToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-remove-to-wishlist-@item.ProductId" class="fa fa-heart" style="color: #D10024;"></i><span class="tooltipp">remove to wishlist</span></button>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                        }
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <button class="add-to-wishlist" onclick="location.href='/Account/Login'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <button class="add-to-wishlist" onclick="location.href='/Account/Login'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                }
                                                 <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
                                                 <button class="quick-view" onclick="location.href='/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory'"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
                                             </div>
+
+                                            @*<div class="product-btns">
+                                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+
+                                            </div>*@
                                         </div>
                                         <div class="add-to-cart">
                                             @if (item.Stock > 0)
@@ -1213,11 +1520,54 @@
                                             </div>
 
 
-                                            <div class="product-btns">
-                                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                            <div class="product-btns div-wislist-@item.ProductId" style="display: flex; align-items: center; justify-content: center; ">
+                                                @if (Request.IsAuthenticated)
+                                                {
+                                                    if (User.IsInRole("Customer"))
+                                                    {
+                                                        if (ViewBag.WistList != null)
+                                                        {
+                                                            if (((List<WishList>)ViewBag.WistList).Count() > 0)
+                                                            {
+                                                                var CustomerId = Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity);
+
+                                                                if (((List<WishList>)ViewBag.WistList).Where(w => w.CustomerId == CustomerId && w.ProductId == item.ProductId).ToList().Count() > 0)
+                                                                {
+                                                                    <button id="remove-to-wishlist-@item.ProductId" onclick="RemoveToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-remove-to-wishlist-@item.ProductId" class="fa fa-heart" style="color: #D10024;"></i><span class="tooltipp">remove to wishlist</span></button>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                        }
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <button class="add-to-wishlist" onclick="location.href='/Account/Login'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <button class="add-to-wishlist" onclick="location.href='/Account/Login'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                }
                                                 <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
                                                 <button class="quick-view" onclick="location.href='/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory'"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
                                             </div>
+
+                                            @*<div class="product-btns">
+                                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+
+                                            </div>*@
                                         </div>
                                         <div class="add-to-cart">
                                             @if (item.Stock > 0)
@@ -1345,12 +1695,54 @@
                                                 }
                                             </div>
 
+                                            <div class="product-btns div-wislist-@item.ProductId" style="display: flex; align-items: center; justify-content: center; ">
+                                                @if (Request.IsAuthenticated)
+                                                {
+                                                    if (User.IsInRole("Customer"))
+                                                    {
+                                                        if (ViewBag.WistList != null)
+                                                        {
+                                                            if (((List<WishList>)ViewBag.WistList).Count() > 0)
+                                                            {
+                                                                var CustomerId = Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity);
 
-                                            <div class="product-btns">
-                                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                                if (((List<WishList>)ViewBag.WistList).Where(w => w.CustomerId == CustomerId && w.ProductId == item.ProductId).ToList().Count() > 0)
+                                                                {
+                                                                    <button id="remove-to-wishlist-@item.ProductId" onclick="RemoveToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-remove-to-wishlist-@item.ProductId" class="fa fa-heart" style="color: #D10024;"></i><span class="tooltipp">remove to wishlist</span></button>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                        }
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <button class="add-to-wishlist" onclick="location.href='/Account/Login'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <button class="add-to-wishlist" onclick="location.href='/Account/Login'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                }
                                                 <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
                                                 <button class="quick-view" onclick="location.href='/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory'"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
                                             </div>
+
+                                            @*<div class="product-btns">
+                                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+
+                                            </div>*@
                                         </div>
                                         <div class="add-to-cart">
                                             @if (item.Stock > 0)
@@ -1478,12 +1870,55 @@
                                                 }
                                             </div>
 
+                                            <div class="product-btns div-wislist-@item.ProductId" style="display: flex; align-items: center; justify-content: center; ">
+                                                @if (Request.IsAuthenticated)
+                                                {
+                                                    if (User.IsInRole("Customer"))
+                                                    {
+                                                        if (ViewBag.WistList != null)
+                                                        {
+                                                            if (((List<WishList>)ViewBag.WistList).Count() > 0)
+                                                            {
+                                                                var CustomerId = Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity);
 
-                                            <div class="product-btns">
-                                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                                if (((List<WishList>)ViewBag.WistList).Where(w => w.CustomerId == CustomerId && w.ProductId == item.ProductId).ToList().Count() > 0)
+                                                                {
+                                                                    <button id="remove-to-wishlist-@item.ProductId" onclick="RemoveToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-remove-to-wishlist-@item.ProductId" class="fa fa-heart" style="color: #D10024;"></i><span class="tooltipp">remove to wishlist</span></button>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                        }
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <button class="add-to-wishlist" onclick="location.href='/Account/Login'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <button class="add-to-wishlist" onclick="location.href='/Account/Login'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                }
                                                 <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
                                                 <button class="quick-view" onclick="location.href='/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory'"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
                                             </div>
+
+
+                                            @*<div class="product-btns">
+                                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+
+                                            </div>*@
                                         </div>
                                         <div class="add-to-cart">
                                             @if (item.Stock > 0)
@@ -1611,12 +2046,53 @@
                                                 }
                                             </div>
 
+                                            <div class="product-btns div-wislist-@item.ProductId" style="display: flex; align-items: center; justify-content: center; ">
+                                                @if (Request.IsAuthenticated)
+                                                {
+                                                    if (User.IsInRole("Customer"))
+                                                    {
+                                                        if (ViewBag.WistList != null)
+                                                        {
+                                                            if (((List<WishList>)ViewBag.WistList).Count() > 0)
+                                                            {
+                                                                var CustomerId = Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity);
 
-                                            <div class="product-btns">
-                                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                                if (((List<WishList>)ViewBag.WistList).Where(w => w.CustomerId == CustomerId && w.ProductId == item.ProductId).ToList().Count() > 0)
+                                                                {
+                                                                    <button id="remove-to-wishlist-@item.ProductId" onclick="RemoveToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-remove-to-wishlist-@item.ProductId" class="fa fa-heart" style="color: #D10024;"></i><span class="tooltipp">remove to wishlist</span></button>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                        }
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <button class="add-to-wishlist" onclick="location.href='/Account/Login'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <button class="add-to-wishlist" onclick="location.href='/Account/Login'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                }
                                                 <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
                                                 <button class="quick-view" onclick="location.href='/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory'"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
                                             </div>
+                                            @*<div class="product-btns">
+                                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+
+                                            </div>*@
                                         </div>
                                         <div class="add-to-cart">
                                             @if (item.Stock > 0)
@@ -1743,13 +2219,54 @@
                                                     }
                                                 }
                                             </div>
+                                            <div class="product-btns div-wislist-@item.ProductId" style="display: flex; align-items: center; justify-content: center; ">
+                                                @if (Request.IsAuthenticated)
+                                                {
+                                                    if (User.IsInRole("Customer"))
+                                                    {
+                                                        if (ViewBag.WistList != null)
+                                                        {
+                                                            if (((List<WishList>)ViewBag.WistList).Count() > 0)
+                                                            {
+                                                                var CustomerId = Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity);
 
+                                                                if (((List<WishList>)ViewBag.WistList).Where(w => w.CustomerId == CustomerId && w.ProductId == item.ProductId).ToList().Count() > 0)
+                                                                {
+                                                                    <button id="remove-to-wishlist-@item.ProductId" onclick="RemoveToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-remove-to-wishlist-@item.ProductId" class="fa fa-heart" style="color: #D10024;"></i><span class="tooltipp">remove to wishlist</span></button>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                        }
 
-                                            <div class="product-btns">
-                                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button class="add-to-wishlist" onclick="location.href='/Account/Login'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <button class="add-to-wishlist" onclick="location.href='/Account/Login'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                }
                                                 <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
                                                 <button class="quick-view" onclick="location.href='/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory'"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
                                             </div>
+
+                                            @*<div class="product-btns">
+                                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+
+                                            </div>*@
                                         </div>
                                         <div class="add-to-cart">
                                             @if (item.Stock > 0)

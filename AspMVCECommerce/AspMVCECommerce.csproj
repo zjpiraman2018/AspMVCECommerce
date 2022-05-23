@@ -424,6 +424,7 @@
     <Content Include="Views\Home\Unsubscribe.cshtml" />
     <Content Include="Views\Home\PrivacyPolicy.cshtml" />
     <Content Include="Views\Home\TermsAndCondition.cshtml" />
+    <Content Include="Views\Home\WishList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

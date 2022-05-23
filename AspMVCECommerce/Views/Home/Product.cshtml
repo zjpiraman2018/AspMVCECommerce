@@ -182,7 +182,6 @@
                     </div>
 
                     <ul class="product-btns">
-
                         @if (Request.IsAuthenticated)
                         {
                             if (User.IsInRole("Customer"))
@@ -195,21 +194,21 @@
 
                                         if (((List<WishList>)ViewBag.WistList).Where(w => w.CustomerId == CustomerId && w.ProductId == Model.ProductId).ToList().Count() > 0)
                                         {
-                                            <li><a href="#" onclick="RemoveToWishList(event,'@Model.ProductId');"><i class="fa fa-heart" style="color: #D10024;"></i> remove to wishlist</a></li>
+                                            <li id="li-wislist-@Model.ProductId"><a href="#" id="remove-to-wishlist-@Model.ProductId" onclick="RemoveToWishList(event,'@Model.ProductId','list');"><i  id="i-remove-to-wishlist-@Model.ProductId" class="fa fa-heart" style="color: #D10024;"></i> remove to wishlist</a></li>
                                         }
                                         else
                                         {
-                                            <li><a href="#" onclick="AddToWishList(event,'@Model.ProductId');"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
+                                            <li id="li-wislist-@Model.ProductId"><a href="#" id="add-to-wishlist-@Model.ProductId" onclick="AddToWishList(event,'@Model.ProductId','list');"><i id="i-add-to-wishlist-@Model.ProductId" class="fa fa-heart-o"></i> add to wishlist</a></li>
                                         }
                                     }
                                     else
                                     {
-                                        <li><a href="#" onclick="AddToWishList(event,'@Model.ProductId');"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
+                                        <li id="li-wislist-@Model.ProductId"><a href="#" id="add-to-wishlist-@Model.ProductId" onclick="AddToWishList(event,'@Model.ProductId','list');"><i id="i-add-to-wishlist-@Model.ProductId" class="fa fa-heart-o"></i> add to wishlist</a></li>
                                     }
                                 }
                                 else
                                 {
-                                    <li><a href="#" onclick="AddToWishList(event,'@Model.ProductId');"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
+                                    <li id="li-wislist-@Model.ProductId"><a href="#" id="add-to-wishlist-@Model.ProductId" onclick="AddToWishList(event,'@Model.ProductId','list');"><i id="i-add-to-wishlist-@Model.ProductId" class="fa fa-heart-o"></i> add to wishlist</a></li>
 
                                 }
 
@@ -224,9 +223,6 @@
                             <li><a href="#" onclick="location.href='/Account/Login'"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
 
                         }
-
-
-
                         <li><a href="#"><i class="fa fa-exchange"></i> add to compare</a></li>
                     </ul>
 
@@ -595,8 +591,7 @@
                                 </div>
                                
 
-                                <div class="product-btns">
-
+                                <div class="product-btns div-wislist-@item.ProductId" style="display: flex; align-items: center; justify-content: center; ">
                                     @if (Request.IsAuthenticated)
                                     {
                                         if (User.IsInRole("Customer"))
@@ -609,21 +604,21 @@
 
                                                     if (((List<WishList>)ViewBag.WistList).Where(w => w.CustomerId == CustomerId && w.ProductId == item.ProductId).ToList().Count() > 0)
                                                     {
-                                                        <button id="add-to-wishlist" onclick="RemoveToWishList(event,'@item.ProductId');" class="add-to-wishlist"><i class="fa fa-heart" style="color: #D10024;"></i><span class="tooltipp">remove to wishlist</span></button>
+                                                        <button id="remove-to-wishlist-@item.ProductId" onclick="RemoveToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-remove-to-wishlist-@item.ProductId" class="fa fa-heart" style="color: #D10024;"></i><span class="tooltipp">remove to wishlist</span></button>
                                                     }
                                                     else
                                                     {
-                                                        <button id="add-to-wishlist" onclick="AddToWishList(event,'@item.ProductId');" class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                        <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId"  class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
                                                     }
                                                 }
                                                 else
                                                 {
-                                                    <button id="add-to-wishlist" onclick="AddToWishList(event,'@item.ProductId');" class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                    <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i  id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
                                                 }
                                             }
                                             else
                                             {
-                                                <button id="add-to-wishlist" onclick="AddToWishList(event,'@item.ProductId');" class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i  id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
                                             }
 
                                         }
@@ -634,13 +629,9 @@
                                     }
                                     else
                                     {
-
                                         <button class="add-to-wishlist" onclick="location.href='/Account/Login'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
                                     }
-
                                     <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                                    @*<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>*@
-
                                     <button class="quick-view" onclick="location.href='/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory'"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
                                 </div>
                             </div>
@@ -986,44 +977,7 @@
          // END OF ADD PRODUCT TO CART
 
 
-          // ADD PRODUCT TO WISH LIST
-            var wishListBaseUrl = '@Url.Content("~/")';
-            var tempUserId = '';
-
-            @if (Request.IsAuthenticated)
-            {
-                if (User.IsInRole("Customer")) {
-                    <text>
-                        tempUserId = '@(Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity))';
-                    </text>
-                }
-            }
-
-            function AddToWishList(e,productId) {
-       
-                        $.post(wishListBaseUrl + 'api/WishList/AddWishList',
-                            {
-                                ProductId: productId,
-                                CustomerId: tempUserId
-                            })
-                            .done(function () {
-                                $("#newsletter-form").trigger('reset');
-                                toastr.success('The <strong>Product</strong> record has been successfully added to wish list.', 'Record Added.');
-                            })
-                            .fail(function (xhr) {
-                                var err = eval("(" + xhr.responseText + ")");
-                                toastr.error('The <strong>Product</strong> add to wish list saving failed due to:  ' + err.Message, 'Record Add Failed.');
-
-                            });
-
-                        e.preventDefault();
-
-
-                e.preventDefault();
-            }
-
-
-
+ 
         $(document).ready(function () {
 
             var baseUrl = '@Url.Content("~/")';

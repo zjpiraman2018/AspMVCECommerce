@@ -107,10 +107,24 @@
                         <div class="header-ctn" style="display: inline-flex; padding-top: 20px;">
                             <!-- Wishlist -->
                             <div>
-                                <a href="#">
+                                <a href="~/Home/WishList">
                                     <i class="fa fa-heart-o"></i>
-                                    <span>Your Wishlist</span>
-                                    <div class="qty">2</div>
+                                    <span>My Wishlist</span>
+                                    @if (ViewBag.WishListCount != null)
+                                    {
+                                        if (int.Parse(ViewBag.WishListCount) > 0)
+                                        {
+                                            <div id="my-wishlist-count" class="qty">@ViewBag.WishListCount</div>
+                                        }
+                                        else
+                                        {
+                                            <div id="my-wishlist-count" class="qty">0</div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div id="my-wishlist-count" class="qty">0</div>
+                                    }
                                 </a>
                             </div>
                             <!-- /Wishlist -->
@@ -118,7 +132,7 @@
                             <div class="dropdown">
                                 <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                     <i class="fa fa-shopping-cart"></i>
-                                    <span>Your Cart</span>
+                                    <span>My Cart</span>
                                     <div class="qty" id="shopping-cart-items-count">0</div>
                                 </a>
                                 <div class="cart-dropdown">
@@ -484,6 +498,123 @@
 
 
 
+        // WISH LIST VARIABLE -----------------------
+
+        var wishListBaseUrl = '@Url.Content("~/")';
+        var tempUserId = '';
+
+        @if (Request.IsAuthenticated)
+        {
+            if (User.IsInRole("Customer")) {
+                <text>
+                    tempUserId = '@(Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity))';
+                </text>
+            }
+        }
+        // END WISH LIST VARIABLE -----------------------
+
+
+        // ADD PRODUCT TO WISH LIST -----------------------
+    function AddToWishList(e, productId, wishListBtnType) {
+        //var removeWishListHtmlTemplateButton = '<button id="remove-to-wishlist-' + productId.toString() + '" onclick="RemoveToWishList(event,\'' + productId.toString() + '\',\'button\');" class="add-to-wishlist"><i id="i-remove-to-wishlist-' + productId.toString() + '" class="fa fa-heart" style="color: #D10024;"></i><span class="tooltipp">remove to wishlist</span></button>' +
+        //        '< button class="add-to-compare" ><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button >' + 
+        //        '<button class="quick-view" onclick="location.href=\'/Home/Product?productId=' + productId.toString() + '&amp;selectedNavCategory=Home\'"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>' +
+        //        '</div >';
+        //var removeWishListHtmlTemplateList = '<li><a href="#" id="remove-to-wishlist-' + productId.toString() + '" onclick="RemoveToWishList(event,\'' + productId.toString() + '\',\'list\');"><i id="i-remove-to-wishlist-' + productId.toString() + '" class="fa fa-heart" style="color: #D10024;"></i> remove to wishlist</a></li>';
+
+        var removeWishListHtmlTemplateButton = '<button id=\'remove-to-wishlist-' + productId.toString() + '\' onclick="RemoveToWishList(event, \'' + productId.toString() + '\',\'button\');" class=\'add-to-wishlist\' > <i id=\'i-remove-to-wishlist-' + productId.toString() + '\' class= \'fa fa-heart\' style =\'color: #D10024;\' ></i > <span class=\'tooltipp\'>remove to wishlist</span></button>' +
+                '<button class="add-to-compare"><i class=\'fa fa-exchange\'></i><span class=\'tooltipp\'>add to compare</span></button >' +
+        '<button class="quick-view" onclick=\'location.href ="/Home/Product?productId=' + productId.toString() + '&amp;selectedNavCategory=Home"\'><i class=\'fa fa-eye\'></i><span class=\'tooltipp\'>quick view</span></button>' +
+                '</div>';
+        var removeWishListHtmlTemplateList = '<li><a href="#" id="remove-to-wishlist-' + productId.toString() + '" onclick="RemoveToWishList(event, \'' + productId.toString() + '\',\'list\');" > <i id="i-remove-to-wishlist-' + productId.toString() + '" class="fa fa-heart" style="color: #D10024;"></i> remove to wishlist</a></li>';
+
+
+        var _wishListBtnType = wishListBtnType;
+            
+            $.post(wishListBaseUrl + 'api/WishList/AddWishList',
+                {
+                    ProductId: productId,
+                    CustomerId: tempUserId
+                })
+                .done(function (response) {
+
+                    if (_wishListBtnType == 'list') {
+                        $('#li-wislist-' + productId.toString()).html(removeWishListHtmlTemplateList);
+                    }
+                    else {
+                        $('.div-wislist-' + productId.toString()).each(function () {
+                            $(this).html(removeWishListHtmlTemplateButton);
+                        });
+                        
+                    }
+
+                    $('#my-wishlist-count').text(response.count);
+
+                    toastr.success('The <strong>Product</strong> has been successfully added to wish list.', 'Record Added.');
+                })
+                .fail(function (xhr) {
+
+                    toastr.error('The <strong>Product</strong> add to wish list saving failed due to:  ' + xhr, 'Record Add Failed.');
+
+                });
+
+            e.preventDefault();
+        }
+        // END OF ADD PRODUCT TO WISH LIST -----------------------
+
+        // REMOVE PRODUCT TO WISH LIST -----------------------
+        function RemoveToWishList(e, productId, wishListBtnType) {
+
+            //var addWishListHtmlTemplateButton = '<button id="add-to-wishlist-' + productId.toString() + '" onclick="AddToWishList(event,\'' + productId.toString() + '\',\'button\');" class="add-to-wishlist"><i id="i-add-to-wishlist-' + productId.toString() + '" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>' +
+            //    '<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>' +
+            //    '< button class="quick-view" onclick = "location.href=\'/Home/Product?productId=' + productId.toString() + '&amp;selectedNavCategory=Home\'" ><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button > ';
+
+            //var addWishListHtmlTemplateList = '<li><a href="#" id="add-to-wishlist-' + productId.toString() + '" onclick="AddToWishList(event,\'' + productId.toString() + '\',\'list\');"><i id="i-add-to-wishlist-' + productId.toString() + '" class="fa fa-heart-o"></i> add to wishlist</a></li>'
+
+            var addWishListHtmlTemplateButton = '<button id=\'add-to-wishlist-' + productId.toString() + '\' onclick="AddToWishList(event, \'' + productId.toString() + '\',\'button\');" class= \'add-to-wishlist\' > <i id=\'i-add-to-wishlist-' + productId.toString() + '\' class=\'fa fa-heart-o\' ></i><span class=\'tooltipp\'>add to wishlist</span></button>' +
+                '<button class="add-to-compare"><i class=\'fa fa-exchange\'></i><span class=\'tooltipp\'>add to compare</span></button>' +
+                '<button class="quick-view" onclick=\'location.href="/Home/Product?productId=' + productId.toString() + '&amp;selectedNavCategory=Home"\' ><i class=\'fa fa-eye\'></i><span class=\'tooltipp\'>quick view</span></button>';
+
+            var addWishListHtmlTemplateList = '<li><a href="#" id="add-to-wishlist-' + productId.toString() + '" onclick="AddToWishList(event, \'' + productId.toString() + '\',\'list\');" > <i id="i-add-to-wishlist-' + productId.toString() + '" class="fa fa-heart-o"></i> add to wishlist</a></li>';
+
+
+
+            var _wishListBtnType = wishListBtnType;
+
+
+          
+
+            $.post(wishListBaseUrl + 'api/WishList/RemoveWishList',
+                {
+                    ProductId: productId,
+                    CustomerId: tempUserId
+                })
+                .done(function (response) {
+                    if (_wishListBtnType == 'list') {
+                        $('#li-wislist-' + productId.toString()).html(addWishListHtmlTemplateList);
+                    }
+                    else {
+              
+                        $('.div-wislist-' + productId.toString()).each(function () {
+                            $(this).html(addWishListHtmlTemplateButton);
+                        });
+                    }
+
+                    $('#my-wishlist-count').text(response.count);
+
+                    toastr.success('The <strong>Product</strong> has been successfully remove to wish list.', 'Record Removed.');
+                })
+                .fail(function (xhr) {
+              
+                    toastr.error('The <strong>Product</strong> remove to wish list saving failed due to:  ' + xhr, 'Record Remove Failed.');
+
+                });
+
+            e.preventDefault();
+        }
+        // END OF REMOVE PRODUCT TO WISH LIST -----------------------
+
+
 
        // DELETE LINE ITEM
         function DeleteLineItem(lineItemId) {
@@ -532,7 +663,7 @@
                                 '<img style="width: 100%; height: 60px; object-fit: scale-down;" src="' + _baseUrl + response.lineItemViewDTOList[i].ImagePath.replace('~/','') + '" alt="">' +
                                                     '</div>' +
                                                     '<div class="product-body">' +
-                                '<h3 class="product-name"><a href="/Home/Product?productId=' + response.lineItemViewDTOList[i].ProductId + '&selectedNavCategory=Home' + '" id="' + response.lineItemViewDTOList[i].ProductId + '">' +
+                                '<h3 class="product-name product-namex"><a href="/Home/Product?productId=' + response.lineItemViewDTOList[i].ProductId + '&selectedNavCategory=Home' + '" id="' + response.lineItemViewDTOList[i].ProductId + '">' +
                                                                                             response.lineItemViewDTOList[i].ProductName + '</a></h3>' +
                                                     '<h4 class="product-price"><span class="qty">' + response.lineItemViewDTOList[i].Quantity + 'x</span>' +
                                '₱' + parseInt(response.lineItemViewDTOList[i].TotalPrice).toLocaleString('en', { useGrouping: true }) + '</h4>' +
@@ -702,10 +833,10 @@
                 "positionClass": "toast-top-right",
                 "preventDuplicates": false,
                 "onclick": null,
-                "showDuration": "1000",
-                "hideDuration": "1000",
-                "timeOut": "10000",
-                "extendedTimeOut": "1000",
+                "showDuration": "300",
+                "hideDuration": "300",
+                "timeOut": "1000",
+                "extendedTimeOut": "300",
                 "showEasing": "swing",
                 "hideEasing": "linear",
                 "showMethod": "fadeIn",
@@ -848,7 +979,7 @@
                             var err = eval("(" + xhr.responseText + ")");
                             toastr.error('The <strong>NewsLetter</strong> saving failed due to: ' + err.Message, 'Record Add Failed.');
                         }
-                
+
                     });
 
                 e.preventDefault();

@@ -475,6 +475,20 @@ namespace AspMVCECommerce.Controllers
         {
             var products = db.Products.Include(p => p.Category).Include(p => p.Images).ToList();
             ViewBag.SelectedNavCategory = "Home";
+            ViewBag.WistList = null;
+            ViewBag.WishListCount = "0";
+
+            if (Request.IsAuthenticated)
+            {
+                if (User.IsInRole("Customer"))
+                {
+                    string CustomerId = Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity);
+     
+                    var WistListList = db.WishLists.Where(w => w.CustomerId == CustomerId).ToList();
+                    ViewBag.WistList = WistListList;
+                    ViewBag.WishListCount = WistListList.Count().ToString();
+                }
+            }
 
             return View(products);
         }
@@ -531,8 +545,7 @@ namespace AspMVCECommerce.Controllers
                     products = products.OrderBy(p => p.CreatedDateTime);
                     break;
                 case "Popular":
-                    // PENDING CHECK OUT PAGE NEEDED
-                    products = products.OrderBy(p => p.Name);
+                    products = products.OrderBy(p => p.Sold);
                     break;
                 default:
                     products = products.OrderBy(p => p.Name);
@@ -814,6 +827,25 @@ namespace AspMVCECommerce.Controllers
             ViewBag.TotalResult = products.Count();
             ViewBag.SearchProducts = searchProducts;
 
+
+            ViewBag.WistList = null;
+            ViewBag.WishListCount = "0";
+
+            if (Request.IsAuthenticated)
+            {
+                if (User.IsInRole("Customer"))
+                {
+                    string CustomerId = Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity);
+
+                    var WistListList = db.WishLists.Where(w => w.CustomerId == CustomerId).ToList();
+                    ViewBag.WistList = WistListList;
+                    ViewBag.WishListCount = WistListList.Count().ToString();
+                }
+            }
+
+
+
+
             int _pageSize = string.IsNullOrEmpty(pageSize) ? 20 : Int32.Parse(pageSize);
             ViewBag.CurrentItemsPerPage = _pageSize;
             int pageNumber = (page ?? 1);
@@ -1050,6 +1082,69 @@ namespace AspMVCECommerce.Controllers
             }
 
             return View();
+        }
+
+
+        [Authorize(Roles = "Customer")]
+        public ActionResult WishList(string pageSort, int? page, string pageSize, string selectedCategory,  string selectedNavCategory)
+        {
+         
+            try
+            {
+        
+
+
+                string CustomerId = Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity);
+                var WistListIdList = db.WishLists.Where(w => w.CustomerId == CustomerId).Select(p=>p.ProductId).ToList();
+                ViewBag.WistList = db.WishLists.Where(w => w.CustomerId == CustomerId).ToList();
+
+                var products = db.Products.Include(p => p.Category).Include(p => p.Images);
+
+                ViewBag.CurrentSort = pageSort;
+
+                ViewBag.SelectedNavCategory = selectedNavCategory;
+
+                switch (pageSort)
+                {
+                    case "ProductName":
+                        products = products.OrderBy(p => p.Name);
+                        break;
+                    case "CreatedDate":
+                        products = products.OrderBy(p => p.CreatedDateTime);
+                        break;
+                    case "Popular":
+                        products = products.OrderBy(p => p.Sold);
+                        break;
+                    default:
+                        products = products.OrderBy(p => p.Name);
+                        break;
+                }
+
+
+
+                // -- FILTER BY WISHLIST PRODUCTS ---
+                products = products.Where(p => WistListIdList.Contains(p.ProductId));
+                // -- END OF FILTER BY WISHLIST PRODUCTS ---
+
+                ViewBag.SelectedCategory = selectedCategory;
+      
+                ViewBag.TotalResult = products.Count();
+
+                int _pageSize = string.IsNullOrEmpty(pageSize) ? 20 : Int32.Parse(pageSize);
+                ViewBag.CurrentItemsPerPage = _pageSize;
+                int pageNumber = (page ?? 1);
+
+                ViewBag.WishListCount = WistListIdList.Count().ToString();
+
+
+                return View(products.ToPagedList(pageNumber, _pageSize));
+
+            }
+            catch (Exception ex)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
         }
 
         public ActionResult PrivacyPolicy()

@@ -20,37 +20,30 @@ namespace AspMVCECommerce.Controllers
             { 
                 context.WishLists.Add(wishListDTO.ToWishList());
                 context.SaveChanges();
-                return Json(new { result = "successfully added to wish list!" });
+                return Json(new { result = "successfully added to wish list!", count = context.WishLists.Where(w => w.CustomerId == wishListDTO.CustomerId).Count().ToString() });
             }
             catch (Exception ex)
             {
-                return Content(HttpStatusCode.InternalServerError, "add to wish list failed!\n error:" + ex.InnerException.Message);
+                return Content(HttpStatusCode.InternalServerError, "add to wish list failed!\n error:" + ex.Message);
             }
         }
 
-
         [System.Web.Http.HttpPost]
-        public IHttpActionResult IsAddedToWishList([FromBody] WishListDTO wishListDTO)
+        public IHttpActionResult RemoveWishList([FromBody] WishListDTO wishListDTO)
         {
             try
             {
-                var wishList = context.WishLists.Where(w=>w.ProductId == wishListDTO.ProductId && w.CustomerId == wishListDTO.CustomerId).SingleOrDefault();
-
-                if (wishList != null)
-                {
-                    return Json(new { result = "TRUE" });
-                }
-                else
-                {
-                    return Json(new { result = "FALSE" });
-                }
-      
+                var wishList = context.WishLists.Where(w => w.CustomerId == wishListDTO.CustomerId && w.ProductId == wishListDTO.ProductId).FirstOrDefault();
+                context.WishLists.Remove(wishList);
+                context.SaveChanges();
+                return Json(new { result = "successfully removed to wish list!", count = context.WishLists.Where(w => w.CustomerId == wishListDTO.CustomerId).Count().ToString() });
             }
             catch (Exception ex)
             {
-                return Content(HttpStatusCode.InternalServerError, "add to wish list failed!\n error:" + ex.InnerException.Message);
+                return Content(HttpStatusCode.InternalServerError, "remove to wish list failed!\n error:" + ex.Message);
             }
         }
+
 
     }
 }

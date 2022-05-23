@@ -2,6 +2,7 @@
 @model PagedList.IPagedList<AspMVCECommerce.Models.Product>
 @using PagedList.Mvc;
 @using AspMVCECommerce.ViewModel;
+@using AspMVCECommerce.Models;
 
 @{
     ViewBag.Title = "Store";
@@ -34,8 +35,8 @@
                     {
                         <li class="active">Total Product Search: @ViewBag.TotalResult Results</li>
                     }
-                    
-                    
+
+
                 </ul>
             </div>
         </div>
@@ -59,77 +60,67 @@
                         @foreach (var category in (List<CategoryViewModel>)ViewBag.Categories)
                         {
 
-                        <div class="input-checkbox">
-                            @if (ViewBag.SelectedCategory == null)
-                            {
-                                <input type="checkbox" id="category-@category.CategoryId" class="checkbox-category">
+                            <div class="input-checkbox">
+                                @if (ViewBag.SelectedCategory == null)
+                                {
+                                    <input type="checkbox" id="category-@category.CategoryId" class="checkbox-category">
 
-                                <label for="category-@category.CategoryId">
-                                    <span></span>
-                                    @category.Name
-                                    <small>(@category.ProductCount)</small>
-                                </label>
-                            }
-                            else
-                            {
-
-                                var listSelectedCategory = ((string)ViewBag.SelectedCategory).Split(',').ToList();
-
-                                if (listSelectedCategory.Contains(category.CategoryId.ToString()))
+                                    <label for="category-@category.CategoryId">
+                                        <span></span>
+                                        @category.Name
+                                        <small>(@category.ProductCount)</small>
+                                    </label>
+                                }
+                                else
                                 {
 
-                                    if (string.IsNullOrEmpty((string)ViewBag.SelectedNavCategory))
+                                    var listSelectedCategory = ((string)ViewBag.SelectedCategory).Split(',').ToList();
+
+                                    if (listSelectedCategory.Contains(category.CategoryId.ToString()))
                                     {
-                                        <input type="checkbox" id="category-@category.CategoryId" class="checkbox-category" checked>
-                                    }
-                                    else
-                                    {
-                                        if (((string)ViewBag.SelectedNavCategory) == "Categories" || ((string)ViewBag.SelectedNavCategory) == "Hot Deals")
+
+                                        if (string.IsNullOrEmpty((string)ViewBag.SelectedNavCategory))
                                         {
                                             <input type="checkbox" id="category-@category.CategoryId" class="checkbox-category" checked>
                                         }
                                         else
                                         {
-                                            <input type="checkbox" id="category-@category.CategoryId" class="checkbox-category" checked disabled>
+                                            if (((string)ViewBag.SelectedNavCategory) == "Categories" || ((string)ViewBag.SelectedNavCategory) == "Hot Deals")
+                                            {
+                                                <input type="checkbox" id="category-@category.CategoryId" class="checkbox-category" checked>
+                                            }
+                                            else
+                                            {
+                                                <input type="checkbox" id="category-@category.CategoryId" class="checkbox-category" checked disabled>
+                                            }
                                         }
-                                    }
 
 
-                                }
-                                else
-                                {
-                                    if (string.IsNullOrEmpty((string)ViewBag.SelectedNavCategory))
-                                    {
-                                        <input type="checkbox" id="category-@category.CategoryId" class="checkbox-category">
                                     }
                                     else
                                     {
-                                        if (((string)ViewBag.SelectedNavCategory) == "Categories" || ((string)ViewBag.SelectedNavCategory) == "Hot Deals")
+                                        if (string.IsNullOrEmpty((string)ViewBag.SelectedNavCategory))
                                         {
                                             <input type="checkbox" id="category-@category.CategoryId" class="checkbox-category">
                                         }
                                         else
                                         {
-                                            <input type="checkbox" id="category-@category.CategoryId" class="checkbox-category" disabled>
+                                            if (((string)ViewBag.SelectedNavCategory) == "Categories" || ((string)ViewBag.SelectedNavCategory) == "Hot Deals")
+                                            {
+                                                <input type="checkbox" id="category-@category.CategoryId" class="checkbox-category">
+                                            }
+                                            else
+                                            {
+                                                <input type="checkbox" id="category-@category.CategoryId" class="checkbox-category" disabled>
+                                            }
                                         }
+
                                     }
 
-                                }
 
-
-                                if (!listSelectedCategory.Contains(category.CategoryId.ToString()))
-                                {
-                                    if (string.IsNullOrEmpty((string)ViewBag.SelectedNavCategory))
+                                    if (!listSelectedCategory.Contains(category.CategoryId.ToString()))
                                     {
-                                        <label for="category-@category.CategoryId">
-                                            <span></span>
-                                            @category.Name
-                                            <small>(@category.ProductCount)</small>
-                                        </label>
-                                    }
-                                    else
-                                    {
-                                        if (((string)ViewBag.SelectedNavCategory) == "Categories" || ((string)ViewBag.SelectedNavCategory) == "Hot Deals")
+                                        if (string.IsNullOrEmpty((string)ViewBag.SelectedNavCategory))
                                         {
                                             <label for="category-@category.CategoryId">
                                                 <span></span>
@@ -139,29 +130,39 @@
                                         }
                                         else
                                         {
-                                            <label for="category-@category.CategoryId" style="opacity:0.6;">
-                                                <span></span>
-                                                @category.Name
-                                                <small>(@category.ProductCount)</small>
-                                            </label>
+                                            if (((string)ViewBag.SelectedNavCategory) == "Categories" || ((string)ViewBag.SelectedNavCategory) == "Hot Deals")
+                                            {
+                                                <label for="category-@category.CategoryId">
+                                                    <span></span>
+                                                    @category.Name
+                                                    <small>(@category.ProductCount)</small>
+                                                </label>
+                                            }
+                                            else
+                                            {
+                                                <label for="category-@category.CategoryId" style="opacity:0.6;">
+                                                    <span></span>
+                                                    @category.Name
+                                                    <small>(@category.ProductCount)</small>
+                                                </label>
+                                            }
                                         }
                                     }
+                                    else
+                                    { <label for="category-@category.CategoryId">
+                                            <span></span>
+                                            @category.Name
+                                            <small>(@category.ProductCount)</small>
+                                        </label>
+
+                                    }
                                 }
-                                else
-                                { <label for="category-@category.CategoryId">
-                                        <span></span>
-                                        @category.Name
-                                        <small>(@category.ProductCount)</small>
-                                    </label>
-
-                                }
-                            }
 
 
 
 
 
-                        </div>
+                            </div>
 
                         }
 
@@ -181,8 +182,8 @@
                             <div class="dropdown1">
                                 <table>
                                     <tr>
-                                        <td><a href="javascript:void(0)" style="width: 100px; height: 30px;margin-right:5px;" id="cancel-price-min" class="btnx btn-default price-btn1" >Cancel</a></td>
-                                        <td><a href="javascript:void(0)" style="width: 100px; height: 30px; background-color: #D10024; border-color: #D10024; color: #FFF; opacity: 0.8; " id="apply-price-min"  class="btnx price-btn1" >Apply</a></td>
+                                        <td><a href="javascript:void(0)" style="width: 100px; height: 30px;margin-right:5px;" id="cancel-price-min" class="btnx btn-default price-btn1">Cancel</a></td>
+                                        <td><a href="javascript:void(0)" style="width: 100px; height: 30px; background-color: #D10024; border-color: #D10024; color: #FFF; opacity: 0.8; " id="apply-price-min" class="btnx price-btn1">Apply</a></td>
                                     </tr>
                                 </table>
 
@@ -194,14 +195,18 @@
                             <span class="qty-up">+</span>
                             <span class="qty-down">-</span>
 
-                            <div class="dropdown2" >
-                                <table><tr><td><a href="javascript:void(0)" style="width: 100px; height: 30px; margin-right: 5px;" id="cancel-price-max" class="btnx btn-default price-btn2"> Cancel </a></td>
-                                           <td><a href="javascript:void(0)" style="width: 100px; height: 30px; background-color: #D10024; border-color: #D10024; color: #FFF; opacity: 0.8;" id="apply-price-max" class="btnx price-btn2" >Apply</a></td></tr></table>
+                            <div class="dropdown2">
+                                <table>
+                                    <tr>
+                                        <td><a href="javascript:void(0)" style="width: 100px; height: 30px; margin-right: 5px;" id="cancel-price-max" class="btnx btn-default price-btn2"> Cancel </a></td>
+                                        <td><a href="javascript:void(0)" style="width: 100px; height: 30px; background-color: #D10024; border-color: #D10024; color: #FFF; opacity: 0.8;" id="apply-price-max" class="btnx price-btn2">Apply</a></td>
+                                    </tr>
+                                </table>
 
                             </div>
                         </div>
 
-  
+
                     </div>
                 </div>
                 <!-- /aside Widget -->
@@ -332,7 +337,7 @@
                             <input type="hidden" name="maxPriceRange" id="maxPriceRange" value="" />
 
                             <input type="hidden" class="form-store-search-products" name="searchProducts" id="searchProducts" value="" />
-                            
+
                             <input type="hidden" class="form-store-selected-nav-category" name="selectedNavCategory" id="selectedNavCategory" value="@ViewBag.SelectedNavCategory" />
 
                             <label>
@@ -453,12 +458,12 @@
 
 
                                     @*<div class="product-rating">
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-        </div>*@
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                        </div>*@
 
 
                                     <div class="product-rating">
@@ -477,13 +482,61 @@
                                     </div>
 
 
-                                    <div class="product-btns">
-                                        <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                    <div class="product-btns div-wislist-@item.ProductId" style="display: flex; align-items: center; justify-content: center; ">
+
+                                        @if (Request.IsAuthenticated)
+                                        {
+                                            if (User.IsInRole("Customer"))
+                                            {
+                                                if (ViewBag.WistList != null)
+                                                {
+                                                    if (((List<WishList>)ViewBag.WistList).Count() > 0)
+                                                    {
+                                                        var CustomerId = Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity);
+
+                                                        if (((List<WishList>)ViewBag.WistList).Where(w => w.CustomerId == CustomerId && w.ProductId == item.ProductId).ToList().Count() > 0)
+                                                        {
+                                                            <button id="remove-to-wishlist-@item.ProductId" onclick="RemoveToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-remove-to-wishlist-@item.ProductId" class="fa fa-heart" style="color: #D10024;"></i><span class="tooltipp">remove to wishlist</span></button>
+                                                        }
+                                                        else
+                                                        {
+                                                            <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <button id="add-to-wishlist-@item.ProductId" onclick="AddToWishList(event,'@item.ProductId','button');" class="add-to-wishlist"><i id="i-add-to-wishlist-@item.ProductId" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                                }
+
+                                            }
+                                            else
+                                            {
+                                                <button class="add-to-wishlist" onclick="location.href='/Account/Login'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                            }
+                                        }
+                                        else
+                                        {
+
+                                            <button class="add-to-wishlist" onclick="location.href='/Account/Login'"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                        }
+
                                         <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
                                         @*<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>*@
 
                                         <button class="quick-view" onclick="location.href='/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory'"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
                                     </div>
+
+
+
+                                    @*<div class="product-btns">
+                                            <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+
+                                        </div>*@
                                 </div>
                                 <div class="add-to-cart">
                                     @if (item.Stock > 0)
@@ -520,22 +573,22 @@
                 <!-- store bottom filter -->
                 <div class="store-filter clearfix">
 
-                    
+
 
 
                     @Html.PagedListPager(Model, page => Url.Action("Store",
-                        new { page, pageSort = ViewBag.CurrentSort, pageSize = ViewBag.CurrentItemsPerPage,selectedCategory = ViewBag.SelectedCategory, minPrice = ViewBag.MinPrice, maxPrice = ViewBag.MaxPrice, maxPriceRange = ViewBag.MaxPriceRange, selectedNavCategory = ViewBag.SelectedNavCategory } ))
+                        new { page, pageSort = ViewBag.CurrentSort, pageSize = ViewBag.CurrentItemsPerPage, selectedCategory = ViewBag.SelectedCategory, minPrice = ViewBag.MinPrice, maxPrice = ViewBag.MaxPrice, maxPriceRange = ViewBag.MaxPriceRange, selectedNavCategory = ViewBag.SelectedNavCategory }))
 
 
 
 
                     @*<ul class="store-pagination">
-                        <li class="active">1</li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-                    </ul>*@
+                            <li class="active">1</li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+                        </ul>*@
                 </div>
                 <!-- /store bottom filter -->
             </div>
@@ -565,7 +618,6 @@
     #module a:not(.collapsed):after {
         content: '- Show Less Brand';
     }
-
 </style>
 
 @section Scripts {
@@ -637,7 +689,7 @@
             </text>
             }
 
-  
+
             $(".form-store-search-products").val(tempSearchProducts1);
             $(".form-layout-search-products").val(tempSearchProducts1);
 
