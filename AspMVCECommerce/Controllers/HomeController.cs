@@ -1271,7 +1271,7 @@ namespace AspMVCECommerce.Controllers
                     {
                         using (var client = new SmtpClient())
                         {
-                            client.Timeout = 480000;
+                            client.Timeout = 980000;
                             client.Send(msg);
                         }
                     }
@@ -2486,6 +2486,24 @@ namespace AspMVCECommerce.Controllers
         }
 
 
+        public ActionResult Compare(int? productId)
+        {
+            if (productId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Product product = db.Products.Include(p => p.Category).Include(p => p.Brand).Include(p => p.Images).Single(p => p.ProductId == productId);
+
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+
+            var products = db.Products.Include(p => p.Category).Include(p => p.Brand).Include(p => p.Images).Where(p => p.CategoryId == product.CategoryId && p.ProductId != productId).Take(3);
+          
+
+            return View(products);
+        }
 
 
     }

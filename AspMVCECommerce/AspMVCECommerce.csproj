@@ -425,6 +425,7 @@
     <Content Include="Views\Home\PrivacyPolicy.cshtml" />
     <Content Include="Views\Home\TermsAndCondition.cshtml" />
     <Content Include="Views\Home\WishList.cshtml" />
+    <Content Include="Views\Home\Compare.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
