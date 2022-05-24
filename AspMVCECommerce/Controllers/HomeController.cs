@@ -26,6 +26,11 @@ namespace AspMVCECommerce.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        public HomeController()
+        {
+
+        }
+
         private CheckOut checkOutObj { get; set; }
         [Authorize(Roles = "Customer")]
         public ActionResult PaymentWithPaypal(string Cancel = null)
@@ -476,7 +481,7 @@ namespace AspMVCECommerce.Controllers
             var products = db.Products.Include(p => p.Category).Include(p => p.Images).ToList();
             ViewBag.SelectedNavCategory = "Home";
             ViewBag.WistList = null;
-            ViewBag.WishListCount = "0";
+
 
             if (Request.IsAuthenticated)
             {
@@ -486,7 +491,7 @@ namespace AspMVCECommerce.Controllers
      
                     var WistListList = db.WishLists.Where(w => w.CustomerId == CustomerId).ToList();
                     ViewBag.WistList = WistListList;
-                    ViewBag.WishListCount = WistListList.Count().ToString();
+
                 }
             }
 
@@ -829,7 +834,7 @@ namespace AspMVCECommerce.Controllers
 
 
             ViewBag.WistList = null;
-            ViewBag.WishListCount = "0";
+
 
             if (Request.IsAuthenticated)
             {
@@ -839,7 +844,6 @@ namespace AspMVCECommerce.Controllers
 
                     var WistListList = db.WishLists.Where(w => w.CustomerId == CustomerId).ToList();
                     ViewBag.WistList = WistListList;
-                    ViewBag.WishListCount = WistListList.Count().ToString();
                 }
             }
 
@@ -1134,7 +1138,7 @@ namespace AspMVCECommerce.Controllers
                 ViewBag.CurrentItemsPerPage = _pageSize;
                 int pageNumber = (page ?? 1);
 
-                ViewBag.WishListCount = WistListIdList.Count().ToString();
+                //ViewBag.WishListCount = WistListIdList.Count().ToString();
 
 
                 return View(products.ToPagedList(pageNumber, _pageSize));
@@ -1290,600 +1294,1199 @@ namespace AspMVCECommerce.Controllers
             return string.Format("{0}/{1}", uri1, uri2);
         }
 
-        private  static string CreateEmailHtmlTemplate(IEnumerable<Product> products, string email)
+        //private  static string CreateEmailHtmlTemplate(IEnumerable<Product> products, string email)
+        //{
+        //    string baseUrl = ConfigurationManager.AppSettings["BaseUrl"];
+        //    StringBuilder sb = new StringBuilder();
+
+        //    sb.AppendLine("World!");
+
+
+        //    string htmlString = "";
+        //    htmlString = "<html lang='en'>";
+        //    htmlString += "<head>";
+        //    htmlString += "    <title>Zaldy's Ecommerce</title>";
+        //    htmlString += "</head>";
+        //    htmlString += "<body>";
+
+        //    htmlString += "    <table cellspacing='0' cellpadding='0' border='0' width='600' class='m_-4140746664795773952container' align='center'>";
+        //    htmlString += "        <tbody>";
+        //    htmlString += "           <tr>";
+        //    htmlString += "                <td>";
+
+        //    htmlString += "                    <table style=\"background-color:#ffffff;border:0px solid transparent;font-size:16px;font-family:Arial,helvetica,sans-serif;line-height:100%;color:#808080\"  cellspacing='0' cellpadding='0' bgcolor='#FFFFFF' width='100%'>";
+
+        //    htmlString += "                        <tbody>";
+        //    htmlString += "                            <tr>";
+        //    htmlString += "                                <td align='center' valign='top'>";
+        //    htmlString += "                                    <table align='left' border='0' cellpadding='0' cellspacing='0' width='100%'>";
+        //    htmlString += "                                        <tbody>";
+        //    htmlString += "                                            <tr>";
+
+        //    htmlString += "                                                <td style='border:0px;padding:0px'>";
+
+        //    htmlString += "                                                    <table border='0' cellpadding='0' cellspacing='0' width='100%'>";
+        //    htmlString += "                                                        <tbody>";
+        //    htmlString += "                                                            <tr>";
+        //    htmlString += "                                                                <td align='left' class='m_-4140746664795773952header' valign='top'>";
+        //    htmlString += "                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='min-width:100%'>";
+        //    htmlString += "                                                                        <tbody>";
+        //    htmlString += "                                                                            <tr>";
+        //    htmlString += "                                                                               <td style='padding:0px 0px 10px'>";
+        //    htmlString += "                                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='background-color:transparent;min-width:100%;border-top:0px;border-right:0px;border-bottom:1px solid transparent;border-left:0px'>";
+        //    htmlString += "                                                                                        <tbody>";
+        //    htmlString += "                                                                                            <tr>";
+        //    htmlString += "                                                                                                <td style='padding:0px'>";
+        //    htmlString += "                                                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='min-width:100%'>";
+        //    htmlString += "                                                                                                        <tbody>";
+        //    htmlString += "                                                                                                            <tr>";
+        //    htmlString += "                                                                                                                <td style='padding:20px 0px 0px'>";
+        //    htmlString += "                                                                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='background-color:transparent;min-width:100%'>";
+        //    htmlString += "                                                                                                                        <tbody>";
+        //    htmlString += "                                                                                                                            <tr>";
+        //    htmlString += "                                                                                                                                <td style='padding:0px'>";
+        //    htmlString += "                                                                                                                                    <table width='100%' style='min-width:375px!important' cellspacing='0' cellpadding='0' align='center'>";
+        //    htmlString += "                                                                                                                                        <tbody>";
+        //    htmlString += "                                                                                                                                            <tr>";
+        //    htmlString += "                                                                                                                                                <td width='100%' align='center'>";
+        //    htmlString += "                                                                                                                                                    <a  target='_blank'  href='" + Combine(baseUrl, "/Home/Index") + "' width='1' height='1' class='CToWUd'><img src='~/FrontEnd/img/demo logo2.png' alt=\"Zaldy's Ecommerce\" style='display:block;height:126px;width:100%;text-align:center;padding:0px' width='100%' height='126' class='CToWUd'></a>";
+        //    htmlString += "                                                                                                                                                </td>";
+        //    htmlString += "                                                                                                                                            </tr>";
+        //    htmlString += "                                                                                                                                        </tbody>";
+        //    htmlString += "                                                                                                                                    </table>";
+        //    htmlString += "                                                                                                                                    <img src='' width='1' height='1' class='CToWUd'>";
+        //    htmlString += "                                                                                                                                </td>";
+        //    htmlString += "                                                                                                                            </tr>";
+        //    htmlString += "                                                                                                                        </tbody>";
+        //    htmlString += "                                                                                                                    </table>";
+        //    htmlString += "                                                                                                                </td>";
+        //    htmlString += "                                                                                                            </tr>";
+        //    htmlString += "                                                                                                        </tbody>";
+        //    htmlString += "                                                                                                    </table><table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='min-width:100%'>";
+        //    htmlString += "                                                                                                        <tbody>";
+        //    htmlString += "                                                                                                            <tr>";
+        //    htmlString += "                                                                                                                <td style='padding:5px 0px 0px'>";
+        //    htmlString += "                                                                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='background-color:transparent;min-width:100%'>";
+        //    htmlString += "                                                                                                                        <tbody>";
+        //    htmlString += "                                                                                                                            <tr>";
+        //    htmlString += "                                                                                                                                <td style='padding:0px'>";
+        //    htmlString += "                                                                                                                                    <div style=\"text-align:center;color:#000;font-family:'Roboto',arial,sans-serif\">";
+        //    htmlString += "                                                                                                                                        <div style='width:100%'>";
+        //    htmlString += "                                                                                                                                            <table align='center' border='0' cellpadding='5' cellspacing='0' style='width:600px'>";
+        //    htmlString += "                                                                                                                                                <tbody>";
+        //    htmlString += "                                                                                                                                                    <tr>";
+        //    htmlString += "                                                                                                                                                        <td align='center'>";
+        //    htmlString += "                                                                                                                                                            <span style='font-size:12px'><a href='" + Combine(baseUrl, "/Home/Store?selectedCategory=1&selectedNavCategory=Laptops") + "' style=\"font-weight:700;text-align:center;font-family:Roboto,arial,sans-serif;color:rgb(0,0,0);text-decoration:none\" title='' target='_blank' data-saferedirecturl='#'>LAPTOPS</a></span>";
+        //    htmlString += "                                                                                                                                                        </td>";
+        //    htmlString += "                                                                                                                                                        <td style='line-height:100%'>";
+        //    htmlString += "                                                                                                                                                            <span style='font-size:12px'><span style=\"font-family:arial,helvetica,sans-serif\"><strong style='color:#000;text-align:center'>|</strong></span></span>";
+        //    htmlString += "                                                                                                                                                        </td>";
+        //    htmlString += "                                                                                                                                                        <td align='center'>";
+        //    htmlString += "                                                                                                                                                           <span style='font-size:12px'><a href='" + Combine(baseUrl, "/Home/Store?selectedCategory=2&selectedNavCategory=Smartphones") + "' style=\"font-weight:700;text-align:center;font-family:Roboto,arial,sans-serif;color:rgb(0,0,0);text-decoration:none\" title='' target='_blank' data-saferedirecturl='#'>SMART PHONES</a></span>";
+        //    htmlString += "                                                                                                                                                        </td>";
+        //    htmlString += "                                                                                                                                                        <td style='line-height:100%'>";
+        //    htmlString += "                                                                                                                                                            <span style='font-size:12px'><span style=\"font-family:arial,helvetica,sans-serif\"><strong style='color:#000;text-align:center'>|</strong></span></span>";
+        //    htmlString += "                                                                                                                                                        </td>";
+        //    htmlString += "                                                                                                                                                        <td align='center'>";
+        //    htmlString += "                                                                                                                                                            <span style='font-size:12px'><a href='" + Combine(baseUrl, "/Home/Store?selectedCategory=3&selectedNavCategory=Accessories") + "' style=\"font-weight:700;text-align:center;font-family:Roboto,arial,sans-serif;color:rgb(0,0,0);text-decoration:none\" title='' target='_blank' data-saferedirecturl='#'>ACCESORIES</a></span>";
+        //    htmlString += "                                                                                                                                                        </td>";
+        //    htmlString += "                                                                                                                                                        <td style='line-height:100%'>";
+        //    htmlString += "                                                                                                                                                            <span style='font-size:12px'><span style=\"font-family:arial,helvetica,sans-serif\"><strong style='color:#000;text-align:center'>|</strong></span></span>";
+        //    htmlString += "                                                                                                                                                        </td>";
+        //    htmlString += "                                                                                                                                                        <td align='center'>";
+        //    htmlString += "                                                                                                                                                            <span style='font-size:12px'><a href='" + Combine(baseUrl, "/Home/Store?selectedCategory=4&selectedNavCategory=Headphones") + "' style=\"font-weight:700;text-align:center;font-family:Roboto,arial,sans-serif;color:rgb(0,0,0);text-decoration:none\" title='' target='_blank' data-saferedirecturl='#'>HEADPHONES</a></span>";
+        //    htmlString += "                                                                                                                                                        </td>";
+        //    htmlString += "                                                                                                                                                        <td style='line-height:100%'>";
+        //    htmlString += "                                                                                                                                                            <span style='font-size:12px'><span style=\"font-family:arial,helvetica,sans-serif\"><strong style='color:#000;text-align:center'>|</strong></span></span>";
+        //    htmlString += "                                                                                                                                                        </td>";
+        //    htmlString += "                                                                                                                                                        <td align='center'>";
+        //    htmlString += "                                                                                                                                                            <span style='font-size:12px'><a href='" + Combine(baseUrl, "/Home/Store?selectedCategory=6&selectedNavCategory=Tablet") + "' style=\"font-weight:700;text-align:center;font-family:Roboto,arial,sans-serif;color:rgb(0,0,0);text-decoration:none\" title='' target='_blank' data-saferedirecturl='#'>TABLETS</a></span>";
+        //    htmlString += "                                                                                                                                                        </td>";
+        //    htmlString += "                                                                                                                                                    </tr>";
+        //    htmlString += "                                                                                                                                                </tbody>";
+        //    htmlString += "                                                                                                                                            </table>";
+        //    htmlString += "                                                                                                                                        </div>";
+        //    htmlString += "                                                                                                                                    </div>";
+        //    htmlString += "                                                                                                                                </td>";
+        //    htmlString += "                                                                                                                            </tr>";
+        //    htmlString += "                                                                                                                        </tbody>";
+        //    htmlString += "                                                                                                                    </table>";
+        //    htmlString += "                                                                                                                </td>";
+        //    htmlString += "                                                                                                            </tr>";
+        //    htmlString += "                                                                                                        </tbody>";
+        //    htmlString += "                                                                                                    </table>";
+        //    htmlString += "                                                                                                </td>";
+        //    htmlString += "                                                                                            </tr>";
+        //    htmlString += "                                                                                        </tbody>";
+        //    htmlString += "                                                                                    </table>";
+        //    htmlString += "                                                                                </td>";
+        //    htmlString += "                                                                            </tr>";
+        //    htmlString += "                                                                        </tbody>";
+        //    htmlString += "                                                                    </table>";
+
+        //    htmlString += "                                                                </td>";
+        //    htmlString += "                                                            </tr>";
+        //    htmlString += "                                                            <tr>";
+        //    htmlString += "                                                                <td align='left' valign='top'>";
+        //    htmlString += "                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='border:0px solid transparent;background-color:transparent;min-width:100%'>";
+        //    htmlString += "                                                                        <tbody>";
+        //    htmlString += "                                                                            <tr>";
+        //    htmlString += "                                                                                <td style='padding:0px'>";
+
+        //    htmlString += "                                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='min-width:100%'>";
+        //    htmlString += "                                                                                        <tbody>";
+        //    htmlString += "                                                                                            <tr>";
+        //    htmlString += "                                                                                                <td>";
+
+        //    htmlString += "                                                                                                    <center>";
+        //    htmlString += "                                                                                                        <table width='600px' cellspacing='0' cellpadding='0'>";
+        //    htmlString += "                                                                                                            <tbody>";
+        //    htmlString += "                                                                                                                <tr>";
+
+        //    htmlString += "                                                                                                                    <td align='center' style='display:flex;'>";
+        //    htmlString += "                                                                                                                        <h2 style='color: #d10024; display: block; background-color: #efefef; padding: 0px; margin: 0px; line-height: 90px; text-align: center; height: 90px; width: 100%; border: 0px'>TOP PICKS OF THE WEEK</h2><div class='a6S' dir='ltr' style='opacity: 0.01; left: 1004px; top: 1753px;'><div id=':p7' class='T-I J-J5-Ji aQv T-I-ax7 L3 a5q' title='Download' role='button' tabindex='0' aria-label='Download attachment ' data-tooltip-class='a1V'><div class='akn'><div class='aSK J-J5-Ji aYr'></div></div></div></div>";
+        //    htmlString += "                                                                                                                    </td>";
+        //    htmlString += "                                                                                                                </tr>";
+        //    htmlString += "                                                                                                            </tbody>";
+        //    htmlString += "                                                                                                        </table>";
+        //    htmlString += "                                                                                                        <table border='0' width='600' cellspacing='0' cellpadding='0' bgcolor='#efefef'>";
+        //    htmlString += "                                                                                                            <tbody>";
+
+
+        //                                                                                                                        int prodCount = 0;
+        //                                                                                                                       int prodIndex = 0;
+
+
+        //                                                                                                                    foreach (var item in products)
+        //                                                                                                                    {
+        //                                                                                                                       prodCount += 1;
+        //                                                                                                                        prodIndex += 1;
+
+        //                                                                                                                        if (prodCount == 1)
+        //                                                                                                                       {
+        //    htmlString += "                                                                                                                        <tr>";
+
+        //    htmlString += "                                                                                                                    <td bgcolor='#efefef' width='15px'>";
+        //    htmlString += "                                                                                                                        &nbsp;";
+        //    htmlString += "                                                                                                                    </td>";
+
+        //    htmlString += "                                                                                                                    <td width='278'>";
+        //    htmlString += "                                                                                                                        <!-- zaldy 1-->";
+        //    htmlString += "                                                                                                                        <table border='0' cellspacing='0' cellpadding='0' bgcolor='white'>";
+        //    htmlString += "                                                                                                                            <tbody>";
+        //    htmlString += "                                                                                                                                <tr>";
+        //    htmlString += "                                                                                                                                    <td colspan='2' width='278px' height='278px' style='padding:12px;'>";
+        //    htmlString += "                                                                                                                                        <a href='" + Combine(baseUrl, "/Home/Product?productId=" + item.ProductId.ToString() + "&selectedNavCategory=Categories") + "' target='_blank' data-saferedirecturl='#'>";
+        //                                                                                                                                               if (item.Images.Count > 0)
+        //                                                                                                                                             {
+
+        //                                                                                                                                                  var itemImages = item.Images;
+
+        //                                                                                                                                                   foreach (var itemImage in itemImages)
+        //                                                                                                                                                 {
+        //                                                                                                                                                     if (itemImage.Default)
+        //                                                                                                                                                        {
+
+        //    htmlString += "                                                                                                                                                        <img style='width: 100%; height: 258px; object-fit: scale-down;' src='" + itemImage.ImagePath + "' alt='" + itemImage.Title + "' height='258px' class='CToWUd'>";
+        //                                                                                                                                                          break;
+        //                                                                                                                                                      }
+        //                                                                                                                                                    }
+        //                                                                                                                                          }
+
+        //    htmlString += "                                                                                                                                        </a>";
+        //    htmlString += "                                                                                                                                    </td>";
+        //    htmlString += "                                                                                                                                </tr>";
+        //    htmlString += "                                                                                                                                <tr>";
+        //    htmlString += "                                                                                                                                    <td style='padding:8px' colspan='2' width='230'>";
+
+        //    htmlString += "                                                                                                                                        <div style=\"float:left;color:#000000;font-weight:bold;font-family:'Roboto',arial,sans-serif!important;overflow:hidden;text-overflow:ellipsis;max-width:278px;height:32px;text-transform:capitalize;\">" + item.Name + "</div>";
+
+        //    htmlString += "                                                                                                                                    </td>";
+        //    htmlString += "                                                                                                                                </tr>";
+        //    htmlString += "                                                                                                                                <tr>";
+
+
+        //    htmlString += "                                                                                                                                    <!-- WITH PROMO -->";
+        //    htmlString += "                                                                                                                                    <td style='padding:8px'>";
+
+        //                                                                                                                                            if (item.PromoSaleOFF > 0)
+        //                                                                                                                                         {
+        //                                                                                                                                              if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
+        //                                                                                                                                                {
+
+        //    htmlString += "                                                                                                                                                <span  style=\"text-decoration:line-through;color:#bdbdbd;font-family:'Roboto',arial,sans-serif!important\">₱" + Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00") + "</span>";
+        //    htmlString += "                                                                                                                                                <br>";
+        //    htmlString += "                                                                                                                                                <span  style=\"color:#D10024;font-family:'Roboto',arial,sans-serif!important\">₱" + Convert.ToDecimal(item.DiscountedPrice).ToString("#,##0.00") + "</span>";
+
+
+        //                                                                                                                                                }
+        //                                                                                                                                               else
+        //                                                                                                                                               {
+        //    htmlString += "                                                                                                                                                <span  style=\"color:#D10024;font-family:'Roboto',arial,sans-serif!important\">₱" + Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00") + "</span>";
+
+        //                                                                                                                                                }
+        //                                                                                                                                           }
+        //                                                                                                                                          else
+        //                                                                                                                                           {
+        //    htmlString += "                                                                                                                                            <span  style=\"color:#D10024;font-family:'Roboto',arial,sans-serif!important\">₱" + Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00") + "</span>";
+        //                                                                                                                                           }
+
+
+        //    htmlString += "                                                                                                                                        <br>";
+        //    htmlString += "                                                                                                                                       <span  style=\"color:#000000;font-family:'Roboto',arial,sans-serif!important\">" + (item.Sold == null ? 0 : item.Sold)  + " sold</span>";
+        //    htmlString += "                                                                                                                                    </td>";
+
+        //                                                                                                                                       if (item.PromoSaleOFF > 0)
+        //                                                                                                                                      {
+        //                                                                                                                                           if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
+        //                                                                                                                                           {
+
+        //    htmlString += "                                                                                                                                            <td style='padding:8px' align='right' valign='bottom' width='45px'>";
+
+        //    htmlString += "                                                                                                                                                <div style='padding-top: 5px; padding-bottom: 5px; background-color: #D10024; text-align: center'>";
+        //    htmlString += "                                                                                                                                                    <span  style=\"color:#ffffff;font-family:'Roboto',arial,sans-serif!important\">" + (double.Parse(item.PromoSaleOFF.ToString()) * 100) + "</span>";
+        //    htmlString += "                                                                                                                                                    <span  style=\"color: #ffffff; font-family: 'Roboto',arial,sans-serif !important \">%</span>";
+        //    htmlString += "                                                                                                                                                    <br>";
+        //    htmlString += "                                                                                                                                                    <span style=\"color:#ffffff;font-family:'Roboto',arial,sans-serif!important\">OFF</span>";
+        //    htmlString += "                                                                                                                                                </div>";
+
+        //    htmlString += "                                                                                                                                            </td>";
+
+        //                                                                                                                                            }
+
+        //                                                                                                                                        }
+        //                                                                                                                                       else
+        //                                                                                                                                       {
+        //    htmlString += "                                                                                                                                        <!-- NO PROMO -->";
+        //    htmlString += "                                                                                                                                        <td style='padding:8px'>";
+        //    htmlString += "                                                                                                                                        </td>";
+        //                                                                                                                                       }
+
+
+        //    htmlString += "                                                                                                                                </tr>";
+        //    htmlString += "                                                                                                                            </tbody>";
+        //    htmlString += "                                                                                                                        </table>";
+        //    htmlString += "                                                                                                                    </td>";
+        //                                                                                                                     }
+
+        //                                                                                                                    if (prodCount == 2)
+        //                                                                                                                    {
+
+        //    htmlString += "                                                                                                                    <td bgcolor='#efefef' width='14'>";
+        //    htmlString += "                                                                                                                        &nbsp;";
+        //    htmlString += "                                                                                                                    </td>";
+
+        //    htmlString += "                                                                                                                    <td width='278'>";
+        //    htmlString += "                                                                                                                        <!-- zaldy 1-->";
+        //    htmlString += "                                                                                                                        <table border='0' cellspacing='0' cellpadding='0' bgcolor='white'>";
+        //    htmlString += "                                                                                                                            <tbody>";
+        //    htmlString += "                                                                                                                                <tr>";
+        //    htmlString += "                                                                                                                                    <td colspan='2' width='278px' height='278px' style='padding:12px;'>";
+        //    htmlString += "                                                                                                                                        <a href='" + Combine(baseUrl, "/Home/Product?productId=" + item.ProductId.ToString()  + "&selectedNavCategory=Categories") + "' target='_blank' data-saferedirecturl='#'>";
+        //                                                                                                                                              if (item.Images.Count > 0)
+        //                                                                                                                                               {
+
+        //                                                                                                                                                   var itemImages = item.Images;
+
+        //                                                                                                                                                    foreach (var itemImage in itemImages)
+        //                                                                                                                                                   {
+        //                                                                                                                                                       if (itemImage.Default)
+        //                                                                                                                                                       {
+
+        //    htmlString += "                                                                                                                                                        <img style='width: 100%; height: 258px; object-fit: scale-down;' src='" + itemImage.ImagePath + "' alt='" + itemImage.Title + "' height='258px'>";
+        //                                                                                                                                                           break;
+        //                                                                                                                                                      }
+        //                                                                                                                                                   }
+        //                                                                                                                                               }
+
+        //    htmlString += "                                                                                                                                        </a>";
+        //    htmlString += "                                                                                                                                    </td>";
+        //    htmlString += "                                                                                                                               </tr>";
+        //    htmlString += "                                                                                                                                <tr>";
+        //    htmlString += "                                                                                                                                    <td style='padding:8px' colspan='2' width='230'>";
+
+        //    htmlString += "                                                                                                                                       <div style=\"float:left;color:#000000;font-weight:bold;font-family:'Roboto',arial,sans-serif!important;overflow:hidden;text-overflow:ellipsis;max-width:278px;height:32px;text-transform:capitalize;\">" + item.Name + "</div>";
+
+        //    htmlString += "                                                                                                                                    </td>";
+        //    htmlString += "                                                                                                                                </tr>";
+        //    htmlString += "                                                                                                                               <tr>";
+
+
+        //    htmlString += "                                                                                                                                    <!-- WITH PROMO -->";
+        //    htmlString += "                                                                                                                                    <td style='padding:8px'>";
+
+        //                                                                                                                                          if (item.PromoSaleOFF > 0)
+        //                                                                                                                                          {
+        //                                                                                                                                              if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
+        //                                                                                                                                               {
+
+        //    htmlString += "                                                                                                                                                <span  style=\"text-decoration:line-through;color:#bdbdbd;font-family:'Roboto',arial,sans-serif!important\">₱" + Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00") + "</span>";
+        //    htmlString += "                                                                                                                                               <br>";
+        //    htmlString += "                                                                                                                                                <span  style=\"color:#D10024;font-family:'Roboto',arial,sans-serif!important\">₱" + Convert.ToDecimal(item.DiscountedPrice).ToString("#,##0.00") + "</span>";
+
+
+        //                                                                                                                                                }
+        //                                                                                                                                                else
+        //                                                                                                                                               {
+        //    htmlString += "                                                                                                                                                <span  style=\"color:#D10024;font-family:'Roboto',arial,sans-serif!important\">₱" + Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00") + "</span>";
+
+        //                                                                                                                                                }
+        //                                                                                                                                            }
+        //                                                                                                                                            else
+        //                                                                                                                                            {
+        //    htmlString += "                                                                                                                                            <span  style=\"color:#D10024;font-family:'Roboto',arial,sans-serif!important\">₱" + Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00") + "</span>";
+        //                                                                                                                                           }
+
+
+        //    htmlString += "                                                                                                                                        <br>";
+        //    htmlString += "                                                                                                                                        <span style=\"color:#000000;font-family:'Roboto',arial,sans-serif!important\">" + (item.Sold == null ? 0 : item.Sold) + " sold</span>";
+        //    htmlString += "                                                                                                                                    </td>";
+
+        //                                                                                                                                       if (item.PromoSaleOFF > 0)
+        //                                                                                                                                        {
+        //                                                                                                                                            if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
+        //                                                                                                                                            {
+
+        //    htmlString += "                                                                                                                                            <td style='padding:8px' align='right' valign='bottom' width='45px'>";
+
+        //    htmlString += "                                                                                                                                                <div style='padding-top: 5px; padding-bottom: 5px; background-color: #D10024; text-align: center'>";
+        //    htmlString += "                                                                                                                                                    <span style=\"color:#ffffff;font-family:'Roboto',arial,sans-serif!important\">" + (double.Parse(item.PromoSaleOFF.ToString()) * 100)  + "</span>";
+        //    htmlString += "                                                                                                                                                    <span  style=\"color: #ffffff; font-family: 'Roboto',arial,sans-serif !important \">%</span>";
+        //    htmlString += "                                                                                                                                                    <br>";
+        //    htmlString += "                                                                                                                                                    <span  style=\"color:#ffffff;font-family:'Roboto',arial,sans-serif!important\">OFF</span>";
+        //    htmlString += "                                                                                                                                                </div>";
+
+        //    htmlString += "                                                                                                                                            </td>";
+
+        //                                                                                                                                            }
+
+        //                                                                                                                                        }
+        //                                                                                                                                        else
+        //                                                                                                                                        {
+        //    htmlString += "                                                                                                                                        <!-- NO PROMO -->";
+        //    htmlString += "                                                                                                                                        <td style='padding:8px'>";
+        //    htmlString += "                                                                                                                                        </td>";
+        //                                                                                                                                       }
+
+
+        //    htmlString += "                                                                                                                                </tr>";
+        //    htmlString += "                                                                                                                            </tbody>";
+        //    htmlString += "                                                                                                                        </table>";
+        //    htmlString += "                                                                                                                    </td>";
+        //    htmlString += "                                                                                                                    <td bgcolor='#efefef' width='15'>";
+        //    htmlString += "                                                                                                                        &nbsp;";
+        //    htmlString += "                                                                                                                    </td>";
+
+
+        //    htmlString += "                                                                                                                   </tr><tr bgcolor='#efefef'><td colspan='3' bgcolor='#efefef' height='15px'>&nbsp;</td></tr>'";
+
+
+        //                                                                                                                        prodCount = 0;
+        //                                                                                                                   }
+
+
+
+        //                                                                                                                    if ((products.Count() % 2) > 0 && prodIndex == products.Count())
+        //                                                                                                                    {
+        //    htmlString += "                                                                                                                    </tr><tr bgcolor='#efefef'><td colspan='3' bgcolor='#efefef' height='15px'>&nbsp;</td></tr>";
+        //                                                                                                                    }
+
+        //                                                                                                                }
+
+        //    htmlString += "</tbody>";
+        //    htmlString += "                                                                                                        </table>";
+        //    htmlString += "                                                                                                        <table width='600px' cellspacing='0' cellpadding='0' bgcolor='#efefef'>";
+        //    htmlString += "                                                                                                            <tbody>";
+        //    htmlString += "                                                                                                                <tr>";
+        //    htmlString += "                                                                                                                    <td align='center' style='line-height:100px;height:100px;'>";
+        //    htmlString += "                                                                                                                        <a href='" + Combine(baseUrl, "/Home/Store?selectedCategory=1%2C2%2C3%2C4%2C5%2C6&selectedNavCategory=Categories") + "' target='_blank' data-saferedirecturl='#'><img src='~/FrontEnd/img/shop now button.png' width='194' style='display:block;text-align:center;height:auto;width:194px;border:0px' class='CToWUd'></a>";
+        //    htmlString += "                                                                                                                    </td>";
+        //    htmlString += "                                                                                                                </tr>";
+        //    htmlString += "                                                                                                            </tbody>";
+        //    htmlString += "                                                                                                        </table>";
+
+        //    htmlString += "                                                                                                        <table>";
+        //    htmlString += "                                                                                                            <tbody>";
+        //    htmlString += "                                                                                                                <tr>";
+        //    htmlString += "                                                                                                                    <td>";
+        //    htmlString += "                                                                                                                        <table cellpadding='0' cellspacing='0' border='0' align='center' width='594'>";
+        //    htmlString += "                                                                                                                            <tbody>";
+        //    htmlString += "                                                                                                                                <tr>";
+        //    htmlString += "                                                                                                                                    <td cellpadding='0' cellspacing='0' border='0' height='1' style='line-height:1px;min-width:198px'>";
+        //    htmlString += "                                                                                                                                        <img src='https://ci6.googleusercontent.com/proxy/UdD10b8OwAMsIskWs35kVksPpJn8Z8NNDQtpw7bGuUfndy5BBB668zFGfSCq9A8cZzBIS2GRgAc3V6hkoUm_YW9wUZSQOPyE0OxEg-vIlRo1PlfvsCydU1P7HB74FfFyhiuIe02kACyfdmCHRsq5RkvllmTQJQDvftAw-Q=s0-d-e1-ft#https://image.email.shopee.co.id/lib/fe3a15707564067d761279/m/11/82629a96-3443-4ffb-978e-e261f6d86cb8.png' width='200' height='1' style='display:block;max-height:1px;min-height:1px;min-width:120px;width:120px' class='CToWUd'>";
+        //    htmlString += "                                                                                                                                    </td>";
+        //    htmlString += "                                                                                                                                    <td cellpadding='0' cellspacing='0' border='0' height='1' style='line-height:1px;min-width:198px'>";
+        //    htmlString += "                                                                                                                                        <img src='https://ci6.googleusercontent.com/proxy/UdD10b8OwAMsIskWs35kVksPpJn8Z8NNDQtpw7bGuUfndy5BBB668zFGfSCq9A8cZzBIS2GRgAc3V6hkoUm_YW9wUZSQOPyE0OxEg-vIlRo1PlfvsCydU1P7HB74FfFyhiuIe02kACyfdmCHRsq5RkvllmTQJQDvftAw-Q=s0-d-e1-ft#https://image.email.shopee.co.id/lib/fe3a15707564067d761279/m/11/82629a96-3443-4ffb-978e-e261f6d86cb8.png' width='200' height='1' style='display:block;max-height:1px;min-height:1px;min-width:198px;width:198px' class='CToWUd'>";
+        //    htmlString += "                                                                                                                                    </td>";
+        //    htmlString += "                                                                                                                                    <td cellpadding='0' cellspacing='0' border='0' height='1' style='line-height:1px;min-width:198px'>";
+        //    htmlString += "                                                                                                                                        <img src='https://ci6.googleusercontent.com/proxy/UdD10b8OwAMsIskWs35kVksPpJn8Z8NNDQtpw7bGuUfndy5BBB668zFGfSCq9A8cZzBIS2GRgAc3V6hkoUm_YW9wUZSQOPyE0OxEg-vIlRo1PlfvsCydU1P7HB74FfFyhiuIe02kACyfdmCHRsq5RkvllmTQJQDvftAw-Q=s0-d-e1-ft#https://image.email.shopee.co.id/lib/fe3a15707564067d761279/m/11/82629a96-3443-4ffb-978e-e261f6d86cb8.png' width='200' height='1' style='display:block;max-height:1px;min-height:1px;min-width:198px;width:198px' class='CToWUd'>";
+        //    htmlString += "                                                                                                                                    </td>";
+        //    htmlString += "                                                                                                                                </tr>";
+        //    htmlString += "                                                                                                                           </tbody>";
+        //    htmlString += "                                                                                                                        </table>";
+        //    htmlString += "                                                                                                                    </td>";
+        //    htmlString += "                                                                                                                </tr>";
+        //    htmlString += "                                                                                                            </tbody>";
+        //    htmlString += "                                                                                                        </table>";
+        //    htmlString += "                                                                                                    </center>";
+        //    htmlString += "                                                                                                </td>";
+        //    htmlString += "                                                                                            </tr>";
+        //    htmlString += "                                                                                        </tbody>";
+        //    htmlString += "                                                                                    </table>";
+        //    htmlString += "                                                                                </td>";
+        //    htmlString += "                                                                            </tr>";
+        //    htmlString += "                                                                        </tbody>";
+        //    htmlString += "                                                                    </table>";
+
+        //    htmlString += "                                                                </td>";
+        //    htmlString += "                                                            </tr>";
+        //    htmlString += "                                                            <tr>";
+        //    htmlString += "                                                                <td align='left' valign='top'>";
+        //    htmlString += "                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='min-width:100%'>";
+        //    htmlString += "                                                                        <tbody>";
+        //    htmlString += "                                                                            <tr>";
+        //    htmlString += "                                                                                <td style='padding:10px 0px 0px'>";
+        //    htmlString += "                                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='border:0px;background-color:transparent;min-width:100%'>";
+        //    htmlString += "                                                                                        <tbody>";
+        //    htmlString += "                                                                                            <tr>";
+        //    htmlString += "                                                                                                <td style='padding:0px'>";
+        //    htmlString += "                                                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='background-color:transparent;min-width:100%'>";
+        //    htmlString += "                                                                                                        <tbody>";
+        //    htmlString += "                                                                                                            <tr>";
+        //    htmlString += "                                                                                                                <td style='padding:0px'>";
+        //    htmlString += "                                                                                                                    <table width='100%' cellspacing='0' cellpadding='0' role='presentation'>";
+        //    htmlString += "                                                                                                                        <tbody>";
+        //    htmlString += "                                                                                                                            <tr>";
+        //    htmlString += "                                                                                                                                <td align='center' style='padding:0px;margin:0p;'>";
+        //    htmlString += "                                                                                                                                    <a href='" + Combine(baseUrl, "/home/contact") + "' title='' target='_blank' data-saferedirecturl='#'><img src='~/FrontEnd/img/help center button.png' alt='Helpcenter' height='60' width='603' style='display:block;padding:0px;text-align:center;height:60px;width:603px;border:0px' class='CToWUd'></a>";
+        //    htmlString += "                                                                                                                                </td>";
+        //    htmlString += "                                                                                                                            </tr>";
+        //    htmlString += "                                                                                                                        </tbody>";
+        //    htmlString += "                                                                                                                    </table>";
+        //    htmlString += "                                                                                                                </td>";
+        //    htmlString += "                                                                                                            </tr>";
+        //    htmlString += "                                                                                                        </tbody>";
+        //    htmlString += "                                                                                                    </table><table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='min-width:100%'>";
+        //    htmlString += "                                                                                                        <tbody>";
+        //    htmlString += "                                                                                                            <tr>";
+        //    htmlString += "                                                                                                                <td>";
+        //    htmlString += "                                                                                                                    <table width='100%' align='center' style='width:100%!important' cellspacing='0' cellpadding='0'>";
+        //    htmlString += "                                                                                                                        <tbody>";
+
+        //    htmlString += "                                                                                                                            <tr>";
+        //    htmlString += "                                                                                                                                <td width='100%' align='center' style='border-top:1px solid #f3f3f3;border-bottom:1px solid #f3f3f3;padding:25px 0'>";
+        //    htmlString += "                                                                                                                                    <table width='30%' align='center' style='margin:0 auto' cellspacing='0' cellpadding='10'>";
+        //    htmlString += "                                                                                                                                        <tbody>";
+        //    htmlString += "                                                                                                                                            <tr>";
+        //    htmlString += "                                                                                                                                                <td style='width:33.3%;padding-left:5px;padding-right:5px;text-align:center'>";
+
+        //    htmlString += "                                                                                                                                                    <a href='https://www.facebook.com/' title='' target='_blank' data-saferedirecturl='#'><img src='https://ci6.googleusercontent.com/proxy/nwYp_9RmF7myx91ko4jV8qr2OwvKWxSDaI09WRA7Pp-SlHyZtUY8zKEFRukd20-HuDQ2eRtEvIIhwQe7W2g1VcW0oT_y5-hKX4v28TV8ddCwYSP05dY8TA2vtFMkF45kx25DfB4rKBesGylyXqb6LhyYdgCV8ncA=s0-d-e1-ft#https://image.email.shopee.sg/lib/fe3b15707564067d761278/m/1/cd8ee4c2-e30f-41a3-ad6f-b720f33342f0.png' alt='Facebook' height='50' width='50' style='display:block;padding:0px;text-align:center;height:50px;width:50px;border:0px none transparent' class='CToWUd'></a>";
+        //    htmlString += "                                                                                                                                                </td>";
+        //    htmlString += "                                                                                                                                                <td style='width:33.3%;padding-left:5px;padding-right:5px;text-align:center'>";
+
+        //    htmlString += "                                                                                                                                                    <a href='https://www.instagram.com/' title='' target='_blank' data-saferedirecturl='#'><img src='https://ci3.googleusercontent.com/proxy/3lxVMGF5Zll_k3AKxaFnhn55O30XYgq3uDsmEVveE3lxEqVVQt63ELmsoOsAffw_wUfzXDejnyLb_CuXvTLduIciMm3l2E-9syXAK-Awhq4GmDv97Z1LChI3Co6YZu6FQrdRYtOTrVQ1CQ4khvOZTMtXjGCnXvKq=s0-d-e1-ft#https://image.email.shopee.sg/lib/fe3b15707564067d761278/m/1/4ab223ec-7fc6-4417-b514-62b365329e6a.png' alt='Instagram' height='50' width='50' style='display:block;padding:0px;text-align:center;height:50px;width:50px;border:0px none transparent' class='CToWUd'></a>";
+        //    htmlString += "                                                                                                                                                </td>";
+        //    htmlString += "                                                                                                                                                <td style='width:33.3%;padding-left:5px;padding-right:5px;text-align:center'>";
+
+        //    htmlString += "                                                                                                                                                    <a href='https://twitter.com/' title='' target='_blank' data-saferedirecturl='#'><img src='https://ci4.googleusercontent.com/proxy/Y9v_DSD-ovdabCPxa29_eef54Z3Q0BxHnFAVb5B24vTLWKGGvRfPZzErwuuIXDFXnwW7a5Pny5qKzCeXRw1ZrvWj22VJkiErPvy_pqyfI-mS6h0E8NxjQjx4965aXXwjFOSSOhu9ro5wxhYT-kgZL5-vU_9jGfLCUwaJhw=s0-d-e1-ft#https://image.S10.exacttarget.com/lib/fe34157075640574731c72/m/1/801a8ba9-cd54-4786-bbde-dedb60f89cdc.png' alt='Twitter' height='50' width='50' style='display:block;padding:0px;text-align:center;height:50px;width:50px;border:0px none transparent' class='CToWUd'></a>";
+        //    htmlString += "                                                                                                                                                </td>";
+        //    htmlString += "                                                                                                                                            </tr>";
+        //    htmlString += "                                                                                                                                        </tbody>";
+        //    htmlString += "                                                                                                                                    </table>";
+        //    htmlString += "                                                                                                                                </td>";
+        //    htmlString += "                                                                                                                            </tr>";
+        //    htmlString += "                                                                                                                        </tbody>";
+        //    htmlString += "                                                                                                                    </table>";
+        //    htmlString += "                                                                                                                    <table style='font-size:10px;width:100%;display:none' width='100%' cellspacing='0' cellpadding='0'>";
+        //    htmlString += "                                                                                                                        <tbody>";
+        //    htmlString += "                                                                                                                            <tr>";
+        //    htmlString += "                                                                                                                                <td align='left'>";
+        //    htmlString += "                                                                                                                                    Subscription Center: <a href='https://www.facebook.com/' target='_blank' data-saferedirecturl='https://www.google.com/url?q=https://www.facebook.com/'><wbr>subscription_center.aspx?qs=<wbr>d9490f04e554b8613f1c65699125a5<wbr>22c759326db715a238a9eaac8d208b<wbr>24f928a0336226e997ff6e12da60f2<wbr>d2d387</a>";
+        //    htmlString += "                                                                                                                                    Profile Center: <a href='https://www.instagram.com/' target='_blank' data-saferedirecturl='https://www.google.com/url?q=https://www.instagram.com/'><wbr>profile_center.aspx?qs=<wbr>d9490f04e554b861049a956a7600b5<wbr>7fd382adefbcb9f4aed597e91da242<wbr>cf5b2eb873fbd2b99ac6b6a2dafa5a<wbr>fceb41</a>";
+        //    htmlString += "                                                                                                                                    One-click Unsubscribe: <a href='https://twitter.com/' target='_blank' data-saferedirecturl='https://www.google.com/url?q=https://twitter.com/'><wbr>unsub_center.aspx?qs=<wbr>d9490f04e554b8613f1c65699125a5<wbr>22c759326db715a238a9eaac8d208b<wbr>24f95e9668d5464f40ce0d5dbfcaf6<wbr>77f6bb09438b02330b1a91</a>";
+        //    htmlString += "                                                                                                                                    Sender address: Shopee Singapore Private Limited 2 Science Park Drive, #03-01, Tower A Ascent Singapore SG 118222 SG";
+        //    htmlString += "                                                                                                                                </td>";
+        //    htmlString += "                                                                                                                            </tr>";
+        //    htmlString += "                                                                                                                        </tbody>";
+        //    htmlString += "                                                                                                                    </table>";
+        //    htmlString += "                                                                                                                </td>";
+        //    htmlString += "                                                                                                            </tr>";
+        //    htmlString += "                                                                                                        </tbody>";
+        //    htmlString += "                                                                                                   </table>";
+        //    htmlString += "                                                                                                </td>";
+        //    htmlString += "                                                                                            </tr>";
+        //    htmlString += "                                                                                        </tbody>";
+        //    htmlString += "                                                                                    </table>";
+        //    htmlString += "                                                                                </td>";
+        //    htmlString += "                                                                            </tr>";
+        //    htmlString += "                                                                        </tbody>";
+        //    htmlString += "                                                                    </table>";
+
+        //    htmlString += "                                                                </td>";
+        //    htmlString += "                                                            </tr>";
+        //    htmlString += "                                                            <tr>";
+        //    htmlString += "                                                                <td align='left' valign='top'>";
+        //    htmlString += "                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='background-color:transparent;min-width:100%'>";
+        //    htmlString += "                                                                        <tbody>";
+        //    htmlString += "                                                                            <tr>";
+        //    htmlString += "                                                                                <td style='padding:0px'>";
+        //    htmlString += "                                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='min-width:100%'>";
+        //    htmlString += "                                                                                        <tbody>";
+        //    htmlString += "                                                                                            <tr>";
+        //    htmlString += "                                                                                                <td>";
+        //    htmlString += "                                                                                                    <div style=\"text-align:center;color:#858585;font-family:'Roboto',arial,sans-serif;font-size:12px;line-height:2\">";
+        //    htmlString += "                                                                                                        <span style='text-decoration:underline'><a href='" + Combine(baseUrl, "/Home/PrivacyPolicy") + "' style='color:#858585;text-decoration:underline' title='' target='_blank' data-saferedirecturl='#'>Privacy Notice</a></span> &nbsp;&nbsp; |&nbsp;&nbsp; <span style='text-decoration:underline'><a href='" + Combine(baseUrl, "/Home/TermsAndCondition" ) + "' style='color:#858585;text-decoration:underline' title='' target='_blank' data-saferedirecturl='#'>Terms and Conditions</a></span> &nbsp;&nbsp; |&nbsp;&nbsp; <span style='text-decoration:underline'>";
+        //    htmlString += "                                                                                                            <a href='#' style='color:#808080;text-decoration:underline;white-space:nowrap' title='' target='_blank' data-saferedirecturl='#'>View on Browser</a>";
+        //    htmlString += "                                                                                                        </span> &nbsp;&nbsp; &nbsp;|&nbsp;&nbsp; <span style='text-decoration:underline'>";
+        //    htmlString += "                                                                                                            <a href='" + Combine(baseUrl, "/Home/Unsubscribe?email=" + email) + "' style='color:#858585;text-decoration:underline' title='' target='_blank' data-saferedirecturl='#'>Unsubscribe</a>";
+        //    htmlString += "                                                                                                        </span>";
+        //    htmlString += "                                                                                                    </div>";
+        //    htmlString += "                                                                                                </td>";
+        //    htmlString += "                                                                                            </tr>";
+        //    htmlString += "                                                                                        </tbody>";
+        //    htmlString += "                                                                                    </table><table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='min-width:100%'>";
+        //    htmlString += "                                                                                        <tbody>";
+        //    htmlString += "                                                                                            <tr>";
+        //    htmlString += "                                                                                                <td>";
+        //    htmlString += "                                                                                                    <div style=\"text-align:center;color:#858585;font-size:12px;font-family:'Roboto',arial,sans-serif;text-decoration:none\">";
+        //    htmlString += "                                                                                                        <p style='text-decoration:none'>";
+        //    htmlString += "                                                                                                            <span style='text-decoration:none'>";
+        //    htmlString += "                                                                                                                This is a post-only mailing.&nbsp;<br>";
+        //    htmlString += "                                                                                                                Add <a href='mailto:zaldys.ecommerce.demo@gmail.com' style='color:#858585;text-decoration:none' target='_blank'>zaldys.ecommerce.demo@gmail.com</a> to your address book to ensure our e-mails enter your inbox.";
+        //    htmlString += "                                                                                                            </span>";
+        //    htmlString += "                                                                                                        </p><p style='text-decoration:none'>";
+        //    htmlString += "                                                                                                            Zaldy's Ecommerce Philippines Inc., Malolos City, Bulacan";
+        //    htmlString += "                                                                                                        </p>";
+        //    htmlString += "                                                                                                    </div>";
+        //    htmlString += "                                                                                                </td>";
+        //    htmlString += "                                                                                            </tr>";
+        //    htmlString += "                                                                                        </tbody>";
+        //    htmlString += "                                                                                    </table>";
+        //    htmlString += "                                                                                </td>";
+        //    htmlString += "                                                                            </tr>";
+        //    htmlString += "                                                                        </tbody>";
+        //    htmlString += "                                                                    </table>";
+
+        //    htmlString += "                                                                </td>";
+        //    htmlString += "                                                            </tr>";
+        //    htmlString += "                                                        </tbody>";
+        //    htmlString += "                                                    </table>";
+        //    htmlString += "                                                </td>";
+        //    htmlString += "                                            </tr>";
+        //    htmlString += "                                        </tbody>";
+        //    htmlString += "                                    </table>";
+        //    htmlString += "                                </td>";
+        //    htmlString += "                            </tr>";
+        //    htmlString += "                        </tbody>";
+        //    htmlString += "                    </table>";
+        //    htmlString += "                </td>";
+        //    htmlString += "            </tr>";
+        //    htmlString += "        </tbody>";
+        //    htmlString += "    </table>";
+
+        //    htmlString += "</body>";
+        //    htmlString += "</html>";
+
+
+        //    return htmlString;
+        //}
+
+
+        private static string CreateEmailHtmlTemplate(IEnumerable<Product> products, string email)
         {
-            string baseUrl = ConfigurationManager.AppSettings["BaseUrl"]; 
-            string htmlString = "";
-            htmlString = "<html lang='en'>";
-            htmlString += "<head>";
-            htmlString += "    <title>Zaldy's Ecommerce</title>";
-            htmlString += "</head>";
-            htmlString += "<body>";
+            string baseUrl = ConfigurationManager.AppSettings["BaseUrl"];
+            StringBuilder sb = new StringBuilder();
 
-            htmlString += "    <table cellspacing='0' cellpadding='0' border='0' width='600' class='m_-4140746664795773952container' align='center'>";
-            htmlString += "        <tbody>";
-            htmlString += "           <tr>";
-            htmlString += "                <td>";
+            sb.AppendLine("<html lang='en'>");
+            sb.AppendLine("<head>");
+            sb.AppendLine("    <title>Zaldy's Ecommerce</title>");
+            sb.AppendLine("</head>");
+            sb.AppendLine("<body>");
 
-            htmlString += "                    <table style=\"background-color:#ffffff;border:0px solid transparent;font-size:16px;font-family:Arial,helvetica,sans-serif;line-height:100%;color:#808080\"  cellspacing='0' cellpadding='0' bgcolor='#FFFFFF' width='100%'>";
+            sb.AppendLine("    <table cellspacing='0' cellpadding='0' border='0' width='600' class='m_-4140746664795773952container' align='center'>");
+            sb.AppendLine("        <tbody>");
+            sb.AppendLine("           <tr>");
+            sb.AppendLine("                <td>");
 
-            htmlString += "                        <tbody>";
-            htmlString += "                            <tr>";
-            htmlString += "                                <td align='center' valign='top'>";
-            htmlString += "                                    <table align='left' border='0' cellpadding='0' cellspacing='0' width='100%'>";
-            htmlString += "                                        <tbody>";
-            htmlString += "                                            <tr>";
+            sb.AppendLine("                    <table style=\"background-color:#ffffff;border:0px solid transparent;font-size:16px;font-family:Arial,helvetica,sans-serif;line-height:100%;color:#808080\"  cellspacing='0' cellpadding='0' bgcolor='#FFFFFF' width='100%'>");
 
-            htmlString += "                                                <td style='border:0px;padding:0px'>";
+            sb.AppendLine("                        <tbody>");
+            sb.AppendLine("                            <tr>");
+            sb.AppendLine("                                <td align='center' valign='top'>");
+            sb.AppendLine("                                    <table align='left' border='0' cellpadding='0' cellspacing='0' width='100%'>");
+            sb.AppendLine("                                        <tbody>");
+            sb.AppendLine("                                            <tr>");
 
-            htmlString += "                                                    <table border='0' cellpadding='0' cellspacing='0' width='100%'>";
-            htmlString += "                                                        <tbody>";
-            htmlString += "                                                            <tr>";
-            htmlString += "                                                                <td align='left' class='m_-4140746664795773952header' valign='top'>";
-            htmlString += "                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='min-width:100%'>";
-            htmlString += "                                                                        <tbody>";
-            htmlString += "                                                                            <tr>";
-            htmlString += "                                                                               <td style='padding:0px 0px 10px'>";
-            htmlString += "                                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='background-color:transparent;min-width:100%;border-top:0px;border-right:0px;border-bottom:1px solid transparent;border-left:0px'>";
-            htmlString += "                                                                                        <tbody>";
-            htmlString += "                                                                                            <tr>";
-            htmlString += "                                                                                                <td style='padding:0px'>";
-            htmlString += "                                                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='min-width:100%'>";
-            htmlString += "                                                                                                        <tbody>";
-            htmlString += "                                                                                                            <tr>";
-            htmlString += "                                                                                                                <td style='padding:20px 0px 0px'>";
-            htmlString += "                                                                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='background-color:transparent;min-width:100%'>";
-            htmlString += "                                                                                                                        <tbody>";
-            htmlString += "                                                                                                                            <tr>";
-            htmlString += "                                                                                                                                <td style='padding:0px'>";
-            htmlString += "                                                                                                                                    <table width='100%' style='min-width:375px!important' cellspacing='0' cellpadding='0' align='center'>";
-            htmlString += "                                                                                                                                        <tbody>";
-            htmlString += "                                                                                                                                            <tr>";
-            htmlString += "                                                                                                                                                <td width='100%' align='center'>";
-            htmlString += "                                                                                                                                                    <a  target='_blank'  href='" + Combine(baseUrl, "/Home/Index") + "' width='1' height='1' class='CToWUd'><img src='~/FrontEnd/img/demo logo2.png' alt=\"Zaldy's Ecommerce\" style='display:block;height:126px;width:100%;text-align:center;padding:0px' width='100%' height='126' class='CToWUd'></a>";
-            htmlString += "                                                                                                                                                </td>";
-            htmlString += "                                                                                                                                            </tr>";
-            htmlString += "                                                                                                                                        </tbody>";
-            htmlString += "                                                                                                                                    </table>";
-            htmlString += "                                                                                                                                    <img src='' width='1' height='1' class='CToWUd'>";
-            htmlString += "                                                                                                                                </td>";
-            htmlString += "                                                                                                                            </tr>";
-            htmlString += "                                                                                                                        </tbody>";
-            htmlString += "                                                                                                                    </table>";
-            htmlString += "                                                                                                                </td>";
-            htmlString += "                                                                                                            </tr>";
-            htmlString += "                                                                                                        </tbody>";
-            htmlString += "                                                                                                    </table><table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='min-width:100%'>";
-            htmlString += "                                                                                                        <tbody>";
-            htmlString += "                                                                                                            <tr>";
-            htmlString += "                                                                                                                <td style='padding:5px 0px 0px'>";
-            htmlString += "                                                                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='background-color:transparent;min-width:100%'>";
-            htmlString += "                                                                                                                        <tbody>";
-            htmlString += "                                                                                                                            <tr>";
-            htmlString += "                                                                                                                                <td style='padding:0px'>";
-            htmlString += "                                                                                                                                    <div style=\"text-align:center;color:#000;font-family:'Roboto',arial,sans-serif\">";
-            htmlString += "                                                                                                                                        <div style='width:100%'>";
-            htmlString += "                                                                                                                                            <table align='center' border='0' cellpadding='5' cellspacing='0' style='width:600px'>";
-            htmlString += "                                                                                                                                                <tbody>";
-            htmlString += "                                                                                                                                                    <tr>";
-            htmlString += "                                                                                                                                                        <td align='center'>";
-            htmlString += "                                                                                                                                                            <span style='font-size:12px'><a href='" + Combine(baseUrl, "/Home/Store?selectedCategory=1&selectedNavCategory=Laptops") + "' style=\"font-weight:700;text-align:center;font-family:Roboto,arial,sans-serif;color:rgb(0,0,0);text-decoration:none\" title='' target='_blank' data-saferedirecturl='#'>LAPTOPS</a></span>";
-            htmlString += "                                                                                                                                                        </td>";
-            htmlString += "                                                                                                                                                        <td style='line-height:100%'>";
-            htmlString += "                                                                                                                                                            <span style='font-size:12px'><span style=\"font-family:arial,helvetica,sans-serif\"><strong style='color:#000;text-align:center'>|</strong></span></span>";
-            htmlString += "                                                                                                                                                        </td>";
-            htmlString += "                                                                                                                                                        <td align='center'>";
-            htmlString += "                                                                                                                                                           <span style='font-size:12px'><a href='" + Combine(baseUrl, "/Home/Store?selectedCategory=2&selectedNavCategory=Smartphones") + "' style=\"font-weight:700;text-align:center;font-family:Roboto,arial,sans-serif;color:rgb(0,0,0);text-decoration:none\" title='' target='_blank' data-saferedirecturl='#'>SMART PHONES</a></span>";
-            htmlString += "                                                                                                                                                        </td>";
-            htmlString += "                                                                                                                                                        <td style='line-height:100%'>";
-            htmlString += "                                                                                                                                                            <span style='font-size:12px'><span style=\"font-family:arial,helvetica,sans-serif\"><strong style='color:#000;text-align:center'>|</strong></span></span>";
-            htmlString += "                                                                                                                                                        </td>";
-            htmlString += "                                                                                                                                                        <td align='center'>";
-            htmlString += "                                                                                                                                                            <span style='font-size:12px'><a href='" + Combine(baseUrl, "/Home/Store?selectedCategory=3&selectedNavCategory=Accessories") + "' style=\"font-weight:700;text-align:center;font-family:Roboto,arial,sans-serif;color:rgb(0,0,0);text-decoration:none\" title='' target='_blank' data-saferedirecturl='#'>ACCESORIES</a></span>";
-            htmlString += "                                                                                                                                                        </td>";
-            htmlString += "                                                                                                                                                        <td style='line-height:100%'>";
-            htmlString += "                                                                                                                                                            <span style='font-size:12px'><span style=\"font-family:arial,helvetica,sans-serif\"><strong style='color:#000;text-align:center'>|</strong></span></span>";
-            htmlString += "                                                                                                                                                        </td>";
-            htmlString += "                                                                                                                                                        <td align='center'>";
-            htmlString += "                                                                                                                                                            <span style='font-size:12px'><a href='" + Combine(baseUrl, "/Home/Store?selectedCategory=4&selectedNavCategory=Headphones") + "' style=\"font-weight:700;text-align:center;font-family:Roboto,arial,sans-serif;color:rgb(0,0,0);text-decoration:none\" title='' target='_blank' data-saferedirecturl='#'>HEADPHONES</a></span>";
-            htmlString += "                                                                                                                                                        </td>";
-            htmlString += "                                                                                                                                                        <td style='line-height:100%'>";
-            htmlString += "                                                                                                                                                            <span style='font-size:12px'><span style=\"font-family:arial,helvetica,sans-serif\"><strong style='color:#000;text-align:center'>|</strong></span></span>";
-            htmlString += "                                                                                                                                                        </td>";
-            htmlString += "                                                                                                                                                        <td align='center'>";
-            htmlString += "                                                                                                                                                            <span style='font-size:12px'><a href='" + Combine(baseUrl, "/Home/Store?selectedCategory=6&selectedNavCategory=Tablet") + "' style=\"font-weight:700;text-align:center;font-family:Roboto,arial,sans-serif;color:rgb(0,0,0);text-decoration:none\" title='' target='_blank' data-saferedirecturl='#'>TABLETS</a></span>";
-            htmlString += "                                                                                                                                                        </td>";
-            htmlString += "                                                                                                                                                    </tr>";
-            htmlString += "                                                                                                                                                </tbody>";
-            htmlString += "                                                                                                                                            </table>";
-            htmlString += "                                                                                                                                        </div>";
-            htmlString += "                                                                                                                                    </div>";
-            htmlString += "                                                                                                                                </td>";
-            htmlString += "                                                                                                                            </tr>";
-            htmlString += "                                                                                                                        </tbody>";
-            htmlString += "                                                                                                                    </table>";
-            htmlString += "                                                                                                                </td>";
-            htmlString += "                                                                                                            </tr>";
-            htmlString += "                                                                                                        </tbody>";
-            htmlString += "                                                                                                    </table>";
-            htmlString += "                                                                                                </td>";
-            htmlString += "                                                                                            </tr>";
-            htmlString += "                                                                                        </tbody>";
-            htmlString += "                                                                                    </table>";
-            htmlString += "                                                                                </td>";
-            htmlString += "                                                                            </tr>";
-            htmlString += "                                                                        </tbody>";
-            htmlString += "                                                                    </table>";
-     
-            htmlString += "                                                                </td>";
-            htmlString += "                                                            </tr>";
-            htmlString += "                                                            <tr>";
-            htmlString += "                                                                <td align='left' valign='top'>";
-            htmlString += "                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='border:0px solid transparent;background-color:transparent;min-width:100%'>";
-            htmlString += "                                                                        <tbody>";
-            htmlString += "                                                                            <tr>";
-            htmlString += "                                                                                <td style='padding:0px'>";
+            sb.AppendLine("                                                <td style='border:0px;padding:0px'>");
 
-            htmlString += "                                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='min-width:100%'>";
-            htmlString += "                                                                                        <tbody>";
-            htmlString += "                                                                                            <tr>";
-            htmlString += "                                                                                                <td>";
+            sb.AppendLine("                                                    <table border='0' cellpadding='0' cellspacing='0' width='100%'>");
+            sb.AppendLine("                                                        <tbody>");
+            sb.AppendLine("                                                            <tr>");
+            sb.AppendLine("                                                                <td align='left' class='m_-4140746664795773952header' valign='top'>");
+            sb.AppendLine("                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='min-width:100%'>");
+            sb.AppendLine("                                                                        <tbody>");
+            sb.AppendLine("                                                                            <tr>");
+            sb.AppendLine("                                                                               <td style='padding:0px 0px 10px'>");
+            sb.AppendLine("                                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='background-color:transparent;min-width:100%;border-top:0px;border-right:0px;border-bottom:1px solid transparent;border-left:0px'>");
+            sb.AppendLine("                                                                                        <tbody>");
+            sb.AppendLine("                                                                                            <tr>");
+            sb.AppendLine("                                                                                                <td style='padding:0px'>");
+            sb.AppendLine("                                                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='min-width:100%'>");
+            sb.AppendLine("                                                                                                        <tbody>");
+            sb.AppendLine("                                                                                                            <tr>");
+            sb.AppendLine("                                                                                                                <td style='padding:20px 0px 0px'>");
+            sb.AppendLine("                                                                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='background-color:transparent;min-width:100%'>");
+            sb.AppendLine("                                                                                                                        <tbody>");
+            sb.AppendLine("                                                                                                                            <tr>");
+            sb.AppendLine("                                                                                                                                <td style='padding:0px'>");
+            sb.AppendLine("                                                                                                                                    <table width='100%' style='min-width:375px!important' cellspacing='0' cellpadding='0' align='center'>");
+            sb.AppendLine("                                                                                                                                        <tbody>");
+            sb.AppendLine("                                                                                                                                            <tr>");
+            sb.AppendLine("                                                                                                                                                <td width='100%' align='center'>");
+            sb.AppendLine("                                                                                                                                                    <a  target='_blank'  href='" + Combine(baseUrl, "/Home/Index") + "' width='1' height='1' class='CToWUd'><img src='~/FrontEnd/img/demo logo2.png' alt=\"Zaldy's Ecommerce\" style='display:block;height:126px;width:100%;text-align:center;padding:0px' width='100%' height='126' class='CToWUd'></a>");
+            sb.AppendLine("                                                                                                                                                </td>");
+            sb.AppendLine("                                                                                                                                            </tr>");
+            sb.AppendLine("                                                                                                                                        </tbody>");
+            sb.AppendLine("                                                                                                                                    </table>");
+            sb.AppendLine("                                                                                                                                    <img src='' width='1' height='1' class='CToWUd'>");
+            sb.AppendLine("                                                                                                                                </td>");
+            sb.AppendLine("                                                                                                                            </tr>");
+            sb.AppendLine("                                                                                                                        </tbody>");
+            sb.AppendLine("                                                                                                                    </table>");
+            sb.AppendLine("                                                                                                                </td>");
+            sb.AppendLine("                                                                                                            </tr>");
+            sb.AppendLine("                                                                                                        </tbody>");
+            sb.AppendLine("                                                                                                    </table><table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='min-width:100%'>");
+            sb.AppendLine("                                                                                                        <tbody>");
+            sb.AppendLine("                                                                                                            <tr>");
+            sb.AppendLine("                                                                                                                <td style='padding:5px 0px 0px'>");
+            sb.AppendLine("                                                                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='background-color:transparent;min-width:100%'>");
+            sb.AppendLine("                                                                                                                        <tbody>");
+            sb.AppendLine("                                                                                                                            <tr>");
+            sb.AppendLine("                                                                                                                                <td style='padding:0px'>");
+            sb.AppendLine("                                                                                                                                    <div style=\"text-align:center;color:#000;font-family:'Roboto',arial,sans-serif\">");
+            sb.AppendLine("                                                                                                                                        <div style='width:100%'>");
+            sb.AppendLine("                                                                                                                                            <table align='center' border='0' cellpadding='5' cellspacing='0' style='width:600px'>");
+            sb.AppendLine("                                                                                                                                                <tbody>");
+            sb.AppendLine("                                                                                                                                                    <tr>");
+            sb.AppendLine("                                                                                                                                                        <td align='center'>");
+            sb.AppendLine("                                                                                                                                                            <span style='font-size:12px'><a href='" + Combine(baseUrl, "/Home/Store?selectedCategory=1&selectedNavCategory=Laptops") + "' style=\"font-weight:700;text-align:center;font-family:Roboto,arial,sans-serif;color:rgb(0,0,0);text-decoration:none\" title='' target='_blank' data-saferedirecturl='#'>LAPTOPS</a></span>");
+            sb.AppendLine("                                                                                                                                                        </td>");
+            sb.AppendLine("                                                                                                                                                        <td style='line-height:100%'>");
+            sb.AppendLine("                                                                                                                                                            <span style='font-size:12px'><span style=\"font-family:arial,helvetica,sans-serif\"><strong style='color:#000;text-align:center'>|</strong></span></span>");
+            sb.AppendLine("                                                                                                                                                        </td>");
+            sb.AppendLine("                                                                                                                                                        <td align='center'>");
+            sb.AppendLine("                                                                                                                                                           <span style='font-size:12px'><a href='" + Combine(baseUrl, "/Home/Store?selectedCategory=2&selectedNavCategory=Smartphones") + "' style=\"font-weight:700;text-align:center;font-family:Roboto,arial,sans-serif;color:rgb(0,0,0);text-decoration:none\" title='' target='_blank' data-saferedirecturl='#'>SMART PHONES</a></span>");
+            sb.AppendLine("                                                                                                                                                        </td>");
+            sb.AppendLine("                                                                                                                                                        <td style='line-height:100%'>");
+            sb.AppendLine("                                                                                                                                                            <span style='font-size:12px'><span style=\"font-family:arial,helvetica,sans-serif\"><strong style='color:#000;text-align:center'>|</strong></span></span>");
+            sb.AppendLine("                                                                                                                                                        </td>");
+            sb.AppendLine("                                                                                                                                                        <td align='center'>");
+            sb.AppendLine("                                                                                                                                                            <span style='font-size:12px'><a href='" + Combine(baseUrl, "/Home/Store?selectedCategory=3&selectedNavCategory=Accessories") + "' style=\"font-weight:700;text-align:center;font-family:Roboto,arial,sans-serif;color:rgb(0,0,0);text-decoration:none\" title='' target='_blank' data-saferedirecturl='#'>ACCESORIES</a></span>");
+            sb.AppendLine("                                                                                                                                                        </td>");
+            sb.AppendLine("                                                                                                                                                        <td style='line-height:100%'>");
+            sb.AppendLine("                                                                                                                                                            <span style='font-size:12px'><span style=\"font-family:arial,helvetica,sans-serif\"><strong style='color:#000;text-align:center'>|</strong></span></span>");
+            sb.AppendLine("                                                                                                                                                        </td>");
+            sb.AppendLine("                                                                                                                                                        <td align='center'>");
+            sb.AppendLine("                                                                                                                                                            <span style='font-size:12px'><a href='" + Combine(baseUrl, "/Home/Store?selectedCategory=4&selectedNavCategory=Headphones") + "' style=\"font-weight:700;text-align:center;font-family:Roboto,arial,sans-serif;color:rgb(0,0,0);text-decoration:none\" title='' target='_blank' data-saferedirecturl='#'>HEADPHONES</a></span>");
+            sb.AppendLine("                                                                                                                                                        </td>");
+            sb.AppendLine("                                                                                                                                                        <td style='line-height:100%'>");
+            sb.AppendLine("                                                                                                                                                            <span style='font-size:12px'><span style=\"font-family:arial,helvetica,sans-serif\"><strong style='color:#000;text-align:center'>|</strong></span></span>");
+            sb.AppendLine("                                                                                                                                                        </td>");
+            sb.AppendLine("                                                                                                                                                        <td align='center'>");
+            sb.AppendLine("                                                                                                                                                            <span style='font-size:12px'><a href='" + Combine(baseUrl, "/Home/Store?selectedCategory=6&selectedNavCategory=Tablet") + "' style=\"font-weight:700;text-align:center;font-family:Roboto,arial,sans-serif;color:rgb(0,0,0);text-decoration:none\" title='' target='_blank' data-saferedirecturl='#'>TABLETS</a></span>");
+            sb.AppendLine("                                                                                                                                                        </td>");
+            sb.AppendLine("                                                                                                                                                    </tr>");
+            sb.AppendLine("                                                                                                                                                </tbody>");
+            sb.AppendLine("                                                                                                                                            </table>");
+            sb.AppendLine("                                                                                                                                        </div>");
+            sb.AppendLine("                                                                                                                                    </div>");
+            sb.AppendLine("                                                                                                                                </td>");
+            sb.AppendLine("                                                                                                                            </tr>");
+            sb.AppendLine("                                                                                                                        </tbody>");
+            sb.AppendLine("                                                                                                                    </table>");
+            sb.AppendLine("                                                                                                                </td>");
+            sb.AppendLine("                                                                                                            </tr>");
+            sb.AppendLine("                                                                                                        </tbody>");
+            sb.AppendLine("                                                                                                    </table>");
+            sb.AppendLine("                                                                                                </td>");
+            sb.AppendLine("                                                                                            </tr>");
+            sb.AppendLine("                                                                                        </tbody>");
+            sb.AppendLine("                                                                                    </table>");
+            sb.AppendLine("                                                                                </td>");
+            sb.AppendLine("                                                                            </tr>");
+            sb.AppendLine("                                                                        </tbody>");
+            sb.AppendLine("                                                                    </table>");
 
-            htmlString += "                                                                                                    <center>";
-            htmlString += "                                                                                                        <table width='600px' cellspacing='0' cellpadding='0'>";
-            htmlString += "                                                                                                            <tbody>";
-            htmlString += "                                                                                                                <tr>";
-     
-            htmlString += "                                                                                                                    <td align='center' style='display:flex;'>";
-            htmlString += "                                                                                                                        <h2 style='color: #d10024; display: block; background-color: #efefef; padding: 0px; margin: 0px; line-height: 90px; text-align: center; height: 90px; width: 100%; border: 0px'>TOP PICKS OF THE WEEK</h2><div class='a6S' dir='ltr' style='opacity: 0.01; left: 1004px; top: 1753px;'><div id=':p7' class='T-I J-J5-Ji aQv T-I-ax7 L3 a5q' title='Download' role='button' tabindex='0' aria-label='Download attachment ' data-tooltip-class='a1V'><div class='akn'><div class='aSK J-J5-Ji aYr'></div></div></div></div>";
-            htmlString += "                                                                                                                    </td>";
-            htmlString += "                                                                                                                </tr>";
-            htmlString += "                                                                                                            </tbody>";
-            htmlString += "                                                                                                        </table>";
-            htmlString += "                                                                                                        <table border='0' width='600' cellspacing='0' cellpadding='0' bgcolor='#efefef'>";
-            htmlString += "                                                                                                            <tbody>";
+            sb.AppendLine("                                                                </td>");
+            sb.AppendLine("                                                            </tr>");
+            sb.AppendLine("                                                            <tr>");
+            sb.AppendLine("                                                                <td align='left' valign='top'>");
+            sb.AppendLine("                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='border:0px solid transparent;background-color:transparent;min-width:100%'>");
+            sb.AppendLine("                                                                        <tbody>");
+            sb.AppendLine("                                                                            <tr>");
+            sb.AppendLine("                                                                                <td style='padding:0px'>");
+
+            sb.AppendLine("                                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='min-width:100%'>");
+            sb.AppendLine("                                                                                        <tbody>");
+            sb.AppendLine("                                                                                            <tr>");
+            sb.AppendLine("                                                                                                <td>");
+
+            sb.AppendLine("                                                                                                    <center>");
+            sb.AppendLine("                                                                                                        <table width='600px' cellspacing='0' cellpadding='0'>");
+            sb.AppendLine("                                                                                                            <tbody>");
+            sb.AppendLine("                                                                                                                <tr>");
+
+            sb.AppendLine("                                                                                                                    <td align='center' style='display:flex;'>");
+            sb.AppendLine("                                                                                                                        <h2 style='color: #d10024; display: block; background-color: #efefef; padding: 0px; margin: 0px; line-height: 90px; text-align: center; height: 90px; width: 100%; border: 0px'>TOP PICKS OF THE WEEK</h2><div class='a6S' dir='ltr' style='opacity: 0.01; left: 1004px; top: 1753px;'><div id=':p7' class='T-I J-J5-Ji aQv T-I-ax7 L3 a5q' title='Download' role='button' tabindex='0' aria-label='Download attachment ' data-tooltip-class='a1V'><div class='akn'><div class='aSK J-J5-Ji aYr'></div></div></div></div>");
+            sb.AppendLine("                                                                                                                    </td>");
+            sb.AppendLine("                                                                                                                </tr>");
+            sb.AppendLine("                                                                                                            </tbody>");
+            sb.AppendLine("                                                                                                        </table>");
+            sb.AppendLine("                                                                                                        <table border='0' width='600' cellspacing='0' cellpadding='0' bgcolor='#efefef'>");
+            sb.AppendLine("                                                                                                            <tbody>");
 
 
                                                                                                                                 int prodCount = 0;
-                                                                                                                               int prodIndex = 0;
-
-      
-                                                                                                                            foreach (var item in products)
-                                                                                                                            {
-                                                                                                                               prodCount += 1;
-                                                                                                                                prodIndex += 1;
-      
-                                                                                                                                if (prodCount == 1)
-                                                                                                                               {
-            htmlString += "                                                                                                                        <tr>";
-          
-            htmlString += "                                                                                                                    <td bgcolor='#efefef' width='15px'>";
-            htmlString += "                                                                                                                        &nbsp;";
-            htmlString += "                                                                                                                    </td>";
-       
-            htmlString += "                                                                                                                    <td width='278'>";
-            htmlString += "                                                                                                                        <!-- zaldy 1-->";
-            htmlString += "                                                                                                                        <table border='0' cellspacing='0' cellpadding='0' bgcolor='white'>";
-            htmlString += "                                                                                                                            <tbody>";
-            htmlString += "                                                                                                                                <tr>";
-            htmlString += "                                                                                                                                    <td colspan='2' width='278px' height='278px' style='padding:12px;'>";
-            htmlString += "                                                                                                                                        <a href='" + Combine(baseUrl, "/Home/Product?productId=" + item.ProductId.ToString() + "&selectedNavCategory=Categories") + "' target='_blank' data-saferedirecturl='#'>";
-                                                                                                                                                       if (item.Images.Count > 0)
-                                                                                                                                                     {
-
-                                                                                                                                                          var itemImages = item.Images;
-
-                                                                                                                                                           foreach (var itemImage in itemImages)
-                                                                                                                                                         {
-                                                                                                                                                             if (itemImage.Default)
-                                                                                                                                                                {
-        
-            htmlString += "                                                                                                                                                        <img style='width: 100%; height: 258px; object-fit: scale-down;' src='" + itemImage.ImagePath + "' alt='" + itemImage.Title + "' height='258px' class='CToWUd'>";
-                                                                                                                                                                  break;
-                                                                                                                                                              }
-                                                                                                                                                            }
-                                                                                                                                                  }
-        
-            htmlString += "                                                                                                                                        </a>";
-            htmlString += "                                                                                                                                    </td>";
-            htmlString += "                                                                                                                                </tr>";
-            htmlString += "                                                                                                                                <tr>";
-            htmlString += "                                                                                                                                    <td style='padding:8px' colspan='2' width='230'>";
-       
-            htmlString += "                                                                                                                                        <div style=\"float:left;color:#000000;font-weight:bold;font-family:'Roboto',arial,sans-serif!important;overflow:hidden;text-overflow:ellipsis;max-width:278px;height:32px;text-transform:capitalize;\">" + item.Name + "</div>";
-           
-            htmlString += "                                                                                                                                    </td>";
-            htmlString += "                                                                                                                                </tr>";
-            htmlString += "                                                                                                                                <tr>";
-       
-
-            htmlString += "                                                                                                                                    <!-- WITH PROMO -->";
-            htmlString += "                                                                                                                                    <td style='padding:8px'>";
-       
-                                                                                                                                                    if (item.PromoSaleOFF > 0)
-                                                                                                                                                 {
-                                                                                                                                                      if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
-                                                                                                                                                        {
-      
-            htmlString += "                                                                                                                                                <span  style=\"text-decoration:line-through;color:#bdbdbd;font-family:'Roboto',arial,sans-serif!important\">₱" + Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00") + "</span>";
-            htmlString += "                                                                                                                                                <br>";
-            htmlString += "                                                                                                                                                <span  style=\"color:#D10024;font-family:'Roboto',arial,sans-serif!important\">₱" + Convert.ToDecimal(item.DiscountedPrice).ToString("#,##0.00") + "</span>";
-       
-
-                                                                                                                                                        }
-                                                                                                                                                       else
-                                                                                                                                                       {
-            htmlString += "                                                                                                                                                <span  style=\"color:#D10024;font-family:'Roboto',arial,sans-serif!important\">₱" + Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00") + "</span>";
-
-                                                                                                                                                        }
-                                                                                                                                                   }
-                                                                                                                                                  else
-                                                                                                                                                   {
-            htmlString += "                                                                                                                                            <span  style=\"color:#D10024;font-family:'Roboto',arial,sans-serif!important\">₱" + Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00") + "</span>";
-                                                                                                                                                   }
+                                                                                                                                int prodIndex = 0;
 
 
-            htmlString += "                                                                                                                                        <br>";
-            htmlString += "                                                                                                                                       <span  style=\"color:#000000;font-family:'Roboto',arial,sans-serif!important\">" + (item.Sold == null ? 0 : item.Sold)  + " sold</span>";
-            htmlString += "                                                                                                                                    </td>";
-     
-                                                                                                                                               if (item.PromoSaleOFF > 0)
-                                                                                                                                              {
-                                                                                                                                                   if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
-                                                                                                                                                   {
-         
-            htmlString += "                                                                                                                                            <td style='padding:8px' align='right' valign='bottom' width='45px'>";
-           
-            htmlString += "                                                                                                                                                <div style='padding-top: 5px; padding-bottom: 5px; background-color: #D10024; text-align: center'>";
-            htmlString += "                                                                                                                                                    <span  style=\"color:#ffffff;font-family:'Roboto',arial,sans-serif!important\">" + (double.Parse(item.PromoSaleOFF.ToString()) * 100) + "</span>";
-            htmlString += "                                                                                                                                                    <span  style=\"color: #ffffff; font-family: 'Roboto',arial,sans-serif !important \">%</span>";
-            htmlString += "                                                                                                                                                    <br>";
-            htmlString += "                                                                                                                                                    <span style=\"color:#ffffff;font-family:'Roboto',arial,sans-serif!important\">OFF</span>";
-            htmlString += "                                                                                                                                                </div>";
-   
-            htmlString += "                                                                                                                                            </td>";
-            
-                                                                                                                                                    }
-          
+                                                                                                                                foreach (var item in products)
+                                                                                                                                {
+                                                                                                                                    prodCount += 1;
+                                                                                                                                    prodIndex += 1;
+
+                                                                                                                                    if (prodCount == 1)
+                                                                                                                                    {
+           sb.AppendLine("                                                                                                                        <tr>");
+
+           sb.AppendLine("                                                                                                                    <td bgcolor='#efefef' width='15px'>");
+           sb.AppendLine("                                                                                                                        &nbsp;");
+           sb.AppendLine("                                                                                                                    </td>");
+
+           sb.AppendLine("                                                                                                                    <td width='278'>");
+           sb.AppendLine("                                                                                                                        <!-- zaldy 1-->");
+           sb.AppendLine("                                                                                                                        <table border='0' cellspacing='0' cellpadding='0' bgcolor='white'>");
+           sb.AppendLine("                                                                                                                            <tbody>");
+           sb.AppendLine("                                                                                                                                <tr>");
+           sb.AppendLine("                                                                                                                                    <td colspan='2' width='278px' height='278px' style='padding:12px;'>");
+           sb.AppendLine("                                                                                                                                        <a href='" + Combine(baseUrl, "/Home/Product?productId=" + item.ProductId.ToString() + "&selectedNavCategory=Categories") + "' target='_blank' data-saferedirecturl='#'>");
+                                                                                                                                        if (item.Images.Count > 0)
+                                                                                                                                        {
+
+                                                                                                                                            var itemImages = item.Images;
+
+                                                                                                                                            foreach (var itemImage in itemImages)
+                                                                                                                                            {
+                                                                                                                                                if (itemImage.Default)
+                                                                                                                                                {
+
+                                                                                                                                           sb.AppendLine("                                                                                                                                                        <img style='width: 100%; height: 258px; object-fit: scale-down;' src='" + itemImage.ImagePath + "' alt='" + itemImage.Title + "' height='258px' class='CToWUd'>");
+                                                                                                                                                    break;
                                                                                                                                                 }
-                                                                                                                                               else
-                                                                                                                                               {
-            htmlString += "                                                                                                                                        <!-- NO PROMO -->";
-            htmlString += "                                                                                                                                        <td style='padding:8px'>";
-            htmlString += "                                                                                                                                        </td>";
-                                                                                                                                               }
-           
+                                                                                                                                            }
+                                                                                                                                        }
 
-            htmlString += "                                                                                                                                </tr>";
-            htmlString += "                                                                                                                            </tbody>";
-            htmlString += "                                                                                                                        </table>";
-            htmlString += "                                                                                                                    </td>";
-                                                                                                                             }
+           sb.AppendLine("                                                                                                                                        </a>");
+           sb.AppendLine("                                                                                                                                    </td>");
+           sb.AppendLine("                                                                                                                                </tr>");
+           sb.AppendLine("                                                                                                                                <tr>");
+           sb.AppendLine("                                                                                                                                    <td style='padding:8px' colspan='2' width='230'>");
+
+           sb.AppendLine("                                                                                                                                        <div style=\"float:left;color:#000000;font-weight:bold;font-family:'Roboto',arial,sans-serif!important;overflow:hidden;text-overflow:ellipsis;max-width:278px;height:32px;text-transform:capitalize;\">" + item.Name + "</div>");
+
+           sb.AppendLine("                                                                                                                                    </td>");
+           sb.AppendLine("                                                                                                                                </tr>");
+           sb.AppendLine("                                                                                                                                <tr>");
+
+
+           sb.AppendLine("                                                                                                                                    <!-- WITH PROMO -->");
+           sb.AppendLine("                                                                                                                                    <td style='padding:8px'>");
+
+                                                                                                                                        if (item.PromoSaleOFF > 0)
+                                                                                                                                        {
+                                                                                                                                            if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
+                                                                                                                                            {
+
+           sb.AppendLine("                                                                                                                                                <span  style=\"text-decoration:line-through;color:#bdbdbd;font-family:'Roboto',arial,sans-serif!important\">₱" + Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00") + "</span>");
+           sb.AppendLine("                                                                                                                                                <br>");
+           sb.AppendLine("                                                                                                                                                <span  style=\"color:#D10024;font-family:'Roboto',arial,sans-serif!important\">₱" + Convert.ToDecimal(item.DiscountedPrice).ToString("#,##0.00") + "</span>");
+
+
+                                                                                                                                            }
+                                                                                                                                            else
+                                                                                                                                            {
+           sb.AppendLine("                                                                                                                                                <span  style=\"color:#D10024;font-family:'Roboto',arial,sans-serif!important\">₱" + Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00") + "</span>");
+
+                                                                                                                                            }
+                                                                                                                                        }
+                                                                                                                                        else
+                                                                                                                                        {
+           sb.AppendLine("                                                                                                                                            <span  style=\"color:#D10024;font-family:'Roboto',arial,sans-serif!important\">₱" + Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00") + "</span>");
+                                                                                                                                        }
+
+
+           sb.AppendLine("                                                                                                                                        <br>");
+           sb.AppendLine("                                                                                                                                       <span  style=\"color:#000000;font-family:'Roboto',arial,sans-serif!important\">" + (item.Sold == null ? 0 : item.Sold) + " sold</span>");
+           sb.AppendLine("                                                                                                                                    </td>");
+
+                                                                                                                                    if (item.PromoSaleOFF > 0)
+                                                                                                                                    {
+                                                                                                                                        if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
+                                                                                                                                        {
+
+           sb.AppendLine("                                                                                                                                            <td style='padding:8px' align='right' valign='bottom' width='45px'>");
+
+           sb.AppendLine("                                                                                                                                                <div style='padding-top: 5px; padding-bottom: 5px; background-color: #D10024; text-align: center'>");
+           sb.AppendLine("                                                                                                                                                    <span  style=\"color:#ffffff;font-family:'Roboto',arial,sans-serif!important\">" + (double.Parse(item.PromoSaleOFF.ToString()) * 100) + "</span>");
+           sb.AppendLine("                                                                                                                                                    <span  style=\"color: #ffffff; font-family: 'Roboto',arial,sans-serif !important \">%</span>");
+           sb.AppendLine("                                                                                                                                                    <br>");
+           sb.AppendLine("                                                                                                                                                    <span style=\"color:#ffffff;font-family:'Roboto',arial,sans-serif!important\">OFF</span>");
+           sb.AppendLine("                                                                                                                                                </div>");
+
+           sb.AppendLine("                                                                                                                                            </td>");
+
+                                                                                                                                        }
+
+                                                                                                                                    }
+                                                                                                                                    else
+                                                                                                                                    {
+           sb.AppendLine("                                                                                                                                        <!-- NO PROMO -->");
+           sb.AppendLine("                                                                                                                                        <td style='padding:8px'>");
+           sb.AppendLine("                                                                                                                                        </td>");
+                                                                                                                                    }
+
+
+           sb.AppendLine("                                                                                                                                </tr>");
+           sb.AppendLine("                                                                                                                            </tbody>");
+           sb.AppendLine("                                                                                                                        </table>");
+           sb.AppendLine("                                                                                                                    </td>");
+                                                                                                                                    }
 
                                                                                                                             if (prodCount == 2)
                                                                                                                             {
-        
-            htmlString += "                                                                                                                    <td bgcolor='#efefef' width='14'>";
-            htmlString += "                                                                                                                        &nbsp;";
-            htmlString += "                                                                                                                    </td>";
-         
-            htmlString += "                                                                                                                    <td width='278'>";
-            htmlString += "                                                                                                                        <!-- zaldy 1-->";
-            htmlString += "                                                                                                                        <table border='0' cellspacing='0' cellpadding='0' bgcolor='white'>";
-            htmlString += "                                                                                                                            <tbody>";
-            htmlString += "                                                                                                                                <tr>";
-            htmlString += "                                                                                                                                    <td colspan='2' width='278px' height='278px' style='padding:12px;'>";
-            htmlString += "                                                                                                                                        <a href='" + Combine(baseUrl, "/Home/Product?productId=" + item.ProductId.ToString()  + "&selectedNavCategory=Categories") + "' target='_blank' data-saferedirecturl='#'>";
-                                                                                                                                                      if (item.Images.Count > 0)
-                                                                                                                                                       {
 
-                                                                                                                                                           var itemImages = item.Images;
-          
-                                                                                                                                                            foreach (var itemImage in itemImages)
-                                                                                                                                                           {
-                                                                                                                                                               if (itemImage.Default)
-                                                                                                                                                               {
+           sb.AppendLine("                                                                                                                    <td bgcolor='#efefef' width='14'>");
+           sb.AppendLine("                                                                                                                        &nbsp;");
+           sb.AppendLine("                                                                                                                    </td>");
 
-            htmlString += "                                                                                                                                                        <img style='width: 100%; height: 258px; object-fit: scale-down;' src='" + itemImage.ImagePath + "' alt='" + itemImage.Title + "' height='258px'>";
-                                                                                                                                                                   break;
-                                                                                                                                                              }
-                                                                                                                                                           }
-                                                                                                                                                       }
-     
-            htmlString += "                                                                                                                                        </a>";
-            htmlString += "                                                                                                                                    </td>";
-            htmlString += "                                                                                                                               </tr>";
-            htmlString += "                                                                                                                                <tr>";
-            htmlString += "                                                                                                                                    <td style='padding:8px' colspan='2' width='230'>";
-         
-            htmlString += "                                                                                                                                       <div style=\"float:left;color:#000000;font-weight:bold;font-family:'Roboto',arial,sans-serif!important;overflow:hidden;text-overflow:ellipsis;max-width:278px;height:32px;text-transform:capitalize;\">" + item.Name + "</div>";
-           
-            htmlString += "                                                                                                                                    </td>";
-            htmlString += "                                                                                                                                </tr>";
-            htmlString += "                                                                                                                               <tr>";
-       
+           sb.AppendLine("                                                                                                                    <td width='278'>");
+           sb.AppendLine("                                                                                                                        <!-- zaldy 1-->");
+           sb.AppendLine("                                                                                                                        <table border='0' cellspacing='0' cellpadding='0' bgcolor='white'>");
+           sb.AppendLine("                                                                                                                            <tbody>");
+           sb.AppendLine("                                                                                                                                <tr>");
+           sb.AppendLine("                                                                                                                                    <td colspan='2' width='278px' height='278px' style='padding:12px;'>");
+           sb.AppendLine("                                                                                                                                        <a href='" + Combine(baseUrl, "/Home/Product?productId=" + item.ProductId.ToString() + "&selectedNavCategory=Categories") + "' target='_blank' data-saferedirecturl='#'>");
+                                                                                                                                if (item.Images.Count > 0)
+                                                                                                                                {
 
-            htmlString += "                                                                                                                                    <!-- WITH PROMO -->";
-            htmlString += "                                                                                                                                    <td style='padding:8px'>";
-      
-                                                                                                                                                  if (item.PromoSaleOFF > 0)
-                                                                                                                                                  {
-                                                                                                                                                      if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
-                                                                                                                                                       {
-       
-            htmlString += "                                                                                                                                                <span  style=\"text-decoration:line-through;color:#bdbdbd;font-family:'Roboto',arial,sans-serif!important\">₱" + Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00") + "</span>";
-            htmlString += "                                                                                                                                               <br>";
-            htmlString += "                                                                                                                                                <span  style=\"color:#D10024;font-family:'Roboto',arial,sans-serif!important\">₱" + Convert.ToDecimal(item.DiscountedPrice).ToString("#,##0.00") + "</span>";
-     
+                                                                                                                                    var itemImages = item.Images;
 
-                                                                                                                                                        }
-                                                                                                                                                        else
-                                                                                                                                                       {
-            htmlString += "                                                                                                                                                <span  style=\"color:#D10024;font-family:'Roboto',arial,sans-serif!important\">₱" + Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00") + "</span>";
-       
-                                                                                                                                                        }
-                                                                                                                                                    }
-                                                                                                                                                    else
-                                                                                                                                                    {
-            htmlString += "                                                                                                                                            <span  style=\"color:#D10024;font-family:'Roboto',arial,sans-serif!important\">₱" + Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00") + "</span>";
-                                                                                                                                                   }
-    
+                                                                                                                                    foreach (var itemImage in itemImages)
+                                                                                                                                    {
+                                                                                                                                        if (itemImage.Default)
+                                                                                                                                        {
 
-            htmlString += "                                                                                                                                        <br>";
-            htmlString += "                                                                                                                                        <span style=\"color:#000000;font-family:'Roboto',arial,sans-serif!important\">" + (item.Sold == null ? 0 : item.Sold) + " sold</span>";
-            htmlString += "                                                                                                                                    </td>";
-      
-                                                                                                                                               if (item.PromoSaleOFF > 0)
-                                                                                                                                                {
-                                                                                                                                                    if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
-                                                                                                                                                    {
-         
-            htmlString += "                                                                                                                                            <td style='padding:8px' align='right' valign='bottom' width='45px'>";
-     
-            htmlString += "                                                                                                                                                <div style='padding-top: 5px; padding-bottom: 5px; background-color: #D10024; text-align: center'>";
-            htmlString += "                                                                                                                                                    <span style=\"color:#ffffff;font-family:'Roboto',arial,sans-serif!important\">" + (double.Parse(item.PromoSaleOFF.ToString()) * 100)  + "</span>";
-            htmlString += "                                                                                                                                                    <span  style=\"color: #ffffff; font-family: 'Roboto',arial,sans-serif !important \">%</span>";
-            htmlString += "                                                                                                                                                    <br>";
-            htmlString += "                                                                                                                                                    <span  style=\"color:#ffffff;font-family:'Roboto',arial,sans-serif!important\">OFF</span>";
-            htmlString += "                                                                                                                                                </div>";
-        
-            htmlString += "                                                                                                                                            </td>";
-          
-                                                                                                                                                    }
+           sb.AppendLine("                                                                                                                                                        <img style='width: 100%; height: 258px; object-fit: scale-down;' src='" + itemImage.ImagePath + "' alt='" + itemImage.Title + "' height='258px'>");
+                                                                                                                                            break;
+                                                                                                                                        }
+                                                                                                                                    }
+                                                                                                                                }
 
-                                                                                                                                                }
-                                                                                                                                                else
-                                                                                                                                                {
-            htmlString += "                                                                                                                                        <!-- NO PROMO -->";
-            htmlString += "                                                                                                                                        <td style='padding:8px'>";
-            htmlString += "                                                                                                                                        </td>";
-                                                                                                                                               }
+           sb.AppendLine("                                                                                                                                        </a>");
+           sb.AppendLine("                                                                                                                                    </td>");
+           sb.AppendLine("                                                                                                                               </tr>");
+           sb.AppendLine("                                                                                                                                <tr>");
+           sb.AppendLine("                                                                                                                                    <td style='padding:8px' colspan='2' width='230'>");
+
+           sb.AppendLine("                                                                                                                                       <div style=\"float:left;color:#000000;font-weight:bold;font-family:'Roboto',arial,sans-serif!important;overflow:hidden;text-overflow:ellipsis;max-width:278px;height:32px;text-transform:capitalize;\">" + item.Name + "</div>");
+
+           sb.AppendLine("                                                                                                                                    </td>");
+           sb.AppendLine("                                                                                                                                </tr>");
+           sb.AppendLine("                                                                                                                               <tr>");
 
 
-            htmlString += "                                                                                                                                </tr>";
-            htmlString += "                                                                                                                            </tbody>";
-            htmlString += "                                                                                                                        </table>";
-            htmlString += "                                                                                                                    </td>";
-            htmlString += "                                                                                                                    <td bgcolor='#efefef' width='15'>";
-            htmlString += "                                                                                                                        &nbsp;";
-            htmlString += "                                                                                                                    </td>";
+           sb.AppendLine("                                                                                                                                    <!-- WITH PROMO -->");
+           sb.AppendLine("                                                                                                                                    <td style='padding:8px'>");
+
+                                                                                                                                if (item.PromoSaleOFF > 0)
+                                                                                                                                {
+                                                                                                                                    if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
+                                                                                                                                    {
+
+           sb.AppendLine("                                                                                                                                                <span  style=\"text-decoration:line-through;color:#bdbdbd;font-family:'Roboto',arial,sans-serif!important\">₱" + Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00") + "</span>");
+           sb.AppendLine("                                                                                                                                               <br>");
+           sb.AppendLine("                                                                                                                                                <span  style=\"color:#D10024;font-family:'Roboto',arial,sans-serif!important\">₱" + Convert.ToDecimal(item.DiscountedPrice).ToString("#,##0.00") + "</span>");
 
 
-            htmlString += "                                                                                                                   </tr><tr bgcolor='#efefef'><td colspan='3' bgcolor='#efefef' height='15px'>&nbsp;</td></tr>'";
+                                                                                                                                    }
+                                                                                                                                    else
+                                                                                                                                    {
+           sb.AppendLine("                                                                                                                                                <span  style=\"color:#D10024;font-family:'Roboto',arial,sans-serif!important\">₱" + Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00") + "</span>");
+
+                                                                                                                                    }
+                                                                                                                                }
+                                                                                                                                else
+                                                                                                                                {
+           sb.AppendLine("                                                                                                                                            <span  style=\"color:#D10024;font-family:'Roboto',arial,sans-serif!important\">₱" + Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00") + "</span>");
+                                                                                                                                }
+
+
+           sb.AppendLine("                                                                                                                                        <br>");
+           sb.AppendLine("                                                                                                                                        <span style=\"color:#000000;font-family:'Roboto',arial,sans-serif!important\">" + (item.Sold == null ? 0 : item.Sold) + " sold</span>");
+           sb.AppendLine("                                                                                                                                    </td>");
+
+                                                                                                                                if (item.PromoSaleOFF > 0)
+                                                                                                                                {
+                                                                                                                                    if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
+                                                                                                                                    {
+
+           sb.AppendLine("                                                                                                                                            <td style='padding:8px' align='right' valign='bottom' width='45px'>");
+
+           sb.AppendLine("                                                                                                                                                <div style='padding-top: 5px; padding-bottom: 5px; background-color: #D10024; text-align: center'>");
+           sb.AppendLine("                                                                                                                                                    <span style=\"color:#ffffff;font-family:'Roboto',arial,sans-serif!important\">" + (double.Parse(item.PromoSaleOFF.ToString()) * 100) + "</span>");
+           sb.AppendLine("                                                                                                                                                    <span  style=\"color: #ffffff; font-family: 'Roboto',arial,sans-serif !important \">%</span>");
+           sb.AppendLine("                                                                                                                                                    <br>");
+           sb.AppendLine("                                                                                                                                                    <span  style=\"color:#ffffff;font-family:'Roboto',arial,sans-serif!important\">OFF</span>");
+           sb.AppendLine("                                                                                                                                                </div>");
+
+           sb.AppendLine("                                                                                                                                            </td>");
+
+                                                                                                                                    }
+
+                                                                                                                                }
+                                                                                                                                else
+                                                                                                                                {
+           sb.AppendLine("                                                                                                                                        <!-- NO PROMO -->");
+           sb.AppendLine("                                                                                                                                        <td style='padding:8px'>");
+           sb.AppendLine("                                                                                                                                        </td>");
+                                                                                                                                }
+
+
+           sb.AppendLine("                                                                                                                                </tr>");
+           sb.AppendLine("                                                                                                                            </tbody>");
+           sb.AppendLine("                                                                                                                        </table>");
+           sb.AppendLine("                                                                                                                    </td>");
+           sb.AppendLine("                                                                                                                    <td bgcolor='#efefef' width='15'>");
+           sb.AppendLine("                                                                                                                        &nbsp;");
+           sb.AppendLine("                                                                                                                    </td>");
+
+
+           sb.AppendLine("                                                                                                                   </tr><tr bgcolor='#efefef'><td colspan='3' bgcolor='#efefef' height='15px'>&nbsp;</td></tr>'");
 
 
                                                                                                                                 prodCount = 0;
-                                                                                                                           }
-           
+                                                                                                                            }
+
 
 
                                                                                                                             if ((products.Count() % 2) > 0 && prodIndex == products.Count())
                                                                                                                             {
-            htmlString += "                                                                                                                    </tr><tr bgcolor='#efefef'><td colspan='3' bgcolor='#efefef' height='15px'>&nbsp;</td></tr>";
+            sb.AppendLine("                                                                                                                    </tr><tr bgcolor='#efefef'><td colspan='3' bgcolor='#efefef' height='15px'>&nbsp;</td></tr>");
                                                                                                                             }
 
                                                                                                                         }
 
-            htmlString += "</tbody>";
-            htmlString += "                                                                                                        </table>";
-            htmlString += "                                                                                                        <table width='600px' cellspacing='0' cellpadding='0' bgcolor='#efefef'>";
-            htmlString += "                                                                                                            <tbody>";
-            htmlString += "                                                                                                                <tr>";
-            htmlString += "                                                                                                                    <td align='center' style='line-height:100px;height:100px;'>";
-            htmlString += "                                                                                                                        <a href='" + Combine(baseUrl, "/Home/Store?selectedCategory=1%2C2%2C3%2C4%2C5%2C6&selectedNavCategory=Categories") + "' target='_blank' data-saferedirecturl='#'><img src='~/FrontEnd/img/shop now button.png' width='194' style='display:block;text-align:center;height:auto;width:194px;border:0px' class='CToWUd'></a>";
-            htmlString += "                                                                                                                    </td>";
-            htmlString += "                                                                                                                </tr>";
-            htmlString += "                                                                                                            </tbody>";
-            htmlString += "                                                                                                        </table>";
-       
-            htmlString += "                                                                                                        <table>";
-            htmlString += "                                                                                                            <tbody>";
-            htmlString += "                                                                                                                <tr>";
-            htmlString += "                                                                                                                    <td>";
-            htmlString += "                                                                                                                        <table cellpadding='0' cellspacing='0' border='0' align='center' width='594'>";
-            htmlString += "                                                                                                                            <tbody>";
-            htmlString += "                                                                                                                                <tr>";
-            htmlString += "                                                                                                                                    <td cellpadding='0' cellspacing='0' border='0' height='1' style='line-height:1px;min-width:198px'>";
-            htmlString += "                                                                                                                                        <img src='https://ci6.googleusercontent.com/proxy/UdD10b8OwAMsIskWs35kVksPpJn8Z8NNDQtpw7bGuUfndy5BBB668zFGfSCq9A8cZzBIS2GRgAc3V6hkoUm_YW9wUZSQOPyE0OxEg-vIlRo1PlfvsCydU1P7HB74FfFyhiuIe02kACyfdmCHRsq5RkvllmTQJQDvftAw-Q=s0-d-e1-ft#https://image.email.shopee.co.id/lib/fe3a15707564067d761279/m/11/82629a96-3443-4ffb-978e-e261f6d86cb8.png' width='200' height='1' style='display:block;max-height:1px;min-height:1px;min-width:120px;width:120px' class='CToWUd'>";
-            htmlString += "                                                                                                                                    </td>";
-            htmlString += "                                                                                                                                    <td cellpadding='0' cellspacing='0' border='0' height='1' style='line-height:1px;min-width:198px'>";
-            htmlString += "                                                                                                                                        <img src='https://ci6.googleusercontent.com/proxy/UdD10b8OwAMsIskWs35kVksPpJn8Z8NNDQtpw7bGuUfndy5BBB668zFGfSCq9A8cZzBIS2GRgAc3V6hkoUm_YW9wUZSQOPyE0OxEg-vIlRo1PlfvsCydU1P7HB74FfFyhiuIe02kACyfdmCHRsq5RkvllmTQJQDvftAw-Q=s0-d-e1-ft#https://image.email.shopee.co.id/lib/fe3a15707564067d761279/m/11/82629a96-3443-4ffb-978e-e261f6d86cb8.png' width='200' height='1' style='display:block;max-height:1px;min-height:1px;min-width:198px;width:198px' class='CToWUd'>";
-            htmlString += "                                                                                                                                    </td>";
-            htmlString += "                                                                                                                                    <td cellpadding='0' cellspacing='0' border='0' height='1' style='line-height:1px;min-width:198px'>";
-            htmlString += "                                                                                                                                        <img src='https://ci6.googleusercontent.com/proxy/UdD10b8OwAMsIskWs35kVksPpJn8Z8NNDQtpw7bGuUfndy5BBB668zFGfSCq9A8cZzBIS2GRgAc3V6hkoUm_YW9wUZSQOPyE0OxEg-vIlRo1PlfvsCydU1P7HB74FfFyhiuIe02kACyfdmCHRsq5RkvllmTQJQDvftAw-Q=s0-d-e1-ft#https://image.email.shopee.co.id/lib/fe3a15707564067d761279/m/11/82629a96-3443-4ffb-978e-e261f6d86cb8.png' width='200' height='1' style='display:block;max-height:1px;min-height:1px;min-width:198px;width:198px' class='CToWUd'>";
-            htmlString += "                                                                                                                                    </td>";
-            htmlString += "                                                                                                                                </tr>";
-            htmlString += "                                                                                                                           </tbody>";
-            htmlString += "                                                                                                                        </table>";
-            htmlString += "                                                                                                                    </td>";
-            htmlString += "                                                                                                                </tr>";
-            htmlString += "                                                                                                            </tbody>";
-            htmlString += "                                                                                                        </table>";
-            htmlString += "                                                                                                    </center>";
-            htmlString += "                                                                                                </td>";
-            htmlString += "                                                                                            </tr>";
-            htmlString += "                                                                                        </tbody>";
-            htmlString += "                                                                                    </table>";
-            htmlString += "                                                                                </td>";
-            htmlString += "                                                                            </tr>";
-            htmlString += "                                                                        </tbody>";
-            htmlString += "                                                                    </table>";
-        
-            htmlString += "                                                                </td>";
-            htmlString += "                                                            </tr>";
-            htmlString += "                                                            <tr>";
-            htmlString += "                                                                <td align='left' valign='top'>";
-            htmlString += "                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='min-width:100%'>";
-            htmlString += "                                                                        <tbody>";
-            htmlString += "                                                                            <tr>";
-            htmlString += "                                                                                <td style='padding:10px 0px 0px'>";
-            htmlString += "                                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='border:0px;background-color:transparent;min-width:100%'>";
-            htmlString += "                                                                                        <tbody>";
-            htmlString += "                                                                                            <tr>";
-            htmlString += "                                                                                                <td style='padding:0px'>";
-            htmlString += "                                                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='background-color:transparent;min-width:100%'>";
-            htmlString += "                                                                                                        <tbody>";
-            htmlString += "                                                                                                            <tr>";
-            htmlString += "                                                                                                                <td style='padding:0px'>";
-            htmlString += "                                                                                                                    <table width='100%' cellspacing='0' cellpadding='0' role='presentation'>";
-            htmlString += "                                                                                                                        <tbody>";
-            htmlString += "                                                                                                                            <tr>";
-            htmlString += "                                                                                                                                <td align='center' style='padding:0px;margin:0p;'>";
-            htmlString += "                                                                                                                                    <a href='" + Combine(baseUrl, "/home/contact") + "' title='' target='_blank' data-saferedirecturl='#'><img src='~/FrontEnd/img/help center button.png' alt='Helpcenter' height='60' width='603' style='display:block;padding:0px;text-align:center;height:60px;width:603px;border:0px' class='CToWUd'></a>";
-            htmlString += "                                                                                                                                </td>";
-            htmlString += "                                                                                                                            </tr>";
-            htmlString += "                                                                                                                        </tbody>";
-            htmlString += "                                                                                                                    </table>";
-            htmlString += "                                                                                                                </td>";
-            htmlString += "                                                                                                            </tr>";
-            htmlString += "                                                                                                        </tbody>";
-            htmlString += "                                                                                                    </table><table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='min-width:100%'>";
-            htmlString += "                                                                                                        <tbody>";
-            htmlString += "                                                                                                            <tr>";
-            htmlString += "                                                                                                                <td>";
-            htmlString += "                                                                                                                    <table width='100%' align='center' style='width:100%!important' cellspacing='0' cellpadding='0'>";
-            htmlString += "                                                                                                                        <tbody>";
-  
-            htmlString += "                                                                                                                            <tr>";
-            htmlString += "                                                                                                                                <td width='100%' align='center' style='border-top:1px solid #f3f3f3;border-bottom:1px solid #f3f3f3;padding:25px 0'>";
-            htmlString += "                                                                                                                                    <table width='30%' align='center' style='margin:0 auto' cellspacing='0' cellpadding='10'>";
-            htmlString += "                                                                                                                                        <tbody>";
-            htmlString += "                                                                                                                                            <tr>";
-            htmlString += "                                                                                                                                                <td style='width:33.3%;padding-left:5px;padding-right:5px;text-align:center'>";
-        
-            htmlString += "                                                                                                                                                    <a href='https://www.facebook.com/' title='' target='_blank' data-saferedirecturl='#'><img src='https://ci6.googleusercontent.com/proxy/nwYp_9RmF7myx91ko4jV8qr2OwvKWxSDaI09WRA7Pp-SlHyZtUY8zKEFRukd20-HuDQ2eRtEvIIhwQe7W2g1VcW0oT_y5-hKX4v28TV8ddCwYSP05dY8TA2vtFMkF45kx25DfB4rKBesGylyXqb6LhyYdgCV8ncA=s0-d-e1-ft#https://image.email.shopee.sg/lib/fe3b15707564067d761278/m/1/cd8ee4c2-e30f-41a3-ad6f-b720f33342f0.png' alt='Facebook' height='50' width='50' style='display:block;padding:0px;text-align:center;height:50px;width:50px;border:0px none transparent' class='CToWUd'></a>";
-            htmlString += "                                                                                                                                                </td>";
-            htmlString += "                                                                                                                                                <td style='width:33.3%;padding-left:5px;padding-right:5px;text-align:center'>";
-          
-            htmlString += "                                                                                                                                                    <a href='https://www.instagram.com/' title='' target='_blank' data-saferedirecturl='#'><img src='https://ci3.googleusercontent.com/proxy/3lxVMGF5Zll_k3AKxaFnhn55O30XYgq3uDsmEVveE3lxEqVVQt63ELmsoOsAffw_wUfzXDejnyLb_CuXvTLduIciMm3l2E-9syXAK-Awhq4GmDv97Z1LChI3Co6YZu6FQrdRYtOTrVQ1CQ4khvOZTMtXjGCnXvKq=s0-d-e1-ft#https://image.email.shopee.sg/lib/fe3b15707564067d761278/m/1/4ab223ec-7fc6-4417-b514-62b365329e6a.png' alt='Instagram' height='50' width='50' style='display:block;padding:0px;text-align:center;height:50px;width:50px;border:0px none transparent' class='CToWUd'></a>";
-            htmlString += "                                                                                                                                                </td>";
-            htmlString += "                                                                                                                                                <td style='width:33.3%;padding-left:5px;padding-right:5px;text-align:center'>";
-           
-            htmlString += "                                                                                                                                                    <a href='https://twitter.com/' title='' target='_blank' data-saferedirecturl='#'><img src='https://ci4.googleusercontent.com/proxy/Y9v_DSD-ovdabCPxa29_eef54Z3Q0BxHnFAVb5B24vTLWKGGvRfPZzErwuuIXDFXnwW7a5Pny5qKzCeXRw1ZrvWj22VJkiErPvy_pqyfI-mS6h0E8NxjQjx4965aXXwjFOSSOhu9ro5wxhYT-kgZL5-vU_9jGfLCUwaJhw=s0-d-e1-ft#https://image.S10.exacttarget.com/lib/fe34157075640574731c72/m/1/801a8ba9-cd54-4786-bbde-dedb60f89cdc.png' alt='Twitter' height='50' width='50' style='display:block;padding:0px;text-align:center;height:50px;width:50px;border:0px none transparent' class='CToWUd'></a>";
-            htmlString += "                                                                                                                                                </td>";
-            htmlString += "                                                                                                                                            </tr>";
-            htmlString += "                                                                                                                                        </tbody>";
-            htmlString += "                                                                                                                                    </table>";
-            htmlString += "                                                                                                                                </td>";
-            htmlString += "                                                                                                                            </tr>";
-            htmlString += "                                                                                                                        </tbody>";
-            htmlString += "                                                                                                                    </table>";
-            htmlString += "                                                                                                                    <table style='font-size:10px;width:100%;display:none' width='100%' cellspacing='0' cellpadding='0'>";
-            htmlString += "                                                                                                                        <tbody>";
-            htmlString += "                                                                                                                            <tr>";
-            htmlString += "                                                                                                                                <td align='left'>";
-            htmlString += "                                                                                                                                    Subscription Center: <a href='https://www.facebook.com/' target='_blank' data-saferedirecturl='https://www.google.com/url?q=https://www.facebook.com/'><wbr>subscription_center.aspx?qs=<wbr>d9490f04e554b8613f1c65699125a5<wbr>22c759326db715a238a9eaac8d208b<wbr>24f928a0336226e997ff6e12da60f2<wbr>d2d387</a>";
-            htmlString += "                                                                                                                                    Profile Center: <a href='https://www.instagram.com/' target='_blank' data-saferedirecturl='https://www.google.com/url?q=https://www.instagram.com/'><wbr>profile_center.aspx?qs=<wbr>d9490f04e554b861049a956a7600b5<wbr>7fd382adefbcb9f4aed597e91da242<wbr>cf5b2eb873fbd2b99ac6b6a2dafa5a<wbr>fceb41</a>";
-            htmlString += "                                                                                                                                    One-click Unsubscribe: <a href='https://twitter.com/' target='_blank' data-saferedirecturl='https://www.google.com/url?q=https://twitter.com/'><wbr>unsub_center.aspx?qs=<wbr>d9490f04e554b8613f1c65699125a5<wbr>22c759326db715a238a9eaac8d208b<wbr>24f95e9668d5464f40ce0d5dbfcaf6<wbr>77f6bb09438b02330b1a91</a>";
-            htmlString += "                                                                                                                                    Sender address: Shopee Singapore Private Limited 2 Science Park Drive, #03-01, Tower A Ascent Singapore SG 118222 SG";
-            htmlString += "                                                                                                                                </td>";
-            htmlString += "                                                                                                                            </tr>";
-            htmlString += "                                                                                                                        </tbody>";
-            htmlString += "                                                                                                                    </table>";
-            htmlString += "                                                                                                                </td>";
-            htmlString += "                                                                                                            </tr>";
-            htmlString += "                                                                                                        </tbody>";
-            htmlString += "                                                                                                   </table>";
-            htmlString += "                                                                                                </td>";
-            htmlString += "                                                                                            </tr>";
-            htmlString += "                                                                                        </tbody>";
-            htmlString += "                                                                                    </table>";
-            htmlString += "                                                                                </td>";
-            htmlString += "                                                                            </tr>";
-            htmlString += "                                                                        </tbody>";
-            htmlString += "                                                                    </table>";
-      
-            htmlString += "                                                                </td>";
-            htmlString += "                                                            </tr>";
-            htmlString += "                                                            <tr>";
-            htmlString += "                                                                <td align='left' valign='top'>";
-            htmlString += "                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='background-color:transparent;min-width:100%'>";
-            htmlString += "                                                                        <tbody>";
-            htmlString += "                                                                            <tr>";
-            htmlString += "                                                                                <td style='padding:0px'>";
-            htmlString += "                                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='min-width:100%'>";
-            htmlString += "                                                                                        <tbody>";
-            htmlString += "                                                                                            <tr>";
-            htmlString += "                                                                                                <td>";
-            htmlString += "                                                                                                    <div style=\"text-align:center;color:#858585;font-family:'Roboto',arial,sans-serif;font-size:12px;line-height:2\">";
-            htmlString += "                                                                                                        <span style='text-decoration:underline'><a href='" + Combine(baseUrl, "/Home/PrivacyPolicy") + "' style='color:#858585;text-decoration:underline' title='' target='_blank' data-saferedirecturl='#'>Privacy Notice</a></span> &nbsp;&nbsp; |&nbsp;&nbsp; <span style='text-decoration:underline'><a href='" + Combine(baseUrl, "/Home/TermsAndCondition" ) + "' style='color:#858585;text-decoration:underline' title='' target='_blank' data-saferedirecturl='#'>Terms and Conditions</a></span> &nbsp;&nbsp; |&nbsp;&nbsp; <span style='text-decoration:underline'>";
-            htmlString += "                                                                                                            <a href='#' style='color:#808080;text-decoration:underline;white-space:nowrap' title='' target='_blank' data-saferedirecturl='#'>View on Browser</a>";
-            htmlString += "                                                                                                        </span> &nbsp;&nbsp; &nbsp;|&nbsp;&nbsp; <span style='text-decoration:underline'>";
-            htmlString += "                                                                                                            <a href='" + Combine(baseUrl, "/Home/Unsubscribe?email=" + email) + "' style='color:#858585;text-decoration:underline' title='' target='_blank' data-saferedirecturl='#'>Unsubscribe</a>";
-            htmlString += "                                                                                                        </span>";
-            htmlString += "                                                                                                    </div>";
-            htmlString += "                                                                                                </td>";
-            htmlString += "                                                                                            </tr>";
-            htmlString += "                                                                                        </tbody>";
-            htmlString += "                                                                                    </table><table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='min-width:100%'>";
-            htmlString += "                                                                                        <tbody>";
-            htmlString += "                                                                                            <tr>";
-            htmlString += "                                                                                                <td>";
-            htmlString += "                                                                                                    <div style=\"text-align:center;color:#858585;font-size:12px;font-family:'Roboto',arial,sans-serif;text-decoration:none\">";
-            htmlString += "                                                                                                        <p style='text-decoration:none'>";
-            htmlString += "                                                                                                            <span style='text-decoration:none'>";
-            htmlString += "                                                                                                                This is a post-only mailing.&nbsp;<br>";
-            htmlString += "                                                                                                                Add <a href='mailto:zaldys.ecommerce.demo@gmail.com' style='color:#858585;text-decoration:none' target='_blank'>zaldys.ecommerce.demo@gmail.com</a> to your address book to ensure our e-mails enter your inbox.";
-            htmlString += "                                                                                                            </span>";
-            htmlString += "                                                                                                        </p><p style='text-decoration:none'>";
-            htmlString += "                                                                                                            Zaldy's Ecommerce Philippines Inc., Malolos City, Bulacan";
-            htmlString += "                                                                                                        </p>";
-            htmlString += "                                                                                                    </div>";
-            htmlString += "                                                                                                </td>";
-            htmlString += "                                                                                            </tr>";
-            htmlString += "                                                                                        </tbody>";
-            htmlString += "                                                                                    </table>";
-            htmlString += "                                                                                </td>";
-            htmlString += "                                                                            </tr>";
-            htmlString += "                                                                        </tbody>";
-            htmlString += "                                                                    </table>";
-           
-            htmlString += "                                                                </td>";
-            htmlString += "                                                            </tr>";
-            htmlString += "                                                        </tbody>";
-            htmlString += "                                                    </table>";
-            htmlString += "                                                </td>";
-            htmlString += "                                            </tr>";
-            htmlString += "                                        </tbody>";
-            htmlString += "                                    </table>";
-            htmlString += "                                </td>";
-            htmlString += "                            </tr>";
-            htmlString += "                        </tbody>";
-            htmlString += "                    </table>";
-            htmlString += "                </td>";
-            htmlString += "            </tr>";
-            htmlString += "        </tbody>";
-            htmlString += "    </table>";
+            sb.AppendLine("</tbody>");
+            sb.AppendLine("                                                                                                        </table>");
+            sb.AppendLine("                                                                                                        <table width='600px' cellspacing='0' cellpadding='0' bgcolor='#efefef'>");
+            sb.AppendLine("                                                                                                            <tbody>");
+            sb.AppendLine("                                                                                                                <tr>");
+            sb.AppendLine("                                                                                                                    <td align='center' style='line-height:100px;height:100px;'>");
+            sb.AppendLine("                                                                                                                        <a href='" + Combine(baseUrl, "/Home/Store?selectedCategory=1%2C2%2C3%2C4%2C5%2C6&selectedNavCategory=Categories") + "' target='_blank' data-saferedirecturl='#'><img src='~/FrontEnd/img/shop now button.png' width='194' style='display:block;text-align:center;height:auto;width:194px;border:0px' class='CToWUd'></a>");
+            sb.AppendLine("                                                                                                                    </td>");
+            sb.AppendLine("                                                                                                                </tr>");
+            sb.AppendLine("                                                                                                            </tbody>");
+            sb.AppendLine("                                                                                                        </table>");
 
-            htmlString += "</body>";
-            htmlString += "</html>";
+            sb.AppendLine("                                                                                                        <table>");
+            sb.AppendLine("                                                                                                            <tbody>");
+            sb.AppendLine("                                                                                                                <tr>");
+            sb.AppendLine("                                                                                                                    <td>");
+            sb.AppendLine("                                                                                                                        <table cellpadding='0' cellspacing='0' border='0' align='center' width='594'>");
+            sb.AppendLine("                                                                                                                            <tbody>");
+            sb.AppendLine("                                                                                                                                <tr>");
+            sb.AppendLine("                                                                                                                                    <td cellpadding='0' cellspacing='0' border='0' height='1' style='line-height:1px;min-width:198px'>");
+            sb.AppendLine("                                                                                                                                        <img src='https://ci6.googleusercontent.com/proxy/UdD10b8OwAMsIskWs35kVksPpJn8Z8NNDQtpw7bGuUfndy5BBB668zFGfSCq9A8cZzBIS2GRgAc3V6hkoUm_YW9wUZSQOPyE0OxEg-vIlRo1PlfvsCydU1P7HB74FfFyhiuIe02kACyfdmCHRsq5RkvllmTQJQDvftAw-Q=s0-d-e1-ft#https://image.email.shopee.co.id/lib/fe3a15707564067d761279/m/11/82629a96-3443-4ffb-978e-e261f6d86cb8.png' width='200' height='1' style='display:block;max-height:1px;min-height:1px;min-width:120px;width:120px' class='CToWUd'>");
+            sb.AppendLine("                                                                                                                                    </td>");
+            sb.AppendLine("                                                                                                                                    <td cellpadding='0' cellspacing='0' border='0' height='1' style='line-height:1px;min-width:198px'>");
+            sb.AppendLine("                                                                                                                                        <img src='https://ci6.googleusercontent.com/proxy/UdD10b8OwAMsIskWs35kVksPpJn8Z8NNDQtpw7bGuUfndy5BBB668zFGfSCq9A8cZzBIS2GRgAc3V6hkoUm_YW9wUZSQOPyE0OxEg-vIlRo1PlfvsCydU1P7HB74FfFyhiuIe02kACyfdmCHRsq5RkvllmTQJQDvftAw-Q=s0-d-e1-ft#https://image.email.shopee.co.id/lib/fe3a15707564067d761279/m/11/82629a96-3443-4ffb-978e-e261f6d86cb8.png' width='200' height='1' style='display:block;max-height:1px;min-height:1px;min-width:198px;width:198px' class='CToWUd'>");
+            sb.AppendLine("                                                                                                                                    </td>");
+            sb.AppendLine("                                                                                                                                    <td cellpadding='0' cellspacing='0' border='0' height='1' style='line-height:1px;min-width:198px'>");
+            sb.AppendLine("                                                                                                                                        <img src='https://ci6.googleusercontent.com/proxy/UdD10b8OwAMsIskWs35kVksPpJn8Z8NNDQtpw7bGuUfndy5BBB668zFGfSCq9A8cZzBIS2GRgAc3V6hkoUm_YW9wUZSQOPyE0OxEg-vIlRo1PlfvsCydU1P7HB74FfFyhiuIe02kACyfdmCHRsq5RkvllmTQJQDvftAw-Q=s0-d-e1-ft#https://image.email.shopee.co.id/lib/fe3a15707564067d761279/m/11/82629a96-3443-4ffb-978e-e261f6d86cb8.png' width='200' height='1' style='display:block;max-height:1px;min-height:1px;min-width:198px;width:198px' class='CToWUd'>");
+            sb.AppendLine("                                                                                                                                    </td>");
+            sb.AppendLine("                                                                                                                                </tr>");
+            sb.AppendLine("                                                                                                                           </tbody>");
+            sb.AppendLine("                                                                                                                        </table>");
+            sb.AppendLine("                                                                                                                    </td>");
+            sb.AppendLine("                                                                                                                </tr>");
+            sb.AppendLine("                                                                                                            </tbody>");
+            sb.AppendLine("                                                                                                        </table>");
+            sb.AppendLine("                                                                                                    </center>");
+            sb.AppendLine("                                                                                                </td>");
+            sb.AppendLine("                                                                                            </tr>");
+            sb.AppendLine("                                                                                        </tbody>");
+            sb.AppendLine("                                                                                    </table>");
+            sb.AppendLine("                                                                                </td>");
+            sb.AppendLine("                                                                            </tr>");
+            sb.AppendLine("                                                                        </tbody>");
+            sb.AppendLine("                                                                    </table>");
+
+            sb.AppendLine("                                                                </td>");
+            sb.AppendLine("                                                            </tr>");
+            sb.AppendLine("                                                            <tr>");
+            sb.AppendLine("                                                                <td align='left' valign='top'>");
+            sb.AppendLine("                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='min-width:100%'>");
+            sb.AppendLine("                                                                        <tbody>");
+            sb.AppendLine("                                                                            <tr>");
+            sb.AppendLine("                                                                                <td style='padding:10px 0px 0px'>");
+            sb.AppendLine("                                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='border:0px;background-color:transparent;min-width:100%'>");
+            sb.AppendLine("                                                                                        <tbody>");
+            sb.AppendLine("                                                                                            <tr>");
+            sb.AppendLine("                                                                                                <td style='padding:0px'>");
+            sb.AppendLine("                                                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='background-color:transparent;min-width:100%'>");
+            sb.AppendLine("                                                                                                        <tbody>");
+            sb.AppendLine("                                                                                                            <tr>");
+            sb.AppendLine("                                                                                                                <td style='padding:0px'>");
+            sb.AppendLine("                                                                                                                    <table width='100%' cellspacing='0' cellpadding='0' role='presentation'>");
+            sb.AppendLine("                                                                                                                        <tbody>");
+            sb.AppendLine("                                                                                                                            <tr>");
+            sb.AppendLine("                                                                                                                                <td align='center' style='padding:0px;margin:0p;'>");
+            sb.AppendLine("                                                                                                                                    <a href='" + Combine(baseUrl, "/home/contact") + "' title='' target='_blank' data-saferedirecturl='#'><img src='~/FrontEnd/img/help center button.png' alt='Helpcenter' height='60' width='603' style='display:block;padding:0px;text-align:center;height:60px;width:603px;border:0px' class='CToWUd'></a>");
+            sb.AppendLine("                                                                                                                                </td>");
+            sb.AppendLine("                                                                                                                            </tr>");
+            sb.AppendLine("                                                                                                                        </tbody>");
+            sb.AppendLine("                                                                                                                    </table>");
+            sb.AppendLine("                                                                                                                </td>");
+            sb.AppendLine("                                                                                                            </tr>");
+            sb.AppendLine("                                                                                                        </tbody>");
+            sb.AppendLine("                                                                                                    </table><table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='min-width:100%'>");
+            sb.AppendLine("                                                                                                        <tbody>");
+            sb.AppendLine("                                                                                                            <tr>");
+            sb.AppendLine("                                                                                                                <td>");
+            sb.AppendLine("                                                                                                                    <table width='100%' align='center' style='width:100%!important' cellspacing='0' cellpadding='0'>");
+            sb.AppendLine("                                                                                                                        <tbody>");
+
+            sb.AppendLine("                                                                                                                            <tr>");
+            sb.AppendLine("                                                                                                                                <td width='100%' align='center' style='border-top:1px solid #f3f3f3;border-bottom:1px solid #f3f3f3;padding:25px 0'>");
+            sb.AppendLine("                                                                                                                                    <table width='30%' align='center' style='margin:0 auto' cellspacing='0' cellpadding='10'>");
+            sb.AppendLine("                                                                                                                                        <tbody>");
+            sb.AppendLine("                                                                                                                                            <tr>");
+            sb.AppendLine("                                                                                                                                                <td style='width:33.3%;padding-left:5px;padding-right:5px;text-align:center'>");
+
+            sb.AppendLine("                                                                                                                                                    <a href='https://www.facebook.com/' title='' target='_blank' data-saferedirecturl='#'><img src='https://ci6.googleusercontent.com/proxy/nwYp_9RmF7myx91ko4jV8qr2OwvKWxSDaI09WRA7Pp-SlHyZtUY8zKEFRukd20-HuDQ2eRtEvIIhwQe7W2g1VcW0oT_y5-hKX4v28TV8ddCwYSP05dY8TA2vtFMkF45kx25DfB4rKBesGylyXqb6LhyYdgCV8ncA=s0-d-e1-ft#https://image.email.shopee.sg/lib/fe3b15707564067d761278/m/1/cd8ee4c2-e30f-41a3-ad6f-b720f33342f0.png' alt='Facebook' height='50' width='50' style='display:block;padding:0px;text-align:center;height:50px;width:50px;border:0px none transparent' class='CToWUd'></a>");
+            sb.AppendLine("                                                                                                                                                </td>");
+            sb.AppendLine("                                                                                                                                                <td style='width:33.3%;padding-left:5px;padding-right:5px;text-align:center'>");
+
+            sb.AppendLine("                                                                                                                                                    <a href='https://www.instagram.com/' title='' target='_blank' data-saferedirecturl='#'><img src='https://ci3.googleusercontent.com/proxy/3lxVMGF5Zll_k3AKxaFnhn55O30XYgq3uDsmEVveE3lxEqVVQt63ELmsoOsAffw_wUfzXDejnyLb_CuXvTLduIciMm3l2E-9syXAK-Awhq4GmDv97Z1LChI3Co6YZu6FQrdRYtOTrVQ1CQ4khvOZTMtXjGCnXvKq=s0-d-e1-ft#https://image.email.shopee.sg/lib/fe3b15707564067d761278/m/1/4ab223ec-7fc6-4417-b514-62b365329e6a.png' alt='Instagram' height='50' width='50' style='display:block;padding:0px;text-align:center;height:50px;width:50px;border:0px none transparent' class='CToWUd'></a>");
+            sb.AppendLine("                                                                                                                                                </td>");
+            sb.AppendLine("                                                                                                                                                <td style='width:33.3%;padding-left:5px;padding-right:5px;text-align:center'>");
+
+            sb.AppendLine("                                                                                                                                                    <a href='https://twitter.com/' title='' target='_blank' data-saferedirecturl='#'><img src='https://ci4.googleusercontent.com/proxy/Y9v_DSD-ovdabCPxa29_eef54Z3Q0BxHnFAVb5B24vTLWKGGvRfPZzErwuuIXDFXnwW7a5Pny5qKzCeXRw1ZrvWj22VJkiErPvy_pqyfI-mS6h0E8NxjQjx4965aXXwjFOSSOhu9ro5wxhYT-kgZL5-vU_9jGfLCUwaJhw=s0-d-e1-ft#https://image.S10.exacttarget.com/lib/fe34157075640574731c72/m/1/801a8ba9-cd54-4786-bbde-dedb60f89cdc.png' alt='Twitter' height='50' width='50' style='display:block;padding:0px;text-align:center;height:50px;width:50px;border:0px none transparent' class='CToWUd'></a>");
+            sb.AppendLine("                                                                                                                                                </td>");
+            sb.AppendLine("                                                                                                                                            </tr>");
+            sb.AppendLine("                                                                                                                                        </tbody>");
+            sb.AppendLine("                                                                                                                                    </table>");
+            sb.AppendLine("                                                                                                                                </td>");
+            sb.AppendLine("                                                                                                                            </tr>");
+            sb.AppendLine("                                                                                                                        </tbody>");
+            sb.AppendLine("                                                                                                                    </table>");
+            sb.AppendLine("                                                                                                                    <table style='font-size:10px;width:100%;display:none' width='100%' cellspacing='0' cellpadding='0'>");
+            sb.AppendLine("                                                                                                                        <tbody>");
+            sb.AppendLine("                                                                                                                            <tr>");
+            sb.AppendLine("                                                                                                                                <td align='left'>");
+            sb.AppendLine("                                                                                                                                    Subscription Center: <a href='https://www.facebook.com/' target='_blank' data-saferedirecturl='https://www.google.com/url?q=https://www.facebook.com/'><wbr>subscription_center.aspx?qs=<wbr>d9490f04e554b8613f1c65699125a5<wbr>22c759326db715a238a9eaac8d208b<wbr>24f928a0336226e997ff6e12da60f2<wbr>d2d387</a>");
+            sb.AppendLine("                                                                                                                                    Profile Center: <a href='https://www.instagram.com/' target='_blank' data-saferedirecturl='https://www.google.com/url?q=https://www.instagram.com/'><wbr>profile_center.aspx?qs=<wbr>d9490f04e554b861049a956a7600b5<wbr>7fd382adefbcb9f4aed597e91da242<wbr>cf5b2eb873fbd2b99ac6b6a2dafa5a<wbr>fceb41</a>");
+            sb.AppendLine("                                                                                                                                    One-click Unsubscribe: <a href='https://twitter.com/' target='_blank' data-saferedirecturl='https://www.google.com/url?q=https://twitter.com/'><wbr>unsub_center.aspx?qs=<wbr>d9490f04e554b8613f1c65699125a5<wbr>22c759326db715a238a9eaac8d208b<wbr>24f95e9668d5464f40ce0d5dbfcaf6<wbr>77f6bb09438b02330b1a91</a>");
+            sb.AppendLine("                                                                                                                                    Sender address: Shopee Singapore Private Limited 2 Science Park Drive, #03-01, Tower A Ascent Singapore SG 118222 SG");
+            sb.AppendLine("                                                                                                                                </td>");
+            sb.AppendLine("                                                                                                                            </tr>");
+            sb.AppendLine("                                                                                                                        </tbody>");
+            sb.AppendLine("                                                                                                                    </table>");
+            sb.AppendLine("                                                                                                                </td>");
+            sb.AppendLine("                                                                                                            </tr>");
+            sb.AppendLine("                                                                                                        </tbody>");
+            sb.AppendLine("                                                                                                   </table>");
+            sb.AppendLine("                                                                                                </td>");
+            sb.AppendLine("                                                                                            </tr>");
+            sb.AppendLine("                                                                                        </tbody>");
+            sb.AppendLine("                                                                                    </table>");
+            sb.AppendLine("                                                                                </td>");
+            sb.AppendLine("                                                                            </tr>");
+            sb.AppendLine("                                                                        </tbody>");
+            sb.AppendLine("                                                                    </table>");
+
+            sb.AppendLine("                                                                </td>");
+            sb.AppendLine("                                                            </tr>");
+            sb.AppendLine("                                                            <tr>");
+            sb.AppendLine("                                                                <td align='left' valign='top'>");
+            sb.AppendLine("                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='background-color:transparent;min-width:100%'>");
+            sb.AppendLine("                                                                        <tbody>");
+            sb.AppendLine("                                                                            <tr>");
+            sb.AppendLine("                                                                                <td style='padding:0px'>");
+            sb.AppendLine("                                                                                    <table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='min-width:100%'>");
+            sb.AppendLine("                                                                                        <tbody>");
+            sb.AppendLine("                                                                                            <tr>");
+            sb.AppendLine("                                                                                                <td>");
+            sb.AppendLine("                                                                                                    <div style=\"text-align:center;color:#858585;font-family:'Roboto',arial,sans-serif;font-size:12px;line-height:2\">");
+            sb.AppendLine("                                                                                                        <span style='text-decoration:underline'><a href='" + Combine(baseUrl, "/Home/PrivacyPolicy") + "' style='color:#858585;text-decoration:underline' title='' target='_blank' data-saferedirecturl='#'>Privacy Notice</a></span> &nbsp;&nbsp; |&nbsp;&nbsp; <span style='text-decoration:underline'><a href='" + Combine(baseUrl, "/Home/TermsAndCondition") + "' style='color:#858585;text-decoration:underline' title='' target='_blank' data-saferedirecturl='#'>Terms and Conditions</a></span> &nbsp;&nbsp; |&nbsp;&nbsp; <span style='text-decoration:underline'>");
+            sb.AppendLine("                                                                                                            <a href='#' style='color:#808080;text-decoration:underline;white-space:nowrap' title='' target='_blank' data-saferedirecturl='#'>View on Browser</a>");
+            sb.AppendLine("                                                                                                        </span> &nbsp;&nbsp; &nbsp;|&nbsp;&nbsp; <span style='text-decoration:underline'>");
+            sb.AppendLine("                                                                                                            <a href='" + Combine(baseUrl, "/Home/Unsubscribe?email=" + email) + "' style='color:#858585;text-decoration:underline' title='' target='_blank' data-saferedirecturl='#'>Unsubscribe</a>");
+            sb.AppendLine("                                                                                                        </span>");
+            sb.AppendLine("                                                                                                    </div>");
+            sb.AppendLine("                                                                                                </td>");
+            sb.AppendLine("                                                                                            </tr>");
+            sb.AppendLine("                                                                                        </tbody>");
+            sb.AppendLine("                                                                                    </table><table cellpadding='0' cellspacing='0' width='100%' role='presentation' style='min-width:100%'>");
+            sb.AppendLine("                                                                                        <tbody>");
+            sb.AppendLine("                                                                                            <tr>");
+            sb.AppendLine("                                                                                                <td>");
+            sb.AppendLine("                                                                                                    <div style=\"text-align:center;color:#858585;font-size:12px;font-family:'Roboto',arial,sans-serif;text-decoration:none\">");
+            sb.AppendLine("                                                                                                        <p style='text-decoration:none'>");
+            sb.AppendLine("                                                                                                            <span style='text-decoration:none'>");
+            sb.AppendLine("                                                                                                                This is a post-only mailing.&nbsp;<br>");
+            sb.AppendLine("                                                                                                                Add <a href='mailto:zaldys.ecommerce.demo@gmail.com' style='color:#858585;text-decoration:none' target='_blank'>zaldys.ecommerce.demo@gmail.com</a> to your address book to ensure our e-mails enter your inbox.");
+            sb.AppendLine("                                                                                                            </span>");
+            sb.AppendLine("                                                                                                        </p><p style='text-decoration:none'>");
+            sb.AppendLine("                                                                                                            Zaldy's Ecommerce Philippines Inc., Malolos City, Bulacan");
+            sb.AppendLine("                                                                                                        </p>");
+            sb.AppendLine("                                                                                                    </div>");
+            sb.AppendLine("                                                                                                </td>");
+            sb.AppendLine("                                                                                            </tr>");
+            sb.AppendLine("                                                                                        </tbody>");
+            sb.AppendLine("                                                                                    </table>");
+            sb.AppendLine("                                                                                </td>");
+            sb.AppendLine("                                                                            </tr>");
+            sb.AppendLine("                                                                        </tbody>");
+            sb.AppendLine("                                                                    </table>");
+
+            sb.AppendLine("                                                                </td>");
+            sb.AppendLine("                                                            </tr>");
+            sb.AppendLine("                                                        </tbody>");
+            sb.AppendLine("                                                    </table>");
+            sb.AppendLine("                                                </td>");
+            sb.AppendLine("                                            </tr>");
+            sb.AppendLine("                                        </tbody>");
+            sb.AppendLine("                                    </table>");
+            sb.AppendLine("                                </td>");
+            sb.AppendLine("                            </tr>");
+            sb.AppendLine("                        </tbody>");
+            sb.AppendLine("                    </table>");
+            sb.AppendLine("                </td>");
+            sb.AppendLine("            </tr>");
+            sb.AppendLine("        </tbody>");
+            sb.AppendLine("    </table>");
+
+            sb.AppendLine("</body>");
+            sb.AppendLine("</html>");
 
 
-            return htmlString;
+            return sb.ToString();
         }
 
 
-        
+
 
     }
 }

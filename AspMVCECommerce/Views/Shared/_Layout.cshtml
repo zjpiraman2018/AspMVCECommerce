@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@using Microsoft.AspNet.Identity;
+@using AspMVCECommerce.Models;
 
 <!DOCTYPE html>
 <html lang="en">
@@ -110,11 +111,15 @@
                                 <a href="~/Home/WishList">
                                     <i class="fa fa-heart-o"></i>
                                     <span>My Wishlist</span>
-                                    @if (ViewBag.WishListCount != null)
+
+                                    @if (Request.IsAuthenticated)
                                     {
-                                        if (int.Parse(ViewBag.WishListCount) > 0)
+                                        if (User.IsInRole("Customer"))
                                         {
-                                            <div id="my-wishlist-count" class="qty">@ViewBag.WishListCount</div>
+                                            string CustomerId = Microsoft.AspNet.Identity.IdentityExtensions.GetUserId(User.Identity);
+                                            ApplicationDbContext db = new ApplicationDbContext();
+                                            var wishListCount = db.WishLists.Where(w => w.CustomerId == CustomerId).ToList().Count(); ;
+                                            <div id="my-wishlist-count" class="qty">@wishListCount</div>
                                         }
                                         else
                                         {
@@ -125,6 +130,7 @@
                                     {
                                         <div id="my-wishlist-count" class="qty">0</div>
                                     }
+
                                 </a>
                             </div>
                             <!-- /Wishlist -->
