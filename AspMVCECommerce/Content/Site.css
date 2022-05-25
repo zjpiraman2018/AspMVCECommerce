@@ -735,3 +735,7 @@ input:focus-visible {
     white-space: nowrap !important;
     width: 160px !important;
 }
+
+.tooltipp2 {
+    width: 215px !important;
+}

@@ -85,7 +85,7 @@
                                         </a>
                                     }
                                 </td>
-                                <td class="td-product-name" style="font-weight: 500;width:350px;">
+                                <td class="td-product-name" style="font-weight: 500;width:350px;line-height:60px;">
                                     @Html.DisplayFor(modelItem => item.Product.Name)
                                 </td>
                                 <td style="line-height: 62px;">
@@ -225,6 +225,9 @@
                 $('#cart-subtotal').text('₱' + total.toLocaleString());
 
 
+            
+                
+
                 $(".td-product-name").each(function (index) {
                     /* var imageDefaultId = $(this).attr("image-id") + ".Default";*/
 
@@ -236,6 +239,11 @@
                     var len = $(this).text().trim().length;
                     if (len > 100) {
                         $(this).text($(this).text().substr(0, 100) + '...');
+                    }
+
+            
+                    if (len > 40) {
+                        $(this).attr("style", 'font-weight: 500;width:350px;');
                     }
                 });
             });

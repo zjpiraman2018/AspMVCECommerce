@@ -136,34 +136,60 @@
                             <!-- /Wishlist -->
                             <!-- Cart -->
                             <div class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-                                    <i class="fa fa-shopping-cart"></i>
-                                    <span>My Cart</span>
-                                    <div class="qty" id="shopping-cart-items-count">0</div>
-                                </a>
+
+                                @if (Request.IsAuthenticated)
+                                {
+                                    if (User.IsInRole("Customer"))
+                                    {
+                                        <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                            <i class="fa fa-shopping-cart"></i>
+                                            <span>My Cart</span>
+                                            <div class="qty" id="shopping-cart-items-count">0</div>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="~/Account/Login">
+                                            <i class="fa fa-shopping-cart"></i>
+                                            <span>My Cart</span>
+                                            <div class="qty" id="shopping-cart-items-count">0</div>
+                                        </a>
+                                    }
+                                }
+                                else
+                                {
+                                    <a href="~/Account/Login">
+                                        <i class="fa fa-shopping-cart"></i>
+                                        <span>My Cart</span>
+                                        <div class="qty" id="shopping-cart-items-count">0</div>
+                                    </a>
+                                }
+
+
+
                                 <div class="cart-dropdown">
                                     <div class="cart-list" id="my-cart-list">
                                         @*<div class="product-widget">
-                                                <div class="product-img">
-                                                    <img src="~/FrontEnd/img/product01.png" alt="">
-                                                </div>
-                                                <div class="product-body">
-                                                    <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                                    <h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
-                                                </div>
-                                                <button class="delete"><i class="fa fa-close"></i></button>
-                                            </div>
+                    <div class="product-img">
+                        <img src="~/FrontEnd/img/product01.png" alt="">
+                    </div>
+                    <div class="product-body">
+                        <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                        <h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
+                    </div>
+                    <button class="delete"><i class="fa fa-close"></i></button>
+                </div>
 
-                                            <div class="product-widget">
-                                                <div class="product-img">
-                                                    <img src="~/FrontEnd/img/product02.png" alt="">
-                                                </div>
-                                                <div class="product-body">
-                                                    <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                                    <h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
-                                                </div>
-                                                <button class="delete"><i class="fa fa-close"></i></button>
-                                            </div>*@
+                <div class="product-widget">
+                    <div class="product-img">
+                        <img src="~/FrontEnd/img/product02.png" alt="">
+                    </div>
+                    <div class="product-body">
+                        <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                        <h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
+                    </div>
+                    <button class="delete"><i class="fa fa-close"></i></button>
+                </div>*@
                                     </div>
                                     <div class="cart-summary">
                                         <small id="cart-summary-selected-items">0 Item(s) selected</small>
@@ -523,7 +549,7 @@
         // ADD PRODUCT TO WISH LIST -----------------------
     function AddToWishList(e, productId, wishListBtnType) {
         //var removeWishListHtmlTemplateButton = '<button id="remove-to-wishlist-' + productId.toString() + '" onclick="RemoveToWishList(event,\'' + productId.toString() + '\',\'button\');" class="add-to-wishlist"><i id="i-remove-to-wishlist-' + productId.toString() + '" class="fa fa-heart" style="color: #D10024;"></i><span class="tooltipp">remove to wishlist</span></button>' +
-        //        '< button class="add-to-compare" ><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button >' + 
+        //        '< button class="add-to-compare" ><i class="fa fa-exchange"></i><span class="tooltipp tooltipp2">compare with similar items</span></button >' + 
         //        '<button class="quick-view" onclick="location.href=\'/Home/Product?productId=' + productId.toString() + '&amp;selectedNavCategory=Home\'"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>' +
         //        '</div >';
         //var removeWishListHtmlTemplateList = '<li><a href="#" id="remove-to-wishlist-' + productId.toString() + '" onclick="RemoveToWishList(event,\'' + productId.toString() + '\',\'list\');"><i id="i-remove-to-wishlist-' + productId.toString() + '" class="fa fa-heart" style="color: #D10024;"></i> remove to wishlist</a></li>';
@@ -572,7 +598,7 @@
         function RemoveToWishList(e, productId, wishListBtnType) {
 
             //var addWishListHtmlTemplateButton = '<button id="add-to-wishlist-' + productId.toString() + '" onclick="AddToWishList(event,\'' + productId.toString() + '\',\'button\');" class="add-to-wishlist"><i id="i-add-to-wishlist-' + productId.toString() + '" class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>' +
-            //    '<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>' +
+            //    '<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp tooltipp2">compare with similar items</span></button>' +
             //    '< button class="quick-view" onclick = "location.href=\'/Home/Product?productId=' + productId.toString() + '&amp;selectedNavCategory=Home\'" ><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button > ';
 
             //var addWishListHtmlTemplateList = '<li><a href="#" id="add-to-wishlist-' + productId.toString() + '" onclick="AddToWishList(event,\'' + productId.toString() + '\',\'list\');"><i id="i-add-to-wishlist-' + productId.toString() + '" class="fa fa-heart-o"></i> add to wishlist</a></li>'

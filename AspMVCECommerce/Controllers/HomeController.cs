@@ -1106,7 +1106,7 @@ namespace AspMVCECommerce.Controllers
 
                 ViewBag.CurrentSort = pageSort;
 
-                ViewBag.SelectedNavCategory = selectedNavCategory;
+                ViewBag.SelectedNavCategory = "Home";
 
                 switch (pageSort)
                 {
@@ -2486,23 +2486,29 @@ namespace AspMVCECommerce.Controllers
         }
 
 
-        public ActionResult Compare(int? productId)
+        public ActionResult Compare(int? productId, string selectedNavCategory)
         {
             if (productId == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Product product = db.Products.Include(p => p.Category).Include(p => p.Brand).Include(p => p.Images).Single(p => p.ProductId == productId);
+            ViewBag.Category = product.Category.Name;
 
             if (product == null)
             {
                 return HttpNotFound();
             }
 
-            var products = db.Products.Include(p => p.Category).Include(p => p.Brand).Include(p => p.Images).Where(p => p.CategoryId == product.CategoryId && p.ProductId != productId).Take(3);
-          
+            var products = db.Products.Include(p => p.Category).Include(p => p.Brand).Include(p => p.Images).Where(p => p.CategoryId == product.CategoryId && p.ProductId != productId).Take(2);
+            List<Product> _products = new List<Product>();
+         
+            _products.Add(product);
+            _products.AddRange(products);
 
-            return View(products);
+            ViewBag.SelectedNavCategory = selectedNavCategory;
+
+            return View(_products);
         }
 
 

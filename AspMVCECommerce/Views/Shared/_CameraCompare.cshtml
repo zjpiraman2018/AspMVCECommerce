@@ -1,0 +1,361 @@
+﻿@model IEnumerable<AspMVCECommerce.Models.Product>
+
+
+<table class="table table-bordered table-responsive table-striped">
+    <tbody>
+
+        @{
+            var productIndex = 0;
+        }
+        <tr>
+            <td style="width:200px;"></td>
+            @foreach (var item in Model)
+            {
+                productIndex += 1;
+
+                if (productIndex == 1)
+                {
+                    <!-- index 1 -->
+                    <th >
+                        <div class="a-row a-spacing-top-micro">
+                            <div style="width: 180px; height: 200px;  margin: auto; ">
+                                @if (item.Images.Count > 0)
+                                {
+
+                                    var itemImages = item.Images;
+
+                                    foreach (var itemImage in itemImages)
+                                    {
+                                        if (itemImage.Default)
+                                        {
+                                            <img style="width: 100%; height: 180px; object-fit: scale-down;" src="@Url.Content(itemImage.ImagePath)" alt="@itemImage.Title">
+
+                                            break;
+                                        }
+                                    }
+                                }
+
+                            </div>
+                        </div> <div class="a-row a-spacing-top-small"><a href="/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory" class="product-name" title="@item.Name">@item.Name</a></div>
+                    </th>
+                }
+
+
+                <!-- index 2 -->
+                if (productIndex == 2)
+                {
+
+                    <th>
+                        <div class="a-row a-spacing-top-micro">
+                            <div style="width: 180px; height: 200px;  margin: auto; ">
+                                @if (item.Images.Count > 0)
+                                {
+
+                                    var itemImages = item.Images;
+
+                                    foreach (var itemImage in itemImages)
+                                    {
+                                        if (itemImage.Default)
+                                        {
+                                            <img style="width: 100%; height: 180px; object-fit: scale-down;" src="@Url.Content(itemImage.ImagePath)" alt="@itemImage.Title">
+
+                                            break;
+                                        }
+                                    }
+                                }
+
+                            </div>
+                        </div> <div class="a-row a-spacing-top-small"><a href="/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory" class="product-name" title="@item.Name">@item.Name</a></div>
+                    </th>
+                }
+
+                <!-- index 3 -->
+                if (productIndex == 3)
+                {
+
+                    <th>
+                        <div class="a-row a-spacing-top-micro">
+                            <div style="width: 180px; height: 200px;padding:5px; margin: auto;">
+                                @if (item.Images.Count > 0)
+                                {
+
+                                    var itemImages = item.Images;
+
+                                    foreach (var itemImage in itemImages)
+                                    {
+                                        if (itemImage.Default)
+                                        {
+                                            <img style="width: 100%; height: 180px; object-fit: scale-down;" src="@Url.Content(itemImage.ImagePath)" alt="@itemImage.Title">
+
+                                            break;
+                                        }
+                                    }
+                                }
+
+                            </div>
+                        </div> <div class="a-row a-spacing-top-small"><a href="/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory" class="product-name" title="@item.Name">@item.Name</a></div>
+                    </th>
+                }
+                <!-- index 4 -->
+
+
+            }
+        </tr>
+
+
+        <tr id="comparison_custormer_rating_row">
+            <th> Customer Rating</span> </th>
+            @{ productIndex = 0; }
+            @foreach (var item in Model)
+            {
+                productIndex += 1;
+                if (productIndex == 1)
+                {
+                    <td>
+                        <div class="product-rating">
+                            @if (item.AverageRating != null)
+                            {
+                                for (int i = 0; i < item.AverageRating; i++)
+                                {
+                                    <i style=" background: #FFF; color: #ef233c;" class="fa fa-star"></i>
+                                }
+
+                                for (int i = 0; i < 5 - item.AverageRating; i++)
+                                {
+                                    <i style=" background: #FFF; color: #E4E7ED;" class="fa fa-star-o"></i>
+                                }
+                            }
+                            else
+                            {
+                                <i style=" background: #FFF; color: #E4E7ED;" class="fa fa-star-o"></i>
+                                <i style=" background: #FFF; color: #E4E7ED;" class="fa fa-star-o"></i>
+                                <i style=" background: #FFF; color: #E4E7ED;" class="fa fa-star-o"></i>
+                                <i style=" background: #FFF; color: #E4E7ED;" class="fa fa-star-o"></i>
+                                <i style=" background: #FFF; color: #E4E7ED;" class="fa fa-star-o"></i>
+                            }
+                        </div>
+                    </td>
+                }
+
+                if (productIndex == 2)
+                {
+                    <td>
+                        <div class="product-rating">
+                            @if (item.AverageRating != null)
+                            {
+                                for (int i = 0; i < item.AverageRating; i++)
+                                {
+                                    <i style=" background: #FFF; color: #ef233c;" class="fa fa-star"></i>
+                                }
+
+                                for (int i = 0; i < 5 - item.AverageRating; i++)
+                                {
+                                    <i style=" background: #FFF; color: #E4E7ED;" class="fa fa-star-o"></i>
+                                }
+                            }
+                            else
+                            {
+                                <i style=" background: #FFF; color: #E4E7ED;" class="fa fa-star-o"></i>
+                                <i style=" background: #FFF; color: #E4E7ED;" class="fa fa-star-o"></i>
+                                <i style=" background: #FFF; color: #E4E7ED;" class="fa fa-star-o"></i>
+                                <i style=" background: #FFF; color: #E4E7ED;" class="fa fa-star-o"></i>
+                                <i style=" background: #FFF; color: #E4E7ED;" class="fa fa-star-o"></i>
+                            }
+                        </div>
+                    </td>
+                }
+
+                if (productIndex == 3)
+                {
+                    <td>
+                        <div class="product-rating">
+                            @if (item.AverageRating != null)
+                            {
+                                for (int i = 0; i < item.AverageRating; i++)
+                                {
+                                    <i style=" background: #FFF; color: #ef233c;" class="fa fa-star"></i>
+                                }
+
+                                for (int i = 0; i < 5 - item.AverageRating; i++)
+                                {
+                                    <i style=" background: #FFF; color: #E4E7ED;" class="fa fa-star-o"></i>
+                                }
+                            }
+                            else
+                            {
+                                <i style=" background: #FFF; color: #E4E7ED;" class="fa fa-star-o"></i>
+                                <i style=" background: #FFF; color: #E4E7ED;" class="fa fa-star-o"></i>
+                                <i style=" background: #FFF; color: #E4E7ED;" class="fa fa-star-o"></i>
+                                <i style=" background: #FFF; color: #E4E7ED;" class="fa fa-star-o"></i>
+                                <i style=" background: #FFF; color: #E4E7ED;" class="fa fa-star-o"></i>
+                            }
+                        </div>
+                    </td>
+                }
+
+
+            }
+        </tr>
+        <tr id="comparison_price_row">
+            <th> Price</span> </th>
+            @{ productIndex = 0; }
+            @foreach (var item in Model)
+            {
+                productIndex += 1;
+                if (productIndex == 1)
+                {
+                    <td>
+                        @if (item.PromoSaleOFF > 0)
+                        {
+                            if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
+                            {
+
+                                <h4 style="color: #D10024;font-size:14px;">₱@Convert.ToDecimal(item.DiscountedPrice).ToString("#,##0.00") <del style="font-size: 12px;font-weight: 400;color: #8D99AE;">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</del></h4>
+                            }
+                            else
+                            {
+                                <h4 style="color: #D10024;font-size:14px;">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</h4>
+                            }
+                        }
+                        else
+                        {
+                            <h4 style="color: #D10024;font-size:14px;">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</h4>
+                        }
+                    </td>
+                }
+
+                if (productIndex == 2)
+                {
+                    <td>
+                        @if (item.PromoSaleOFF > 0)
+                        {
+                            if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
+                            {
+
+                                <h4 style="color: #D10024;font-size:14px;">₱@Convert.ToDecimal(item.DiscountedPrice).ToString("#,##0.00") <del style="font-size: 12px;font-weight: 400;color: #8D99AE;">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</del></h4>
+
+                            }
+                            else
+                            {
+                                <h4 style="color: #D10024;font-size:14px;">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</h4>
+                            }
+                        }
+                        else
+                        {
+                            <h4 style="color: #D10024;font-size:14px;">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</h4>
+                        }
+                    </td>
+                }
+
+                if (productIndex == 3)
+                {
+                    <td>
+                        @if (item.PromoSaleOFF > 0)
+                        {
+                            if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
+                            {
+
+                                <h4 style="color: #D10024;font-size:14px;">₱@Convert.ToDecimal(item.DiscountedPrice).ToString("#,##0.00") <del style="font-size: 12px;font-weight: 400;color: #8D99AE;">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</del></h4>
+                            }
+                            else
+                            {
+                                <h4 style="color: #D10024;font-size:14px;">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</h4>
+                            }
+                        }
+                        else
+                        {
+                            <h4 style="color: #D10024;font-size:14px;">₱@Convert.ToDecimal(item.OriginalPrice).ToString("#,##0.00")</h4>
+                        }
+                    </td>
+                }
+
+
+            }
+        </tr>
+        <tr id="comparison_sold_by_row">
+            <th role="rowheader"> Sold By</span> </th>
+
+            @{ productIndex = 0; }
+            @foreach (var item in Model)
+            {
+                productIndex += 1;
+
+                if (productIndex == 1)
+                {
+                    <td><a>@item.Brand.Name</a>   </td>
+                }
+
+
+                if (productIndex == 2)
+                {
+                    <td><a>@item.Brand.Name</a>   </td>
+                }
+
+                if (productIndex == 3)
+                {
+                    <td><a>@item.Brand.Name</a>   </td>
+                }
+
+
+            }
+        </tr>
+
+
+        <tr class="comparison_other_attribute_row">
+            <th class="a-span3 comparison_attribute_name_column comparison_table_first_col" role="rowheader"> <span>Screen Size</span> </th>
+            <td>     <span>3.2</span>   </td>
+            <td>       <span>3</span>   </td>
+            <td>       <span>3.15 inches</span>   </td>
+
+        </tr>
+        <tr class="comparison_other_attribute_row">
+            <th class="a-span3 comparison_attribute_name_column comparison_table_first_col" role="rowheader"> <span>Item Dimensions</span> </th>
+            <td>     <span>11.1 x 8.9 x 7.4 inches</span>   </td>
+            <td>       <span>3.48 x 5.45 x 3.84 inches</span>   </td>
+            <td>       <span>3.3 x 5.3 x 3.9 inches</span>   </td>
+
+        </tr>
+        <tr class="comparison_other_attribute_row">
+            <th class="a-span3 comparison_attribute_name_column comparison_table_first_col" role="rowheader"> <span>Item Weight</span> </th>
+            <td>     <span>3.09 lbs</span>   </td>
+            <td>       <span>4.85 lbs</span>   </td>
+            <td>       <span>3.09 lbs</span>   </td>
+
+        </tr>
+        <tr class="comparison_other_attribute_row">
+            <th class="a-span3 comparison_attribute_name_column comparison_table_first_col" role="rowheader"> <span>Optical Sensor Resolution</span> </th>
+            <td>     <span>35.4 megapixels</span>   </td>
+            <td>       <span>20 megapixels</span>   </td>
+            <td>       <span>30.3 megapixels</span>   </td>
+
+        </tr>
+        <tr class="comparison_other_attribute_row">
+            <th class="a-span3 comparison_attribute_name_column comparison_table_first_col" role="rowheader"> <span>Optical Zoom</span> </th>
+            <td>     <span>0x</span>   </td>
+            <td>       <span>0x</span>   </td>
+            <td>       <span>4.3x</span>   </td>
+
+        </tr>
+        <tr class="comparison_other_attribute_row">
+            <th class="a-span3 comparison_attribute_name_column comparison_table_first_col" role="rowheader"> <span>Photo Sensor Size</span> </th>
+            <td>     <span>Full Frame (35mm)</span>   </td>
+            <td>       <span>Full Frame (35mm)</span>   </td>
+            <td>       <span>Full Frame (35mm)</span>   </td>
+
+        </tr>
+        <tr class="comparison_other_attribute_row">
+            <th class="a-span3 comparison_attribute_name_column comparison_table_first_col" role="rowheader"> <span>Video Capture Resolution</span> </th>
+            <td>     <span>4320p</span>   </td>
+            <td>       <span>2160p</span>   </td>
+            <td>       <span>2160p</span>   </td>
+
+        </tr>
+        <tr class="comparison_other_attribute_row">
+            <th class="a-span3 comparison_attribute_name_column comparison_table_first_col" role="rowheader"> <span>Viewfinder Type</span> </th>
+            <td>     <span>Electronic</span>   </td>
+            <td>       <span>Electronic</span>   </td>
+            <td>       <span>Electronic</span>   </td>
+
+        </tr>
+    </tbody>
+</table>

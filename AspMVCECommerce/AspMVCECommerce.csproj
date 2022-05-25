@@ -336,6 +336,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="images\ajax-loader.gif" />
     <Content Include="images\ajax-loader2.gif" />
+    <Content Include="images\check.png" />
     <Content Include="images\sort_asc.png" />
     <Content Include="images\sort_asc_disabled.png" />
     <Content Include="images\sort_both.png" />
@@ -426,6 +427,11 @@
     <Content Include="Views\Home\TermsAndCondition.cshtml" />
     <Content Include="Views\Home\WishList.cshtml" />
     <Content Include="Views\Home\Compare.cshtml" />
+    <Content Include="Views\Shared\_LaptopCompare.cshtml" />
+    <Content Include="Views\Shared\_HeadphonesCompare.cshtml" />
+    <Content Include="Views\Shared\_SmartPhonesCompare.cshtml" />
+    <Content Include="Views\Shared\_CameraCompare.cshtml" />
+    <Content Include="Views\Shared\_TabletCompare.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
