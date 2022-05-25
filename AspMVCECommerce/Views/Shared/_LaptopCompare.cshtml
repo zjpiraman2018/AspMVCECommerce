@@ -47,7 +47,7 @@
         var productIndex = 0;
     }
 
-
+    <tr> </tr>
     <tr>
         <td style="width:200px;"></td>
         @foreach (var item in Model)
@@ -152,7 +152,7 @@
             productIndex += 1;
             if (productIndex == 1)
             {
-                <td>
+                <td style="background-color: #ffe;">
                     <div class="product-rating">
                         @if (item.AverageRating != null)
                         {
@@ -245,7 +245,7 @@
             productIndex += 1;
             if (productIndex == 1)
             {
-                <td>
+                <td style="background-color: #ffffde;">
                     @if (item.PromoSaleOFF > 0)
                     {
                         if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
@@ -323,7 +323,7 @@
 
             if (productIndex == 1)
             {
-                <td><a>@item.Brand.Name</a>   </td>
+                <td style="background-color: #ffe;"><a>@item.Brand.Name</a>   </td>
             }
 
 
@@ -344,7 +344,7 @@
 
     <tr class="comparison_other_attribute_row">
         <th role="rowheader"> Computer Memory Size</span> </th>
-        <td>32.0 GB</td>
+        <td style="background-color: #ffffde;">32.0 GB</td>
         <td>16 GB</td>
         <td>16 GB</td>
 
@@ -352,7 +352,7 @@
     </tr>
     <tr class="comparison_other_attribute_row">
         <th role="rowheader"> CPU Model</span> </th>
-        <td>Intel Core i9</td>
+        <td style="background-color: #ffe;">Intel Core i9</td>
         <td>Core i7 Family</td>
         <td>Core i7</td>
 
@@ -360,7 +360,7 @@
     </tr>
     <tr class="comparison_other_attribute_row">
         <th role="rowheader"> CPU Model Manufacturer</span> </th>
-        <td>Intel</td>
+        <td style="background-color: #ffffde;">Intel</td>
         <td>Intel</td>
         <td>Intel</td>
 
@@ -368,7 +368,7 @@
     </tr>
     <tr class="comparison_other_attribute_row">
         <th role="rowheader"> CPU Speed</span> </th>
-        <td>2.50 GHz</td>
+        <td style="background-color: #ffe;">2.50 GHz</td>
         <td>4.6 GHz</td>
         <td>4.6 GHz</td>
 
@@ -376,7 +376,7 @@
     </tr>
     <tr class="comparison_other_attribute_row">
         <th role="rowheader"> Display Resolution Maximum</span> </th>
-        <td>1920 X 1200 pixels</td>
+        <td style="background-color: #ffffde;">1920 X 1200 pixels</td>
         <td>3840 x 2400 pixels</td>
         <td>3840 x 2400 pixels</td>
 
@@ -384,7 +384,7 @@
     </tr>
     <tr class="comparison_other_attribute_row">
         <th role="rowheader"> Screen Size</span> </th>
-        <td>17 inches</td>
+        <td style="background-color: #ffe;">17 inches</td>
         <td>17 inches</td>
         <td>17 inches</td>
 
@@ -392,7 +392,7 @@
     </tr>
     <tr class="comparison_other_attribute_row">
         <th role="rowheader"> Graphics Coprocessor</span> </th>
-        <td>NVIDIA GeForce RTX 3060</td>
+        <td style="background-color: #ffffde;">NVIDIA GeForce RTX 3060</td>
         <td>NVIDIA GeForce RTX 3050</td>
         <td>NVIDIA GeForce RTX 3050</td>
 
@@ -400,7 +400,7 @@
     </tr>
     <tr class="comparison_other_attribute_row">
         <th role="rowheader"> Hard Disk Description</span> </th>
-        <td>SSD</td>
+        <td style="background-color: #ffe;">SSD</td>
         <td>SSD</td>
         <td>SSD</td>
 
@@ -408,7 +408,7 @@
     </tr>
     <tr class="comparison_other_attribute_row">
         <th role="rowheader"> Hard Disk Size</span> </th>
-        <td>1 TB</td>
+        <td style="background-color: #ffffde;">1 TB</td>
         <td>512 GB</td>
         <td>512 GB</td>
 
@@ -416,7 +416,7 @@
     </tr>
     <tr class="comparison_other_attribute_row">
         <th role="rowheader"> Hardware Platform</span> </th>
-        <td>PC</td>
+        <td style="background-color: #ffe;">PC</td>
         <td>PC</td>
         <td>PC</td>
 
@@ -424,7 +424,7 @@
     </tr>
     <tr class="comparison_other_attribute_row">
         <th role="rowheader"> Human Interface Input</span> </th>
-        <td>Microphone</td>
+        <td style="background-color: #ffffde;">Microphone</td>
         <td>Touchscreen</td>
         <td>Touchscreen</td>
 
@@ -432,7 +432,7 @@
     </tr>
     <tr class="comparison_other_attribute_row">
         <th role="rowheader"> Operating System</span> </th>
-        <td>Windows 10 Pro</td>
+        <td style="background-color: #ffe;">Windows 10 Pro</td>
         <td>Windows 11 Home</td>
         <td>Windows 10 Pro</td>
 
@@ -440,7 +440,7 @@
     </tr>
     <tr class="comparison_other_attribute_row">
         <th role="rowheader"> Processor Count</span> </th>
-        <td>1</td>
+        <td style="background-color: #ffffde;">1</td>
         <td>8</td>
         <td>8</td>
 
@@ -448,7 +448,7 @@
     </tr>
     <tr class="comparison_other_attribute_row">
         <th role="rowheader"> RAM Type</span> </th>
-        <td>DDR4 SDRAM</td>
+        <td style="background-color: #ffe;">DDR4 SDRAM</td>
         <td>DDR4 SDRAM</td>
         <td>SDRAM</td>
 
@@ -456,7 +456,7 @@
     </tr>
     <tr class="comparison_other_attribute_row">
         <th role="rowheader"> Wireless Communication Technology</span> </th>
-        <td>Wi-Fi</td>
+        <td style="background-color: #ffffde;">Wi-Fi</td>
         <td>Bluetooth, Wi-Fi</td>
         <td>Wi-Fi, Bluetooth</td>
 

@@ -7,6 +7,7 @@
         @{
             var productIndex = 0;
         }
+        <tr></tr>
         <tr>
             <td style="width:200px;"></td>
             @foreach (var item in Model)
@@ -111,7 +112,7 @@
                 productIndex += 1;
                 if (productIndex == 1)
                 {
-                    <td>
+                    <td style="background-color: #ffe;">
                         <div class="product-rating">
                             @if (item.AverageRating != null)
                             {
@@ -204,7 +205,7 @@
                 productIndex += 1;
                 if (productIndex == 1)
                 {
-                    <td>
+                    <td style="background-color: #ffffde;">
                         @if (item.PromoSaleOFF > 0)
                         {
                             if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
@@ -282,7 +283,7 @@
 
                 if (productIndex == 1)
                 {
-                    <td><a>@item.Brand.Name</a>   </td>
+                    <td style="background-color: #ffe;"><a>@item.Brand.Name</a>   </td>
                 }
 
 
@@ -300,36 +301,36 @@
             }
         </tr>
         <tr class="comparison_other_attribute_row">
-            <th > <span class="a-size-base a-color-base">Color</span> </th>
-            <td>     <span class="a-size-base a-color-base">Black</span>   </td>
+            <th> <span class="a-size-base a-color-base">Color</span> </th>
+            <td style="background-color: #ffffde;">     <span class="a-size-base a-color-base">Black</span>   </td>
             <td>       <span class="a-size-base a-color-base">Black</span>   </td>
             <td>       <span class="a-size-base a-color-base">Black</span>   </td>
 
         </tr>
         <tr>
             <th> <span class="a-size-base a-color-base">Screen Size</span> </th>
-            <td>     <span class="a-size-base a-color-base">6.5 inches</span>   </td>
+            <td style="background-color: #ffe;">     <span class="a-size-base a-color-base">6.5 inches</span>   </td>
             <td>       <span class="a-size-base a-color-base">6.5 inches</span>   </td>
             <td>       <span class="a-size-base a-color-base">6.5 inches</span>   </td>
 
         </tr>
         <tr class="comparison_other_attribute_row">
             <th> <span class="a-size-base a-color-base">Item Dimensions</span> </th>
-            <td>     <span class="a-size-base a-color-base">0.35 x 6.46 x 2.98 inches</span>   </td>
+            <td style="background-color: #ffffde;">     <span class="a-size-base a-color-base">0.35 x 6.46 x 2.98 inches</span>   </td>
             <td>       <span class="a-size-base a-color-base">0.35 x 6.46 x 2.98 inches</span>   </td>
             <td>       <span class="a-size-base a-color-base">0.33 x 6.3 x 2.96 inches</span>   </td>
 
         </tr>
         <tr class="comparison_other_attribute_row">
             <th> <span class="a-size-base a-color-base">Item Weight</span> </th>
-            <td>     <span class="a-size-base a-color-base">7.23 ounces</span>   </td>
+            <td style="background-color: #ffe;">     <span class="a-size-base a-color-base">7.23 ounces</span>   </td>
             <td>       <span class="a-size-base a-color-base">0.35 ounces</span>   </td>
             <td>       <span class="a-size-base a-color-base">6.67 ounces</span>   </td>
 
         </tr>
         <tr class="comparison_other_attribute_row">
             <th> <span class="a-size-base a-color-base">Operating System</span> </th>
-            <td>     <span class="a-size-base a-color-base">Android</span>   </td>
+            <td style="background-color: #ffffde;">     <span class="a-size-base a-color-base">Android</span>   </td>
             <td>       <span class="a-size-base a-color-base">Android</span>   </td>
             <td>       <span class="a-size-base a-color-base">Android</span>   </td>
 

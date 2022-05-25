@@ -7,6 +7,7 @@
         @{
             var productIndex = 0;
         }
+        <tr></tr>
         <tr>
             <td style="width:200px;"></td>
             @foreach (var item in Model)
@@ -16,7 +17,7 @@
                 if (productIndex == 1)
                 {
                     <!-- index 1 -->
-                    <th >
+                    <th>
                         <div class="a-row a-spacing-top-micro">
                             <div style="width: 180px; height: 200px;  margin: auto; ">
                                 @if (item.Images.Count > 0)
@@ -111,7 +112,7 @@
                 productIndex += 1;
                 if (productIndex == 1)
                 {
-                    <td>
+                    <td style="background-color: #ffe;">
                         <div class="product-rating">
                             @if (item.AverageRating != null)
                             {
@@ -204,7 +205,7 @@
                 productIndex += 1;
                 if (productIndex == 1)
                 {
-                    <td>
+                    <td style="background-color: #ffffde;">
                         @if (item.PromoSaleOFF > 0)
                         {
                             if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
@@ -282,7 +283,7 @@
 
                 if (productIndex == 1)
                 {
-                    <td><a>@item.Brand.Name</a>   </td>
+                    <td style="background-color: #ffe;"><a>@item.Brand.Name</a>   </td>
                 }
 
 
@@ -303,56 +304,56 @@
 
         <tr class="comparison_other_attribute_row">
             <th class="a-span3 comparison_attribute_name_column comparison_table_first_col" role="rowheader"> <span>Screen Size</span> </th>
-            <td>     <span>3.2</span>   </td>
+            <td style="background-color: #ffffde;">     <span>3.2</span>   </td>
             <td>       <span>3</span>   </td>
             <td>       <span>3.15 inches</span>   </td>
 
         </tr>
         <tr class="comparison_other_attribute_row">
             <th class="a-span3 comparison_attribute_name_column comparison_table_first_col" role="rowheader"> <span>Item Dimensions</span> </th>
-            <td>     <span>11.1 x 8.9 x 7.4 inches</span>   </td>
+            <td style="background-color: #ffe;">     <span>11.1 x 8.9 x 7.4 inches</span>   </td>
             <td>       <span>3.48 x 5.45 x 3.84 inches</span>   </td>
             <td>       <span>3.3 x 5.3 x 3.9 inches</span>   </td>
 
         </tr>
         <tr class="comparison_other_attribute_row">
             <th class="a-span3 comparison_attribute_name_column comparison_table_first_col" role="rowheader"> <span>Item Weight</span> </th>
-            <td>     <span>3.09 lbs</span>   </td>
+            <td style="background-color: #ffffde;">     <span>3.09 lbs</span>   </td>
             <td>       <span>4.85 lbs</span>   </td>
             <td>       <span>3.09 lbs</span>   </td>
 
         </tr>
         <tr class="comparison_other_attribute_row">
             <th class="a-span3 comparison_attribute_name_column comparison_table_first_col" role="rowheader"> <span>Optical Sensor Resolution</span> </th>
-            <td>     <span>35.4 megapixels</span>   </td>
+            <td style="background-color: #ffe;">     <span>35.4 megapixels</span>   </td>
             <td>       <span>20 megapixels</span>   </td>
             <td>       <span>30.3 megapixels</span>   </td>
 
         </tr>
         <tr class="comparison_other_attribute_row">
             <th class="a-span3 comparison_attribute_name_column comparison_table_first_col" role="rowheader"> <span>Optical Zoom</span> </th>
-            <td>     <span>0x</span>   </td>
+            <td style="background-color: #ffffde;">     <span>0x</span>   </td>
             <td>       <span>0x</span>   </td>
             <td>       <span>4.3x</span>   </td>
 
         </tr>
         <tr class="comparison_other_attribute_row">
             <th class="a-span3 comparison_attribute_name_column comparison_table_first_col" role="rowheader"> <span>Photo Sensor Size</span> </th>
-            <td>     <span>Full Frame (35mm)</span>   </td>
+            <td style="background-color: #ffe;">     <span>Full Frame (35mm)</span>   </td>
             <td>       <span>Full Frame (35mm)</span>   </td>
             <td>       <span>Full Frame (35mm)</span>   </td>
 
         </tr>
         <tr class="comparison_other_attribute_row">
             <th class="a-span3 comparison_attribute_name_column comparison_table_first_col" role="rowheader"> <span>Video Capture Resolution</span> </th>
-            <td>     <span>4320p</span>   </td>
+            <td style="background-color: #ffffde;">     <span>4320p</span>   </td>
             <td>       <span>2160p</span>   </td>
             <td>       <span>2160p</span>   </td>
 
         </tr>
         <tr class="comparison_other_attribute_row">
             <th class="a-span3 comparison_attribute_name_column comparison_table_first_col" role="rowheader"> <span>Viewfinder Type</span> </th>
-            <td>     <span>Electronic</span>   </td>
+            <td style="background-color: #ffe;">     <span>Electronic</span>   </td>
             <td>       <span>Electronic</span>   </td>
             <td>       <span>Electronic</span>   </td>
 
