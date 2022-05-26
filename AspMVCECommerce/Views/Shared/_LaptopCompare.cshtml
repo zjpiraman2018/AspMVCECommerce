@@ -372,122 +372,308 @@
     <tr class="comparison_other_attribute_row">
         <th role="rowheader"> Computer Memory Size</span> </th>
         <td style="background-color: #ffffde;">32.0 GB</td>
-        <td>16 GB</td>
-        <td>16 GB</td>
+
+        @{ productIndex = 0; }
+        @foreach (var item in Model)
+        {
+            productIndex += 1;
 
 
+            if (productIndex == 2)
+            {
+                <td>16 GB</td>
+            }
+
+            if (productIndex == 3)
+            {
+                <td>16 GB</td>
+            }
+        }
     </tr>
     <tr class="comparison_other_attribute_row">
         <th role="rowheader"> CPU Model</span> </th>
         <td style="background-color: #ffe;">Intel Core i9</td>
-        <td>Core i7 Family</td>
-        <td>Core i7</td>
+
+        @{ productIndex = 0; }
+        @foreach (var item in Model)
+        {
+            productIndex += 1;
 
 
+            if (productIndex == 2)
+            {
+                <td>Core i7 Family</td>
+            }
+
+            if (productIndex == 3)
+            {
+                <td>Core i7</td>
+            }
+        }
     </tr>
     <tr class="comparison_other_attribute_row">
         <th role="rowheader"> CPU Model Manufacturer</span> </th>
         <td style="background-color: #ffffde;">Intel</td>
-        <td>Intel</td>
-        <td>Intel</td>
+        @{ productIndex = 0; }
+        @foreach (var item in Model)
+        {
+            productIndex += 1;
 
 
+            if (productIndex == 2)
+            {
+                <td>Intel</td>
+            }
+
+            if (productIndex == 3)
+            {
+                <td>Intel</td>
+            }
+        }
     </tr>
     <tr class="comparison_other_attribute_row">
         <th role="rowheader"> CPU Speed</span> </th>
         <td style="background-color: #ffe;">2.50 GHz</td>
-        <td>4.6 GHz</td>
-        <td>4.6 GHz</td>
+        @{ productIndex = 0; }
+        @foreach (var item in Model)
+        {
+            productIndex += 1;
 
+
+            if (productIndex == 2)
+            {
+                <td>4.6 GHz</td>
+            }
+
+            if (productIndex == 3)
+            {
+                <td>4.6 GHz</td>
+            }
+        }
 
     </tr>
     <tr class="comparison_other_attribute_row">
         <th role="rowheader"> Display Resolution Maximum</span> </th>
         <td style="background-color: #ffffde;">1920 X 1200 pixels</td>
-        <td>3840 x 2400 pixels</td>
-        <td>3840 x 2400 pixels</td>
+
+        @{ productIndex = 0; }
+        @foreach (var item in Model)
+        {
+            productIndex += 1;
 
 
+            if (productIndex == 2)
+            {
+                <td>3840 x 2400 pixels</td>
+            }
+
+            if (productIndex == 3)
+            {
+                <td>3840 x 2400 pixels</td>
+            }
+        }
     </tr>
     <tr class="comparison_other_attribute_row">
         <th role="rowheader"> Screen Size</span> </th>
         <td style="background-color: #ffe;">17 inches</td>
-        <td>17 inches</td>
-        <td>17 inches</td>
+        @{ productIndex = 0; }
+        @foreach (var item in Model)
+        {
+            productIndex += 1;
 
+
+            if (productIndex == 2)
+            {
+                <td>17 inches</td>
+            }
+
+            if (productIndex == 3)
+            {
+                <td>17 inches</td>
+            }
+        }
 
     </tr>
     <tr class="comparison_other_attribute_row">
         <th role="rowheader"> Graphics Coprocessor</span> </th>
         <td style="background-color: #ffffde;">NVIDIA GeForce RTX 3060</td>
-        <td>NVIDIA GeForce RTX 3050</td>
-        <td>NVIDIA GeForce RTX 3050</td>
+        @{ productIndex = 0; }
+        @foreach (var item in Model)
+        {
+            productIndex += 1;
 
 
+            if (productIndex == 2)
+            {
+                <td>NVIDIA GeForce RTX 3050</td>
+            }
+
+            if (productIndex == 3)
+            {
+                <td>NVIDIA GeForce RTX 3050</td>
+            }
+        }
     </tr>
     <tr class="comparison_other_attribute_row">
         <th role="rowheader"> Hard Disk Description</span> </th>
         <td style="background-color: #ffe;">SSD</td>
-        <td>SSD</td>
-        <td>SSD</td>
+        @{ productIndex = 0; }
+        @foreach (var item in Model)
+        {
+            productIndex += 1;
 
+
+            if (productIndex == 2)
+            {
+                <td>SSD</td>
+            }
+
+            if (productIndex == 3)
+            {
+                <td>SSD</td>
+            }
+        }
 
     </tr>
     <tr class="comparison_other_attribute_row">
         <th role="rowheader"> Hard Disk Size</span> </th>
         <td style="background-color: #ffffde;">1 TB</td>
-        <td>512 GB</td>
-        <td>512 GB</td>
+        @{ productIndex = 0; }
+        @foreach (var item in Model)
+        {
+            productIndex += 1;
 
 
+            if (productIndex == 2)
+            {
+                <td>512 GB</td>
+            }
+
+            if (productIndex == 3)
+            {
+                <td>512 GB</td>
+            }
+        }
     </tr>
     <tr class="comparison_other_attribute_row">
         <th role="rowheader"> Hardware Platform</span> </th>
         <td style="background-color: #ffe;">PC</td>
-        <td>PC</td>
-        <td>PC</td>
+        @{ productIndex = 0; }
+        @foreach (var item in Model)
+        {
+            productIndex += 1;
 
 
+            if (productIndex == 2)
+            {
+                <td>PC</td>
+            }
+
+            if (productIndex == 3)
+            {
+                <td>PC</td>
+            }
+        }
     </tr>
     <tr class="comparison_other_attribute_row">
         <th role="rowheader"> Human Interface Input</span> </th>
         <td style="background-color: #ffffde;">Microphone</td>
-        <td>Touchscreen</td>
-        <td>Touchscreen</td>
+        @{ productIndex = 0; }
+        @foreach (var item in Model)
+        {
+            productIndex += 1;
 
 
+            if (productIndex == 2)
+            {
+                <td>Touchscreen</td>
+            }
+
+            if (productIndex == 3)
+            {
+                <td>Touchscreen</td>
+            }
+        }
     </tr>
     <tr class="comparison_other_attribute_row">
         <th role="rowheader"> Operating System</span> </th>
         <td style="background-color: #ffe;">Windows 10 Pro</td>
-        <td>Windows 11 Home</td>
-        <td>Windows 10 Pro</td>
+        @{ productIndex = 0; }
+        @foreach (var item in Model)
+        {
+            productIndex += 1;
 
 
+            if (productIndex == 2)
+            {
+                <td>Windows 11 Home</td>
+            }
+
+            if (productIndex == 3)
+            {
+                <td>Windows 10 Pro</td>
+            }
+        }
     </tr>
     <tr class="comparison_other_attribute_row">
         <th role="rowheader"> Processor Count</span> </th>
         <td style="background-color: #ffffde;">1</td>
-        <td>8</td>
-        <td>8</td>
+        @{ productIndex = 0; }
+        @foreach (var item in Model)
+        {
+            productIndex += 1;
 
 
+            if (productIndex == 2)
+            {
+                <td>8</td>
+            }
+
+            if (productIndex == 3)
+            {
+                <td>8</td>
+            }
+        }
     </tr>
     <tr class="comparison_other_attribute_row">
         <th role="rowheader"> RAM Type</span> </th>
         <td style="background-color: #ffe;">DDR4 SDRAM</td>
-        <td>DDR4 SDRAM</td>
-        <td>SDRAM</td>
+        @{ productIndex = 0; }
+        @foreach (var item in Model)
+        {
+            productIndex += 1;
 
 
+            if (productIndex == 2)
+            {
+                <td>DDR4 SDRAM</td>
+            }
+
+            if (productIndex == 3)
+            {
+                <td>SDRAM</td>
+            }
+        }
     </tr>
     <tr class="comparison_other_attribute_row">
         <th role="rowheader"> Wireless Communication Technology</span> </th>
         <td style="background-color: #ffffde;">Wi-Fi</td>
-        <td>Bluetooth, Wi-Fi</td>
-        <td>Wi-Fi, Bluetooth</td>
+        @{ productIndex = 0; }
+        @foreach (var item in Model)
+        {
+            productIndex += 1;
 
 
+            if (productIndex == 2)
+            {
+                <td>Bluetooth, Wi-Fi</td>
+            }
+
+            if (productIndex == 3)
+            {
+                <td>Wi-Fi, Bluetooth</td>
+            }
+        }
     </tr>
 
     </tbody>

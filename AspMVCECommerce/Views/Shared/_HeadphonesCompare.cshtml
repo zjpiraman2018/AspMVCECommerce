@@ -329,45 +329,146 @@
         <tr class="comparison_other_attribute_row">
             <th> <span>Are batteries included?</span> </th>
             <td style="background-color: #ffffde;">     <span>Yes</span>   </td>
-            <td>       <span>No</span>   </td>
-            <td>       <span>No</span>   </td>
+
+            @{ productIndex = 0; }
+            @foreach (var item in Model)
+            {
+                productIndex += 1;
+
+
+                if (productIndex == 2)
+                {
+                    <td>       <span>No</span>   </td>
+                }
+
+                if (productIndex == 3)
+                {
+                    <td>       <span>No</span>   </td>
+                }
+            }
+
+
+
+
 
         </tr>
         <tr class="comparison_other_attribute_row">
-            <th > <span>Are batteries required?</span> </th>
+            <th> <span>Are batteries required?</span> </th>
             <td style="background-color: #ffe;">     <span>Yes</span>   </td>
-            <td>       <span>Yes</span>   </td>
-            <td>       <span>No</span>   </td>
+            @{ productIndex = 0; }
+            @foreach (var item in Model)
+            {
+                productIndex += 1;
+
+
+                if (productIndex == 2)
+                {
+                    <td>       <span>Yes</span>   </td>
+                }
+
+                if (productIndex == 3)
+                {
+                    <td>       <span>No</span>   </td>
+                }
+            }
+
+
+
 
         </tr>
         <tr class="comparison_other_attribute_row">
-            <th > <span>Color</span> </th>
+            <th> <span>Color</span> </th>
             <td style="background-color: #ffffde;">     <span>Black</span>   </td>
-            <td>       <span>Black</span>   </td>
-            <td>       <span>Stealth</span>   </td>
+
+            @{ productIndex = 0; }
+            @foreach (var item in Model)
+            {
+                productIndex += 1;
+
+
+                if (productIndex == 2)
+                {
+                    <td>       <span>Black</span>   </td>
+                }
+
+                if (productIndex == 3)
+                {
+                    <td>       <span>Stealth</span>   </td>
+                }
+            }
+
+
+
 
         </tr>
         <tr>
             <th> <span>Connectivity Technology</span> </th>
             <td style="background-color: #ffe;">     <span>Wireless, Wired</span>   </td>
-            <td>       <span>Wireless</span>   </td>
-            <td>       <span>Wireless</span>   </td>
+
+
+            @{ productIndex = 0; }
+            @foreach (var item in Model)
+            {
+                productIndex += 1;
+
+
+                if (productIndex == 2)
+                {
+                    <td>       <span>Wireless</span>   </td>
+                }
+
+                if (productIndex == 3)
+                {
+                    <td>       <span>Wireless</span>   </td>
+                }
+            }
 
         </tr>
         <tr>
             <th> <span>Fit Type</span> </th>
             <td style="background-color: #ffffde;">     <span>Over-Ear</span>   </td>
-            <td>       <span>Over-Ear</span>   </td>
-            <td>       <span>Over-Ear</span>   </td>
+
+            @{ productIndex = 0; }
+            @foreach (var item in Model)
+            {
+                productIndex += 1;
+
+
+                if (productIndex == 2)
+                {
+                    <td>       <span>Over-Ear</span>   </td>
+                }
+
+                if (productIndex == 3)
+                {
+                    <td>       <span>Over-Ear</span>   </td>
+                }
+            }
+
+
+
 
         </tr>
         <tr>
             <th> <span>Special Features</span> </th>
             <td style="background-color: #ffe;">     <span>Wired＆Wireless, Noise Isolation, Microphone Feature, Foldable, Bluetooth 5.0, 52 hours playing time, Hifi stereo sound, Lightweight, 3 EQ Modes</span>   </td>
-            <td>       <span>Deep Bass Audio Output; Bluetooth 5.1 Fast and Stable Connection; Foldable Design, 0.44lb Lightweight; 55 hours long playing time.; Optional Wireless or Wired</span>   </td>
-            <td>       <span>Bluetooth 4.1, Built_in Mic/ FM/ SD Card Slot; Dual Mode, Foldable, Noise Cancelling Design</span>   </td>
+
+            @{ productIndex = 0; }
+            @foreach (var item in Model)
+            {
+                productIndex += 1;
 
 
+                if (productIndex == 2)
+                {
+                    <td>       <span>Deep Bass Audio Output; Bluetooth 5.1 Fast and Stable Connection; Foldable Design, 0.44lb Lightweight; 55 hours long playing time.; Optional Wireless or Wired</span>   </td>
+                }
+
+                if (productIndex == 3)
+                {
+                    <td>       <span>Bluetooth 4.1, Built_in Mic/ FM/ SD Card Slot; Dual Mode, Foldable, Noise Cancelling Design</span>   </td>
+                }
+            }
         </tr>
     </tbody>
 </table>
