@@ -13,17 +13,41 @@
 
 
 <!-- BREADCRUMB -->
+<!--<div id="breadcrumb" class="section">-->
+<!-- container -->
+<!--<div class="container">-->
+<!-- row -->
+<!--<div class="row">
+    <div class="col-md-12">
+        <h3 class="breadcrumb-header">Compare Related Product</h3>
+        <ul class="breadcrumb-tree">
+            <li><a href="~/Home/Index">Home</a></li>
+            <li class="active">Compare Related Product</li>
+        </ul>
+    </div>
+</div>-->
+<!-- /row -->
+<!--</div>-->
+<!-- /container -->
+<!--</div>-->
+<!-- /BREADCRUMB -->
+
+
+<!-- BREADCRUMB -->
 <div id="breadcrumb" class="section">
+
+
     <!-- container -->
     <div class="container">
         <!-- row -->
         <div class="row">
             <div class="col-md-12">
                 <h3 class="breadcrumb-header">Compare Related Product</h3>
-                <ul class="breadcrumb-tree">
-                    <li><a href="~/Home/Index">Home</a></li>
-                    <li class="active">Compare Related Product</li>
+                <ul class="breadcrumb-tree product-page-breadcrumb">
+                    <li id="li-home-breadcrumb"><a href="~/Home/Index">Home</a></li>
+                    <li id="li-product-id" class="breadcrum-product-name" style="display:none"></li>
                 </ul>
+
             </div>
         </div>
         <!-- /row -->
@@ -31,6 +55,8 @@
     <!-- /container -->
 </div>
 <!-- /BREADCRUMB -->
+
+
 <!-- SECTION -->
 <div class="section">
     <!-- container -->
@@ -258,5 +284,181 @@
             }
 
 
+        $(document).ready(function () {
+
+              // LOAD BREAD CRUMB LINKS BASE ON PREVIUSPAGE
+
+            @{
+               <text>
+                var tempPrevPage = '@ViewBag.PrevPage';
+                var tempCategoryId = parseInt('@(((Product)ViewBag.CurrentProduct).Category.CategoryId)');
+                var tempSelectedNavCategory = '@ViewBag.SelectedNavCategory';
+                var tempProductName = '@(((Product)ViewBag.CurrentProduct).Name)';
+               </text>
+            }
+
+            switch (tempSelectedNavCategory) {
+
+               case "Hot Deals":
+                        var selectedNavCategoryHD = '';
+                        if (tempCategoryId == 1) {
+                            selectedNavCategoryHD = 'Laptops';
+                        }
+                        else if (tempCategoryId == 2) {
+                            selectedNavCategoryHD = 'Smartphones';
+                        }
+                        else if (tempCategoryId == 3) {
+                            selectedNavCategoryHD = 'Accessories';
+                        }
+                        else if (tempCategoryId == 4) {
+                            selectedNavCategoryHD = 'Headphones';
+                        }
+                        else if (tempCategoryId == 5) {
+                            selectedNavCategoryHD = 'Cameras';
+                        }
+                        else if (tempCategoryId == 6) {
+                            selectedNavCategoryHD = 'Tablet';
+                        }
+
+
+                        $(".product-page-breadcrumb")
+                            .append('<li><a href="/Home/Store?selectedCategory=1%2C2%2C3%2C4%2C5%2C6&selectedNavCategory=Hot%20Deals">Hot Deals</a></li>')
+                            .append('<li><a href="/Home/Store?selectedCategory=' + tempCategoryId + '&selectedNavCategory=' + selectedNavCategoryHD + '">' + selectedNavCategoryHD.toUpperCase() + '</a></li>')
+                            .append('<li class="active breadcrum-product-name">' + tempProductName.toUpperCase() + '</li>');
+
+                        break;
+
+                case "Categories":
+
+                        var selectedNavCategoryAC = '';
+                        if (tempCategoryId == 1) {
+                            selectedNavCategoryAC = 'Laptops';
+                        }
+                        else if (tempCategoryId == 2) {
+                            selectedNavCategoryAC = 'Smartphones';
+                        }
+                        else if (tempCategoryId == 3) {
+                            selectedNavCategoryAC = 'Accessories';
+                        }
+                        else if (tempCategoryId == 4) {
+                            selectedNavCategoryAC = 'Headphones';
+                        }
+                        else if (tempCategoryId == 5) {
+                            selectedNavCategoryAC = 'Cameras';
+                        }
+                        else if (tempCategoryId == 6) {
+                            selectedNavCategoryAC = 'Tablet';
+                        }
+
+                        $(".product-page-breadcrumb")
+                            .append('<li><a href="/Home/Store?selectedCategory=1%2C2%2C3%2C4%2C5%2C6&selectedNavCategory=Categories">ALL CATEGORIES</a></li>')
+                            .append('<li><a href="/Home/Store?selectedCategory=' + tempCategoryId + '&selectedNavCategory=' + selectedNavCategoryAC + '">' + selectedNavCategoryAC.toUpperCase() + '</a></li>')
+                            .append('<li class="active breadcrum-product-name">' + tempProductName.toUpperCase() + '</li>');
+
+                        break;
+
+                case "Home":
+                        var selectedNavCategoryH = '';
+                        if (tempCategoryId == 1) {
+                            selectedNavCategoryH = 'Laptops';
+                        }
+                        else if (tempCategoryId == 2) {
+                            selectedNavCategoryH = 'Smartphones';
+                        }
+                        else if (tempCategoryId == 3) {
+                            selectedNavCategoryH = 'Accessories';
+                        }
+                        else if (tempCategoryId == 4) {
+                            selectedNavCategoryH = 'Headphones';
+                        }
+                        else if (tempCategoryId == 5) {
+                            selectedNavCategoryH = 'Cameras';
+                        }
+                        else if (tempCategoryId == 6) {
+                            selectedNavCategoryH = 'Tablet';
+                        }
+
+
+                        $(".product-page-breadcrumb")
+                            .append('<li><a href="/Home/Store?selectedCategory=' + tempCategoryId + '&selectedNavCategory=' + selectedNavCategoryH + '">' + selectedNavCategoryH.toUpperCase() + '</a></li>')
+                            .append('<li class="active breadcrum-product-name">' + tempProductName.toUpperCase() + '</li>');
+                    break;
+
+                case "Laptops":
+                    $(".product-page-breadcrumb")
+                        .append('<li><a href="/Home/Store?selectedCategory=' + tempCategoryId + '&selectedNavCategory=Laptops">LAPTOPS</a></li>')
+                        .append('<li class="active breadcrum-product-name">' + tempProductName.toUpperCase() + '</li>');
+                    break;
+
+
+                case "Smartphones":
+                    $(".product-page-breadcrumb")
+                        .append('<li><a href="/Home/Store?selectedCategory=' + tempCategoryId + '&selectedNavCategory=Smartphones">SMARTPHONES</a></li>')
+                        .append('<li class="active breadcrum-product-name">' + tempProductName.toUpperCase() + '</li>');
+                    break;
+
+
+                case "Cameras":
+                    $(".product-page-breadcrumb")
+                        .append('<li><a href="/Home/Store?selectedCategory=' + tempCategoryId + '&selectedNavCategory=Cameras">CAMERAS</a></li>')
+                        .append('<li class="active breadcrum-product-name">' + tempProductName.toUpperCase() + '</li>');
+                    break;
+
+
+                case "Accessories":
+                    $(".product-page-breadcrumb")
+                        .append('<li><a href="/Home/Store?selectedCategory=' + tempCategoryId + '&selectedNavCategory=Accessories">ACCESSORIES</a></li>')
+                        .append('<li class="active breadcrum-product-name">' + tempProductName.toUpperCase() + '</li>');
+                    break;
+
+
+                case "Headphones":
+                    $(".product-page-breadcrumb")
+                        .append('<li><a href="/Home/Store?selectedCategory=' + tempCategoryId + '&selectedNavCategory=Headphones">HEADPHONES</a></li>')
+                        .append('<li class="active breadcrum-product-name">' + tempProductName.toUpperCase() + '</li>');
+                    break;
+
+
+                case "Tablet":
+                    $(".product-page-breadcrumb")
+                        .append('<li><a href="/Home/Store?selectedCategory=' + tempCategoryId + '&selectedNavCategory=Tablet">TABLET</a></li>')
+                        .append('<li class="active breadcrum-product-name">' + tempProductName.toUpperCase() + '</li>');
+                    break;
+
+                default:
+                        break;
+            }
+
+            // END OF LOAD BREAD CRUMB LINKS BASE ON PREVIUSPAGE
+
+
+            /* BREADCRUMB PRODUCT NAME LIMIT */
+            $(".breadcrum-product-name").each(function (index) {
+                /* var imageDefaultId = $(this).attr("image-id") + ".Default";*/
+
+                let linkInnerText = $(this).html($(this).prop("innerText")).prop("innerText");
+                $(this).html(linkInnerText);
+
+                $(this).attr("title", linkInnerText);
+
+                var len = $(this).text().trim().length;
+                if (tempSelectedNavCategory == 'Categories') {
+                    if (len > 60) {
+                        $(this).text($(this).text().substr(0, 50) + '...');
+                    }
+                }
+                else {
+                    if (len > 70) {
+                        $(this).text($(this).text().substr(0, 70) + '...');
+                    }
+                }
+    
+            });
+            /* END OF BREADCRUMB PRODUCT NAME LIMIT */
+
+        });
+
+
     </script>
 }
+

@@ -2507,7 +2507,7 @@ namespace AspMVCECommerce.Controllers
             _products.AddRange(products);
 
             ViewBag.SelectedNavCategory = selectedNavCategory;
-
+            ViewBag.CurrentProduct = product;
             return View(_products);
         }
 
