@@ -17,28 +17,37 @@
                 if (productIndex == 1)
                 {
                     <!-- index 1 -->
-                    <th>
-                        <div class="a-row a-spacing-top-micro">
-                            <div style="width: 180px; height: 200px;  margin: auto; ">
-                                @if (item.Images.Count > 0)
-                                {
+        <th style="position:relative;">
+            <div class="a-row a-spacing-top-micro">
+                <div style="width: 180px; height: 200px;  margin: auto; ">
+                    @if (item.Images.Count > 0)
+                    {
 
-                                    var itemImages = item.Images;
+                        var itemImages = item.Images;
 
-                                    foreach (var itemImage in itemImages)
-                                    {
-                                        if (itemImage.Default)
-                                        {
-                                            <img style="width: 100%; height: 180px; object-fit: scale-down;" src="@Url.Content(itemImage.ImagePath)" alt="@itemImage.Title">
+                        foreach (var itemImage in itemImages)
+                        {
+                            if (itemImage.Default)
+                            {
+                                <img style="width: 100%; height: 180px; object-fit: scale-down;" src="@Url.Content(itemImage.ImagePath)" alt="@itemImage.Title">
 
-                                            break;
-                                        }
-                                    }
-                                }
+                                break;
+                            }
+                        }
+                    }
 
-                            </div>
-                        </div> <div class="a-row a-spacing-top-small"><a href="/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory" class="product-name" title="@item.Name">@item.Name</a></div>
-                    </th>
+                </div>
+            </div>
+            <div class="a-row a-spacing-top-small" style="margin-bottom: 65px !important;">
+                <a href="/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory" class="product-name" title="@item.Name">@item.Name</a>
+
+                <div class="product-details" style="width: 100%; margin-bottom: 15px !important; margin-top: 20px; bottom: 0px; position: absolute; ">
+                    <div class="add-to-cart" style="margin: auto; width: 100%; display: flex;  font-size: 12px !important; ">
+                        <button style="margin: auto; height: 35px !important;" class="add-to-cart-btn" onclick="GetProductDetails(@(item.ProductId));"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                    </div>
+                </div>
+            </div>
+        </th>
                 }
 
 
@@ -46,56 +55,74 @@
                 if (productIndex == 2)
                 {
 
-                    <th>
-                        <div class="a-row a-spacing-top-micro">
-                            <div style="width: 180px; height: 200px;  margin: auto; ">
-                                @if (item.Images.Count > 0)
-                                {
+        <th style="position:relative;">
+            <div class="a-row a-spacing-top-micro">
+                <div style="width: 180px; height: 200px;  margin: auto; ">
+                    @if (item.Images.Count > 0)
+                    {
 
-                                    var itemImages = item.Images;
+                        var itemImages = item.Images;
 
-                                    foreach (var itemImage in itemImages)
-                                    {
-                                        if (itemImage.Default)
-                                        {
-                                            <img style="width: 100%; height: 180px; object-fit: scale-down;" src="@Url.Content(itemImage.ImagePath)" alt="@itemImage.Title">
+                        foreach (var itemImage in itemImages)
+                        {
+                            if (itemImage.Default)
+                            {
+                                <img style="width: 100%; height: 180px; object-fit: scale-down;" src="@Url.Content(itemImage.ImagePath)" alt="@itemImage.Title">
 
-                                            break;
-                                        }
-                                    }
-                                }
+                                break;
+                            }
+                        }
+                    }
 
-                            </div>
-                        </div> <div class="a-row a-spacing-top-small"><a href="/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory" class="product-name" title="@item.Name">@item.Name</a></div>
-                    </th>
+                </div>
+            </div>
+            <div class="a-row a-spacing-top-small" style="margin-bottom: 65px !important;">
+                <a href="/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory" class="product-name" title="@item.Name">@item.Name</a>
+
+                <div class="product-details" style="width: 100%; margin-bottom: 15px !important; margin-top: 20px; bottom: 0px; position: absolute; ">
+                    <div class="add-to-cart" style="margin: auto; width: 100%; display: flex;  font-size: 12px !important; ">
+                        <button style="margin: auto; height: 35px !important;" class="add-to-cart-btn" onclick="GetProductDetails(@(item.ProductId));"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                    </div>
+                </div>
+            </div>
+        </th>
                 }
 
                 <!-- index 3 -->
                 if (productIndex == 3)
                 {
 
-                    <th>
-                        <div class="a-row a-spacing-top-micro">
-                            <div style="width: 180px; height: 200px;padding:5px; margin: auto;">
-                                @if (item.Images.Count > 0)
-                                {
+        <th style="position:relative;">
+            <div class="a-row a-spacing-top-micro">
+                <div style="width: 180px; height: 200px;padding:5px; margin: auto;">
+                    @if (item.Images.Count > 0)
+                    {
 
-                                    var itemImages = item.Images;
+                        var itemImages = item.Images;
 
-                                    foreach (var itemImage in itemImages)
-                                    {
-                                        if (itemImage.Default)
-                                        {
-                                            <img style="width: 100%; height: 180px; object-fit: scale-down;" src="@Url.Content(itemImage.ImagePath)" alt="@itemImage.Title">
+                        foreach (var itemImage in itemImages)
+                        {
+                            if (itemImage.Default)
+                            {
+                                <img style="width: 100%; height: 180px; object-fit: scale-down;" src="@Url.Content(itemImage.ImagePath)" alt="@itemImage.Title">
 
-                                            break;
-                                        }
-                                    }
-                                }
+                                break;
+                            }
+                        }
+                    }
 
-                            </div>
-                        </div> <div class="a-row a-spacing-top-small"><a href="/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory" class="product-name" title="@item.Name">@item.Name</a></div>
-                    </th>
+                </div>
+            </div>
+            <div class="a-row a-spacing-top-small" style="margin-bottom: 65px !important;">
+                <a href="/Home/Product?productId=@(item.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory" class="product-name" title="@item.Name">@item.Name</a>
+
+                <div class="product-details" style="width: 100%; margin-bottom: 15px !important; margin-top: 20px; bottom: 0px; position: absolute; ">
+                    <div class="add-to-cart" style="margin: auto; width: 100%; display: flex;  font-size: 12px !important; ">
+                        <button style="margin: auto; height: 35px !important;" class="add-to-cart-btn" onclick="GetProductDetails(@(item.ProductId));"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                    </div>
+                </div>
+            </div>
+        </th>
                 }
                 <!-- index 4 -->
 
