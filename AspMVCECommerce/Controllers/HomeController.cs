@@ -1156,6 +1156,29 @@ namespace AspMVCECommerce.Controllers
             return View();
         }
 
+        public ActionResult ConfirmEmail(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var newsLetter = db.NewsLetters.Find(int.Parse(id));
+            if(newsLetter != null)
+            {
+                newsLetter.IsComfirmed = true;
+                db.Entry(newsLetter).State = EntityState.Modified;
+                db.SaveChanges();
+
+                HomeController homeController = new HomeController();
+                homeController.HangFireSendEmail(newsLetter.Email);
+
+                return View(newsLetter);
+            }
+
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        }
+
         public ActionResult TermsAndCondition()
         {
             return View();
@@ -1179,7 +1202,7 @@ namespace AspMVCECommerce.Controllers
             }
             else
             {
-                subscribers = db.NewsLetters.ToList();
+                subscribers = db.NewsLetters.Where(n=>n.IsComfirmed == true).ToList();
             }
             
             // IF NO PRODUCTS RETURN NULL
@@ -1277,6 +1300,7 @@ namespace AspMVCECommerce.Controllers
                     }
                     catch (Exception ex)
                     {
+                        LogUtility.Write(ex.Message);
                         return Content(ex.Message);
                     }
 

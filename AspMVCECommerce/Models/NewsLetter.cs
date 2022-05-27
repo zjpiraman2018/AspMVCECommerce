@@ -10,5 +10,6 @@ namespace AspMVCECommerce.Models
         public int NewsLetterId { get; set; }
         public string Email { get; set; }
         public DateTime Created { get; set; }
+        public bool IsComfirmed { get; set; }
     }
 }

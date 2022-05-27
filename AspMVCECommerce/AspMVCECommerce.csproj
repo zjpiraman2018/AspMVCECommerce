@@ -248,6 +248,10 @@
     <Compile Include="Migrations\202205220814519_addwishlist.Designer.cs">
       <DependentUpon>202205220814519_addwishlist.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202205270808111_addConfirmFieldToNewsLetter.cs" />
+    <Compile Include="Migrations\202205270808111_addConfirmFieldToNewsLetter.Designer.cs">
+      <DependentUpon>202205270808111_addConfirmFieldToNewsLetter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Brand.cs" />
@@ -274,6 +278,7 @@
     <Compile Include="Utility\CheckOutUtility.cs" />
     <Compile Include="Utility\CustomAddressUtility.cs" />
     <Compile Include="Utility\EmailUtility.cs" />
+    <Compile Include="Utility\LogUtility.cs" />
     <Compile Include="Utility\OrderUtility.cs" />
     <Compile Include="Utility\ProductUtility.cs" />
     <Compile Include="Utility\ShippingAddress2Utility.cs" />
@@ -297,6 +302,7 @@
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\summernote.min.css" />
     <Content Include="Content\toastr.min.css" />
+    <Content Include="EmailTemplate\AccountConfirmation.html" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="FrontEnd\css\ajax-loader.gif" />
@@ -432,6 +438,7 @@
     <Content Include="Views\Shared\_SmartPhonesCompare.cshtml" />
     <Content Include="Views\Shared\_CameraCompare.cshtml" />
     <Content Include="Views\Shared\_TabletCompare.cshtml" />
+    <Content Include="Views\Home\ConfirmEmail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -465,6 +472,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202205220814519_addwishlist.resx">
       <DependentUpon>202205220814519_addwishlist.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202205270808111_addConfirmFieldToNewsLetter.resx">
+      <DependentUpon>202205270808111_addConfirmFieldToNewsLetter.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
