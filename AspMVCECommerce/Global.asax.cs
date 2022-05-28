@@ -18,9 +18,6 @@ namespace AspMVCECommerce
 
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(new RazorViewEngine());
-
-
-
         }
     }
 }

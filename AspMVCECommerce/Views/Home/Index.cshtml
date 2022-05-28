@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<AspMVCECommerce.Models.Product>
 @using AspMVCECommerce.Models;
+@using AspMVCECommerce.Utility; 
 
 @{
     ViewBag.Title = "Home Page";
@@ -1225,25 +1226,25 @@
                     <ul class="hot-deal-countdown">
                         <li>
                             <div>
-                                <h3>02</h3>
+                                <h3 id="count-down-days">02</h3>
                                 <span>Days</span>
                             </div>
                         </li>
                         <li>
                             <div>
-                                <h3>10</h3>
+                                <h3 id="count-down-hours">10</h3>
                                 <span>Hours</span>
                             </div>
                         </li>
                         <li>
                             <div>
-                                <h3>34</h3>
+                                <h3 id="count-down-minutes">34</h3>
                                 <span>Mins</span>
                             </div>
                         </li>
                         <li>
                             <div>
-                                <h3>60</h3>
+                                <h3 id="count-down-seconds">60</h3>
                                 <span>Secs</span>
                             </div>
                         </li>
@@ -2687,6 +2688,46 @@
 
 
     <script type="text/javascript">
+     
+        var countDownDate;
+                    
+        @{
+                <Text>
+                    countDownDate = new Date("@(((DateTime)DateUtility.GetCurrentSunday()).ToString("MMM dd, yyyy 23:59:59"))").getTime();
+                </Text>
+        }
+
+        // Update the count down every 1 second
+        var x = setInterval(function () {
+
+            // Get today's date and time
+            var now = new Date().getTime();
+
+            // Find the distance between now and the count down date
+            var distance = countDownDate - now;
+
+            // Time calculations for days, hours, minutes and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Output the result in an element with id="demo"
+            //document.getElementById("demo").innerHTML = days + "d " + hours + "h "
+            //    + minutes + "m " + seconds + "s ";
+            document.getElementById("count-down-days").innerHTML = days;
+            document.getElementById("count-down-hours").innerHTML = hours;
+            document.getElementById("count-down-minutes").innerHTML = minutes;
+            document.getElementById("count-down-seconds").innerHTML = seconds;
+                             
+            // If the count down is over, write some text
+            if (distance < 0) {
+                clearInterval(x);
+                //document.getElementById("demo").innerHTML = "EXPIRED";
+            }
+        }, 1000);
+
+
         $(document).ready(function () {
             /* BREADCRUMB PRODUCT NAME LIMIT */
             $(".product-name-widget").each(function (index) {
