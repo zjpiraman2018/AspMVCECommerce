@@ -44,10 +44,30 @@
 <body>
     <!-- HEADER -->
     <header>
-        <!-- TOP HEADER -->
-        <div id="top-header">
-            <div class="container">
 
+        @{
+            bool isAdmin = false;
+            if (Request.IsAuthenticated)
+            {
+                if (User.IsInRole("Admin"))
+                {
+                    isAdmin = true;
+                }
+            }
+        }
+
+        <!-- TOP HEADER -->
+        <div id="top-header" @(isAdmin ? "style='position:relative;'" : "")>
+            <div class="container">
+                @if (isAdmin)
+                {
+                    <div class="container pull-left" style="position: absolute; left: 0px; width: 220px;">
+                        <ul class="header-links pull-left">
+                            <li><a href="#" style="font-size: 14px;">Running in Admin Mode</a></li>
+
+                        </ul>
+                    </div>
+                }
 
                 <ul class="header-links pull-left">
                     <li><a href="#"><i class="fa fa-phone"></i> +639969472918</a></li>
@@ -55,9 +75,9 @@
                     <li><a href="#"><i class="fa fa-map-marker"></i> Malolos City Bulacan</a></li>
                 </ul>
                 @*<ul class="header-links pull-right">
-                        <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
-                        <li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
-                    </ul>*@
+                    <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
+                    <li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
+                </ul>*@
 
                 @Html.Partial("_LoginPartial")
             </div>
@@ -170,26 +190,26 @@
                                 <div class="cart-dropdown">
                                     <div class="cart-list" id="my-cart-list">
                                         @*<div class="product-widget">
-                    <div class="product-img">
-                        <img src="~/FrontEnd/img/product01.png" alt="">
-                    </div>
-                    <div class="product-body">
-                        <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                        <h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
-                    </div>
-                    <button class="delete"><i class="fa fa-close"></i></button>
-                </div>
+                                            <div class="product-img">
+                                                <img src="~/FrontEnd/img/product01.png" alt="">
+                                            </div>
+                                            <div class="product-body">
+                                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                                                <h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
+                                            </div>
+                                            <button class="delete"><i class="fa fa-close"></i></button>
+                                        </div>
 
-                <div class="product-widget">
-                    <div class="product-img">
-                        <img src="~/FrontEnd/img/product02.png" alt="">
-                    </div>
-                    <div class="product-body">
-                        <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                        <h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
-                    </div>
-                    <button class="delete"><i class="fa fa-close"></i></button>
-                </div>*@
+                                        <div class="product-widget">
+                                            <div class="product-img">
+                                                <img src="~/FrontEnd/img/product02.png" alt="">
+                                            </div>
+                                            <div class="product-body">
+                                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                                                <h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
+                                            </div>
+                                            <button class="delete"><i class="fa fa-close"></i></button>
+                                        </div>*@
                                     </div>
                                     <div class="cart-summary">
                                         <small id="cart-summary-selected-items">0 Item(s) selected</small>
