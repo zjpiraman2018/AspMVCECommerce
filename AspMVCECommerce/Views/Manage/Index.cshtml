@@ -1,40 +1,26 @@
 ﻿@model AspMVCECommerce.Models.IndexViewModel
 @{
     ViewBag.Title = "Manage";
-    Layout = "~/Views/Shared/_SellerLayout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+
 <!-- BREADCRUMB -->
-<div id="breadcrumb" class="section breadcrumbx" style="display: flex;">
-    <div class="container">
-
-        <div class="row pull-left" style="width: 230px;">
-            <div class="col-md-12">
-                <ul class="breadcrumb-tree">
-                    <li> <a href="#" style="font-size: 16px; font-weight: bold">Manage Account</a></li>
-
-                </ul>
-
-            </div>
-        </div>
-
-    </div>
+<div id="breadcrumb" class="section">
     <!-- container -->
-    <div class="container" style="margin-left:200px;">
+    <div class="container">
         <!-- row -->
         <div class="row">
             <div class="col-md-12">
+                <h3 class="breadcrumb-header">Manage Account</h3>
                 <ul class="breadcrumb-tree">
-                    <li><a href="~/Home/Index" title="Home">Home</a></li>
+                    <li><a href="~/Home/Index">Home</a></li>
                     <li class="active">Manage Account</li>
                 </ul>
 
-
                 <ul class="breadcrumb-tree pull-right">
                     <li> <a href="~/Home/Index" title="Home">Back to Home</a></li>
-
-
-
                 </ul>
             </div>
         </div>
@@ -43,40 +29,61 @@
     <!-- /container -->
 </div>
 <!-- /BREADCRUMB -->
-
-
+<!-- SECTION -->
 <div class="section">
     <!-- container -->
     <div class="container">
-        <h2>@ViewBag.Title.</h2>
+        <!-- row -->
+        <div class="row">
 
-        <p class="text-success">@ViewBag.StatusMessage</p>
-        <div>
-            <h4>Change your account settings</h4>
-            <hr />
-            <dl class="dl-horizontal">
-                <dt>Password:</dt>
-                <dd>
-                    [
-                    @if (Model.HasPassword)
-                    {
-                        @Html.ActionLink("Change your password", "ChangePassword")
-                    }
-                    else
-                    {
-                        @Html.ActionLink("Create", "SetPassword")
-                    }
-                    ]
-                </dd>
-                <dt>Roles:</dt>
-                <dd>
-                    <a  href="/Account/RegisterRole?Length=7">[ Change Assigned Role ]</a>
-                </dd>
+            <div class="col-md-12">
+                <h2>@ViewBag.Title.</h2>
 
-            </dl>
+                <p class="text-success">@ViewBag.StatusMessage</p>
+                <div>
+                    <h4>Change your account settings</h4>
+                    <hr />
+                    <dl class="dl-horizontal">
+                        <dt>Password:</dt>
+                        <dd>
+                            [
+                            @if (Model.HasPassword)
+                            {
+                                @Html.ActionLink("Change your password", "ChangePassword")
+                            }
+                            else
+                            {
+                                @Html.ActionLink("Create", "SetPassword")
+                            }
+                            ]
+                        </dd>
+
+                        @if (Request.IsAuthenticated)
+                        {
+                            if (User.IsInRole("Admin"))
+                            {
+                                <dt>Roles:</dt>
+                                <dd>
+                                    <a href="/Account/RegisterRole?Length=7">[ Change Assigned Role ]</a>
+                                </dd>
+                            }
+                        }
+
+
+
+                    </dl>
+                </div>
+
+
+            </div>
+
+
         </div>
-
+        <!-- /row -->
     </div>
+    <!-- /container -->
+
 </div>
+<!-- /SECTION -->
 
 
