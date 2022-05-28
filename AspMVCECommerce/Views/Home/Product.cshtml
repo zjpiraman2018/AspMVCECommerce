@@ -194,7 +194,7 @@
 
                                         if (((List<WishList>)ViewBag.WistList).Where(w => w.CustomerId == CustomerId && w.ProductId == Model.ProductId).ToList().Count() > 0)
                                         {
-                                            <li id="li-wislist-@Model.ProductId"><a href="#" id="remove-to-wishlist-@Model.ProductId" onclick="RemoveToWishList(event,'@Model.ProductId','list');"><i  id="i-remove-to-wishlist-@Model.ProductId" class="fa fa-heart" style="color: #D10024;"></i> remove to wishlist</a></li>
+                                            <li id="li-wislist-@Model.ProductId"><a href="#" id="remove-to-wishlist-@Model.ProductId" onclick="RemoveToWishList(event,'@Model.ProductId','list');"><i id="i-remove-to-wishlist-@Model.ProductId" class="fa fa-heart" style="color: #D10024;"></i> remove to wishlist</a></li>
                                         }
                                         else
                                         {
@@ -223,7 +223,8 @@
                             <li><a href="#" onclick="location.href='/Account/Login'"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
 
                         }
-                        <li><a href="#"><i class="fa fa-exchange"></i> add to compare</a></li>
+                        <li><a href="/Home/compare?productId=@(Model.ProductId)&selectedNavCategory=@ViewBag.SelectedNavCategory"><i class="fa fa-exchange"></i> compare to similar items</a></li>
+
                     </ul>
 
                     <ul class="product-links">
