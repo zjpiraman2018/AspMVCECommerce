@@ -257,8 +257,16 @@
                                     if (Request.IsAuthenticated)
                                     {
 
+                                        if (User.IsInRole("Customer"))
+                                        {
+                                            <button class="add-to-cart-btn" onclick="GetProductDetails(@(item.ProductId));"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                        }
+                                        else
+                                        {
+                                            <button class="add-to-cart-btn" onclick="location.href='/Account/Login'"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                        }
 
-                                        <button class="add-to-cart-btn" onclick="GetProductDetails(@(item.ProductId));"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                        @*<button class="add-to-cart-btn" onclick="GetProductDetails(@(item.ProductId));"><i class="fa fa-shopping-cart"></i> add to cart</button>*@
 
                                     }
                                     else

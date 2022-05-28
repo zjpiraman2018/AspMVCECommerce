@@ -41,7 +41,24 @@
 
                 <div class="product-details" style="width: 100%; margin-bottom: 15px !important; margin-top: 20px; bottom: 0px; position: absolute; ">
                     <div class="add-to-cart" style="margin: auto; width: 100%; display: flex;  font-size: 12px !important; ">
-                        <button style="margin: auto; height: 35px !important;" class="add-to-cart-btn" onclick="GetProductDetails(@(item.ProductId));"><i class="fa fa-shopping-cart"></i> add to cart</button>
+
+                        @if (Request.IsAuthenticated)
+                        {
+
+                            if (User.IsInRole("Customer"))
+                            {
+                                <button style="margin: auto; height: 35px !important;" class="add-to-cart-btn" onclick="GetProductDetails(@(item.ProductId));"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                            }
+                            else
+                            {
+                                <button style="margin: auto; height: 35px !important;" class="add-to-cart-btn" onclick="location.href='/Account/Login'"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                            }
+                        }
+                        else
+                        {
+                            <button style="margin: auto; height: 35px !important;" class="add-to-cart-btn" onclick="location.href='/Account/Login'"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                        }
+                        @*<button style="margin: auto; height: 35px !important;" class="add-to-cart-btn" onclick="GetProductDetails(@(item.ProductId));"><i class="fa fa-shopping-cart"></i> add to cart</button>*@
                     </div>
                 </div>
             </div>
@@ -79,7 +96,25 @@
 
                 <div class="product-details" style="width: 100%; margin-bottom: 15px !important; margin-top: 20px; bottom: 0px; position: absolute; ">
                     <div class="add-to-cart" style="margin: auto; width: 100%; display: flex;  font-size: 12px !important; ">
-                        <button style="margin: auto; height: 35px !important;" class="add-to-cart-btn" onclick="GetProductDetails(@(item.ProductId));"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                        @if (Request.IsAuthenticated)
+                        {
+                            if (User.IsInRole("Customer"))
+                            {
+                                <button style="margin: auto; height: 35px !important;" class="add-to-cart-btn" onclick="GetProductDetails(@(item.ProductId));"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                            }
+                            else
+                            {
+                                <button style="margin: auto; height: 35px !important;" class="add-to-cart-btn" onclick="location.href='/Account/Login'"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                            }
+
+                        }
+                        else
+                        {
+                            <button style="margin: auto; height: 35px !important;" class="add-to-cart-btn" onclick="location.href='/Account/Login'"><i class="fa fa-shopping-cart"></i> add to cart</button>
+
+                        }
+
+                        @*<button style="margin: auto; height: 35px !important;" class="add-to-cart-btn" onclick="GetProductDetails(@(item.ProductId));"><i class="fa fa-shopping-cart"></i> add to cart</button>*@
                     </div>
                 </div>
             </div>
@@ -116,7 +151,24 @@
 
                 <div class="product-details" style="width: 100%; margin-bottom: 15px !important; margin-top: 20px; bottom: 0px; position: absolute; ">
                     <div class="add-to-cart" style="margin: auto; width: 100%; display: flex;  font-size: 12px !important; ">
-                        <button style="margin: auto; height: 35px !important;" class="add-to-cart-btn" onclick="GetProductDetails(@(item.ProductId));"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                        @if (Request.IsAuthenticated)
+                        {
+                            if (User.IsInRole("Customer"))
+                            {
+                                <button style="margin: auto; height: 35px !important;" class="add-to-cart-btn" onclick="GetProductDetails(@(item.ProductId));"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                            }
+                            else
+                            {
+                                <button style="margin: auto; height: 35px !important;" class="add-to-cart-btn" onclick="location.href='/Account/Login'"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                            }
+
+                        }
+                        else
+                        {
+                            <button style="margin: auto; height: 35px !important;" class="add-to-cart-btn" onclick="location.href='/Account/Login'"><i class="fa fa-shopping-cart"></i> add to cart</button>
+
+                        }
+                        @*<button style="margin: auto; height: 35px !important;" class="add-to-cart-btn" onclick="GetProductDetails(@(item.ProductId));"><i class="fa fa-shopping-cart"></i> add to cart</button>*@
                     </div>
                 </div>
             </div>
