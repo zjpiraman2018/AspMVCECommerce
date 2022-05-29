@@ -17,7 +17,8 @@
                 <ul class="breadcrumb-tree">
                     <li><a href="~/Home/Index">Home</a></li>
                     <li><a href="~/Products/Index">Products</a></li>
-                    <li class="active">Edit: @Html.DisplayFor(model => model.ProductId)</li>
+                    <li>Edit</li>
+                    <li class="active">Id: @Html.DisplayFor(model => model.ProductId)</li>
                 </ul>
 
                 <ul class="breadcrumb-tree pull-right">
@@ -819,7 +820,7 @@
                 $("#list-group-size li").each(function () {
 
                     var tempSizeListHtmlString = '<div>' + $(this).html() + '</div>';
-                    var tempSizeListHtmlStringResult = $.strRemove("a", tempSizeListHtmlString);;
+                    var tempSizeListHtmlStringResult = $.strRemove("a", tempSizeListHtmlString);
 
                     if ($("#size-textbox").val().toUpperCase().trim() == $(tempSizeListHtmlStringResult).text().toUpperCase().trim()) {
                         $("#size-textbox-validation-duplicate").show();
@@ -864,7 +865,7 @@
                 $("#list-group-color li").each(function () {
 
                     var tempColorListHtmlString = '<div>' + $(this).html() + '</div>';
-                    var tempColorListHtmlStringResult = $.strRemove("a", tempColorListHtmlString);;
+                    var tempColorListHtmlStringResult = $.strRemove("a", tempColorListHtmlString);
 
 
                     if ($("#color-textbox").val().toUpperCase().trim() == $(tempColorListHtmlStringResult).text().toUpperCase().trim()) {

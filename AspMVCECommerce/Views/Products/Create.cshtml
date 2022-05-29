@@ -474,7 +474,7 @@
                 $("#list-group-size li").each(function () {
 
                     var tempSizeListHtmlString = '<div>' + $(this).html() + '</div>';
-                    var tempSizeListHtmlStringResult = $.strRemove("a", tempSizeListHtmlString);;
+                    var tempSizeListHtmlStringResult = $.strRemove("a", tempSizeListHtmlString);
 
                     if ($("#size-textbox").val().toUpperCase().trim() == $(tempSizeListHtmlStringResult).text().toUpperCase().trim()) {
                         $("#size-textbox-validation-duplicate").show();

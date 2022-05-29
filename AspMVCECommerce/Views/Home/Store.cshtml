@@ -20,11 +20,12 @@
                     <li><a href="~/Home/Index">Home</a></li>
                     @if (((string)ViewBag.SelectedNavCategory) == "Categories")
                     {
-                        <li><a href="#">All Categories</a></li>
+                        <li><a href="/Home/Store?selectedCategory=1%2C2%2C3%2C4%2C5%2C6&selectedNavCategory=Categories">All Categories</a></li>
                     }
                     else
                     {
-                        <li><a href="#">@ViewBag.SelectedNavCategory</a></li>
+   
+                        <li><a href="/Home/Store?selectedCategory=@(ViewBag.SelectedCategory)&selectedNavCategory=@(ViewBag.SelectedNavCategory)">@ViewBag.SelectedNavCategory</a></li>
                     }
 
                     @if (string.IsNullOrEmpty(((string)ViewBag.SearchProducts)))
