@@ -252,6 +252,10 @@
     <Compile Include="Migrations\202205270808111_addConfirmFieldToNewsLetter.Designer.cs">
       <DependentUpon>202205270808111_addConfirmFieldToNewsLetter.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202205290814098_addlog.cs" />
+    <Compile Include="Migrations\202205290814098_addlog.Designer.cs">
+      <DependentUpon>202205290814098_addlog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Brand.cs" />
@@ -262,6 +266,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Image.cs" />
     <Compile Include="Models\LineItem.cs" />
+    <Compile Include="Models\Log.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\NewsLetter.cs" />
     <Compile Include="Models\Order.cs" />
@@ -279,6 +284,7 @@
     <Compile Include="Utility\CustomAddressUtility.cs" />
     <Compile Include="Utility\DateUtility.cs" />
     <Compile Include="Utility\EmailUtility.cs" />
+    <Compile Include="Utility\FileUtility.cs" />
     <Compile Include="Utility\LogUtility.cs" />
     <Compile Include="Utility\OrderUtility.cs" />
     <Compile Include="Utility\ProductUtility.cs" />
@@ -414,10 +420,8 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Products\Create.cshtml" />
     <Content Include="Views\Products\Delete.cshtml" />
-    <Content Include="Views\Products\Details.cshtml" />
     <Content Include="Views\Products\Edit.cshtml" />
     <Content Include="Views\Products\Index.cshtml" />
-    <Content Include="Views\Shared\_SellerLayout.cshtml" />
     <Content Include="Views\Account\RegisterRole.cshtml" />
     <Content Include="Views\Home\Store.cshtml" />
     <Content Include="Views\Home\Product.cshtml" />
@@ -476,6 +480,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202205270808111_addConfirmFieldToNewsLetter.resx">
       <DependentUpon>202205270808111_addConfirmFieldToNewsLetter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202205290814098_addlog.resx">
+      <DependentUpon>202205290814098_addlog.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

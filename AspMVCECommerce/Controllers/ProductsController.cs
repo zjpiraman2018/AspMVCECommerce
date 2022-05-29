@@ -74,15 +74,21 @@ namespace AspMVCECommerce.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Products.Include(p => p.Category).Include(p => p.Brand).Include(p=>p.Images).Single(p=> p.ProductId == id);
-            product.Description = WebUtility.HtmlDecode(product.Description).Replace("'", "\\'").Replace("\r\n","");
-            product.Details = WebUtility.HtmlDecode(product.Details).Replace("'", "\\'").Replace("\r\n", "");
-            if (product == null)
-            {
-                return HttpNotFound();
-            }
+            //Product product = db.Products.Include(p => p.Category).Include(p => p.Brand).Include(p=>p.Images).Single(p=> p.ProductId == id);
+            //product.Description = WebUtility.HtmlDecode(product.Description).Replace("'", "\\'").Replace("\r\n","");
+            //product.Details = WebUtility.HtmlDecode(product.Details).Replace("'", "\\'").Replace("\r\n", "");
+            //if (product == null)
+            //{
+            //    return HttpNotFound();
+            //}
+
+  
             ViewBag.SelectedNavCategory = "Manage Product";
-            return View(product);
+            return RedirectToAction("Product","Home", new
+            {
+                productId = id,
+                selectedNavCategory = "Manage Product"
+            });
         }
 
         // GET: Products/Create

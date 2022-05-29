@@ -21,10 +21,23 @@
         <div class="row">
             <div class="col-md-12">
 
+                @if (ViewBag.SelectedNavCategory == "Manage Product")
+                {
+                    <h3 class="breadcrumb-header">Manage Product</h3>
+                }
+
+
                 <ul class="breadcrumb-tree product-page-breadcrumb">
                     <li id="li-home-breadcrumb"><a href="~/Home/Index">Home</a></li>
                     <li id="li-product-id" class="breadcrum-product-name" style="display:none">Id: @Html.DisplayFor(model => model.ProductId)</li>
                 </ul>
+
+                @if (ViewBag.SelectedNavCategory == "Manage Product")
+                {
+                    <ul class="breadcrumb-tree pull-right">
+                        <li> @Html.ActionLink("Back to List", "Index", "Products", null, null)</li>
+                    </ul>
+                }
 
             </div>
         </div>
@@ -994,7 +1007,7 @@
          // END OF ADD PRODUCT TO CART
 
 
- 
+
         $(document).ready(function () {
 
             var baseUrl = '@Url.Content("~/")';
@@ -1128,12 +1141,12 @@
 
 
             // LOAD BREAD CRUMB LINKS BASE ON PREVIUSPAGE
-
+            var tempSelectedNavCategory = '';
             @{
                <text>
                 var tempPrevPage = '@ViewBag.PrevPage';
                 var tempCategoryId = parseInt('@Model.Category.CategoryId');
-                var tempSelectedNavCategory = '@ViewBag.SelectedNavCategory';
+                tempSelectedNavCategory = '@ViewBag.SelectedNavCategory';
                 var tempProductName = '@Model.Name';
                </text>
             }
@@ -1266,6 +1279,11 @@
                         .append('<li class="active breadcrum-product-name">' + tempProductName.toUpperCase() + '</li>');
                     break;
 
+                case "Manage Product":
+                    $(".product-page-breadcrumb")
+                        .append('<li><a href="/Products/Index?selectedNavCategory=Manage%20Product">Products</a></li>')
+                        .append('<li class="active breadcrum-product-name">' + tempProductName.toUpperCase() + '</li>');
+                    break;
                 default:
                         break;
             }
@@ -1295,6 +1313,11 @@
 
             // END OF VALIDATE
 
+            var productNameLimit = 102;
+            if (tempSelectedNavCategory == 'Manage Product') {
+                productNameLimit = 70;
+            }
+
             /* BREADCRUMB PRODUCT NAME LIMIT */
             $(".breadcrum-product-name").each(function (index) {
                 /* var imageDefaultId = $(this).attr("image-id") + ".Default";*/
@@ -1305,8 +1328,8 @@
                 $(this).attr("title", linkInnerText);
 
                 var len = $(this).text().trim().length;
-                if (len > 102) {
-                    $(this).text($(this).text().substr(0, 102) + '...');
+                if (len > productNameLimit) {
+                    $(this).text($(this).text().substr(0, productNameLimit) + '...');
                 }
             });
 

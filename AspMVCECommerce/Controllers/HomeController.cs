@@ -1179,6 +1179,7 @@ namespace AspMVCECommerce.Controllers
             return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
         }
 
+        private static readonly SmtpClient smtp = new SmtpClient();
         public ActionResult TermsAndCondition()
         {
             return View();
@@ -1289,18 +1290,21 @@ namespace AspMVCECommerce.Controllers
 
                     msg.IsBodyHtml = true;
                     msg.Subject = "Top Picks Of The Week! " + DateTime.Now.ToString("MMMM dd, yyyy");
+                  
 
+     
                     try
                     {
-                        using (var client = new SmtpClient())
+                        lock (smtp)
                         {
-                            client.Timeout = 980000;
-                            client.Send(msg);
+                            smtp.Timeout = 980000;
+                            smtp.Send(msg);
                         }
+                        msg.Dispose();
                     }
                     catch (Exception ex)
                     {
-                        LogUtility.Write(ex.Message);
+                        LogUtility.Write("Error",ex.Message,db);
                         return Content(ex.Message);
                     }
 

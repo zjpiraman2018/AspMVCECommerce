@@ -7,218 +7,222 @@
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_SellerLayout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
-<!-- BREADCRUMB -->
-<div id="breadcrumb" class="section breadcrumbx" style="display: flex;">
-    <div class="container">
+    <!-- BREADCRUMB -->
+    <div id="breadcrumb" class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="breadcrumb-header">Manage Product</h3>
+                    <ul class="breadcrumb-tree">
+                        <li><a href="~/Home/Index">Home</a></li>
+                        <li class="active">Product List</li>
+                    </ul>
 
-        <div class="row pull-left" style="width: 230px;">
-            <div class="col-md-12">
-                <ul class="breadcrumb-tree">
-                    <li> <a href="#" style="font-size: 16px; font-weight: bold; white-space: nowrap;">Manage Product</a></li>
 
-                </ul>
-
+                    <ul class="breadcrumb-tree pull-right">
+                        <li> <a href="~/Home/Index">Back to Home</a></li>
+                    </ul>
+                </div>
             </div>
+            <!-- /row -->
         </div>
-
+        <!-- /container -->
     </div>
+    <!-- /BREADCRUMB -->
+    <!-- SECTION -->
+    <div class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
 
+                <div class="col-md-12">
 
-    <!-- container -->
-    <div class="container" style="margin-left: 200px;">
-        <!-- row -->
-        <div class="row">
-            <div class="col-md-12">
-                <ul class="breadcrumb-tree">
-                    <li><a href="~/Home/Index">Home</a></li>
-                    <li class="active">Products</li>
-                </ul>
+                    @using (Html.BeginForm("Index", "Products", FormMethod.Get, htmlAttributes: new { @class = "col-md-12 searchbox" }))
+                    {
+                        <div class="row" style="padding-left: 0px; margin-left: 0px; margin-right: 0px; padding-right: 0px">
+                            <div class="col-md-6" style="padding-left: 0px; margin-left: 0px; margin-right: 0px">
+                                <table>
+                                    <tr>
+                                        <td>  <label class="control-label col-md-12" for="SearchString" style="text-align: left; padding-top: 3px; padding-left: 0px; padding-right: 10px; margin-left: 0px; margin-right: 0px; white-space: nowrap;">Per Page:</label></td>
+                                        <td>
+                                            @{
+                                                var listItem = new List<SelectListItem>();
 
-                <ul class="breadcrumb-tree pull-right">
-                    <li> <a href="~/Home/Index">Back to Home</a></li>
+                                                listItem.Add(new SelectListItem() { Text = "10", Value = "10" });
+                                                listItem.Add(new SelectListItem() { Text = "20", Value = "20" });
+                                                listItem.Add(new SelectListItem() { Text = "50", Value = "50" });
+                                            }
 
-                </ul>
-            </div>
-        </div>
-        <!-- /row -->
-    </div>
-    <!-- /container -->
-</div>
-<!-- /BREADCRUMB -->
+                                            @Html.DropDownList("pageSize", listItem, null, htmlAttributes: new { @class = "input-select" })
+                                        </td>
+                                        <td><label class="control-label col-md-12" for="SearchString" style="text-align: left; padding-top: 3px; padding-left: 0px; margin-left: 12px; margin-right: 0px; white-space: nowrap;">Search Keyword:</label></td>
+                                        <td>@Html.TextBox("SearchString", ViewBag.CurrentFilter as string, htmlAttributes: new { placeholder = "Enter a keyword", @class = "form-controlx", @style = "text-align: left;" })</td>
+                                        <td><input type="submit" style=" margin-left: 10px; width: 100px; height: 40px;" id="SearchProduct" value="Filter" class="btnx btn-default" /></td>
+                                    </tr>
+                                </table>
+                                <br />
+                            </div>
+                            <div class="col-md-6" style="padding-left: 0px; margin-left: 0px; margin-right: 0px; padding-right: 0px">
+                                @Html.ActionLink("Create New", "Create", "Products", htmlAttributes: new { @class = "btnx btn-success  pull-right", @style = "width:150px;height: 40px;padding-top: 5px;" })
+                            </div>
+                        </div>
 
+                    }
 
-@using (Html.BeginForm("Index", "Products", FormMethod.Get, htmlAttributes: new { @class = "col-md-12 searchbox" }))
-{
-    <div class="row" style="padding-left: 0px; margin-left: 0px; margin-right: 0px; padding-right: 0px">
-        <div class="col-md-6" style="padding-left: 0px; margin-left: 0px; margin-right: 0px">
-            <table>
-                <tr>
-                    <td>  <label class="control-label col-md-12" for="SearchString" style="text-align: left; padding-top: 3px; padding-left: 0px; padding-right: 10px; margin-left: 0px; margin-right: 0px;">Per Page:</label></td>
+                    <table class="table table-bordered table-hover">
+                        <tr style="background-color: #FBFBFC;">
+                            <th>
+                                Image
+                            </th>
+                            <th>
+                                Category
+                            </th>
+                            <th style="width:150px;">
+                                @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter }, htmlAttributes: new { @class = "table-sorter" })
+                                @*@Html.DisplayNameFor(model => model.Name)*@
+                            </th>
+                            <th>
+                                Brand
+                            </th>
+                            @*<th style="width:430px;">
+                    Description
+                </th>
+                <th style="width:430px;">
+                    Details
+                </th>*@
+                            <th>
+                                @*@Html.DisplayNameFor(model => model.OriginalPrice)*@
+                                Original Price
+                            </th>
+                            <th>
+                                @*@Html.DisplayNameFor(model => model.DiscountedPrice)*@
+                                Discounted Price
+                            </th>
+
+                            <th>
+                                Stock
+
+                            </th>
+                            <th>
+                                Promo Sale OFF(%)
+                            </th>
+                            <th style="width:75px;">
+                                Action
+                            </th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td style="width:180px;height:180px;" class="td-image">
+                                    @if (item.Images.Count > 0)
+                                    {
+                                        <a href="#" class="d-block mb-4">
+                                            @{var itemImages = item.Images.ToList(); }
+                                            @foreach (var itemImage in itemImages)
+                                            {
+                                                if (itemImage.Default)
+                                                {
+                                                    <img class="imgthumbnail" src="@Url.Content(itemImage.ImagePath)" alt="@itemImage.Title">
+                                                    break;
+                                                }
+                                            }
+
+                                        </a>
+                                    }
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Category.Name)
+                                </td>
+                                <td style="width:400px;">
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Brand.Name)
+                                </td>
+                                @*<td>
+                        <span class="class-span" title="">
+
+                            Html.Raw(item.Description)
+
+                        </span>
+
+                    </td>
                     <td>
-                        @{
-                            var listItem = new List<SelectListItem>();
+                        <span class="class-span" title="">
+                            Html.Raw(item.Details)
+                        </span>
+                    </td>*@
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OriginalPrice)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DiscountedPrice)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Stock)
+                                </td>
+                                <td>
+                                    @if (item.PromoSaleOFF > 0)
+                                    {
+                                        if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
+                                        {
 
-                            listItem.Add(new SelectListItem() { Text = "10", Value = "10" });
-                            listItem.Add(new SelectListItem() { Text = "20", Value = "20" });
-                            listItem.Add(new SelectListItem() { Text = "50", Value = "50" });
+                                            @(double.Parse(Html.DisplayFor(modelItem => item.PromoSaleOFF).ToString()) * 100)<label class="danger">%</label>
+
+                                        }
+                                        else
+                                        {
+                                            <del class="product-old-price">@(double.Parse(Html.DisplayFor(modelItem => item.PromoSaleOFF).ToString()) * 100)%</del> <label style="color:red;font-weight:bold">Deactivated</label>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        @(double.Parse(Html.DisplayFor(modelItem => item.PromoSaleOFF).ToString()) * 100)<label class="danger">%</label>
+                                    }
+
+
+
+
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.ProductId }) |
+                                    @Html.ActionLink("Details", "Details", new { id = item.ProductId }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.ProductId })
+                                </td>
+                            </tr>
                         }
 
-                        @Html.DropDownList("pageSize", listItem, null, htmlAttributes: new { @class = "input-select" })
-                    </td>
-                    <td><label class="control-label col-md-12" for="SearchString" style="text-align: left; padding-top: 3px; padding-left: 0px; margin-left: 12px; margin-right: 0px;">Search Keyword:</label></td>
-                    <td>@Html.TextBox("SearchString", ViewBag.CurrentFilter as string, htmlAttributes: new { placeholder = "Enter a keyword", @class = "form-controlx", @style = "text-align: left;" })</td>
-                    <td><input type="submit" style=" margin-left: 10px; width: 100px; height: 40px;" id="SearchProduct" value="Filter" class="btnx btn-default" /></td>
-                </tr>
-            </table>
-            <br />
+                    </table>
+
+
+                    <br />
+                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+                    @Html.PagedListPager(Model, page => Url.Action("Index",
+                        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, pageSize = ViewBag.CurrentItemsPerPage }))
+
+
+
+
+                </div>
+
+
+            </div>
+            <!-- /row -->
         </div>
-        <div class="col-md-6" style="padding-left: 0px; margin-left: 0px; margin-right: 0px; padding-right: 0px">
-            @Html.ActionLink("Create New", "Create", "Products", htmlAttributes: new { @class = "btnx btn-success  pull-right", @style = "width:150px;height: 40px;padding-top: 5px;" })
-        </div>
+        <!-- /container -->
+
     </div>
-
-}
-
-<table class="table table-bordered table-hover">
-    <tr style="background-color: #FBFBFC;">
-        <th>
-            Image
-        </th>
-        <th>
-            Category
-        </th>
-        <th style="width:150px;">
-            @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter }, htmlAttributes: new { @class = "table-sorter" })
-            @*@Html.DisplayNameFor(model => model.Name)*@
-        </th>
-        <th>
-            Brand
-        </th>
-        <th style="width:430px;">
-            Description
-        </th>
-        <th style="width:430px;">
-            Details
-        </th>
-        <th>
-            @*@Html.DisplayNameFor(model => model.OriginalPrice)*@
-            Original Price
-        </th>
-        <th>
-            @*@Html.DisplayNameFor(model => model.DiscountedPrice)*@
-            Discounted Price
-        </th>
-
-        <th>
-            Stock
-
-        </th>
-        <th>
-            Promo Sale OFF(%)
-        </th>
-        <th>
-            Action
-        </th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-<tr>
-    <td style="width:180px;height:180px;" class="td-image">
-        @if (item.Images.Count > 0)
-        {
-            <a href="#" class="d-block mb-4">
-                @{var itemImages = item.Images.ToList(); }
-                @foreach (var itemImage in itemImages)
-                {
-                    if (itemImage.Default)
-                    {
-                        <img class="imgthumbnail" src="@Url.Content(itemImage.ImagePath)" alt="@itemImage.Title">
-                        break;
-                    }
-                }
-
-            </a>
-        }
-    </td>
-
-    <td>
-        @Html.DisplayFor(modelItem => item.Category.Name)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Name)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Brand.Name)
-    </td>
-    <td>
-        <span class="class-span" title="">
-            @*@Html.DisplayFor(modelItem => item.Description)*@
-            @*@Html.TextAreaFor(modelItem => HttpUtility.HtmlDecode(item.Description), new { @class = "form-control", @rows = 4 })*@
-
-            @Html.Raw(item.Description)
-
-        </span>
-
-    </td>
-    <td>
-        <span class="class-span" title="">
-            @Html.Raw(item.Details)
-        </span>
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.OriginalPrice)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.DiscountedPrice)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Stock)
-    </td>
-    <td>
-        @if (item.PromoSaleOFF > 0)
-        {
-            if (DateTime.Now >= item.PromoSaleStartDateTime && DateTime.Now <= item.PromoSaleEndDateTime)
-            {
-
-                @(double.Parse(Html.DisplayFor(modelItem => item.PromoSaleOFF).ToString()) * 100)<label class="danger">%</label>
-
-            }
-            else
-            {
-                <del class="product-old-price">@(double.Parse(Html.DisplayFor(modelItem => item.PromoSaleOFF).ToString()) * 100)%</del> <label style="color:red;font-weight:bold">Deactivated</label>
-            }
-        }
-        else
-        {
-            @(double.Parse(Html.DisplayFor(modelItem => item.PromoSaleOFF).ToString()) * 100)<label class="danger">%</label>
-        }
-
-
-
-
-    </td>
-    <td>
-        @Html.ActionLink("Edit", "Edit", new { id = item.ProductId }) |
-        @Html.ActionLink("Details", "Details", new { id = item.ProductId }) |
-        @Html.ActionLink("Delete", "Delete", new { id = item.ProductId })
-    </td>
-</tr>
-    }
-
-</table>
-
-
-<br />
-    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-
-    @Html.PagedListPager(Model, page => Url.Action("Index",
-        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, pageSize = ViewBag.CurrentItemsPerPage }))
-
+    <!-- /SECTION -->
 
 
     @section Scripts {
@@ -246,7 +250,3 @@
             });
         </script>
     }
-
-
-
-

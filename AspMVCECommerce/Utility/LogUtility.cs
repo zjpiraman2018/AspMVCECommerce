@@ -4,32 +4,43 @@ using System.Linq;
 using System.Web;
 using System.IO;
 using System.Reflection;
+using System.Diagnostics;
+using AspMVCECommerce.Models;
+using System.Text;
 
 namespace AspMVCECommerce.Utility
 {
     public static class LogUtility
     {
-        private static string m_exePath = string.Empty;
-
-        public static void Write(string logMessage)
+        public static void Write(string logType,string logMessage, ApplicationDbContext context)
         {
-            m_exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-
-            using (StreamWriter w = File.AppendText(m_exePath + "\\" + "Error_Log.txt"))
+            try
             {
-                Log(logMessage, w);
+                var log = new Log();
+                log.Message = logMessage;
+                log.Type = logType;
+                log.Created = DateTime.Now;
+
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine("\r\nLog Entry : ");
+                sb.AppendLine("\r\nLog Entry : ");
+                sb.AppendLine(DateTime.Now.ToLongTimeString() + " " + DateTime.Now.ToLongDateString());
+                sb.AppendLine("  :");
+                sb.AppendLine("  :" + logMessage);
+                sb.AppendLine("-------------------------------");
+                log.Message = sb.ToString();
+
+                context.Logs.Add(log);
+                context.SaveChanges();
             }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+
         }
 
-        private static void Log(string logMessage, TextWriter txtWriter)
-        {
-            txtWriter.Write("\r\nLog Entry : ");
-            txtWriter.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
-                DateTime.Now.ToLongDateString());
-            txtWriter.WriteLine("  :");
-            txtWriter.WriteLine("  :{0}", logMessage);
-            txtWriter.WriteLine("-------------------------------");
-        }
+
     }
 
 }
