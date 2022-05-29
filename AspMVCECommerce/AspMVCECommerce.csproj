@@ -284,7 +284,6 @@
     <Compile Include="Utility\CustomAddressUtility.cs" />
     <Compile Include="Utility\DateUtility.cs" />
     <Compile Include="Utility\EmailUtility.cs" />
-    <Compile Include="Utility\FileUtility.cs" />
     <Compile Include="Utility\LogUtility.cs" />
     <Compile Include="Utility\OrderUtility.cs" />
     <Compile Include="Utility\ProductUtility.cs" />
