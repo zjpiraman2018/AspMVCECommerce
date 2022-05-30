@@ -384,7 +384,7 @@
                             @foreach (var item in Model)
                             {
                                 <div class="order-col">
-                                    <div>@Html.DisplayFor(modelItem => item.Quantity)x <span style="text-transform:uppercase;">@Html.DisplayFor(modelItem => item.Product.Name)</span></div>
+                                    <div>@Html.DisplayFor(modelItem => item.Quantity)x <span style="text-transform:uppercase;" class="span-product-name">@Html.DisplayFor(modelItem => item.Product.Name)</span></div>
                                     <div>@Html.DisplayFor(modelItem => item.TotalPrice)</div>
                                 </div>
 
@@ -604,6 +604,22 @@
                     $(this).css('color', 'black');
                 }
             });
+
+            /* PRODUCT NAME LIMIT */
+            $(".span-product-name").each(function (index) {
+                /* var imageDefaultId = $(this).attr("image-id") + ".Default";*/
+
+                let linkInnerText = $(this).html($(this).prop("innerText")).prop("innerText");
+                $(this).html(linkInnerText);
+
+                $(this).attr("title", linkInnerText);
+
+                var len = $(this).text().trim().length;
+                if (len > 26) {
+                    $(this).text($(this).text().substr(0, 26) + '...');
+                }
+            });
+
 
 
             $('#check-out-form').submit(function (event) {

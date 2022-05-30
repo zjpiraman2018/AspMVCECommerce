@@ -23,19 +23,24 @@ namespace AspMVCECommerce.Utility
             return result;
         }
 
-        public static DateTime? GetCurrentSunday()
+        public static string GetCurrentSunday()
         {
             var dates = GetWeekDates();
 
-
-            foreach (var day in dates)
+            if (DateTime.Now.DayOfWeek == DayOfWeek.Sunday)
             {
-                if(day.DayOfWeek == DayOfWeek.Sunday)
+                return DateTime.Now.ToString("MMM dd, yyyy 23:59:59");
+            }
+            else
+            {
+                foreach (var day in dates)
                 {
-                    return day;
+                    if (day.DayOfWeek == DayOfWeek.Sunday)
+                    {
+                        return day.ToString("MMM dd, yyyy 23:59:59");
+                    }
                 }
             }
-     
             return null;
         }
 

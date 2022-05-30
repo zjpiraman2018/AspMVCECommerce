@@ -2693,7 +2693,7 @@
                     
         @{
                 <Text>
-                    countDownDate = new Date("@(((DateTime)DateUtility.GetCurrentSunday()).ToString("MMM dd, yyyy 23:59:59"))").getTime();
+                    countDownDate = new Date("@DateUtility.GetCurrentSunday()").getTime();
                 </Text>
         }
 
@@ -2715,6 +2715,13 @@
             // Output the result in an element with id="demo"
             //document.getElementById("demo").innerHTML = days + "d " + hours + "h "
             //    + minutes + "m " + seconds + "s ";
+
+            //if (Date.getDay() == 0) {
+            //    document.getElementById("count-down-days").innerHTML = "0";
+            //}
+            //else {
+            //    document.getElementById("count-down-days").innerHTML = days;
+            //}
             document.getElementById("count-down-days").innerHTML = days;
             document.getElementById("count-down-hours").innerHTML = hours;
             document.getElementById("count-down-minutes").innerHTML = minutes;
