@@ -33,7 +33,7 @@ namespace AspMVCECommerce.ViewModel
         public int OriginalPrice { get; set; }
 
         [Display(Name= "Discounted Price")]
-        [Required]
+        //[Required]
         public int DiscountedPrice { get; set; }
 
         [Required]

@@ -726,6 +726,9 @@
                 }
             }
 
+
+
+
             $('#PromoSaleOFF').on('input', function (e) {
                 if (this.value != '') {
                     var percentText = parseInt(parseFloat(this.value) * 100).toString() + "% OFF";
@@ -737,9 +740,20 @@
                         $("#PromoSaleStartDateTime").prop('required', true);
                         $("#PromoSaleEndDateTime").prop('required', true);
 
+
+                        var discountedPrice = parseInt($('#OriginalPrice').val()) - (parseInt($('#OriginalPrice').val()) * parseFloat(this.value));
+                        $('#DiscountedPrice').val(discountedPrice.toString());
+
+                        $("#DiscountedPrice").attr("disabled", false);
+                        $("#DiscountedPrice").attr("style", "background-color: white;");
+
                     }
                     else {
                         $("#PromoDurationDiv").hide();
+
+                        $("#DiscountedPrice").val("");
+                        $("#DiscountedPrice").attr("disabled", true);
+                        $("#DiscountedPrice").attr("style", "background-color: #E4E7ED;");
                         //zaldy
                         $("#PromoSaleStartDateTime").prop('required', false);
                         $("#PromoSaleEndDateTime").prop('required', false);
@@ -753,8 +767,85 @@
                     $("#PromoSaleEndDateTime").prop('required', false);
 
                     $('#PromoSaleOFFPercent').text("0% OFF");
+
+
+                    $("#DiscountedPrice").val("");
+                    $("#DiscountedPrice").attr("disabled", true);
+                    $("#DiscountedPrice").attr("style", "background-color: #E4E7ED;");
                 }
             });
+
+
+            $("#DiscountedPrice").prop('min', 0);
+            $("#DiscountedPrice").prop('max', parseInt($('#OriginalPrice').val()));
+            $('#OriginalPrice').on('input', function (e) {
+                if (this.value != '') {
+
+
+
+                    if (this.value > 0) {
+                        //$("#DiscountedPrice").attr("disabled", false);
+                        //$("#DiscountedPrice").attr("style", "background-color: white;");
+
+
+                        $("#DiscountedPrice").prop('min', 0);
+                        $("#DiscountedPrice").prop('max', parseInt(this.value));
+
+
+                        $("#PromoSaleOFF").attr("disabled", false);
+                        $("#PromoSaleOFF").attr("style", "background-color: white;");
+                    }
+                    else {
+
+                        $("#DiscountedPrice").attr("disabled", true);
+                        $("#DiscountedPrice").attr("style", "background-color: #E4E7ED;");
+
+                        $("#PromoSaleOFF").attr("disabled", true);
+                        $("#PromoSaleOFF").attr("style", "background-color: #E4E7ED;");
+                    }
+                }
+                else {
+                    $("#DiscountedPrice").attr("disabled", true);
+                    $("#DiscountedPrice").attr("style", "background-color: #E4E7ED;");
+
+                    $("#PromoSaleOFF").attr("disabled", true);
+                    $("#PromoSaleOFF").attr("style", "background-color: #E4E7ED;");
+                }
+            });
+
+
+            $('#DiscountedPrice').on('input', function (e) {
+                if (this.value != '') {
+
+                    var _discountedPrice = parseInt(parseFloat(this.value) * 100);
+                    var _origPrice = parseInt($('#OriginalPrice').val());
+                    if (_discountedPrice > _origPrice) {
+                        //$("#DiscountedPrice").attr("disabled", false);
+                        //$("#DiscountedPrice").attr("style", "background-color: white;");
+
+                        return false;
+                    }
+
+                }
+
+            });
+            if ($("#DiscountedPrice").val() != '') {
+                $("#DiscountedPrice").attr("disabled", false);
+                $("#DiscountedPrice").attr("style", "background-color: white;");
+
+                $("#PromoSaleOFF").attr("disabled", false);
+                $("#PromoSaleOFF").attr("style", "background-color: white;");
+            }
+            else {
+                $("#DiscountedPrice").attr("disabled", true);
+                $("#DiscountedPrice").attr("style", "background-color: #E4E7ED;");
+
+                $("#PromoSaleOFF").attr("disabled", true);
+                $("#PromoSaleOFF").attr("style", "background-color: #E4E7ED;");
+            }
+
+
+
 
 
 
