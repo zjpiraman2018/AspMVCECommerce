@@ -1189,7 +1189,7 @@ namespace AspMVCECommerce.Controllers
             return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
         }
 
-        private static readonly SmtpClient smtp = new SmtpClient();
+        private SmtpClient smtp = new SmtpClient();
         public ActionResult TermsAndCondition()
         {
             return View();
@@ -1305,16 +1305,22 @@ namespace AspMVCECommerce.Controllers
      
                     try
                     {
+                        smtp = new SmtpClient();
                         lock (smtp)
                         {
                             smtp.Timeout = 980000;
                             smtp.Send(msg);
                         }
                         msg.Dispose();
+                        smtp.Dispose();
                     }
                     catch (Exception ex)
                     {
-                        LogUtility.Write("Error",ex.Message,db);
+                        msg.Dispose();
+                        smtp.Dispose();
+
+                        HangfireUtility.ClearDatabase(db);
+                        LogUtility.Write("Error", ex.Message, db);
                         return Content(ex.Message);
                     }
 

@@ -1,8 +1,13 @@
 ﻿using AspMVCECommerce.Controllers;
 using AspMVCECommerce.Models;
 using Hangfire;
+using Hangfire.Common;
+using Hangfire.SqlServer;
 using Microsoft.Owin;
 using Owin;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -12,6 +17,39 @@ namespace AspMVCECommerce
 {
     public partial class Startup
     {
+
+        private IEnumerable<IDisposable> GetHangfireServers()
+        {
+            string conn = ConfigurationManager.ConnectionStrings[1].ConnectionString;
+
+            GlobalConfiguration.Configuration
+                .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                .UseSimpleAssemblyNameTypeSerializer()
+                .UseRecommendedSerializerSettings()
+                .UseSqlServerStorage(conn, new SqlServerStorageOptions
+                {
+                    CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+                    SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+                    QueuePollInterval = TimeSpan.Zero,
+                    UseRecommendedIsolationLevel = true,
+                    DisableGlobalLocks = true
+                });
+
+            yield return new BackgroundJobServer();
+        }
+
+        //public void Configuration(IAppBuilder app)
+        //{
+        //    app.UseHangfireAspNet(GetHangfireServers);
+        //    app.UseHangfireDashboard();
+
+        //    // Let's also create a sample background job
+        //    BackgroundJob.Enqueue(() => Debug.WriteLine("Hello world from Hangfire!"));
+
+        //    // ...other configuration logic
+        //}
+
+
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
@@ -20,38 +58,33 @@ namespace AspMVCECommerce
             app.UseHangfireDashboard();
             //
             HomeController homeController = new HomeController();
-            RecurringJob.AddOrUpdate(() => homeController.HangFireSendEmail(""), Cron.Minutely);
 
-            //ApplicationDbContext db = new ApplicationDbContext();
+            //RecurringJob.AddOrUpdate(() => homeController.HangFireSendEmail(""), Cron.Minutely);
+            //RecurringJob.AddOrUpdate(() => homeController.HangFireSendEmail(""), "*/15 * * * *");
 
-            //HomeController homeController = new HomeController();
+            // SEND EMAIL EVERY 5 MINUTEs
 
-            //string controllerName = "Home";
-            //var context = new HttpContextWrapper(System.Web.HttpContext.Current);
-            //var routeData = System.Web.Routing.RouteTable.Routes.GetRouteData(context);
-
-            //var myRequestContext = new System.Web.Routing.RequestContext(context, routeData);
-
-            //var controllerBuilder = ControllerBuilder.Current;
-            //IControllerFactory factory = controllerBuilder.GetControllerFactory();
-            //IController controller = factory.CreateController(myRequestContext, controllerName);
-
-            //var controller2 = DependencyResolver.Current.GetService<HomeController>();
-            //controller2.ControllerContext = new ControllerContext(myRequestContext, controller2);
+            //RecurringJob.AddOrUpdate(() => homeController.HangFireSendEmail(""), "*/5 * * * *");
 
 
-            //try
-            //{
+            app.UseHangfireAspNet(GetHangfireServers);
+            app.UseHangfireDashboard();
 
-            //    //controller.Execute(myRequestContext);
+            
+            // Let's also create a sample background job
+            //BackgroundJob.Enqueue(() => Debug.WriteLine("Hello world from Hangfire!"));
 
-            //    RecurringJob.AddOrUpdate(() => controller2.TestEmail(), Cron.Minutely);
-            //}
-            //finally
-            //{
-            //    factory.ReleaseController(controller);
-            //}
+            
 
+            //RecurringJob.AddOrUpdate(() => homeController.HangFireSendEmail(""), "* * * * *");
+
+            //RecurringJob.AddOrUpdate(
+            //                        "myrecurringjob",
+            //                        () => homeController.HangFireSendEmail(""),
+            //                        Cron.MinuteInterval(1));
+
+            var manager = new RecurringJobManager();
+            manager.AddOrUpdate(DateTime.Now.ToLongTimeString(), Job.FromExpression(() => homeController.HangFireSendEmail("")), "*/5 * * * *");
 
             app.UseHangfireServer();
         }
