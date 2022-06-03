@@ -1196,6 +1196,7 @@ namespace AspMVCECommerce.Controllers
         }
         public ActionResult HangFireSendEmail(string newSubscriber = "")
         {
+            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
             var randomProductIdList = db.Products
                        .SqlQuery("SELECT TOP 6 * FROM Products ORDER BY NEWID()")
                        .ToList<Product>().Select(p => p.ProductId).ToList();
@@ -1293,7 +1294,7 @@ namespace AspMVCECommerce.Controllers
 
 
                     msg.From = new MailAddress("zaldys.ecommerce.demo@gmail.com", "Zaldy's Ecommerce");
-                    msg.Bcc.Add("zaldys.ecommerce.demo@gmail.com");
+                    //msg.Bcc.Add("zaldys.ecommerce.demo@gmail.com");
                     msg.To.Add(subscriber.Email);
                     msg.AlternateViews.Add(plainView);
                     msg.AlternateViews.Add(htmlView);
@@ -1302,7 +1303,6 @@ namespace AspMVCECommerce.Controllers
                     msg.Subject = "Top Picks Of The Week! " + DateTime.Now.ToString("MMMM dd, yyyy");
                   
 
-     
                     try
                     {
                         smtp = new SmtpClient();
@@ -1311,17 +1311,16 @@ namespace AspMVCECommerce.Controllers
                             smtp.Timeout = 980000;
                             smtp.Send(msg);
                         }
-                        msg.Dispose();
-                        smtp.Dispose();
                     }
                     catch (Exception ex)
                     {
-                        msg.Dispose();
-                        smtp.Dispose();
-
                         HangfireUtility.ClearDatabase(db);
                         LogUtility.Write("Error", ex.Message, db);
-                        return Content(ex.Message);
+                    }
+                    finally
+                    {
+                        msg.Dispose();
+                        smtp.Dispose();
                     }
 
                 }

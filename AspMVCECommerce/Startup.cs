@@ -1,8 +1,10 @@
 ﻿using AspMVCECommerce.Controllers;
 using AspMVCECommerce.Models;
+using AspMVCECommerce.Utility;
 using Hangfire;
 using Hangfire.Common;
 using Hangfire.SqlServer;
+using Hangfire.Storage;
 using Microsoft.Owin;
 using Owin;
 using System;
@@ -70,11 +72,11 @@ namespace AspMVCECommerce
             app.UseHangfireAspNet(GetHangfireServers);
             app.UseHangfireDashboard();
 
-            
+
             // Let's also create a sample background job
             //BackgroundJob.Enqueue(() => Debug.WriteLine("Hello world from Hangfire!"));
 
-            
+
 
             //RecurringJob.AddOrUpdate(() => homeController.HangFireSendEmail(""), "* * * * *");
 
@@ -83,7 +85,29 @@ namespace AspMVCECommerce
             //                        () => homeController.HangFireSendEmail(""),
             //                        Cron.MinuteInterval(1));
 
+
+            //CLEAR HANG FIRE RECURRINGJOBS
+            using (var connection = JobStorage.Current.GetConnection())
+            {
+                foreach (var recurringJob in connection.GetRecurringJobs())
+                {
+                    RecurringJob.RemoveIfExists(recurringJob.Id);
+                }
+            }
+
+
+            //CLEAR HANGFIRE DATABASE
+            using (var context = new ApplicationDbContext())
+            {
+                HangfireUtility.ClearDatabase(context);
+            }
+
+
+
             var manager = new RecurringJobManager();
+
+ 
+
             manager.AddOrUpdate(DateTime.Now.ToLongTimeString(), Job.FromExpression(() => homeController.HangFireSendEmail("")), "*/5 * * * *");
 
             app.UseHangfireServer();
