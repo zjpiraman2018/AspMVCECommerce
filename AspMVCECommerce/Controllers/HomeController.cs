@@ -1100,6 +1100,11 @@ namespace AspMVCECommerce.Controllers
             return View();
         }
 
+        public ActionResult Help()
+        {
+            return View();
+        }
+
         [Authorize(Roles = "Customer")]
         public ActionResult WishList(string pageSort, int? page, string pageSize, string selectedCategory,  string selectedNavCategory)
         {
