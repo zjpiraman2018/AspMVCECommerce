@@ -2,6 +2,7 @@
 using AspMVCECommerce.Utility;
 using AspMVCECommerce.ViewModel;
 using Hangfire;
+using Hangfire.Storage;
 using HtmlAgilityPack;
 using PagedList;
 using PayPal.Api;
@@ -1314,6 +1315,15 @@ namespace AspMVCECommerce.Controllers
                     }
                     catch (Exception ex)
                     {
+                        //CLEAR HANG FIRE RECURRINGJOBS
+                        using (var connection = JobStorage.Current.GetConnection())
+                        {
+                            foreach (var recurringJob in connection.GetRecurringJobs())
+                            {
+                                RecurringJob.RemoveIfExists(recurringJob.Id);
+                            }
+                        }
+
                         HangfireUtility.ClearDatabase(db);
                         LogUtility.Write("Error", ex.Message, db);
                     }
