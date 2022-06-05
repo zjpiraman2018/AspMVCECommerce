@@ -350,16 +350,32 @@
     <Content Include="FrontEnd\js\slick.min.js" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="images\0 - Login Customer Account.png" />
+    <Content Include="images\1 - add to cart details.png" />
+    <Content Include="images\1 - add to cart.png" />
+    <Content Include="images\1 - add to wish list.png" />
     <Content Include="images\1 - home page.png" />
     <Content Include="images\10 - link fake credit card.png" />
+    <Content Include="images\10 - paypal checkout succeed.png" />
     <Content Include="images\2 - account selection page .png" />
+    <Content Include="images\2 - add to cart.png" />
+    <Content Include="images\2 - add to wish list.png" />
     <Content Include="images\3 - account selection page .png" />
+    <Content Include="images\3 - remove from cart.png" />
+    <Content Include="images\3 - view wishlist page.png" />
     <Content Include="images\4 - country selection page.png" />
+    <Content Include="images\4 - remove from cart.png" />
+    <Content Include="images\4 - remove to wishlist.png" />
+    <Content Include="images\5 - checkout shopping cart.png" />
     <Content Include="images\5 - mobile confirmation page.png" />
     <Content Include="images\6 - complete phone confirmation.png" />
+    <Content Include="images\6 - view shopping cart.png" />
     <Content Include="images\7 - set up profile page.png" />
+    <Content Include="images\7 - shopping cart checkout page.png" />
     <Content Include="images\8 - address page.png" />
+    <Content Include="images\8 - login paypal account.png" />
     <Content Include="images\9 - generate fake credit card.png" />
+    <Content Include="images\9 - paypal checkout page.png" />
     <Content Include="images\ajax-loader.gif" />
     <Content Include="images\ajax-loader2.gif" />
     <Content Include="images\check.png" />
@@ -460,6 +476,8 @@
     <Content Include="Views\Home\PaypalAccountGuide.cshtml" />
     <Content Include="Views\Home\PaypalCreditCardGuide.cshtml" />
     <Content Include="Views\Home\Help.cshtml" />
+    <Content Include="Views\Home\WishListGuide.cshtml" />
+    <Content Include="Views\Home\ShoppingCartGuide.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

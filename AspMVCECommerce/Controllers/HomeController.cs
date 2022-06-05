@@ -1100,6 +1100,15 @@ namespace AspMVCECommerce.Controllers
             return View();
         }
 
+        public ActionResult WishListGuide()
+        {
+            return View();
+        }
+
+        public ActionResult ShoppingCartGuide()
+        {
+            return View();
+        }
         public ActionResult Help()
         {
             return View();

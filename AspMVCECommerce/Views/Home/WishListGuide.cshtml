@@ -1,0 +1,156 @@
+﻿
+@{
+    ViewBag.Title = "WishListGuide";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="breadcrumb-header">Help Page</h3>
+                <ul class="breadcrumb-tree">
+                    <li><a href="~/Home/Index">Home</a></li>
+                    <li class="active">Wishlist</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Manage Wishlist Product</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <br />
+                <br />
+                <span style="font-size: 18px; "><b>1.</b> Login Customer Account</span>
+
+                <div class="info-container" style="padding-left: 20px;">
+                    <div class="bd-example">
+                        <div class="alert alert-success" role="alert">
+                            <h4 class="alert-heading">Please Note:</h4>
+
+                            <p class="mb-0">
+                                Only registered user's can add, remove and view wishlist
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div style="width: 100%; height: 100%; margin: auto; ">
+                    <img style="width: 100%; height: 100%;padding-left:20px; object-fit: scale-down;" src="~/images/0 - Login Customer Account.png" alt="login customer account">
+                </div>
+                <br />
+                <span style="font-size: 18px;"><b>2.</b> To add to wishlist on Product Card View click the heart icon on the bottom of the product image</span>
+                <br /> <br />
+                <div style="width: 100%; height: 100%; margin: auto; ">
+                    <img style="width: 100%; height: 100%;padding-left:20px; object-fit: scale-down;" src="~/images/1 - add to wish list.png" alt="add to wishlist">
+                </div>
+
+                <br />
+                <span style="font-size: 18px;">
+                    <b>3. </b>To add to Wishlist on product detail page click "ADD TO WISHLIST" button right side of product image
+                </span>
+                <br /> <br />
+                <div style="width: 100%; height: 100%; margin: auto; ">
+                    <img style="width: 100%; height: 100%;padding-left:20px; object-fit: scale-down;" src="~/images/2 - add to wish list.png" alt="add to wishlist">
+                </div>
+
+                <br />
+                <span style="font-size: 18px;">
+                    <b>4. </b>To view all product's that added to Wishlist click <span style="font-style:italic;font-weight:600;">"My Wishlist"</span> button on main header
+                </span>
+                <br /> <br />
+                <div style="width: 100%; height: 100%; margin: auto; ">
+                    <img style="width: 100%; height: 100%;padding-left:20px; object-fit: scale-down;" src="~/images/3 - view wishlist page.png" alt="view wishlist">
+                </div>
+
+                <br />
+                
+                <span style="font-size: 18px;">
+                    <b>5. </b>To remove product from Wishlist click again the heart icon
+                </span>
+                <br /> <br />
+                <div style="width: 100%; height: 100%; margin: auto; ">
+                    <img style="width: 100%; height: 100%;padding-left:20px; object-fit: scale-down;" src="~/images/4 - remove to wishlist.png" alt="remove to wishlist">
+                </div>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+
+</div>
+<!-- /SECTION -->
+
+
+<style>
+    .info-container .bd-example {
+        position: relative;
+        padding: 1rem;
+        margin: 1rem -15px 0;
+        /*        border: solid #f7f7f9;*/
+        border-width: 0.2rem 0 0;
+    }
+
+    .info-container .alert-success {
+        color: #055160;
+        background-color: #cff4fc;
+        border-color: #b6effb;
+    }
+
+    .info-container .alert {
+        position: relative;
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 1rem;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+    }
+
+    .info-container .h4 {
+        margin-bottom: 0.5rem;
+        font-family: inherit;
+        font-weight: 500;
+        line-height: 1.2;
+        color: inherit;
+    }
+
+    .info-container .h4, .info-container h4 {
+        font-size: 1.5rem;
+    }
+
+    .info-container .alert-success hr {
+        border-top-color: #b6effb;
+    }
+
+    .info-container hr {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 0;
+        border-top: 1px solid rgba(0,0,0,.1);
+    }
+
+    .info-container hr {
+        box-sizing: content-box;
+        height: 0;
+        overflow: visible;
+    }
+
+    .info-container .mb-0, .info-container .my-0 {
+        margin-bottom: 0 !important;
+    }
+</style>
+
