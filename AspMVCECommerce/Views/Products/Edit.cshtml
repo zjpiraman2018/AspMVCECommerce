@@ -743,7 +743,7 @@
 
 
                         var discountedPrice = parseInt($('#OriginalPrice').val()) - (parseInt($('#OriginalPrice').val()) * parseFloat(this.value));
-                        $('#DiscountedPrice').val(discountedPrice.toString());
+                        $('#DiscountedPrice').val(Math.round(discountedPrice).toString());
 
                         $("#DiscountedPrice").attr("disabled", false);
                         $("#DiscountedPrice").attr("style", "background-color: white;");

@@ -1,0 +1,192 @@
+﻿
+@{
+    ViewBag.Title = "ManageProductGuide";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="breadcrumb-header">Help Page</h3>
+                <ul class="breadcrumb-tree">
+                    <li><a href="~/Home/Index">Home</a></li>
+                    <li><a href="~/Home/Help">Help</a></li>
+                    <li class="active">Manage Product</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Manage Product</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <br />
+                <br />
+                <span style="font-size: 18px; "><b>1.</b> Login Admin Account enter Email: <b>admin@gmail.com</b> / Password: <b>123456</b></span>
+
+                <div class="info-container" style="padding-left: 20px;">
+                    <div class="bd-example">
+                        <div class="alert alert-success" role="alert">
+                            <h4 class="alert-heading">Please Note:</h4>
+
+                            <p class="mb-0">
+                                Only admin user can add, remove and update product
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div style="width: 100%; height: 100%; margin: auto; ">
+                    <img style="width: 100%; height: 100%;padding-left:20px; object-fit: scale-down;" src="~/images/1- login admin account.png" alt="login admin account">
+                </div>
+                <br />
+                <span style="font-size: 18px;"><b>2.</b> To create new product open manage product page then click <span style="font-style:italic;font-weight:600;">"Create New"</span> button </span>
+                <br /> <br />
+                <div style="width: 100%; height: 100%; margin: auto; ">
+                    <img style="width: 100%; height: 100%;padding-left:20px; object-fit: scale-down;" src="~/images/2- Manage product page.png" alt="create new product">
+                </div>
+
+                <br />
+                <span style="font-size: 18px; margin-left:20px;">
+                    Enter product details including description price promo brand category and images as show below.
+                </span>
+                <br /> <br />
+                <div style="width: 100%; height: 100%; margin: auto; ">
+                    <img style="width: 100%; height: 100%;padding-left:20px; object-fit: scale-down;" src="~/images/3 - add new product.png" alt="add to cart details">
+                </div>
+                <br />
+                <span style="font-size: 18px; margin-left:20px;">
+                    When create new product succeed it will be added to product list on manage product page as shown below.
+                </span>
+                <br /> <br />
+                <div style="width: 100%; height: 100%; margin: auto; ">
+                    <img style="width: 100%; height: 100%;padding-left:20px; object-fit: scale-down;" src="~/images/3 - add new product succeed.png" alt="add product succeed">
+                </div>
+                <br />
+                <span style="font-size: 18px;">
+                    <b>3. </b>To Update product details go to Manage product page then click the edit link right side of the selected product
+                </span>
+                <br /> <br />
+                <div style="width: 100%; height: 100%; margin: auto; ">
+                    <img style="width: 100%; height: 100%;padding-left:20px; object-fit: scale-down;" src="~/images/5 - edit product details.png" alt="edit product details">
+                </div>
+
+                <br />
+
+                <span style="font-size: 18px;">
+                    <b>4. </b>To delete Product go to Manage product page then click the delete link right side of the selected product
+                </span>
+                <br /> <br />
+                <div style="width: 100%; height: 100%; margin: auto; ">
+                    <img style="width: 100%; height: 100%;padding-left:20px; object-fit: scale-down;" src="~/images/6 - delete product.png" alt="delete product">
+                </div>
+                <br />
+                <span style="font-size: 18px; margin-left:20px;">
+                    On product confirm deletion page click delete
+                </span>
+                <br /> <br />
+                <div style="width: 100%; height: 100%; margin: auto; ">
+                    <img style="width: 100%; height: 100%;padding-left:20px; object-fit: scale-down;" src="~/images/6 - delete product confirmation.png" alt="add product succeed">
+                </div>
+                <br />
+
+                <span style="font-size: 18px;">
+                    <b>5. </b>To view Product Details go to Manage product page then click the details link right side of the selected product
+                </span>
+                <br /> <br />
+                <div style="width: 100%; height: 100%; margin: auto; ">
+                    <img style="width: 100%; height: 100%;padding-left:20px; object-fit: scale-down;" src="~/images/4 - view product details.png" alt="remove to cart">
+                </div>
+                <br />
+                <br /> <br />
+                <div style="width: 100%; height: 100%; margin: auto; ">
+                    <img style="width: 100%; height: 100%;padding-left:20px; object-fit: scale-down;" src="~/images/4 - view product details page.png" alt="add product succeed">
+                </div>
+                <br />
+
+
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+
+</div>
+<!-- /SECTION -->
+
+
+<style>
+    .info-container .bd-example {
+        position: relative;
+        padding: 1rem;
+        margin: 1rem -15px 0;
+        /*        border: solid #f7f7f9;*/
+        border-width: 0.2rem 0 0;
+    }
+
+    .info-container .alert-success {
+        color: #055160;
+        background-color: #cff4fc;
+        border-color: #b6effb;
+    }
+
+    .info-container .alert {
+        position: relative;
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 1rem;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+    }
+
+    .info-container .h4 {
+        margin-bottom: 0.5rem;
+        font-family: inherit;
+        font-weight: 500;
+        line-height: 1.2;
+        color: inherit;
+    }
+
+    .info-container .h4, .info-container h4 {
+        font-size: 1.5rem;
+    }
+
+    .info-container .alert-success hr {
+        border-top-color: #b6effb;
+    }
+
+    .info-container hr {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 0;
+        border-top: 1px solid rgba(0,0,0,.1);
+    }
+
+    .info-container hr {
+        box-sizing: content-box;
+        height: 0;
+        overflow: visible;
+    }
+
+    .info-container .mb-0, .info-container .my-0 {
+        margin-bottom: 0 !important;
+    }
+</style>
+
+
+
+

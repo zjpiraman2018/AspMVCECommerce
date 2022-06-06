@@ -1109,6 +1109,16 @@ namespace AspMVCECommerce.Controllers
         {
             return View();
         }
+
+        public ActionResult ManageProductGuide()
+        {
+            return View();
+        }
+        
+        public ActionResult ManageCustomerAccountGuide()
+        {
+            return View();
+        }
         public ActionResult Help()
         {
             return View();
