@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "WishListGuide";
+    ViewBag.Title = "FilterProductGuide";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -15,7 +15,7 @@
                 <ul class="breadcrumb-tree">
                     <li><a href="~/Home/Index">Home</a></li>
                     <li><a href="~/Home/Help">Help</a></li>
-                    <li class="active">Wishlist</li>
+                    <li class="active">Filter Product</li>
                 </ul>
             </div>
         </div>
@@ -31,63 +31,45 @@
         <!-- row -->
         <div class="row">
             <div class="col-md-12">
-                <h1>Manage Wishlist Product</h1>
+                <h1>Filter Product</h1>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <br />
                 <br />
-                <span style="font-size: 18px; "><b>1.</b> Login Customer Account</span>
-
-                <div class="info-container" style="padding-left: 20px;">
-                    <div class="bd-example">
-                        <div class="alert alert-success" role="alert">
-                            <h4 class="alert-heading">Please Note:</h4>
-
-                            <p class="mb-0">
-                                Only registered user's can add, remove and view wishlist
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                <span style="font-size: 18px; "><b>1.</b> On header menu click Categories</span>
+                <br /><br />
                 <div style="width: 100%; height: 100%; margin: auto; ">
-                    <img style="width: 100%; height: 100%;padding-left:20px; object-fit: scale-down;" src="~/images/0 - Login Customer Account.png" alt="login customer account">
+                    <img style="width: 100%; height: 100%;padding-left:20px; object-fit: scale-down;" src="~/images/categories header menu.png" alt="categories header menu">
                 </div>
-                <br />
-                <span style="font-size: 18px;"><b>2.</b> To add to wishlist on Product Card View click the heart icon on the bottom of the product image</span>
-                <br /> <br />
-                <div style="width: 100%; height: 100%; margin: auto; ">
-                    <img style="width: 100%; height: 100%;padding-left:20px; object-fit: scale-down;" src="~/images/1 - add to wish list.png" alt="add to wishlist">
-                </div>
-
                 <br />
                 <span style="font-size: 18px;">
-                    <b>3. </b>To add to Wishlist on product detail page click "ADD TO WISHLIST" button right side of product image
+                    <b>2. </b>To filter by category check or uncheck checkboxes under category pane left side of the page
                 </span>
                 <br /> <br />
                 <div style="width: 100%; height: 100%; margin: auto; ">
-                    <img style="width: 100%; height: 100%;padding-left:20px; object-fit: scale-down;" src="~/images/2 - add to wish list.png" alt="add to wishlist">
+                    <img style="width: 100%; height: 100%;padding-left:20px; object-fit: scale-down;" src="~/images/filter by categories.png" alt="filter by categories">
                 </div>
-
                 <br />
                 <span style="font-size: 18px;">
-                    <b>4. </b>To view all product's that added to Wishlist click <span style="font-style:italic;font-weight:600;">"My Wishlist"</span> button on main header
+                    <b>3. </b>To filter by price goto price pane left side of the page, drag the slider start point for the minimum price then drag the slider end point for the maximum price
                 </span>
                 <br /> <br />
                 <div style="width: 100%; height: 100%; margin: auto; ">
-                    <img style="width: 100%; height: 100%;padding-left:20px; object-fit: scale-down;" src="~/images/3 - view wishlist page.png" alt="view wishlist">
+                    <img style="width: 100%; height: 100%;padding-left:20px; object-fit: scale-down;" src="~/images/filter by price.png" alt="filter by categories">
                 </div>
-
                 <br />
-                
                 <span style="font-size: 18px;">
-                    <b>5. </b>To remove product from Wishlist click again the heart icon
+                    <b>4. </b>To filter by brand check or uncheck checkboxes under brand pane left side of the page
                 </span>
                 <br /> <br />
                 <div style="width: 100%; height: 100%; margin: auto; ">
-                    <img style="width: 100%; height: 100%;padding-left:20px; object-fit: scale-down;" src="~/images/4 - remove to wishlist.png" alt="remove to wishlist">
+                    <img style="width: 100%; height: 100%;padding-left:20px; object-fit: scale-down;" src="~/images/filter by brand.png" alt="filter by brand">
                 </div>
+                <br />
+
+
             </div>
         </div>
         <!-- /row -->
@@ -154,4 +136,7 @@
         margin-bottom: 0 !important;
     }
 </style>
+
+
+
 

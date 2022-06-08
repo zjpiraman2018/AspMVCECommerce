@@ -354,6 +354,7 @@
     <Content Include="images\1 - add to cart details.png" />
     <Content Include="images\1 - add to cart.png" />
     <Content Include="images\1 - add to wish list.png" />
+    <Content Include="images\1 - compare product.png" />
     <Content Include="images\1 - home page.png" />
     <Content Include="images\1 - register new customer succeed.png" />
     <Content Include="images\1 - register new customer.png" />
@@ -363,6 +364,7 @@
     <Content Include="images\2 - account selection page .png" />
     <Content Include="images\2 - add to cart.png" />
     <Content Include="images\2 - add to wish list.png" />
+    <Content Include="images\2 - compare product page.png" />
     <Content Include="images\2 -change customer account password page.png" />
     <Content Include="images\2 -change customer account password.png" />
     <Content Include="images\2- Manage product page.png" />
@@ -391,7 +393,12 @@
     <Content Include="images\9 - paypal checkout page.png" />
     <Content Include="images\ajax-loader.gif" />
     <Content Include="images\ajax-loader2.gif" />
+    <Content Include="images\categories header menu.png" />
     <Content Include="images\check.png" />
+    <Content Include="images\filter by brand.png" />
+    <Content Include="images\filter by categories.png" />
+    <Content Include="images\filter by price.png" />
+    <Content Include="images\search product.png" />
     <Content Include="images\sort_asc.png" />
     <Content Include="images\sort_asc_disabled.png" />
     <Content Include="images\sort_both.png" />
@@ -493,6 +500,9 @@
     <Content Include="Views\Home\ShoppingCartGuide.cshtml" />
     <Content Include="Views\Home\ManageProductGuide.cshtml" />
     <Content Include="Views\Home\ManageCustomerAccountGuide.cshtml" />
+    <Content Include="Views\Home\FilterProductGuide.cshtml" />
+    <Content Include="Views\Home\SearchProductGuide.cshtml" />
+    <Content Include="Views\Home\CompareProductGuide.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
