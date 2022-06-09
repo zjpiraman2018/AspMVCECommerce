@@ -356,6 +356,7 @@
     <Content Include="images\1 - add to wish list.png" />
     <Content Include="images\1 - compare product.png" />
     <Content Include="images\1 - home page.png" />
+    <Content Include="images\1 - pay with credit card checkout.png" />
     <Content Include="images\1 - register new customer succeed.png" />
     <Content Include="images\1 - register new customer.png" />
     <Content Include="images\1- login admin account.png" />
@@ -365,15 +366,18 @@
     <Content Include="images\2 - add to cart.png" />
     <Content Include="images\2 - add to wish list.png" />
     <Content Include="images\2 - compare product page.png" />
+    <Content Include="images\2 - pay with credit card generate fake credit card.png" />
     <Content Include="images\2 -change customer account password page.png" />
     <Content Include="images\2 -change customer account password.png" />
     <Content Include="images\2- Manage product page.png" />
     <Content Include="images\3 - account selection page .png" />
     <Content Include="images\3 - add new product succeed.png" />
     <Content Include="images\3 - add new product.png" />
+    <Content Include="images\3 - pay with credit card enter contact information.png" />
     <Content Include="images\3 - remove from cart.png" />
     <Content Include="images\3 - view wishlist page.png" />
     <Content Include="images\4 - country selection page.png" />
+    <Content Include="images\4 - pay with credit card click pay with credit card.png" />
     <Content Include="images\4 - remove from cart.png" />
     <Content Include="images\4 - remove to wishlist.png" />
     <Content Include="images\4 - view product details page.png" />
@@ -381,9 +385,11 @@
     <Content Include="images\5 - checkout shopping cart.png" />
     <Content Include="images\5 - edit product details.png" />
     <Content Include="images\5 - mobile confirmation page.png" />
+    <Content Include="images\5 - pay with credit card enter fake credit card info.png" />
     <Content Include="images\6 - complete phone confirmation.png" />
     <Content Include="images\6 - delete product confirmation.png" />
     <Content Include="images\6 - delete product.png" />
+    <Content Include="images\6 - pay with credit card payment succeed.png" />
     <Content Include="images\6 - view shopping cart.png" />
     <Content Include="images\7 - set up profile page.png" />
     <Content Include="images\7 - shopping cart checkout page.png" />
@@ -503,6 +509,8 @@
     <Content Include="Views\Home\FilterProductGuide.cshtml" />
     <Content Include="Views\Home\SearchProductGuide.cshtml" />
     <Content Include="Views\Home\CompareProductGuide.cshtml" />
+    <Content Include="Views\Home\PaypalPayWithCreditCardGuide.cshtml" />
+    <Content Include="Views\Home\SubscribeToNewsletterGuide.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

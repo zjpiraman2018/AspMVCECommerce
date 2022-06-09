@@ -1100,6 +1100,16 @@ namespace AspMVCECommerce.Controllers
             return View();
         }
 
+        public ActionResult PaypalPayWithCreditCardGuide()
+        {
+            return View();
+        }
+        
+        public ActionResult SubscribeToNewsletterGuide()
+        {
+            return View();
+        }
+
         public ActionResult WishListGuide()
         {
             return View();
@@ -1355,16 +1365,16 @@ namespace AspMVCECommerce.Controllers
                     }
                     catch (Exception ex)
                     {
-                        //CLEAR HANG FIRE RECURRINGJOBS
-                        using (var connection = JobStorage.Current.GetConnection())
-                        {
-                            foreach (var recurringJob in connection.GetRecurringJobs())
-                            {
-                                RecurringJob.RemoveIfExists(recurringJob.Id);
-                            }
-                        }
+                        ////CLEAR HANG FIRE RECURRINGJOBS
+                        //using (var connection = JobStorage.Current.GetConnection())
+                        //{
+                        //    foreach (var recurringJob in connection.GetRecurringJobs())
+                        //    {
+                        //        RecurringJob.RemoveIfExists(recurringJob.Id);
+                        //    }
+                        //}
 
-                        HangfireUtility.ClearDatabase(db);
+                        //HangfireUtility.ClearDatabase(db);
                         LogUtility.Write("Error", ex.Message, db);
                     }
                     finally

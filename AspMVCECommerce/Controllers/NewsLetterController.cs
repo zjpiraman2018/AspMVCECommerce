@@ -26,6 +26,7 @@ namespace AspMVCECommerce.Controllers
         [System.Web.Http.HttpPost]
         public IHttpActionResult AddNewsLetter([FromBody] NewsLetterDTO newsLetterDTO)
         {
+            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
             try
             {
                 if (!IsDuplicate(newsLetterDTO.Email))
@@ -61,18 +62,20 @@ namespace AspMVCECommerce.Controllers
                     mailMessage.Body = body;
                     mailMessage.IsBodyHtml = true;
                     mailMessage.To.Add(new MailAddress(newsLetterDTO.Email));
-                    SmtpClient smtp = new SmtpClient();
-                    smtp.Host = HostAddress;
-                    smtp.EnableSsl = true;
+                    SmtpClient smtp1 = new SmtpClient();
+                    smtp1.Host = HostAddress;
+                    smtp1.EnableSsl = true;
                     NetworkCredential networkCredential = new NetworkCredential();
                     networkCredential.UserName = mailMessage.From.Address;
                     networkCredential.Password = Password;
-                    smtp.UseDefaultCredentials = true;
-                    smtp.Credentials = networkCredential;
-                    smtp.Port = Convert.ToInt32(Port);
-                    smtp.Send(mailMessage);
+                    smtp1.Timeout = 980000;
+                    smtp1.UseDefaultCredentials = false;
+                    smtp1.Credentials = networkCredential;
+                    smtp1.Port = Convert.ToInt32(Port);
+                    smtp1.Send(mailMessage);
                     // Email successfully send if code pass here
 
+    
 
                     return Json(new { result = "successfully added news letter!" });
                 }
@@ -83,7 +86,7 @@ namespace AspMVCECommerce.Controllers
             }
             catch (Exception ex)
             {
-                return Content(HttpStatusCode.InternalServerError, "add new newsletter failed!\n error:" + ex.InnerException.Message);
+                return Content(HttpStatusCode.BadRequest, "add new newsletter failed!\n error:" + ex.Message);
             }
         }
 
