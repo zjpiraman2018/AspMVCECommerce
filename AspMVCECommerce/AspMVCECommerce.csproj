@@ -350,10 +350,12 @@
     <Content Include="FrontEnd\js\slick.min.js" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="images\0 - comment and rating.png" />
     <Content Include="images\0 - Login Customer Account.png" />
     <Content Include="images\1 - add to cart details.png" />
     <Content Include="images\1 - add to cart.png" />
     <Content Include="images\1 - add to wish list.png" />
+    <Content Include="images\1 - comment and rating.png" />
     <Content Include="images\1 - compare product.png" />
     <Content Include="images\1 - home page.png" />
     <Content Include="images\1 - pay with credit card checkout.png" />
@@ -366,6 +368,7 @@
     <Content Include="images\2 - account selection page .png" />
     <Content Include="images\2 - add to cart.png" />
     <Content Include="images\2 - add to wish list.png" />
+    <Content Include="images\2 - comment and rating.png" />
     <Content Include="images\2 - compare product page.png" />
     <Content Include="images\2 - pay with credit card generate fake credit card.png" />
     <Content Include="images\2 - subscribe to newsletter.png" />
@@ -375,10 +378,12 @@
     <Content Include="images\3 - account selection page .png" />
     <Content Include="images\3 - add new product succeed.png" />
     <Content Include="images\3 - add new product.png" />
+    <Content Include="images\3 - comment and rating.png" />
     <Content Include="images\3 - pay with credit card enter contact information.png" />
     <Content Include="images\3 - remove from cart.png" />
     <Content Include="images\3 - subscribe to newsletter confirm email.png" />
     <Content Include="images\3 - view wishlist page.png" />
+    <Content Include="images\4 - comment and rating.png" />
     <Content Include="images\4 - country selection page.png" />
     <Content Include="images\4 - pay with credit card click pay with credit card.png" />
     <Content Include="images\4 - remove from cart.png" />
@@ -518,6 +523,7 @@
     <Content Include="Views\Home\CompareProductGuide.cshtml" />
     <Content Include="Views\Home\PaypalPayWithCreditCardGuide.cshtml" />
     <Content Include="Views\Home\SubscribeToNewsletterGuide.cshtml" />
+    <Content Include="Views\Home\CommentAndRatingGuide.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

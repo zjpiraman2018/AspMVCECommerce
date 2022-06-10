@@ -1145,6 +1145,11 @@ namespace AspMVCECommerce.Controllers
             return View();
         }
 
+        public ActionResult CommentAndRatingGuide()
+        {
+            return View();
+        }
+
         public ActionResult Help()
         {
             return View();
