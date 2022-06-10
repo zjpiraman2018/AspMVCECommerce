@@ -1364,7 +1364,7 @@ namespace AspMVCECommerce.Controllers
                         smtp = new SmtpClient();
                         lock (smtp)
                         {
-                            smtp.Timeout = 980000;
+                            smtp.Timeout = 1960000;
                             smtp.Send(msg);
                         }
                     }

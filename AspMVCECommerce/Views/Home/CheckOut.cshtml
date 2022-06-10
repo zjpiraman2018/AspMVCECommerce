@@ -35,53 +35,53 @@
                     @Html.AntiForgeryToken()
 
                     <!-- Contact Information Details -->
-                <div class="billing-details">
-                    <div class="section-title">
-                        <h3 class="title">Contact Information</h3>
-                    </div>
-
-
-                    <div class="form-group">
-                        <input class="input form-controlx" type="text" name="FirstName" id="FirstName" placeholder="First Name"  required>
-                        <small id="FirstNameVal" class="text-danger" hidden>
-                            First name is required!
-                        </small>
-                    </div>
-                    <div class="form-group">
-                        <input class="input form-controlx" type="text" name="LastName" id="LastName" placeholder="Last Name">
-                        <small id="LastNameVal" class="text-danger" hidden>
-                            Last name is required!
-                        </small>
-                    </div>
-                    <div class="form-group">
-                        <input class="input form-controlx" type="email" name="Email" id="Email" placeholder="Email">
-                        <small id="EmailVal" class="text-danger" hidden>
-                            Email is required!
-                        </small>
-                        <small id="EmailVal2" class="text-danger" hidden>
-                            Email is invalid!
-                        </small>
-                    </div>
-                    <div class="form-group">
-                        <div class="UrlInput">
-                            <label>+63</label>
-                            <input name="MobilePhone"  id="MobilePhone" type="text" class="input form-controlx" placeholder="Mobile Number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
+                    <div class="billing-details">
+                        <div class="section-title">
+                            <h3 class="title">Contact Information</h3>
                         </div>
 
 
-                        @*<input class="input" type="tel" name="MobilePhone" id="MobilePhone" placeholder="Mobile Number">*@
-                        <small id="MobilePhoneVal" class="text-danger" style=" top: 40px; position: relative;" hidden>
-                            Mobile Phone number is required!
-                        </small>
+                        <div class="form-group">
+                            <input class="input form-controlx" type="text" name="FirstName" id="FirstName" placeholder="First Name" required>
+                            <small id="FirstNameVal" class="text-danger" hidden>
+                                First name is required!
+                            </small>
+                        </div>
+                        <div class="form-group">
+                            <input class="input form-controlx" type="text" name="LastName" id="LastName" placeholder="Last Name">
+                            <small id="LastNameVal" class="text-danger" hidden>
+                                Last name is required!
+                            </small>
+                        </div>
+                        <div class="form-group">
+                            <input class="input form-controlx" type="email" name="Email" id="Email" placeholder="Email">
+                            <small id="EmailVal" class="text-danger" hidden>
+                                Email is required!
+                            </small>
+                            <small id="EmailVal2" class="text-danger" hidden>
+                                Email is invalid!
+                            </small>
+                        </div>
+                        <div class="form-group">
+                            <div class="UrlInput">
+                                <label>+63</label>
+                                <input name="MobilePhone" id="MobilePhone" type="text" class="input form-controlx" placeholder="Mobile Number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
+                            </div>
 
-                        <small id="MobilePhoneVal2" class="text-danger" style=" top: 40px; position: relative;" hidden>
-                            Mobile Phone number is invalid!
-                        </small>
+
+                            @*<input class="input" type="tel" name="MobilePhone" id="MobilePhone" placeholder="Mobile Number">*@
+                            <small id="MobilePhoneVal" class="text-danger" style=" top: 40px; position: relative;" hidden>
+                                Mobile Phone number is required!
+                            </small>
+
+                            <small id="MobilePhoneVal2" class="text-danger" style=" top: 40px; position: relative;" hidden>
+                                Mobile Phone number is invalid!
+                            </small>
+                        </div>
                     </div>
-                </div>
                     <!-- /Contact Information Details -->
 
-                        <!-- Billing Details -->
+                    <!-- Billing Details -->
                     <div class="billing-details" style="margin-top:80px;">
                         <div class="section-title">
                             <h3 class="title">Billing address</h3>
@@ -99,7 +99,7 @@
 
                         </div>
                         <div class="form-group">
-                            <input class="input form-controlx" type="text" name="CALine2" id="CALine2" placeholder="Barangay / District (optional)" autocomplete="on" >
+                            <input class="input form-controlx" type="text" name="CALine2" id="CALine2" placeholder="Barangay / District (optional)" autocomplete="on">
                         </div>
                         <div class="form-group">
                             <input class="input form-controlx" type="text" name="CACity" id="CACity" placeholder="City / Municipality">
@@ -109,7 +109,7 @@
                             </small>
                         </div>
                         <div class="form-group">
-                            <input class="input form-controlx" type="text" name="CAPostalCode" id="CAPostalCode" placeholder="ZIP Code (optional)" >
+                            <input class="input form-controlx" type="text" name="CAPostalCode" id="CAPostalCode" placeholder="ZIP Code (optional)">
                         </div>
                         <div class="form-group">
                             <select id="CAProvince" name="CAProvince" class="form-select input" style="color: #7d8085">
@@ -199,20 +199,20 @@
                             </select>
                         </div>
                         @*<div class="form-group">
-                            <div class="input-checkbox">
-                                <input type="checkbox" id="create-account">
-                                <label for="create-account">
-                                    <span></span>
-                                    Create Account?
-                                </label>
-                                <div class="caption">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p>
-                                    <input class="input" type="password" name="password" placeholder="Enter Your Password">
+                                <div class="input-checkbox">
+                                    <input type="checkbox" id="create-account">
+                                    <label for="create-account">
+                                        <span></span>
+                                        Create Account?
+                                    </label>
+                                    <div class="caption">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p>
+                                        <input class="input" type="password" name="password" placeholder="Enter Your Password">
+                                    </div>
                                 </div>
-                            </div>
-                        </div>*@
+                            </div>*@
                     </div>
-                        <!-- /Billing Details -->
+                    <!-- /Billing Details -->
                     <!-- Shiping Details -->
                     <div class="shiping-details">
                         <div class="section-title">
@@ -233,7 +233,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <input class="input form-controlx" type="text" name="RFirstName" id="RFirstName" placeholder="Recipient First Name"  required>
+                                    <input class="input form-controlx" type="text" name="RFirstName" id="RFirstName" placeholder="Recipient First Name" required>
                                     <small id="RFirstNameVal" class="text-danger" hidden>
                                         Recipient First Name is required!
                                     </small>
@@ -252,7 +252,7 @@
                                     </small>
                                 </div>
                                 <div class="form-group">
-                                    <input class="input form-controlx" type="text" name="SALine2" id="SALine2" placeholder="Barangay / District (optional)" autocomplete="on" >
+                                    <input class="input form-controlx" type="text" name="SALine2" id="SALine2" placeholder="Barangay / District (optional)" autocomplete="on">
                                 </div>
                                 <div class="form-group">
                                     <input class="input form-controlx" type="text" name="SACity" id="SACity" placeholder="City / Municipality">
@@ -261,7 +261,7 @@
                                     </small>
                                 </div>
                                 <div class="form-group">
-                                    <input class="input form-controlx" type="text" name="SAPostalCode" id="SAPostalCode" placeholder="ZIP Code (optional)" >
+                                    <input class="input form-controlx" type="text" name="SAPostalCode" id="SAPostalCode" placeholder="ZIP Code (optional)">
                                 </div>
 
                                 <div class="form-group">
@@ -360,8 +360,8 @@
 
                     <!-- Order notes -->
                     @*<div class="order-notes">
-                        <textarea class="input" placeholder="Order Notes"></textarea>
-                    </div>*@
+                            <textarea class="input" placeholder="Order Notes"></textarea>
+                        </div>*@
                     <!-- /Order notes -->
                 }
             </div>
@@ -401,9 +401,9 @@
                         }
 
                         @*<div class="order-col">
-                    <div>2x Product Name Goes Here</div>
-                    <div>$980.00</div>
-                </div>*@
+                                <div>2x Product Name Goes Here</div>
+                                <div>$980.00</div>
+                            </div>*@
                     </div>
                     <div class="order-col">
                         <div>Shiping</div>
@@ -447,7 +447,7 @@
                     </div>
                 </div>
                 <div class="input-checkbox">
-                    <input type="checkbox" id="terms"  checked>
+                    <input type="checkbox" id="terms" checked>
                     <label for="terms">
                         <span></span>
                         I've read and accept the <a href="#">terms & conditions</a>
@@ -464,11 +464,168 @@
     <!-- /container -->
 </div>
 <!-- /SECTION -->
+<!-- Modal -->
+<div class="modal fade" id="paypal-modal-info" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Paypal Payment Info</h4>
+            </div>
+            <div class="modal-body">
+
+                <h3>Test Paypal Account</h3>
+                <div class="info-container">
+                    <div class="bd-example">
+                        <div class="alert alert-success" role="alert">
+                            <h4 class="alert-heading">Please Note:</h4>
+
+                            <p class="mb-0">
+                                We only use paypal sandbox api for payment any transaction will not be deducted to your account.<br />
+                                Please use Paypal Test Account below or create your own paypal test account check our guide on how to create test paypal account here:
+                                <a target="_blank" href="~/home/PaypalAccountGuide">Create Paypal Account</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="table table-striped table-responsive table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Account Type</th>
+                            <th>Username</th>
+                            <th>Password</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Paypal Sandbox Account</td>
+                            <td>juandelacruz2022.buyer@gmail.com</td>
+                            <td>demo$1st!</td>
+                        </tr>
+                    </tbody>
+                </table>
+       
+                <hr style="margin-top:20px;height: 2px; border: none; color: #E4E7ED; background-color: #E4E7ED; " />
+                <h3>Test Credit Card</h3>
+
+                <div class="info-container">
+                    <div class="bd-example">
+                        <div class="alert alert-success" role="alert">
+                            <h4 class="alert-heading">Please Note:</h4>
+
+                            <p class="mb-0">
+                                If test credit card below don't work generate new here: <a target="_blank" href="https://ccgen.datagemba.com/credit-card-generator/Philippines">https://ccgen.datagemba.com/credit-card-generator/Philippines</a><br />
+                                Check also our guide on how to generate fake credit card here: <a target="_blank" href="~/home/PaypalCreditCardGuide">How To Generate Fake Credit Card For Paypal</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <table class="table table-striped table-responsive table-bordered">
+                    <tbody>
+                        <tr>
+                            <td style="font-weight:600;">Issuing network:</td>
+                            <td>Visa</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight:600;">Card number:</td>
+                            <td>4176473048326770</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight:600;">Name:</td>
+                            <td>Adam Conrad</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight:600;">Adress:</td>
+                            <td>7808 Eu Ave 139</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight:600;">Country:</td>
+                            <td>Philippines</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight:600;">CVV:</td>
+                            <td>834</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight:600;">Exp:</td>
+                            <td>05/2028</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="paypal-info-close">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 <style>
-/*    #module {
-        width: 500px;
+    .info-container .bd-example {
+        position: relative;
+        padding: 1rem;
+        margin: 1rem -15px 0;
+        /*        border: solid #f7f7f9;*/
+        border-width: 0.2rem 0 0;
     }
-*/
+
+    .info-container .alert-success {
+        color: #055160;
+        background-color: #cff4fc;
+        border-color: #b6effb;
+    }
+
+    .info-container .alert {
+        position: relative;
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 1rem;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+    }
+
+    .info-container .h4 {
+        margin-bottom: 0.5rem;
+        font-family: inherit;
+        font-weight: 500;
+        line-height: 1.2;
+        color: inherit;
+    }
+
+    .info-container .h4, .info-container h4 {
+        font-size: 1.5rem;
+    }
+
+    .info-container .alert-success hr {
+        border-top-color: #b6effb;
+    }
+
+    .info-container hr {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 0;
+        border-top: 1px solid rgba(0,0,0,.1);
+    }
+
+    .info-container hr {
+        box-sizing: content-box;
+        height: 0;
+        overflow: visible;
+    }
+
+    .info-container .mb-0, .info-container .my-0 {
+        margin-bottom: 0 !important;
+    }
+
+        /*    #module {
+            width: 500px;
+        }
+    */
         #module div.collapse[aria-expanded="false"] {
             display: block;
             height: 200px !important;
@@ -488,51 +645,51 @@
         }
 
 
-    .UrlInput {
-        position: relative;
-    }
-
- 
-
-        .UrlInput input:focus {
-            position: absolute;
-            left: 0;
-            top: 0;
-            padding-left: 42px;
+        .UrlInput {
+            position: relative;
         }
 
 
-        .UrlInput label {
-            position: absolute;
-            left: 0px;
-            top: 0px;
-            color: white;
-            z-index: 0;
-            line-height: 35px;
-            padding-left: 10px;
-        }
 
-        .UrlInput input {
-            position: absolute;
-            left: 0px;
-            top: 0;
-            padding-left: 15px;
-        }
+            .UrlInput input:focus {
+                position: absolute;
+                left: 0;
+                top: 0;
+                padding-left: 42px;
+            }
 
 
-    .UrlInput input:focus::placeholder {
-        color: transparent;
-    }
+            .UrlInput label {
+                position: absolute;
+                left: 0px;
+                top: 0px;
+                color: white;
+                z-index: 0;
+                line-height: 35px;
+                padding-left: 10px;
+            }
+
+            .UrlInput input {
+                position: absolute;
+                left: 0px;
+                top: 0;
+                padding-left: 15px;
+            }
+
+
+                .UrlInput input:focus::placeholder {
+                    color: transparent;
+                }
 </style>
 
 @*<div id="module" >
-    <h3>Bacon Ipsum</h3>
-    <p class="collapse" id="collapseExample" aria-expanded="false">
-        Bacon ipsum dolor amet doner picanha tri-tip biltong leberkas salami meatball tongue filet mignon landjaeger tail. Kielbasa salami tenderloin picanha spare ribs, beef ribs strip steak jerky cow. Pork chop chicken ham hock beef ribs turkey jerky. Shoulder beef capicola doner, tongue tail sausage short ribs andouille. Rump frankfurter landjaeger t-bone, kielbasa doner ham hock shankle venison. Cupim capicola kielbasa t-bone, ball tip chicken andouille venison pork chop doner bacon beef ribs kevin shankle. Short loin leberkas tenderloin ground round shank, brisket strip steak ham hock ham.
-    </p>
-    <a role="button" class="collapsed" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-    </a>
-</div>*@
+        <h3>Bacon Ipsum</h3>
+        <p class="collapse" id="collapseExample" aria-expanded="false">
+            Bacon ipsum dolor amet doner picanha tri-tip biltong leberkas salami meatball tongue filet mignon landjaeger tail. Kielbasa salami tenderloin picanha spare ribs, beef ribs strip steak jerky cow. Pork chop chicken ham hock beef ribs turkey jerky. Shoulder beef capicola doner, tongue tail sausage short ribs andouille. Rump frankfurter landjaeger t-bone, kielbasa doner ham hock shankle venison. Cupim capicola kielbasa t-bone, ball tip chicken andouille venison pork chop doner bacon beef ribs kevin shankle. Short loin leberkas tenderloin ground round shank, brisket strip steak ham hock ham.
+        </p>
+        <a role="button" class="collapsed" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        </a>
+    </div>*@
 
 
 @section Scripts {
@@ -560,17 +717,17 @@
             //    if ($(this).val().length >= 10) {
             //        $(this).val($(this).val().substring(0, 9));
             //    }
-               
+
             //});
 
-     
-  
+
+
 
 
             $(".UrlInput input").focus(function () {
                 $('.UrlInput label').attr('style', 'font-weight:500;position: absolute;left: 3px;top: 3px;color: #999;z-index: 999;');
                 if ($('.UrlInput input').val().trim() != '') {
-                    $('.UrlInput input').val($('.UrlInput input').val().trim().replace('+63',''));
+                    $('.UrlInput input').val($('.UrlInput input').val().trim().replace('+63', ''));
                 }
                 $('#MobilePhoneVal2').hide();
                 $('#MobilePhoneVal').hide();
@@ -590,10 +747,19 @@
             });
 
 
-            $('.order-total').text('₱' +  parseInt($('.order-total').text()).toLocaleString());
+            $('.order-total').text('₱' + parseInt($('.order-total').text()).toLocaleString());
+
+            $('#paypal-modal-info').on('hidden.bs.modal', function () {
+                $('#check-out-form').submit();
+            })
+
+            //$('#paypal-info-close').click(function () {
+            //    $('#check-out-form').submit();
+            //});
 
             $('#place-order-btn').click(function () {
-                $('#check-out-form').submit();
+                $('#paypal-modal-info').modal('show');
+                /*$('#check-out-form').submit();*/
             });
 
             $('.form-select.input').change(function () {
@@ -637,13 +803,13 @@
                 }
                 $('#MobilePhoneVal2').hide();
                 $('#EmailVal2').hide();
-                
+
                 // END OF HIDE ALL VALIDATION MESSAGE
 
 
                 // CHECK IF FIELD IS INVALID AND SHOW VALIDATION ERROR FOR CONTACT DETAILS AND CUSTOM ADDRESS
                 for (let i = 0; i < forValidateFields.length; i++) {
-                    if ($('#' + forValidateFields[i].replace('Val','')).val().trim() == '') {
+                    if ($('#' + forValidateFields[i].replace('Val', '')).val().trim() == '') {
                         $('#' + forValidateFields[i]).show();
                         haveInvalid = true;
                     }
@@ -658,7 +824,7 @@
                             haveInvalid = true;
                         }
                     }
-                  // END OF CHECK IF FIELD IS INVALID AND SHOW VALIDATION ERROR FOR SHIPPING ADDRESS
+                    // END OF CHECK IF FIELD IS INVALID AND SHOW VALIDATION ERROR FOR SHIPPING ADDRESS
                 }
 
                 if ($('.UrlInput input').val().length != 13 && $('.UrlInput input').val().length > 0) {
