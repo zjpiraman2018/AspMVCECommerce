@@ -106,10 +106,10 @@ namespace AspMVCECommerce
 
             var manager = new RecurringJobManager();
 
- 
 
-            manager.AddOrUpdate(DateTime.Now.ToLongTimeString(), Job.FromExpression(() => homeController.HangFireSendEmail("")), "*/5 * * * *");
 
+            //manager.AddOrUpdate(DateTime.Now.ToLongTimeString(), Job.FromExpression(() => homeController.HangFireSendEmail("")), "*/5 * * * *");
+            manager.AddOrUpdate(DateTime.Now.ToLongTimeString(), Job.FromExpression(() => homeController.HangFireSendEmail("")), "0 0 * * MON");
             app.UseHangfireServer();
         }
     }
