@@ -122,7 +122,7 @@ namespace AspMVCECommerce.Migrations
 
 
             //var registerVM = new RegisterViewModel();
-            //registerVM.Email = "zjpiraman2018@gmail.com";
+            //registerVM.Email = "zaldyjeg.piraman@gmail.com";
             //var controller = new AccountController();
             //var task = Task.Run(async () => await controller.Register(registerVM));
 

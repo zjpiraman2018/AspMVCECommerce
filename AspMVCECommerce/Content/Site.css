@@ -739,3 +739,8 @@ input:focus-visible {
 .tooltipp2 {
     width: 215px !important;
 }
+
+
+.product-name {
+    height: 30px;
+}
